@@ -12,33 +12,36 @@
 
 <aside x-cloak
     :class="[
-        sidebarOpen ? 'translate-x-0' : '-translate-x-full',
+        sidebarOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full',
         collapsed ? 'lg:w-20' : 'lg:w-72'
     ]"
-    class="fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-slate-200 bg-white
-           transition-all duration-300 lg:translate-x-0">
+    class="fixed inset-y-0 left-0 z-50 flex w-72 max-w-[85vw] flex-col border-r border-slate-200 bg-white
+           transition-all duration-300 ease-out lg:translate-x-0 lg:shadow-none">
 
     {{-- Brand --}}
     <div class="flex h-20 shrink-0 items-center gap-3 border-b border-slate-100 px-5"
         :class="collapsed ? 'lg:justify-center lg:px-0' : ''">
-        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-white">
-            <i class="bi bi-heart-fill text-xl"></i>
+        <div
+            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-fuchsia-600 text-white shadow-lg shadow-indigo-500/30">
+            <x-heroicon-s-heart class="h-6 w-6" />
         </div>
 
         <div class="min-w-0" :class="collapsed ? 'lg:hidden' : ''">
-            <h1 class="truncate text-lg font-bold tracking-tight text-slate-900">{{ __('Wedding Platform') }}</h1>
-            <p class="text-xs text-slate-500">{{ __('Management System') }}</p>
+            <h1 class="truncate text-base font-bold tracking-tight text-slate-900">{{ __('Wedding Platform') }}</h1>
+            <p class="truncate text-xs text-slate-500">{{ __('Management System') }}</p>
         </div>
 
-        <button type="button" @click="sidebarOpen = false" class="ml-auto text-slate-400 hover:text-slate-700 lg:hidden"
+        <button type="button" @click="sidebarOpen = false"
+            class="ml-auto rounded-lg p-1.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 lg:hidden"
             aria-label="{{ __('Close menu') }}">
-            <i class="bi bi-x-lg text-xl"></i>
+            <x-heroicon-o-x-mark class="h-6 w-6" />
         </button>
     </div>
 
     {{-- Navigation --}}
     <nav class="flex-1 space-y-1 overflow-y-auto px-3 py-5" aria-label="{{ __('Main menu') }}">
-        <p class="mb-2 px-3 text-xs font-semibold text-slate-400" :class="collapsed ? 'lg:hidden' : ''">
+        <p class="mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider text-slate-400"
+            :class="collapsed ? 'lg:hidden' : ''">
             {{ __('Main menu') }}
         </p>
 
@@ -52,6 +55,7 @@
                     fn($c) => $c->route_name && request()->routeIs($c->route_name),
                 );
                 $isActive = $menu->route_name && request()->routeIs($menu->route_name);
+                $icon = $menu->icon ?: 'heroicon-o-squares-2x2';
             @endphp
 
             @if ($hasChildren)
@@ -60,27 +64,31 @@
                 {{-- Group with sub-menu --}}
                 <div x-data="{ expanded: {{ $childActive ? 'true' : 'false' }} }">
                     <button type="button"
-                        @click="collapsed ? (collapsed = false, expanded = true) : (expanded = !expanded)"
-                        title="{{ $menu->name }}"
-                        class="relative flex w-full items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition
-                               {{ $childActive ? 'text-indigo-700' : 'text-slate-600 hover:bg-slate-50 hover:text-indigo-600' }}"
+                        @click="(collapsed && window.innerWidth >= 1024) ? (collapsed = false, expanded = true) : (expanded = !expanded)"
+                        title="{{ $menu->name }}" :aria-expanded="expanded"
+                        class="group relative flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors
+                               {{ $childActive ? 'bg-indigo-50/60 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 hover:text-indigo-600' }}"
                         :class="collapsed ? 'lg:justify-center' : ''">
-                        <i class="{{ $menu->icon ?: 'bi bi-grid' }} w-5 shrink-0 text-center text-lg"></i>
+                        <x-dynamic-component :component="$icon"
+                            class="h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-110" />
                         <span class="flex-1 truncate text-left"
                             :class="collapsed ? 'lg:hidden' : ''">{{ $menu->name }}</span>
-                        <i class="bi bi-chevron-down text-xs transition-transform"
-                            :class="[expanded ? 'rotate-180' : '', collapsed ? 'lg:hidden' : '']"></i>
+                        <x-heroicon-o-chevron-down
+                            class="h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200"
+                            ::class="[expanded ? 'rotate-180' : '', collapsed ? 'lg:hidden' : '']" />
                     </button>
 
-                    <div x-show="expanded && (!collapsed || window.innerWidth < 1024)" x-collapse
-                        class="ml-6 mt-1 space-y-1 border-l border-slate-200 pl-3">
+                    <div x-show="expanded" x-collapse :class="collapsed ? 'lg:hidden' : ''"
+                        class="ml-5 mt-1 space-y-0.5 border-l-2 border-slate-100 pl-3">
                         @foreach ($visibleChildren as $child)
                             @php $childIsActive = $child->route_name && request()->routeIs($child->route_name); @endphp
                             <a href="{{ $href($child) }}"
-                                class="block rounded-lg px-3 py-2 text-sm transition
+                                class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors
                                     {{ $childIsActive
                                         ? 'bg-indigo-50 font-semibold text-indigo-700'
                                         : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900' }}">
+                                <span
+                                    class="h-1.5 w-1.5 rounded-full {{ $childIsActive ? 'bg-indigo-600' : 'bg-slate-300' }}"></span>
                                 {{ $child->name }}
                             </a>
                         @endforeach
@@ -90,15 +98,18 @@
                 {{-- Single link --}}
                 <a href="{{ $href($menu) }}" title="{{ $menu->name }}"
                     @if ($isActive) aria-current="page" @endif
-                    class="relative flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition
-                        {{ $isActive ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 hover:text-indigo-600' }}"
+                    class="group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors
+                        {{ $isActive
+                            ? 'bg-gradient-to-r from-indigo-50 to-transparent text-indigo-700'
+                            : 'text-slate-600 hover:bg-slate-50 hover:text-indigo-600' }}"
                     :class="collapsed ? 'lg:justify-center' : ''">
 
                     @if ($isActive)
                         <span class="absolute inset-y-2 left-0 w-1 rounded-r-full bg-indigo-600"></span>
                     @endif
 
-                    <i class="{{ $menu->icon ?: 'bi bi-circle' }} w-5 shrink-0 text-center text-lg"></i>
+                    <x-dynamic-component :component="$icon"
+                        class="h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-110" />
                     <span class="truncate" :class="collapsed ? 'lg:hidden' : ''">{{ $menu->name }}</span>
                 </a>
             @endif
@@ -109,9 +120,9 @@
 
     {{-- Bottom: user + collapse toggle --}}
     <div class="shrink-0 space-y-2 border-t border-slate-100 p-3">
-        <div class="flex items-center gap-3 rounded-xl bg-slate-50 p-2.5"
-            :class="collapsed ? 'lg:justify-center lg:bg-transparent lg:p-0' : ''">
-            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-indigo-100 font-semibold text-indigo-700"
+        <div class="flex items-center gap-3 rounded-2xl bg-gradient-to-br from-slate-50 to-indigo-50/50 p-2.5"
+            :class="collapsed ? 'lg:justify-center lg:bg-none lg:p-0' : ''">
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-fuchsia-500 font-semibold text-white"
                 title="{{ $user?->name }}">
                 {{ mb_strtoupper(mb_substr($user?->name ?? 'U', 0, 1)) }}
             </div>
@@ -125,7 +136,7 @@
         <button type="button" @click="collapsed = !collapsed"
             class="hidden w-full items-center justify-center gap-2 rounded-xl py-2 text-xs font-medium text-slate-500 transition hover:bg-slate-50 hover:text-slate-800 lg:flex"
             :title="collapsed ? '{{ __('Expand sidebar') }}' : '{{ __('Collapse sidebar') }}'">
-            <i class="bi text-sm" :class="collapsed ? 'bi-chevron-double-right' : 'bi-chevron-double-left'"></i>
+            <x-heroicon-o-chevron-double-left class="h-4 w-4 transition-transform duration-300" ::class="collapsed ? 'rotate-180' : ''" />
             <span :class="collapsed ? 'hidden' : ''">{{ __('Collapse') }}</span>
         </button>
     </div>
