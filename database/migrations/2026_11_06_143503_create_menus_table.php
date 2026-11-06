@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name_en');
+            $table->string('name_km');
             $table->string('slug')->unique();
             $table->string('icon')->nullable();
             $table->string('route_name')->nullable();

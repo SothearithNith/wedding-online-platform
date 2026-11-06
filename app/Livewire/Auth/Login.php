@@ -17,16 +17,12 @@ class Login extends Component
 
     public function login()
     {
-        dd([
-            'locale' => app()->getLocale(),
-            'khmer' => trans_json('Sign In'),
-        ]);
         $validated = $this->validate([
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],
         ]);
 
-        if (! Auth::attempt([
+        if (!Auth::attempt([
             'email' => $validated['email'],
             'password' => $validated['password'],
         ], $this->remember)) {
@@ -49,10 +45,7 @@ class Login extends Component
             text: 'You have successfully logged in.'
         );
 
-        return $this->redirectIntended(
-            route('admin'),
-            navigate: true
-        );
+        return $this->redirect('/admin');
     }
 
     public function render()

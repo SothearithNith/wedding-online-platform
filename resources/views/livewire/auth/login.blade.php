@@ -31,7 +31,8 @@
                 </h2>
 
                 <p class="text-sm text-slate-500 mt-1">
-                    Sign in to access your administrator account.
+                    {{ trans_json('Sign in to access your administrator account.') }}
+
                 </p>
             </div>
 
