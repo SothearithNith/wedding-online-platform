@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Menu;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class MenuSeeder extends Seeder
@@ -12,68 +11,97 @@ class MenuSeeder extends Seeder
     {
         $menus = [
             [
-                'name' => 'Dashboard',
+                'name_en' => 'Dashboard',
+                'name_km' => 'ផ្ទាំងគ្រប់គ្រង',
                 'slug' => 'dashboard',
-                'icon' => 'bi-grid',
+                'icon' => 'fa-solid fa-table-cells-large',
                 'route_name' => 'dashboard',
                 'permission_name' => 'dashboard.view',
                 'sort_order' => 1,
             ],
             [
-                'name' => 'Weddings',
+                'name_en' => 'Weddings',
+                'name_km' => 'ពិធីមង្គលការ',
                 'slug' => 'weddings',
-                'icon' => 'bi-heart',
+                'icon' => 'fa-solid fa-heart',
                 'route_name' => 'weddings.index',
                 'permission_name' => 'weddings.view',
                 'sort_order' => 2,
             ],
             [
-                'name' => 'Temples',
+                'name_en' => 'Temples',
+                'name_km' => 'វត្តអារាម',
                 'slug' => 'temples',
-                'icon' => 'bi-building',
+                'icon' => 'fa-solid fa-place-of-worship',
                 'route_name' => 'temples.index',
                 'permission_name' => 'temples.view',
                 'sort_order' => 3,
             ],
             [
-                'name' => 'Templates',
+                'name_en' => 'Templates',
+                'name_km' => 'គំរូអញ្ជើញ',
                 'slug' => 'templates',
-                'icon' => 'bi-palette',
+                'icon' => 'fa-solid fa-palette',
                 'route_name' => 'templates.index',
                 'permission_name' => 'templates.view',
                 'sort_order' => 4,
             ],
             [
-                'name' => 'Users',
-                'slug' => 'users',
-                'icon' => 'bi-people',
-                'route_name' => 'users.index',
-                'permission_name' => 'users.view',
+                // Parent group (no route of its own)
+                'name_en' => 'Access control',
+                'name_km' => 'ការគ្រប់គ្រងសិទ្ធិ',
+                'slug' => 'access-control',
+                'icon' => 'fa-solid fa-user-shield',
+                'route_name' => null,
+                'permission_name' => null,
                 'sort_order' => 5,
+                'children' => [
+                    [
+                        'name_en' => 'Users',
+                        'name_km' => 'អ្នកប្រើប្រាស់',
+                        'slug' => 'users',
+                        'icon' => null,
+                        'route_name' => 'users.index',
+                        'permission_name' => 'users.view',
+                        'sort_order' => 1,
+                    ],
+                    [
+                        'name_en' => 'Roles',
+                        'name_km' => 'តួនាទី',
+                        'slug' => 'roles',
+                        'icon' => null,
+                        'route_name' => 'roles.index',
+                        'permission_name' => 'roles.view',
+                        'sort_order' => 2,
+                    ],
+                ],
             ],
             [
-                'name' => 'Roles',
-                'slug' => 'roles',
-                'icon' => 'bi-shield-lock',
-                'route_name' => 'roles.index',
-                'permission_name' => 'roles.view',
-                'sort_order' => 6,
-            ],
-            [
-                'name' => 'Settings',
+                'name_en' => 'Settings',
+                'name_km' => 'ការកំណត់',
                 'slug' => 'settings',
-                'icon' => 'bi-gear',
+                'icon' => 'fa-solid fa-gear',
                 'route_name' => 'settings.index',
                 'permission_name' => 'settings.view',
-                'sort_order' => 7,
+                'sort_order' => 6,
             ],
         ];
 
-        foreach ($menus as $menu) {
-            Menu::updateOrCreate(
-                ['slug' => $menu['slug']],
-                [...$menu, 'is_active' => true]
+        foreach ($menus as $item) {
+            $children = $item['children'] ?? [];
+            unset($item['children']);
+
+            $parent = Menu::updateOrCreate(
+                ['slug' => $item['slug']],
+                [...$item, 'parent_id' => null, 'is_active' => true]
             );
+
+            foreach ($children as $child) {
+                Menu::updateOrCreate(
+                    ['slug' => $child['slug']],
+                    [...$child, 'parent_id' => $parent->id, 'is_active' => true]
+                );
+            }
         }
     }
 }
