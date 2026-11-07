@@ -1,5 +1,6 @@
 {{-- ============================ COUNTDOWN ============================ --}}
 <section class="g-sec g-paper" id="countdown" style="padding:80px 20px;text-align:center">
+    <div class="g-bgimg" data-bg="{{ $bg('countdown') }}"></div>
     <div class="g-chakra"></div>
     <p class="rv" style="font-size:12px;letter-spacing:.3em;color:var(--accent)">{{ $K['date'] }}</p>
     <p class="rv g-foil font-display" data-delay="100" style="margin-top:12px;font-size:15px">

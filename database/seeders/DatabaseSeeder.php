@@ -12,7 +12,8 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             MasterAdminSeeder::class,
             MenuSeeder::class,
-            TemplateSeeder::class
+            TemplateSeeder::class,
+            InvitationBackgroundSeeder::class
         ]);
     }
 }

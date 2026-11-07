@@ -37,7 +37,7 @@
         'apology' => 'ប្រសិនបើយើងខ្ញុំមិនបានអញ្ជើញដល់ផ្ទាល់ ឬមានកំហុសឆ្គងអ្វីមួយ សូមលោក លោកស្រី អភ័យទោសដោយក្តីមេត្តា។ ការមកចូលរួម និងការយោគយល់របស់អ្នក គឺមានតម្លៃបំផុតសម្រាប់យើងខ្ញុំ។',
         'thanks' => 'ការអញ្ជើញចូលរួមរបស់អ្នក គឺជាកិត្តិយស និងសេចក្តីសុខដ៏ធំបំផុតសម្រាប់យើងខ្ញុំ។ សូមអរគុណយ៉ាងជ្រាលជ្រៅ!',
         'music' => '',
-        'backgrounds' => ['all' => $dflt('background.jpg')],
+        'backgrounds' => [],
     ];
 
     $isEmpty = fn($v) => $v === null || $v === '' || $v === [];
@@ -89,24 +89,29 @@
     $giftQr = $img($gift['qr'] ?? '') ?: $dflt('qr.jpg');
     $music = $img($w['music'] ?? '');
 
-    // Backgrounds: own image -> "all" -> /images/bg/gold/<section>.jpg (if the file exists)
+    // Backgrounds (all come from the database, every one can be swapped per invitation)
+    // Priority: invitation section -> invitation "all" -> library section -> library "all" -> default file
+    //   $w['backgrounds']  = ['card'=>..., 'story'=>..., 'all'=>...]   (chosen by the customer)
+    //   $library           = rows of `invitation_backgrounds` for this template (set by admin)
     $own = [];
     foreach ((array) $w['backgrounds'] as $k => $v) {
         if (is_string($v) && $v !== '') {
             $own[$k] = $img($v);
         }
     }
-    $bg = function (string $k) use ($own) {
-        if (!empty($own[$k])) {
-            return $own[$k];
+    $library = class_exists(\App\Support\InvitationBackgrounds::class)
+        ? \App\Support\InvitationBackgrounds::library('gold')
+        : [];
+    $bg = function (string $k) use ($own, $library, $img, $dflt) {
+        foreach ([$own[$k] ?? null, $own['all'] ?? null, $library[$k] ?? null, $library['all'] ?? null] as $c) {
+            if (is_string($c) && $c !== '') {
+                return $img($c);
+            }
         }
-        if (!empty($own['all'])) {
-            return $own['all'];
-        }
-        return file_exists(public_path("images/bg/gold/$k.jpg")) ? asset("images/bg/gold/$k.jpg") : '';
+        return file_exists(public_path("images/bg/gold/$k.jpg")) ? asset("images/bg/gold/$k.jpg") : $dflt('background.jpg');
     };
-    // Hero: card bg -> "all" -> cover -> default file
-    $heroBg = ($own['card'] ?? '') ?: ($own['all'] ?? '') ?: $img($w['cover']) ?: asset('images/gold/bg.jpg');
+    // Hero: card bg -> "all" -> library -> cover -> default file
+    $heroBg = ($own['card'] ?? '') ?: ($own['all'] ?? '') ?: $img($library['card'] ?? '') ?: $img($library['all'] ?? '') ?: $img($w['cover']) ?: asset('images/gold/bg.jpg');
 
     // Parents: split on new lines or commas (not inside brackets)
     $parents = fn($v) => array_values(array_filter(array_map('trim', preg_split('/\r?\n|,(?![^()]*\))/u', (string) $v))));
@@ -239,7 +244,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&family=Moul&family=Noto+Serif+Khmer:wght@400;600;700&family=Noto+Sans+Khmer:wght@400;600;700&display=swap"
         rel="stylesheet">
-    @include('invitation-templates.gold.styles')
+    <link rel="stylesheet" href="{{ asset('assets/css/gold.css') }}?v={{ @filemtime(public_path('css/invitation-templates/gold/style.css')) ?: 1 }}">
     <noscript>
         <style>
             .gc {
@@ -275,6 +280,7 @@
     @endif
 
     @include('invitation-templates.gold.scripts')
+    @include('invitation-templates.gold.motion')
 </body>
 
 </html>
