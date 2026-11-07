@@ -95,7 +95,8 @@
             {{-- Sample images (every image used by the gold view) --}}
             <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                 <p class="mb-1 text-sm font-medium text-slate-700">{{ __('Sample images') }}</p>
-                <p class="mb-4 text-xs text-slate-400">{{ __('Click an image to replace it. Click Save, then Preview.') }}</p>
+                <p class="mb-4 text-xs text-slate-400">
+                    {{ __('Click an image to replace it. Click Save, then Preview.') }}</p>
 
                 <div class="grid grid-cols-3 gap-3 sm:grid-cols-4">
                     @foreach ($this->slots as $s)
