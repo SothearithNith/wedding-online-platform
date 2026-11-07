@@ -15,11 +15,7 @@
 @endphp
 
 <div class="space-y-16 lg:space-y-24">
-
-    {{-- ============ HERO ============ --}}
     <section class="relative grid items-center gap-12 lg:grid-cols-2 lg:gap-8">
-
-        {{-- Text --}}
         <div class="text-center lg:text-left">
             <span
                 class="inline-flex items-center gap-2 rounded-full border border-rose-200 bg-white px-4 py-1.5 text-sm font-medium text-rose-600 shadow-sm">
@@ -115,7 +111,6 @@
         </div>
     </section>
 
-    {{-- ============ FEATURES ============ --}}
     <section class="grid gap-6 sm:grid-cols-3">
         @foreach ([['icon' => 'M4 5h16M4 12h16M4 19h10', 'title' => 'Beautiful templates', 'text' => 'Hand-picked designs for every style.'], ['icon' => 'M13 10V3L4 14h7v7l9-11h-7z', 'title' => 'Ready in minutes', 'text' => 'Fill in your details and publish instantly.'], ['icon' => 'M8.7 13.3l6.6 3.4M15.3 7.3l-6.6 3.4M18 8a3 3 0 100-6 3 3 0 000 6zM6 15a3 3 0 100-6 3 3 0 000 6zM18 22a3 3 0 100-6 3 3 0 000 6z', 'title' => 'Share anywhere', 'text' => 'One link for Telegram, Facebook, and more.']] as $feature)
             <div
@@ -132,8 +127,7 @@
             </div>
         @endforeach
     </section>
-
-    {{-- ============ TEMPLATES ============ --}}
+ 
     <section id="templates" class="scroll-mt-28" x-data="{ filter: 'all' }">
         <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
