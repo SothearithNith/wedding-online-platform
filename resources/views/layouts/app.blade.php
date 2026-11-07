@@ -15,20 +15,34 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <style>
-        [x-cloak] {
-            display: none !important;
-        }
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-        body {
-            font-family: 'Inter', 'Noto Sans Khmer', ui-sans-serif, system-ui, sans-serif;
-        }
+    @if (app()->getLocale() === 'km')
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@100..900&display=swap"
+            rel="stylesheet">
 
-        html[lang="km"] body {
-            font-family: 'Noto Sans Khmer', 'Inter', ui-sans-serif, system-ui, sans-serif;
-            line-height: 1.7;
-        }
-    </style>
+        <style>
+            body,
+            .title,
+            .title-two,
+            .footer__widget-title {
+                font-family: 'Noto Sans Khmer', sans-serif;
+            }
+        </style>
+    @else
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet">
+
+        <style>
+            body,
+            .title,
+            .title-two,
+            .footer__widget-title {
+                font-family: 'Space Grotesk', sans-serif;
+            }
+        </style>
+    @endif
 </head>
 
 {{-- Shared state: sidebarOpen = mobile drawer, collapsed = desktop icon-only (remembered) --}}
