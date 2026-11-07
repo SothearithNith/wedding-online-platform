@@ -1,7 +1,4 @@
-{{-- resources/views/components/public/footer.blade.php --}}
 <footer class="mt-8">
-
-    {{-- CTA band --}}
     <section class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div
             class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-rose-500 via-pink-500 to-rose-600 px-6 py-12 text-center text-white shadow-xl shadow-rose-500/20 sm:px-12">
@@ -51,14 +48,13 @@
                                 d="M12 21s-7.5-4.6-9.6-9.2C1 8.6 2.8 5 6.3 5c2 0 3.5 1.1 4.3 2.6h2.8C14.2 6.1 15.7 5 17.7 5 21.2 5 23 8.6 21.6 11.8 19.5 16.4 12 21 12 21z" />
                         </svg>
                     </span>
-                    <span class="text-lg font-bold tracking-tight">Wedding<span class="text-rose-500">Platform</span></span>
+                    <span class="text-lg font-bold tracking-tight">Wedding<span
+                            class="text-rose-500">Platform</span></span>
                 </a>
                 <p class="mt-4 max-w-sm text-sm leading-relaxed text-slate-500">
-                    Create elegant online wedding invitations, share them with family and friends, and make your
-                    celebration unforgettable.
+                    {{ trans_json('Create elegant online wedding invitations, share them with family and friends, and make your celebration unforgettable.') }}
                 </p>
 
-                {{-- Social --}}
                 <div class="mt-6 flex items-center gap-3">
                     <a href="#" aria-label="Facebook"
                         class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition hover:-translate-y-0.5 hover:bg-rose-500 hover:text-white">
@@ -87,25 +83,30 @@
                 </div>
             </div>
 
-            {{-- Quick links --}}
             <div class="lg:col-span-3">
-                <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-900">Explore</h3>
+                <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-900">{{ trans_json('Explore') }}
+                </h3>
                 <ul class="mt-4 space-y-3 text-sm text-slate-500">
-                    <li><a href="{{ url('/') }}" class="transition hover:text-rose-600">Home</a></li>
-                    <li><a href="{{ url('/templates') }}" class="transition hover:text-rose-600">Templates</a></li>
+                    <li><a href="{{ url('/') }}"
+                            class="transition hover:text-rose-600">{{ trans_json('Home') }}</a></li>
+                    <li><a href="{{ url('/templates') }}"
+                            class="transition hover:text-rose-600">{{ trans_json('Templates') }}</a></li>
                     <li>
                         @auth
-                            <a href="{{ route('admin') }}" class="transition hover:text-rose-600">Dashboard</a>
+                            <a href="{{ route('admin') }}"
+                                class="transition hover:text-rose-600">{{ trans_json('Dashboard') }}</a>
                         @else
-                            <a href="{{ route('login') }}" class="transition hover:text-rose-600">Login</a>
+                            <a href="{{ route('login') }}"
+                                class="transition hover:text-rose-600">{{ trans_json('Login') }}</a>
                         @endauth
                     </li>
                 </ul>
             </div>
 
-            {{-- Contact --}}
             <div class="lg:col-span-4">
-                <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-900">Contact us</h3>
+                <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-900">
+                    {{ trans_json('Contact us') }}
+                </h3>
                 <ul class="mt-4 space-y-3 text-sm text-slate-500">
                     <li>
                         <a href="mailto:hello@example.com"
@@ -136,8 +137,7 @@
                         </a>
                     </li>
                     <li class="inline-flex items-center gap-3">
-                        <span
-                            class="flex h-9 w-9 items-center justify-center rounded-full bg-rose-50 text-rose-500">
+                        <span class="flex h-9 w-9 items-center justify-center rounded-full bg-rose-50 text-rose-500">
                             <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"
                                 viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -145,23 +145,24 @@
                                 <circle cx="12" cy="10" r="2.5" />
                             </svg>
                         </span>
-                        Phnom Penh, Cambodia
+                        {{ trans_json('Phnom Penh, Cambodia') }}
                     </li>
                 </ul>
             </div>
         </div>
 
-        {{-- Bottom bar --}}
         <div class="border-t border-slate-100">
             <div
                 class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-5 text-sm text-slate-500 sm:flex-row sm:px-6 lg:px-8">
-                <p>&copy; {{ date('Y') }} Wedding Platform. All rights reserved.</p>
+                <p>&copy; {{ date('Y') }} {{ trans_json('Wedding Platform. All rights reserved.') }}</p>
                 <p class="flex items-center gap-1">
-                    Made with <span class="text-rose-500">&hearts;</span> for your special day
+                    {{ trans_json('Made with') }}
+                    <strong><span class="text-rose-500">{{ trans_json('Go Tech') }}</span></strong>
+                    {{ trans_json('for your special day') }}
                 </p>
                 <button type="button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
                     class="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-3.5 py-1.5 font-medium text-slate-600 transition hover:border-rose-300 hover:text-rose-600">
-                    Back to top
+                    {{ trans_json('Back to top') }}
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
                         aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 19V5M6 11l6-6 6 6" />
