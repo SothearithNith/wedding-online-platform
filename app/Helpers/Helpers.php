@@ -22,3 +22,4 @@ if (! function_exists('trans_json')) {
         return $key;
     }
 }
+ 
