@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 
 <head>
     <meta charset="UTF-8">
@@ -8,8 +8,12 @@
     <title>{{ $title ?? 'Admin Login' }} | Wedding Platform</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     @if (app()->getLocale() === 'km')
         {{-- Khmer Font --}}
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@100..900&display=swap">
 
         <style>
@@ -23,6 +27,9 @@
         </style>
     @else
         {{-- English Font --}}
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
         <link rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap">
 
@@ -35,6 +42,7 @@
             }
         </style>
     @endif
+
     @livewireStyles
 </head>
 
@@ -43,6 +51,7 @@
     {{ $slot }}
 
     @livewireScripts
+
 </body>
 
 </html>

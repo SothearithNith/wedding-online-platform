@@ -1,16 +1,19 @@
-<header x-data="{ scrolled: false }" x-init="scrolled = window.scrollY > 4" @scroll.window.passive="scrolled = window.scrollY > 4"
+<header x-data="{ scrolled: false }" x-init="scrolled = window.scrollY > 4"
+    @scroll.window.passive="scrolled = window.scrollY > 4"
     :class="scrolled ? 'shadow-sm border-slate-200' : 'border-transparent'"
     class="sticky top-0 z-30 flex h-16 items-center justify-between gap-3 border-b bg-white/80 px-4 backdrop-blur-md transition-shadow sm:h-20 sm:px-6 lg:px-8">
 
+    {{-- Left --}}
     <div class="flex min-w-0 items-center gap-2 sm:gap-3">
         <button type="button" @click="sidebarOpen = true"
             class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-slate-600 transition hover:bg-slate-100 lg:hidden"
             aria-label="{{ __('Open menu') }}">
             <x-heroicon-o-bars-3 class="h-6 w-6" />
         </button>
+
         <button type="button" @click="collapsed = !collapsed"
             class="hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 lg:flex"
-            :aria-label="collapsed ? '{{ __('Expand sidebar') }}' : '{{ __('Collapse sidebar') }}'">
+            :aria-label="collapsed ? @js(__('Expand sidebar')) : @js(__('Collapse sidebar'))">
             <x-heroicon-o-bars-3-center-left class="h-6 w-6" />
         </button>
 
@@ -22,27 +25,30 @@
         </div>
     </div>
 
+    {{-- Right --}}
     <div class="flex shrink-0 items-center gap-1.5 sm:gap-3">
         @php
             $isKhmer = app()->getLocale() === 'km';
             $nextLocale = $isKhmer ? 'en' : 'km';
-            $currentFlag = $isKhmer ? 'assets/images/flags/kh_flag.webp' : 'assets/images/flags/en_flag.webp';
+            $currentFlag = $isKhmer ? 'assets/images/flags/km_flag.webp' : 'assets/images/flags/en_flag.webp';
             $currentLanguage = $isKhmer ? 'ខ្មែរ' : 'English';
         @endphp
 
-        <a href="{{ route('language.switch', $nextLocale) }}" title="{{ __('Switch language') }}"
-            class="flex h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-2.5 text-sm font-medium text-slate-700 transition hover:border-indigo-200 hover:bg-indigo-50/50 sm:px-3">
+        {{-- Language switcher: flag only --}}
+        <a href="{{ route('lang.switch', $nextLocale) }}" wire:navigate title="{{ $currentLanguage }}"
+            aria-label="{{ __('Switch language') }}"
+            class="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white transition hover:border-indigo-200 hover:bg-indigo-50/50">
             <img src="{{ asset($currentFlag) }}" alt="{{ $currentLanguage }}"
                 class="h-4 w-6 rounded-sm object-cover shadow-sm">
-            <span class="hidden sm:block">{{ $currentLanguage }}</span>
-            <x-heroicon-o-chevron-up-down class="hidden h-4 w-4 text-slate-400 sm:block" />
         </a>
 
+        {{-- Notifications --}}
         <div x-data="{ open: false }" class="relative">
-            <button type="button" @click="open = !open" @click.outside="open = false" @keydown.escape="open = false"
+            <button type="button" @click="open = !open" @click.outside="open = false"
+                @keydown.escape.window="open = false" :aria-expanded="open"
                 class="relative flex h-10 w-10 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-indigo-600"
-                    title="{{ trans_json('Notifications') }}" aria-label="{{ __('Notifications') }}">
-                    <x-heroicon-o-bell class="h-6 w-6" />
+                title="{{ trans_json('Notifications') }}" aria-label="{{ __('Notifications') }}">
+                <x-heroicon-o-bell class="h-6 w-6" />
                 <span class="absolute right-2.5 top-2.5 flex h-2.5 w-2.5">
                     <span
                         class="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
@@ -66,9 +72,10 @@
             </div>
         </div>
 
+        {{-- Profile --}}
         <div x-data="{ open: false }" class="relative">
-            <button type="button" @click="open = !open" @click.outside="open = false" @keydown.escape="open = false"
-                :aria-expanded="open"
+            <button type="button" @click="open = !open" @click.outside="open = false"
+                @keydown.escape.window="open = false" :aria-expanded="open"
                 class="flex items-center gap-2 rounded-xl p-1 transition hover:bg-slate-100 sm:pr-2">
                 <div
                     class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-fuchsia-500 font-semibold text-white">
@@ -77,8 +84,9 @@
                 <span class="hidden max-w-32 truncate text-sm font-medium text-slate-700 md:block">
                     {{ auth()->user()?->name }}
                 </span>
-                <x-heroicon-o-chevron-down class="hidden h-4 w-4 text-slate-400 transition-transform md:block"
-                    ::class="open ? 'rotate-180' : ''" />
+                <span class="hidden transition-transform md:block" :class="open ? 'rotate-180' : ''">
+                    <x-heroicon-o-chevron-down class="h-4 w-4 text-slate-400" />
+                </span>
             </button>
 
             <div x-cloak x-show="open" x-transition.origin.top.right
@@ -95,6 +103,7 @@
 
                 <div class="my-1 border-t border-slate-100"></div>
 
+                {{-- Logout: normal POST, no wire:navigate --}}
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit"

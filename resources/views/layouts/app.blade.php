@@ -4,55 +4,43 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'Wedding Platform' }}</title>
 
-    {{-- Khmer-friendly font stack --}}
+    {{-- Both fonts always loaded; the body's data-locale picks which one is used --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@100..900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+
+    {{-- Hide x-cloak elements until Alpine is ready --}}
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    @if (app()->getLocale() === 'km')
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@100..900&display=swap"
-            rel="stylesheet">
-
-        <style>
-            body,
-            .title,
-            .title-two,
-            .footer__widget-title {
-                font-family: 'Noto Sans Khmer', sans-serif;
-            }
-        </style>
-    @else
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
-            rel="stylesheet">
-
-        <style>
-            body,
-            .title,
-            .title-two,
-            .footer__widget-title {
-                font-family: 'Space Grotesk', sans-serif;
-            }
-        </style>
-    @endif
+    @livewireStyles
+    @stack('styles')
 </head>
 
 {{-- Shared state: sidebarOpen = mobile drawer, collapsed = desktop icon-only (remembered) --}}
 
-<body class="bg-slate-50 text-slate-800 antialiased" x-data="{
+<body data-locale="{{ app()->getLocale() }}" class="bg-slate-50 text-slate-800 antialiased" x-data="{
     sidebarOpen: false,
-    collapsed: (() => { try { return JSON.parse(localStorage.getItem('sidebarCollapsed') ?? 'false') } catch { return false } })()
-}" x-init="$watch('collapsed', v => { try { localStorage.setItem('sidebarCollapsed', JSON.stringify(v)) } catch {} });
-$watch('sidebarOpen', v => document.body.classList.toggle('overflow-hidden', v));"
-    @keydown.escape.window="sidebarOpen = false" @resize.window="if (window.innerWidth >= 1024) sidebarOpen = false">
+    collapsed: (() => {
+        try { return JSON.parse(localStorage.getItem('sidebarCollapsed') ?? 'false') } catch (e) { return false }
+    })()
+}"
+    x-init="$watch('collapsed', v => {
+        try { localStorage.setItem('sidebarCollapsed', JSON.stringify(v)) } catch (e) {}
+    });
+    $watch('sidebarOpen', v => document.body.classList.toggle('overflow-hidden', v));" x-on:keydown.escape.window="sidebarOpen = false"
+    x-on:resize.window="if (window.innerWidth >= 1024) sidebarOpen = false"
+    x-on:livewire:navigated.window="sidebarOpen = false">
 
     {{-- Mobile overlay --}}
     <div x-cloak x-show="sidebarOpen" x-transition.opacity.duration.200ms @click="sidebarOpen = false"
@@ -72,6 +60,9 @@ $watch('sidebarOpen', v => document.body.classList.toggle('overflow-hidden', v))
 
         @include('components.admin.footer')
     </div>
+
+    @livewireScripts
+    @stack('scripts')
 </body>
 
 </html>

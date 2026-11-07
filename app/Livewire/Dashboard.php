@@ -10,8 +10,16 @@ use Livewire\Component;
 #[Title('Dashboard')]
 class Dashboard extends Component
 {
+    // app/Livewire/Dashboard.php
     public function render()
     {
-        return view('livewire.dashboard');
+        $templates = [
+            ['name' => 'Classic Rose',   'category' => 'Classic', 'image' => null, 'url' => '#'],
+            ['name' => 'Golden Khmer',   'category' => 'Khmer',   'image' => null, 'url' => '#'],
+            ['name' => 'Modern Minimal', 'category' => 'Modern',  'image' => null, 'url' => '#'],
+            ['name' => 'Floral Dream',   'category' => 'Floral',  'image' => null, 'url' => '#'],
+        ];
+
+        return view('livewire.dashboard', compact('templates'));
     }
 }
