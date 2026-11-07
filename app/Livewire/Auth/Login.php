@@ -15,6 +15,13 @@ class Login extends Component
     public string $password = '';
     public bool $remember = false;
 
+    public function mount()
+    { 
+        if (Auth::check()) {
+            return redirect()->route('admin');
+        }
+    }
+
     public function login()
     {
         $validated = $this->validate([
@@ -26,6 +33,7 @@ class Login extends Component
             'email' => $validated['email'],
             'password' => $validated['password'],
         ], $this->remember)) {
+
             $this->dispatch(
                 'swal',
                 icon: 'error',
@@ -45,7 +53,7 @@ class Login extends Component
             text: 'You have successfully logged in.'
         );
 
-        return $this->redirect('/admin');
+        return $this->redirectRoute('admin', navigate: true);
     }
 
     public function render()

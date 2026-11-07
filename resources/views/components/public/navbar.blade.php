@@ -9,7 +9,7 @@
 
     {{-- Top utility bar (desktop only, hides after scrolling) --}}
     <div x-show="!scrolled" x-transition.opacity.duration.200ms class="hidden bg-slate-900 text-slate-300 md:block">
-        <div class="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 text-xs sm:px-6 lg:px-8">
+        <div class="mx-auto flex h-8 max-w-7xl items-center justify-between px-4 text-xs sm:px-6 lg:px-8">
             <div class="flex items-center gap-6">
                 <a href="mailto:hello@example.com" class="inline-flex items-center gap-2 transition hover:text-white">
                     <svg class="h-3.5 w-3.5 text-rose-400" fill="none" stroke="currentColor" stroke-width="1.8"
@@ -32,20 +32,23 @@
             <div class="flex items-center gap-5">
                 <p class="hidden lg:block">
                     &hearts; {{ trans_json('New templates added') }} &mdash;
-                    <a href="{{ url('/templates') }}" class="font-semibold text-rose-400 hover:text-rose-300">{{trans_json('Browse now')}}</a>
+                    <a href="{{ url('/templates') }}"
+                        class="font-semibold text-rose-400 hover:text-rose-300">{{ trans_json('Browse now') }}</a>
                 </p>
+
+                {{-- Language switch (flag only) --}}
                 <a href="{{ route('lang.switch', $otherLocale) }}" hreflang="{{ $otherLocale }}"
-                    class="inline-flex items-center gap-2 rounded-full border border-slate-700 py-1 pl-1.5 pr-3 font-medium transition hover:border-rose-400 hover:text-white">
-                    <img src="{{ $otherFlag }}" alt="" width="20" height="20" loading="lazy"
-                        class="h-5 w-5 rounded-full object-cover ring-1 ring-white/20">
-                    {{ $otherLabel }}
+                    aria-label="{{ $otherLabel }}" title="{{ $otherLabel }}"
+                    class="inline-flex items-center justify-center rounded-full transition hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400">
+                    <img src="{{ $otherFlag }}" alt="{{ $otherLabel }}" width="24" height="24"
+                        loading="lazy" class="h-6 w-6 rounded-full object-cover ring-1 ring-white/30">
                 </a>
             </div>
         </div>
     </div>
 
     {{-- Main header --}}
-    <header :class="scrolled ? 'shadow-lg shadow-slate-900/5 bg-white/95 h-20' : 'bg-white/85 h-20 lg:h-24'"
+    <header :class="scrolled ? 'shadow-lg shadow-slate-900/5 bg-white/95 h-16' : 'bg-white/85 h-16 lg:h-20'"
         class="flex items-center border-b border-slate-200/70 backdrop-blur-md transition-all duration-300">
 
         <div class="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
@@ -53,22 +56,22 @@
             {{-- Logo --}}
             <a href="{{ url('/') }}" class="group flex items-center gap-3 text-slate-900">
                 <span
-                    class="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-rose-500 to-pink-500 text-white shadow-lg shadow-rose-500/30 transition duration-300 group-hover:rotate-6 group-hover:scale-110 lg:h-12 lg:w-12">
-                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-rose-500 to-pink-500 text-white shadow-lg shadow-rose-500/30 transition duration-300 group-hover:rotate-6 group-hover:scale-110">
+                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path
                             d="M12 21s-7.5-4.6-9.6-9.2C1 8.6 2.8 5 6.3 5c2 0 3.5 1.1 4.3 2.6h2.8C14.2 6.1 15.7 5 17.7 5 21.2 5 23 8.6 21.6 11.8 19.5 16.4 12 21 12 21z" />
                     </svg>
                 </span>
                 <span class="leading-tight">
-                    <span class="block text-xl font-bold tracking-tight lg:text-2xl">Wedding<span
+                    <span class="block text-lg font-bold tracking-tight lg:text-xl">Wedding<span
                             class="text-rose-500">Platform</span></span>
                     <span class="hidden text-[11px] font-medium uppercase tracking-[0.2em] text-slate-400 sm:block">
-                        Online invitations
+                        {{ trans_json('Online invitations') }}
                     </span>
                 </span>
             </a>
 
-            {{-- Desktop links (centered) --}}
+            {{-- Desktop links --}}
             <nav class="hidden items-center gap-2 md:flex" aria-label="Main navigation">
                 @foreach ($menu as $item)
                     <a href="{{ $item['href'] }}" @if ($item['active']) aria-current="page" @endif
@@ -83,21 +86,29 @@
             </nav>
 
             {{-- Desktop actions --}}
-            <div class="hidden items-center gap-3 md:flex">
+            <div class="hidden items-center gap-2 md:flex">
                 @auth
                     <a href="{{ route('admin') }}"
-                        class="rounded-full px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 hover:text-slate-900">
-                        Dashboard
+                        class="rounded-full px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 hover:text-slate-900">
+                        {{ trans_json('Dashboard') }}
                     </a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit"
+                            class="rounded-full px-4 py-2 text-sm font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-rose-600">
+                            {{ trans_json('Logout') }}
+                        </button>
+                    </form>
                 @else
                     <a href="{{ route('login') }}"
-                        class="rounded-full px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 hover:text-slate-900">
-                        Login
+                        class="rounded-full px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 hover:text-slate-900">
+                        {{ trans_json('Login') }}
                     </a>
                 @endauth
+
                 <a href="{{ url('/templates') }}"
-                    class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-rose-500/30 transition hover:-translate-y-0.5 hover:shadow-xl hover:shadow-rose-500/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 focus-visible:ring-offset-2">
-                    Create Invitation
+                    class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-rose-500/30 transition hover:-translate-y-0.5 hover:shadow-xl hover:shadow-rose-500/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 focus-visible:ring-offset-2">
+                    {{ trans_json('Create Invitation') }}
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
                         aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
@@ -108,7 +119,7 @@
             {{-- Mobile toggle --}}
             <button type="button" @click="open = !open" :aria-expanded="open" aria-controls="mobile-menu"
                 aria-label="Toggle menu"
-                class="inline-flex h-11 w-11 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 md:hidden">
+                class="inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 md:hidden">
                 <svg x-show="!open" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                     stroke-width="1.8" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16" />
@@ -139,24 +150,34 @@
             <div class="space-y-3 border-t border-slate-100 pt-5">
                 <a href="{{ url('/templates') }}"
                     class="block rounded-full bg-gradient-to-r from-rose-500 to-pink-500 px-4 py-3.5 text-center text-sm font-semibold text-white shadow-lg shadow-rose-500/30">
-                    Create Invitation
+                    {{ trans_json('Create Invitation') }}
                 </a>
+
                 <div class="flex items-center gap-3">
-                    <a href="{{ route('lang.switch', $otherLocale) }}"
-                        class="flex flex-1 items-center justify-center gap-2 rounded-full border border-slate-200 px-3 py-3 text-sm font-medium text-slate-700 hover:bg-slate-100">
-                        <img src="{{ $otherFlag }}" alt="" width="20" height="20" loading="lazy"
-                            class="h-5 w-5 rounded-full object-cover ring-1 ring-slate-200">
-                        {{ $otherLabel }}
+                    {{-- Language switch (flag only) --}}
+                    <a href="{{ route('lang.switch', $otherLocale) }}" aria-label="{{ $otherLabel }}"
+                        title="{{ $otherLabel }}"
+                        class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-slate-200 hover:bg-slate-100">
+                        <img src="{{ $otherFlag }}" alt="{{ $otherLabel }}" width="24" height="24"
+                            loading="lazy" class="h-6 w-6 rounded-full object-cover ring-1 ring-slate-200">
                     </a>
+
                     @auth
                         <a href="{{ route('admin') }}"
                             class="flex-1 rounded-full bg-slate-900 px-3 py-3 text-center text-sm font-semibold text-white hover:bg-slate-700">
-                            Dashboard
+                            {{ trans_json('Dashboard') }}
                         </a>
+                        <form method="POST" action="{{ route('logout') }}" class="flex-1">
+                            @csrf
+                            <button type="submit"
+                                class="w-full rounded-full border border-slate-200 px-3 py-3 text-center text-sm font-semibold text-slate-700 hover:bg-slate-100">
+                                {{ trans_json('Logout') }}
+                            </button>
+                        </form>
                     @else
                         <a href="{{ route('login') }}"
                             class="flex-1 rounded-full bg-slate-900 px-3 py-3 text-center text-sm font-semibold text-white hover:bg-slate-700">
-                            Login
+                            {{ trans_json('Login') }}
                         </a>
                     @endauth
                 </div>
