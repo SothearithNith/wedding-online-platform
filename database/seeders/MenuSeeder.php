@@ -13,10 +13,10 @@ class MenuSeeder extends Seeder
             [
                 'name_en' => 'Dashboard',
                 'name_km' => 'ផ្ទាំងគ្រប់គ្រង',
-                'slug' => 'dashboard',
+                'slug' => 'admin',
                 'icon' => 'heroicon-o-squares-2x2',
-                'route_name' => 'dashboard',
-                'permission_name' => 'dashboard.view',
+                'route_name' => 'admin',
+                'permission_name' => 'admin.view',
                 'sort_order' => 1,
             ],
             [

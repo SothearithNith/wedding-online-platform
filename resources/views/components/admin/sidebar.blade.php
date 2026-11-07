@@ -21,10 +21,10 @@
     {{-- Brand --}}
     <div class="flex h-20 shrink-0 items-center gap-3 border-b border-slate-100 px-5"
         :class="collapsed ? 'lg:justify-center lg:px-0' : ''">
-        <div
+        <a href="{{ route('admin') }}" wire:navigate
             class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-fuchsia-600 text-white shadow-lg shadow-indigo-500/30">
             <x-heroicon-s-heart class="h-6 w-6" />
-        </div>
+        </a>
 
         <div class="min-w-0" :class="collapsed ? 'lg:hidden' : ''">
             <h1 class="truncate text-base font-bold tracking-tight text-slate-900">{{ __('Wedding Platform') }}</h1>
@@ -56,6 +56,7 @@
                 );
                 $isActive = $menu->route_name && request()->routeIs($menu->route_name);
                 $icon = $menu->icon ?: 'heroicon-o-squares-2x2';
+                $menuHref = $href($menu);
             @endphp
 
             @if ($hasChildren)
@@ -73,16 +74,23 @@
                             class="h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-110" />
                         <span class="flex-1 truncate text-left"
                             :class="collapsed ? 'lg:hidden' : ''">{{ $menu->name }}</span>
-                        <x-heroicon-o-chevron-down
-                            class="h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200"
-                            ::class="[expanded ? 'rotate-180' : '', collapsed ? 'lg:hidden' : '']" />
+
+                        {{-- Chevron wrapped in a span, since :class on a Blade component is unreliable --}}
+                        <span class="shrink-0 transition-transform duration-200"
+                            :class="[expanded ? 'rotate-180' : '', collapsed ? 'lg:hidden' : '']">
+                            <x-heroicon-o-chevron-down class="h-4 w-4 text-slate-400" />
+                        </span>
                     </button>
 
                     <div x-show="expanded" x-collapse :class="collapsed ? 'lg:hidden' : ''"
                         class="ml-5 mt-1 space-y-0.5 border-l-2 border-slate-100 pl-3">
                         @foreach ($visibleChildren as $child)
-                            @php $childIsActive = $child->route_name && request()->routeIs($child->route_name); @endphp
-                            <a href="{{ $href($child) }}"
+                            @php
+                                $childIsActive = $child->route_name && request()->routeIs($child->route_name);
+                                $childHref = $href($child);
+                            @endphp
+                            <a href="{{ $childHref }}" @if ($childHref !== '#') wire:navigate @endif
+                                @if ($childIsActive) aria-current="page" @endif
                                 class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors
                                     {{ $childIsActive
                                         ? 'bg-indigo-50 font-semibold text-indigo-700'
@@ -96,7 +104,8 @@
                 </div>
             @else
                 {{-- Single link --}}
-                <a href="{{ $href($menu) }}" title="{{ $menu->name }}"
+                <a href="{{ $menuHref }}" title="{{ $menu->name }}"
+                    @if ($menuHref !== '#') wire:navigate @endif
                     @if ($isActive) aria-current="page" @endif
                     class="group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors
                         {{ $isActive
@@ -135,8 +144,10 @@
 
         <button type="button" @click="collapsed = !collapsed"
             class="hidden w-full items-center justify-center gap-2 rounded-xl py-2 text-xs font-medium text-slate-500 transition hover:bg-slate-50 hover:text-slate-800 lg:flex"
-            :title="collapsed ? '{{ __('Expand sidebar') }}' : '{{ __('Collapse sidebar') }}'">
-            <x-heroicon-o-chevron-double-left class="h-4 w-4 transition-transform duration-300" ::class="collapsed ? 'rotate-180' : ''" />
+            :title="collapsed ? @js(__('Expand sidebar')) : @js(__('Collapse sidebar'))">
+            <span class="transition-transform duration-300" :class="collapsed ? 'rotate-180' : ''">
+                <x-heroicon-o-chevron-double-left class="h-4 w-4" />
+            </span>
             <span :class="collapsed ? 'hidden' : ''">{{ __('Collapse') }}</span>
         </button>
     </div>
