@@ -1,0 +1,93 @@
+{
+    "templateId": "gold",
+    "label": "ស៊ន់ សុវណ្ណ",
+    "data": {
+        "groom": {
+            "name": "ស៊ន់ សុវណ្ណ",
+            "parents": "ពូ ចាន់ និង មីង សុភា",
+            "photo": "/api/files/3dfb0726b881842674f6de2d.jpg"
+        },
+        "bride": {
+            "name": "ភួង សិលា",
+            "parents": "ពូ វិបុល និង មីង ដាវី",
+            "photo": "/images/bride.jpg"
+        },
+        "date": "2026-12-20T08:00:00+07:00",
+        "dateText": "ថ្ងៃអាទិត្យ ទី២០ ខែធ្នូ ឆ្នាំ២០២៦",
+        "intro": "សូមគោរពអញ្ជើញ ចូលរួមជាភ្ញៀវកិត្តិយស ក្នុងពិធីអាពាហ៍ពិពាហ៍របស់យើងខ្ញុំ",
+        "quote": "ស្នេហាពិតមិនមានទីបញ្ចប់ឡើយ",
+        "cover": "/api/files/75a90fb3cc8fe02150b869d5.jpg",
+        "events": [
+            {
+                "time": "07:00",
+                "title": "ពិធីហែជំនូន",
+                "place": "គេហដ្ឋានខាងកូនប្រុស",
+                "mapUrl": "https://maps.google.com"
+            },
+            {
+                "time": "11:00",
+                "title": "ពិធីមង្គលការ",
+                "place": "សណ្ឋាគារ ភ្នំពេញ",
+                "mapUrl": "https://maps.google.com"
+            },
+            {
+                "time": "18:00",
+                "title": "ពិធីជប់លៀង",
+                "place": "មជ្ឈមណ្ឌលសន្និបាត",
+                "mapUrl": "https://maps.google.com"
+            }
+        ],
+        "gallery": [
+            "/images/g1.jpg",
+            "/api/files/1195e2019c123c1e63d9c2a4.jpg",
+            "/api/files/9bbd5c4f1b23244e89adcc9c.jpg",
+            "/api/files/bd367f0addaffe0d8babeac9.jpg"
+        ],
+        "story": [
+            {
+                "year": "២០១៩",
+                "title": "ជួបគ្នាលើកដំបូង",
+                "text": "យើងបានជួបគ្នាជាលើកដំបូងនៅសាកលវិទ្យាល័យ ហើយមិត្តភាពដ៏ស្រស់ស្អាតក៏ចាប់ផ្តើម។"
+            },
+            {
+                "year": "២០២២",
+                "title": "ក្លាយជាគូស្នេហ៍",
+                "text": "ពីមិត្តភាព ក្លាយជាស្នេហា ដែលពោរពេញដោយសេចក្តីសុខ និងស្នាមញញឹម។"
+            },
+            {
+                "year": "២០២៥",
+                "title": "ពាក្យសន្យា",
+                "text": "ក្នុងរាត្រីដ៏ស្ងប់ស្ងាត់មួយ គាត់បានសុំនាងរៀបការ ហើយនាងក៏ឆ្លើយថា យល់ព្រម។"
+            },
+            {
+                "year": "២០២៦",
+                "title": "ថ្ងៃមង្គលការ",
+                "text": "ហើយឥឡូវនេះ យើងសូមអញ្ជើញអ្នកមកចូលរួមសាក្សីស្នេហារបស់យើង។"
+            }
+        ],
+        "dressCode": {
+            "title": "ឈុតសម្លៀកបំពាក់",
+            "note": "សូមពាក់ពណ៌ទន់ភ្លន់ ឬសម្លៀកបំពាក់ប្រពៃណីខ្មែរ",
+            "colors": ["#7a1f2b", "#e6b84a", "#fbf6ea", "#2f855a", "#d6336c"]
+        },
+        "gift": {
+            "bank": "ABA Bank",
+            "accountName": "SOKHA & SREY NEANG",
+            "accountNumber": "000 123 456",
+            "qr": "/api/files/1a3c9fa9dd262a24af56da32.jpg"
+        },
+        "apology": "ប្រសិនបើយើងខ្ញុំមិនបានអញ្ជើញដល់ផ្ទាល់ ឬមានកំហុសឆ្គងអ្វីមួយ សូមលោក លោកស្រី អភ័យទោសដោយក្តីមេត្តា។ ការមកចូលរួម និងការយោគយល់របស់អ្នក គឺមានតម្លៃបំផុតសម្រាប់យើងខ្ញុំ។",
+        "thanks": "ការអញ្ជើញចូលរួមរបស់អ្នក គឺជាកិត្តិយស និងសេចក្តីសុខដ៏ធំបំផុតសម្រាប់យើងខ្ញុំ។ សូមអរគុណយ៉ាងជ្រាលជ្រៅ!",
+        "music": "/music/wedding.mp3",
+        "backgrounds": {
+            "all": "/api/files/b71b373e130ad484bfe3acdd.jpg",
+            "intro": "/api/files/e17f196d0665d0895919a6f1.jpg",
+            "count": "/api/files/b630bd556990359c516ead15.jpg",
+            "story": "/api/files/07fb49a8d69063fb9bd6f4b8.jpg",
+            "schedule": "/api/files/1150fbe3af640ff48ca211b4.jpg",
+            "gallery": "/api/files/ed1fab1ac19eb35b5237af53.jpg",
+            "rsvp": "/api/files/3af444bca88e378c62f67648.jpg",
+            "thanks": "/api/files/9efc65b98a4529fc92bc9467.jpg"
+        }
+    }
+}
