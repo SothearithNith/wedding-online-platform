@@ -1,5 +1,4 @@
-<header x-data="{ scrolled: false }" x-init="scrolled = window.scrollY > 4"
-    @scroll.window.passive="scrolled = window.scrollY > 4"
+<header x-data="{ scrolled: false }" x-init="scrolled = window.scrollY > 4" @scroll.window.passive="scrolled = window.scrollY > 4"
     :class="scrolled ? 'shadow-sm border-slate-200' : 'border-transparent'"
     class="sticky top-0 z-30 flex h-16 items-center justify-between gap-3 border-b bg-white/80 px-4 backdrop-blur-md transition-shadow sm:h-20 sm:px-6 lg:px-8">
 
@@ -28,19 +27,43 @@
     {{-- Right --}}
     <div class="flex shrink-0 items-center gap-1.5 sm:gap-3">
         @php
-            $isKhmer = app()->getLocale() === 'km';
-            $nextLocale = $isKhmer ? 'en' : 'km';
-            $currentFlag = $isKhmer ? 'assets/images/flags/km_flag.webp' : 'assets/images/flags/en_flag.webp';
-            $currentLanguage = $isKhmer ? 'ខ្មែរ' : 'English';
+            $languages = [
+                'km' => ['name' => 'ខ្មែរ', 'flag' => 'assets/images/flags/km_flag.webp'],
+                'en' => ['name' => 'English', 'flag' => 'assets/images/flags/en_flag.webp'],
+            ];
+            $currentLocale = app()->getLocale();
         @endphp
 
-        {{-- Language switcher: flag only --}}
-        <a href="{{ route('lang.switch', $nextLocale) }}" wire:navigate title="{{ $currentLanguage }}"
-            aria-label="{{ __('Switch language') }}"
-            class="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white transition hover:border-indigo-200 hover:bg-indigo-50/50">
-            <img src="{{ asset($currentFlag) }}" alt="{{ $currentLanguage }}"
-                class="h-4 w-6 rounded-sm object-cover shadow-sm">
-        </a>
+        {{-- Language switcher: [KH] [EN], the active one is highlighted --}}
+        <div class="relative inline-flex h-10 items-center rounded-full border border-slate-200 bg-slate-100 p-1"
+            role="group" aria-label="{{ __('Switch language') }}">
+
+            {{-- Sliding highlight behind the active flag --}}
+            <span aria-hidden="true"
+                class="absolute left-1 top-1 h-8 w-8 rounded-full bg-white shadow-md ring-1 ring-indigo-200 transition-transform duration-300 ease-out
+               {{ $currentLocale === 'km' ? 'translate-x-0' : 'translate-x-full' }}"></span>
+
+            @foreach ($languages as $code => $lang)
+                @php $isActive = $code === $currentLocale; @endphp
+
+                @if ($isActive)
+                    {{-- Active: not clickable --}}
+                    <span title="{{ $lang['name'] }}" aria-current="true"
+                        class="relative z-10 flex h-8 w-8 items-center justify-center">
+                        <img src="{{ asset($lang['flag']) }}" alt="{{ $lang['name'] }}"
+                            class="h-6 w-6 rounded-full object-cover ring-2 ring-indigo-500">
+                    </span>
+                @else
+                    {{-- Inactive: click to switch --}}
+                    <a href="{{ route('lang.switch', $code) }}" wire:navigate title="{{ $lang['name'] }}"
+                        aria-label="{{ $lang['name'] }}"
+                        class="group relative z-10 flex h-8 w-8 items-center justify-center rounded-full">
+                        <img src="{{ asset($lang['flag']) }}" alt="{{ $lang['name'] }}"
+                            class="h-6 w-6 rounded-full object-cover opacity-50 grayscale transition duration-200 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110">
+                    </a>
+                @endif
+            @endforeach
+        </div>
 
         {{-- Notifications --}}
         <div x-data="{ open: false }" class="relative">
