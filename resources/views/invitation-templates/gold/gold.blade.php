@@ -1,489 +1,280 @@
 @php
-    $d = $data ?? [];
-    $bgAll = $d['backgrounds']['all'] ?? null;
+    use Illuminate\Support\HtmlString;
+    use App\Support\TemplateRegistry;
 
-    // Section background: its own image, else the shared one, else just the color
-    $bg = function (string $k) use ($d, $bgAll) {
-        $u = $d['backgrounds'][$k] ?? $bgAll;
-        return $u
-            ? "background-image:linear-gradient(rgba(251,246,234,.82),rgba(251,246,234,.82)),url('" . e($u) . "')"
-            : '';
+    /* =====================================================================
+       DATA: API data (nulls / empty values) -> defaults -> template
+       ===================================================================== */
+    // Default images live in public/assets/images/default (see TemplateRegistry)
+    $dflt = fn(string $f) => TemplateRegistry::defaultUrl($f);
+
+    $defaults = [
+        'groom' => ['name' => 'ស៊ន់ សុវណ្ណ', 'parents' => "ពូ ចាន់\nមីង សុភា", 'photo' => $dflt('groom.jpg')],
+        'bride' => ['name' => 'ភួង សិលា', 'parents' => "ពូ វិបុល\nមីង ដាវី", 'photo' => $dflt('bride.jpg')],
+        'date' => '2026-12-20T08:00:00+07:00',
+        'dateText' => 'ថ្ងៃអាទិត្យ ទី២០ ខែធ្នូ ឆ្នាំ២០២៦',
+        'intro' => 'សូមគោរពអញ្ជើញ ចូលរួមជាភ្ញៀវកិត្តិយស ក្នុងពិធីអាពាហ៍ពិពាហ៍របស់យើងខ្ញុំ',
+        'quote' => 'ស្នេហាពិតមិនមានទីបញ្ចប់ឡើយ',
+        'cover' => $dflt('cover.jpg'),
+        'events' => [
+            ['time' => '07:00', 'title' => 'ពិធីហែជំនូន', 'place' => 'គេហដ្ឋានខាងកូនប្រុស', 'mapUrl' => 'https://maps.google.com'],
+            ['time' => '11:00', 'title' => 'ពិធីមង្គលការ', 'place' => 'សណ្ឋាគារ ភ្នំពេញ', 'mapUrl' => 'https://maps.google.com'],
+            ['time' => '18:00', 'title' => 'ពិធីជប់លៀង', 'place' => 'មជ្ឈមណ្ឌលសន្និបាត', 'mapUrl' => 'https://maps.google.com'],
+        ],
+        'gallery' => array_map($dflt, TemplateRegistry::DEFAULT_GALLERY),
+        'story' => [
+            ['year' => '២០១៩', 'title' => 'ជួបគ្នាលើកដំបូង', 'text' => 'យើងបានជួបគ្នាជាលើកដំបូងនៅសាកលវិទ្យាល័យ ហើយមិត្តភាពដ៏ស្រស់ស្អាតក៏ចាប់ផ្តើម។'],
+            ['year' => '២០២២', 'title' => 'ក្លាយជាគូស្នេហ៍', 'text' => 'ពីមិត្តភាព ក្លាយជាស្នេហា ដែលពោរពេញដោយសេចក្តីសុខ និងស្នាមញញឹម។'],
+            ['year' => '២០២៥', 'title' => 'ពាក្យសន្យា', 'text' => 'ក្នុងរាត្រីដ៏ស្ងប់ស្ងាត់មួយ គាត់បានសុំនាងរៀបការ ហើយនាងក៏ឆ្លើយថា យល់ព្រម។'],
+            ['year' => '២០២៦', 'title' => 'ថ្ងៃមង្គលការ', 'text' => 'ហើយឥឡូវនេះ យើងសូមអញ្ជើញអ្នកមកចូលរួមសាក្សីស្នេហារបស់យើង។'],
+        ],
+        'dressCode' => [
+            'title' => 'ឈុតសម្លៀកបំពាក់',
+            'note' => 'សូមពាក់ពណ៌ទន់ភ្លន់ ឬសម្លៀកបំពាក់ប្រពៃណីខ្មែរ',
+            'colors' => ['#7a1f2b', '#e6b84a', '#fbf6ea', '#2f855a', '#d6336c'],
+        ],
+        'gift' => ['bank' => 'ABA Bank', 'accountName' => 'SOKHA & SREY NEANG', 'accountNumber' => '000 123 456', 'qr' => $dflt('qr.jpg')],
+        'apology' => 'ប្រសិនបើយើងខ្ញុំមិនបានអញ្ជើញដល់ផ្ទាល់ ឬមានកំហុសឆ្គងអ្វីមួយ សូមលោក លោកស្រី អភ័យទោសដោយក្តីមេត្តា។ ការមកចូលរួម និងការយោគយល់របស់អ្នក គឺមានតម្លៃបំផុតសម្រាប់យើងខ្ញុំ។',
+        'thanks' => 'ការអញ្ជើញចូលរួមរបស់អ្នក គឺជាកិត្តិយស និងសេចក្តីសុខដ៏ធំបំផុតសម្រាប់យើងខ្ញុំ។ សូមអរគុណយ៉ាងជ្រាលជ្រៅ!',
+        'music' => '',
+        'backgrounds' => ['all' => $dflt('background.jpg')],
+    ];
+
+    $isEmpty = fn($v) => $v === null || $v === '' || $v === [];
+    $merge = function (array $def, array $in) use (&$merge, $isEmpty) {
+        $out = [];
+        foreach ($def as $k => $dv) {
+            $iv = $in[$k] ?? null;
+            if ($isEmpty($iv)) {
+                $out[$k] = $dv;
+            } elseif (is_array($dv) && $dv !== [] && !array_is_list($dv) && is_array($iv)) {
+                $out[$k] = $merge($dv, $iv);
+            } else {
+                $out[$k] = $iv;
+            }
+        }
+        foreach ($in as $k => $v) {
+            if (!array_key_exists($k, $out)) {
+                $out[$k] = $v;
+            }
+        }
+        return $out;
     };
 
+    $raw = json_decode(json_encode($data ?? []), true) ?: [];
+    $w = $merge($defaults, $raw);
+
+    // Image path -> usable URL (full URL and /absolute paths stay as they are)
+    $img = function ($p) {
+        if (!is_string($p) || $p === '') {
+            return '';
+        }
+        if (preg_match('#^(https?:)?//|^data:|^/#i', $p)) {
+            return $p; // full URL, /storage/... or /assets/... (default images)
+        }
+        if (str_starts_with($p, 'storage/') || str_starts_with($p, 'assets/')) {
+            return asset($p);
+        }
+        return asset('storage/' . ltrim($p, '/')); // bare path from the "public" disk
+    };
     $safeLink = fn($u) => is_string($u) && preg_match('#^https?://#i', $u) ? $u : null;
-    $groom = $d['groom'] ?? [];
-    $bride = $d['bride'] ?? [];
+
+    $groom = $w['groom'];
+    $bride = $w['bride'];
+    $gallery = array_values(array_filter(array_map($img, (array) $w['gallery'])));
+    $events = array_values((array) $w['events']);
+    $story = array_values((array) $w['story']);
+    $colors = array_values(array_filter((array) ($w['dressCode']['colors'] ?? []), fn($c) => is_string($c) && preg_match('/^#[0-9a-fA-F]{3,8}$/', $c)));
+    $gift = $w['gift'];
+    $giftQr = $img($gift['qr'] ?? '') ?: $dflt('qr.jpg');
+    $music = $img($w['music'] ?? '');
+
+    // Backgrounds: own image -> "all" -> /images/bg/gold/<section>.jpg (if the file exists)
+    $own = [];
+    foreach ((array) $w['backgrounds'] as $k => $v) {
+        if (is_string($v) && $v !== '') {
+            $own[$k] = $img($v);
+        }
+    }
+    $bg = function (string $k) use ($own) {
+        if (!empty($own[$k])) {
+            return $own[$k];
+        }
+        if (!empty($own['all'])) {
+            return $own['all'];
+        }
+        return file_exists(public_path("images/bg/gold/$k.jpg")) ? asset("images/bg/gold/$k.jpg") : '';
+    };
+    // Hero: card bg -> "all" -> cover -> default file
+    $heroBg = ($own['card'] ?? '') ?: ($own['all'] ?? '') ?: $img($w['cover']) ?: asset('images/gold/bg.jpg');
+
+    // Parents: split on new lines or commas (not inside brackets)
+    $parents = fn($v) => array_values(array_filter(array_map('trim', preg_split('/\r?\n|,(?![^()]*\))/u', (string) $v))));
+
+    // Khmer UI text (edit here)
+    $K = [
+        'groom' => 'កូនកំលោះ', 'bride' => 'កូនក្រមុំ',
+        'parentsGroom' => 'ឪពុកម្តាយខាងកូនកំលោះ', 'parentsBride' => 'ឪពុកម្តាយខាងកូនក្រមុំ',
+        'invite' => 'សូមអញ្ជើញចូលរួមជាភ្ញៀវកិត្តិយស',
+        'date' => 'ថ្ងៃមង្គលការ', 'countdown' => ['ថ្ងៃ', 'ម៉ោង', 'នាទី', 'វិនាទី'],
+        'addCal' => 'បន្ថែមទៅប្រតិទិន', 'story' => 'រឿងស្នេហារបស់យើង', 'schedule' => 'កម្មវិធី',
+        'gallery' => 'កម្រងរូបភាព', 'rsvp' => 'ការឆ្លើយតប', 'rsvpSub' => 'សូមជួយបញ្ជាក់ការចូលរួមរបស់អ្នក',
+        'yourName' => 'ឈ្មោះរបស់អ្នក', 'attend' => 'ខ្ញុំនឹងចូលរួម', 'decline' => 'ខ្ញុំមិនអាចចូលរួមបាន',
+        'guests' => 'ចំនួនភ្ញៀវ', 'wish' => 'សារជូនពរ', 'send' => 'ផ្ញើ',
+        'sent' => 'អរគុណ! យើងបានទទួលការឆ្លើយតបរបស់អ្នកហើយ', 'required' => 'សូមបញ្ចូលឈ្មោះរបស់អ្នក',
+        'failed' => 'ផ្ញើមិនបានសម្រេច សូមព្យាយាមម្តងទៀត', 'wishes' => 'ពាក្យជូនពរ', 'noWishes' => 'មិនទាន់មានពាក្យជូនពរនៅឡើយ',
+        'more' => 'មើលបន្ថែម', 'less' => 'បង្ហាញតិចជាងនេះ',
+        'gift' => 'អំណោយ', 'giftSub' => 'ការចូលរួមរបស់អ្នកគឺជាកាដូដ៏ធំបំផុតសម្រាប់យើង ប៉ុន្តែបើអ្នកចង់ផ្តល់អំណោយ សូមស្កេនខាងក្រោម',
+        'scan' => 'ស្កេនដើម្បីផ្ញើកាដូ', 'accName' => 'ឈ្មោះគណនី', 'accNo' => 'លេខគណនី',
+        'copy' => 'ចម្លង', 'copied' => 'បានចម្លង', 'apology' => 'សូមអភ័យទោស', 'thanks' => 'អរគុណ',
+        'share' => 'ចែករំលែក', 'linkCopied' => 'បានចម្លងតំណ', 'map' => 'ផែនទី',
+        'close' => 'បិទ', 'prev' => 'មុន', 'next' => 'បន្ទាប់',
+        'wedding' => 'មង្គលការ', 'celebrate' => 'ពិធីអបអរសាទរនៃក្តីស្រឡាញ់', 'scroll' => 'អូសចុះក្រោម',
+        'coverTitle' => 'សិរីមង្គលអាពាហ៍ពិពាហ៍', 'coverInvite' => 'សូមគោរពអញ្ជើញ',
+        'coverSub' => 'សូមអញ្ជើញចូលរួមជាសាក្សីក្នុងថ្ងៃដ៏មានអត្ថន័យ', 'coverTo' => 'គោរពអញ្ជើញ',
+        'coverDear' => 'លោកអ្នកជាទីគោរព', 'coverGuest' => 'ភ្ញៀវកិត្តិយស', 'coverOpen' => 'បើកលិខិតអញ្ជើញ',
+        'coverBye' => 'ដោយក្តីគោរព និងសេចក្តីស្រឡាញ់', 'and' => 'និង',
+    ];
+
+    /* ---------- small SVG helpers ---------- */
+    $GOLD = '#e3bd5a';
+
+    // Lotus / mandala: $petals outline petals + half as many filled ones
+    $lotus = function (int $petals, int $size, string $cls, float $sw = 1.2) use ($GOLD) {
+        $o = '<svg aria-hidden="true" viewBox="-50 -50 100 100" width="' . $size . '" height="' . $size . '" class="' . $cls . '">';
+        for ($i = 0; $i < $petals; $i++) {
+            $o .= '<path d="M0 -8 C6 -20 6 -34 0 -44 C-6 -34 -6 -20 0 -8 Z" fill="none" stroke="' . $GOLD . '" stroke-width="' . $sw . '" transform="rotate(' . $i * (360 / $petals) . ')"/>';
+        }
+        for ($i = 0; $i < intdiv($petals, 2); $i++) {
+            $o .= '<path d="M0 -6 C4 -14 4 -22 0 -28 C-4 -22 -4 -14 0 -6 Z" fill="' . $GOLD . '" opacity=".6" transform="rotate(' . ($i * (720 / $petals) + 360 / $petals / 2) . ')"/>';
+        }
+        return $o . '<circle r="4" fill="' . $GOLD . '"/></svg>';
+    };
+
+    $ic = function (string $name, int $s = 16) {
+        $p = [
+            'heart' => '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+            'gift' => '<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/>',
+            'sparkles' => '<path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>',
+            'star' => '<path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L8 14.2 3 9.3l6.9-1Z"/>',
+            'pin' => '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+            'cal' => '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+            'calplus' => '<path d="M8 2v4M16 2v4M21 13V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8M3 10h18M16 19h6M19 16v6"/>',
+            'check' => '<path d="M20 6 9 17l-5-5"/>',
+            'copy' => '<rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
+            'send' => '<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
+            'share' => '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/>',
+            'mail' => '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>',
+            'x' => '<path d="M18 6 6 18M6 6l12 12"/>',
+            'left' => '<path d="m15 18-6-6 6-6"/>',
+            'right' => '<path d="m9 18 6-6-6-6"/>',
+            'down' => '<path d="M6 9l6 6 6-6"/>',
+            'music' => '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+        ][$name] ?? '';
+        return '<svg aria-hidden="true" width="' . $s . '" height="' . $s . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' . $p . '</svg>';
+    };
+
+    // Section title: Moul heading + gold lines with a small lotus
+    $title = function (string $text, string $tone = 'light') use ($lotus) {
+        return new HtmlString(
+            '<div class="st-wrap rv-title st-' . $tone . '"><h2 class="st-title font-display">' . e($text) . '</h2>' .
+            '<div class="st-orn" aria-hidden="true"><span></span>' . $lotus(12, 40, 'g-spin', 1.4) . '<span></span></div></div>'
+        );
+    };
+
+    // Corner ornament (rotated per corner)
+    $corner = function (string $pos, string $cls, int $size = 46) use ($GOLD) {
+        $rot = ['tl' => 0, 'tr' => 90, 'br' => 180, 'bl' => 270][$pos];
+        return new HtmlString(
+            '<svg aria-hidden="true" viewBox="0 0 60 60" width="' . $size . '" height="' . $size . '" class="g-corner ' . $cls . ' ' . $cls . '-' . $pos . '" style="transform:rotate(' . $rot . 'deg)">' .
+            '<path d="M3 57 V10 C3 5 5 3 10 3 H57" fill="none" stroke="' . $GOLD . '" stroke-width="1.6"/>' .
+            '<path d="M10 40 C10 26 16 20 30 20 C22 26 22 34 28 40 C20 42 14 42 10 40 Z" fill="' . $GOLD . '" opacity=".75"/>' .
+            '<path d="M12 12 C16 16 16 22 12 26 C8 22 8 16 12 12 Z" fill="none" stroke="' . $GOLD . '" stroke-width="1.2"/>' .
+            '<circle cx="8" cy="8" r="2.2" fill="' . $GOLD . '"/></svg>'
+        );
+    };
+
+    // Kbach-style curl strip
+    $kbach = function (string $id, bool $flip = false) use ($GOLD) {
+        return new HtmlString(
+            '<svg aria-hidden="true" class="kc-kanok" width="100%" height="30"' . ($flip ? ' style="transform:scaleY(-1)"' : '') . '><defs>' .
+            '<pattern id="' . $id . '" width="30" height="30" patternUnits="userSpaceOnUse">' .
+            '<path d="M15 27 C6 25 4 15 10 8 C10 13 13 15 16 13 C15 8 18 4 22 3 C21 9 25 12 24 18 C23 23 20 26 15 27 Z" fill="none" stroke="' . $GOLD . '" stroke-width="1.2"/>' .
+            '<path d="M15 22 C11 20 11 15 14 12 C14 15 16 16 18 15 C19 18 18 21 15 22 Z" fill="' . $GOLD . '" opacity=".6"/></pattern></defs>' .
+            '<rect width="100%" height="30" fill="url(#' . $id . ')"/></svg>'
+        );
+    };
+
+    // Small lotus (hero emblem / thanks bloom base)
+    $bloom = function (string $cls) use ($GOLD) {
+        $o = '<svg aria-hidden="true" viewBox="-60 -60 120 90" class="' . $cls . '" fill="none" stroke="currentColor" stroke-width="1.6">';
+        foreach ([[-62, 0.0], [-34, 0.12], [0, 0.24], [34, 0.12], [62, 0.0]] as $i => [$rot, $d]) {
+            $o .= '<path class="g-petal" style="--i:' . $i . '" d="M0 20 C-16 4 -14 -24 0 -46 C14 -24 16 4 0 20 Z" transform="rotate(' . $rot . ' 0 20)"/>';
+        }
+        return new HtmlString($o . '<path d="M-30 24 H30" stroke-linecap="round"/></svg>');
+    };
+
+    // Section opener / closer: $op = [bg-url, overlay, tone]
+    $edge = fn(string $pos, string $color) => new HtmlString('<div class="g-edge ' . $pos . '" style="--ec:' . e($color) . '" aria-hidden="true"></div>');
+    $overlay = function (float $o) {
+        $strong = min(1, $o + 0.1);
+        $soft = max(0, $o - 0.15);
+        return 'background:linear-gradient(to bottom,rgb(22 18 12/' . $strong . '),rgb(22 18 12/' . $soft . ') 45%,rgb(22 18 12/' . $strong . '))';
+    };
+    $icons = ['gift', 'heart', 'star', 'sparkles'];
+    $icsTitle = $groom['name'] . ' ' . $K['and'] . ' ' . $bride['name'];
+    $icsEvents = array_map(function ($e) {
+        return ['time' => $e['time'] ?? '', 'title' => $e['title'] ?? '', 'place' => $e['place'] ?? ''];
+    }, $events);
 @endphp
 <!DOCTYPE html>
 <html lang="km">
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $groom['name'] ?? '' }} &amp; {{ $bride['name'] ?? '' }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>{{ $groom['name'] }} &amp; {{ $bride['name'] }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Khmer:wght@400;600;700&family=Moul&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&family=Moul&family=Noto+Serif+Khmer:wght@400;600;700&family=Noto+Sans+Khmer:wght@400;600;700&display=swap"
         rel="stylesheet">
-    <style>
-        :root {
-            --wine: #7a1f2b;
-            --gold: #e6b84a;
-            --gold-d: #b8902c;
-            --cream: #fbf6ea;
-            --ink: #3b2a1a;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background: #e9e2d0;
-            font-family: 'Noto Serif Khmer', serif;
-            color: var(--ink);
-            line-height: 1.8;
-        }
-
-        .wrap {
-            max-width: 430px;
-            margin: 0 auto;
-            background: var(--cream);
-            box-shadow: 0 0 40px rgba(0, 0, 0, .15);
-        }
-
-        section {
-            padding: 56px 24px;
-            text-align: center;
-            background-size: cover;
-            background-position: center;
-            border-bottom: 1px solid rgba(184, 144, 44, .25);
-        }
-
-        h2 {
-            font-family: 'Moul', serif;
-            font-weight: 400;
-            color: var(--wine);
-            font-size: 20px;
-            margin-bottom: 18px;
-        }
-
-        .gold {
-            color: var(--gold-d);
-        }
-
-        .rule {
-            width: 70px;
-            height: 2px;
-            background: var(--gold);
-            margin: 16px auto;
-        }
-
-        .cover {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            color: #fff;
-            background: #3b2a1a center/cover;
-            position: relative;
-        }
-
-        .cover::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(rgba(60, 15, 20, .35), rgba(60, 15, 20, .7));
-        }
-
-        .cover>* {
-            position: relative;
-        }
-
-        .cover .names {
-            font-family: 'Moul', serif;
-            font-size: 30px;
-            line-height: 1.6;
-        }
-
-        .cover .amp {
-            color: var(--gold);
-            display: block;
-            font-size: 22px;
-        }
-
-        .couple {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        .person img,
-        .person .ph {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 0 auto 10px;
-            border: 3px solid var(--gold);
-            background: #eadfc0;
-            display: block;
-        }
-
-        .person b {
-            display: block;
-            color: var(--wine);
-        }
-
-        .small {
-            font-size: 13px;
-            opacity: .8;
-        }
-
-        .count {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        .count div {
-            width: 68px;
-            padding: 10px 0;
-            border: 1px solid var(--gold);
-            border-radius: 10px;
-            background: rgba(255, 255, 255, .6);
-        }
-
-        .count b {
-            display: block;
-            font-size: 22px;
-            color: var(--wine);
-        }
-
-        .tl {
-            text-align: left;
-            border-left: 2px solid var(--gold);
-            margin-left: 12px;
-            padding-left: 20px;
-        }
-
-        .tl .it {
-            position: relative;
-            margin-bottom: 22px;
-        }
-
-        .tl .it::before {
-            content: '';
-            position: absolute;
-            left: -27px;
-            top: 8px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--gold);
-        }
-
-        .tl .yr {
-            color: var(--gold-d);
-            font-weight: 700;
-        }
-
-        .ev {
-            background: rgba(255, 255, 255, .7);
-            border: 1px solid rgba(184, 144, 44, .4);
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 14px;
-        }
-
-        .ev .t {
-            color: var(--wine);
-            font-weight: 700;
-            font-size: 18px;
-        }
-
-        .btn {
-            display: inline-block;
-            margin-top: 8px;
-            padding: 8px 18px;
-            border-radius: 999px;
-            background: var(--wine);
-            color: #fff;
-            text-decoration: none;
-            font-size: 13px;
-            border: 0;
-            font-family: inherit;
-            cursor: pointer;
-        }
-
-        .btn[disabled] {
-            opacity: .5;
-            cursor: not-allowed;
-        }
-
-        .gal {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
-
-        .gal div {
-            aspect-ratio: 1;
-            border-radius: 10px;
-            background: #eadfc0 center/cover;
-        }
-
-        .sw {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 14px;
-        }
-
-        .sw i {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            border: 2px solid #fff;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, .25);
-        }
-
-        .gift {
-            background: #fff;
-            border: 1px dashed var(--gold-d);
-            border-radius: 14px;
-            padding: 18px;
-        }
-
-        .gift img {
-            width: 150px;
-            height: 150px;
-            object-fit: contain;
-            margin: 10px auto 0;
-            display: block;
-            background: #f3ecd8;
-        }
-
-        form input,
-        form textarea,
-        form select {
-            width: 100%;
-            padding: 10px 12px;
-            margin-bottom: 10px;
-            border: 1px solid #d9c98f;
-            border-radius: 10px;
-            font-family: inherit;
-            background: #fff;
-        }
-
-        .music {
-            position: fixed;
-            right: 14px;
-            bottom: 14px;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 0;
-            background: var(--wine);
-            color: var(--gold);
-            font-size: 18px;
-            cursor: pointer;
-            z-index: 20;
-        }
-    </style>
+    @include('invitation-templates.gold.styles')
+    <noscript>
+        <style>
+            .gc {
+                display: none !important;
+            }
+        </style>
+    </noscript>
+    <script>
+        document.documentElement.classList.add('js');
+    </script>
 </head>
 
 <body>
-    <div class="wrap">
+    @include('invitation-templates.gold.cover')
 
-        {{-- Cover --}}
-        <section class="cover"
-            @if (!empty($d['cover'])) style="background-image:url('{{ e($d['cover']) }}')" @endif>
-            <p class="small">{{ $d['intro'] ?? '' }}</p>
-            <div class="rule"></div>
-            <h1 class="names">{{ $groom['name'] ?? '' }}<span class="amp">&amp;</span>{{ $bride['name'] ?? '' }}
-            </h1>
-            <div class="rule"></div>
-            <p>{{ $d['dateText'] ?? '' }}</p>
-        </section>
+    <main class="gw" id="gw" data-template="gold">
+        @include('invitation-templates.gold.card')
+        @include('invitation-templates.gold.couple')
+        @include('invitation-templates.gold.countdown')
+        @include('invitation-templates.gold.story')
+        @include('invitation-templates.gold.schedule')
+        @include('invitation-templates.gold.gallery')
+        @include('invitation-templates.gold.dress-code')
+        @include('invitation-templates.gold.rsvp')
+        @include('invitation-templates.gold.gift')
+        @include('invitation-templates.gold.apology')
+        @include('invitation-templates.gold.thanks')
+    </main>
 
-        {{-- Quote + couple --}}
-        <section style="{{ $bg('intro') }}">
-            @if (!empty($d['quote']))
-                <p class="gold" style="font-size:18px;margin-bottom:24px">“{{ $d['quote'] }}”</p>
-            @endif
-            <div class="couple">
-                @foreach ([$groom, $bride] as $p)
-                    <div class="person">
-                        @if (!empty($p['photo']))
-                            <img src="{{ $p['photo'] }}" alt="{{ $p['name'] ?? '' }}"
-                            onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'ph'}))">@else
-                            <div class="ph"></div>
-                        @endif
-                        <b>{{ $p['name'] ?? '' }}</b>
-                        <span class="small">{{ $p['parents'] ?? '' }}</span>
-                    </div>
-                @endforeach
-            </div>
-        </section>
-
-        {{-- Countdown --}}
-        @if (!empty($d['date']))
-            <section style="{{ $bg('count') }}">
-                <h2>រាប់ថយក្រោយ</h2>
-                <div class="count" id="cd" data-date="{{ $d['date'] }}">
-                    <div><b data-u="d">0</b><span class="small">ថ្ងៃ</span></div>
-                    <div><b data-u="h">0</b><span class="small">ម៉ោង</span></div>
-                    <div><b data-u="m">0</b><span class="small">នាទី</span></div>
-                    <div><b data-u="s">0</b><span class="small">វិនាទី</span></div>
-                </div>
-            </section>
-        @endif
-
-        {{-- Story --}}
-        @if (!empty($d['story']))
-            <section style="{{ $bg('story') }}">
-                <h2>រឿងស្នេហារបស់យើង</h2>
-                <div class="tl">
-                    @foreach ($d['story'] as $s)
-                        <div class="it">
-                            <div class="yr">{{ $s['year'] ?? '' }}</div>
-                            <b>{{ $s['title'] ?? '' }}</b>
-                            <p class="small">{{ $s['text'] ?? '' }}</p>
-                        </div>
-                    @endforeach
-                </div>
-            </section>
-        @endif
-
-        {{-- Schedule --}}
-        @if (!empty($d['events']))
-            <section style="{{ $bg('schedule') }}">
-                <h2>កម្មវិធី</h2>
-                @foreach ($d['events'] as $e)
-                    <div class="ev">
-                        <div class="gold">{{ $e['time'] ?? '' }}</div>
-                        <div class="t">{{ $e['title'] ?? '' }}</div>
-                        <div class="small">{{ $e['place'] ?? '' }}</div>
-                        @if ($link = $safeLink($e['mapUrl'] ?? null))
-                            <a class="btn" href="{{ $link }}" target="_blank" rel="noopener">ផែនទី</a>
-                        @endif
-                    </div>
-                @endforeach
-            </section>
-        @endif
-
-        {{-- Gallery --}}
-        @if (!empty($d['gallery']))
-            <section style="{{ $bg('gallery') }}">
-                <h2>កម្រងរូបភាព</h2>
-                <div class="gal">
-                    @foreach ($d['gallery'] as $g)
-                        <div style="background-image:url('{{ e($g) }}')"></div>
-                    @endforeach
-                </div>
-            </section>
-        @endif
-
-        {{-- Dress code --}}
-        @if (!empty($d['dressCode']))
-            <section>
-                <h2>{{ $d['dressCode']['title'] ?? 'ឈុតសម្លៀកបំពាក់' }}</h2>
-                <p class="small">{{ $d['dressCode']['note'] ?? '' }}</p>
-                <div class="sw">
-                    @foreach ($d['dressCode']['colors'] ?? [] as $c)
-                        @if (preg_match('/^#[0-9a-fA-F]{3,8}$/', $c))
-                            <i style="background:{{ $c }}"></i>
-                        @endif
-                    @endforeach
-                </div>
-            </section>
-        @endif
-
-        {{-- Gift --}}
-        @if (!empty($d['gift']))
-            <section>
-                <h2>អំណោយ</h2>
-                <div class="gift">
-                    <b>{{ $d['gift']['bank'] ?? '' }}</b>
-                    <p>{{ $d['gift']['accountName'] ?? '' }}</p>
-                    <p class="gold" style="font-size:20px;font-weight:700">{{ $d['gift']['accountNumber'] ?? '' }}
-                    </p>
-                    @if (!empty($d['gift']['qr']))
-                        <img src="{{ $d['gift']['qr'] }}" alt="QR" onerror="this.remove()">
-                    @endif
-                </div>
-            </section>
-        @endif
-
-        {{-- RSVP --}}
-        <section style="{{ $bg('rsvp') }}">
-            <h2>ការឆ្លើយតប</h2>
-            @if (!empty($d['apology']))
-                <p class="small" style="margin-bottom:16px">{{ $d['apology'] }}</p>
-            @endif
-            <form method="POST" action="{{ $rsvpUrl ?? '#' }}"
-                @if (empty($rsvpUrl)) onsubmit="return false" @endif>
-                @csrf
-                <input name="guest_name" placeholder="ឈ្មោះរបស់អ្នក" required>
-                <select name="attending">
-                    <option value="1">ខ្ញុំនឹងចូលរួម</option>
-                    <option value="0">ខ្ញុំមិនអាចចូលរួមបាន</option>
-                </select>
-                <input name="guests_count" type="number" min="1" value="1">
-                <textarea name="message" rows="3" placeholder="សារជូនពរ"></textarea>
-                <button class="btn" @if (empty($rsvpUrl)) disabled @endif>ផ្ញើ</button>
-            </form>
-        </section>
-
-        {{-- Thanks --}}
-        <section style="{{ $bg('thanks') }}">
-            <h2>អរគុណ</h2>
-            <p>{{ $d['thanks'] ?? '' }}</p>
-            <div class="rule"></div>
-            <p class="gold">{{ $groom['name'] ?? '' }} &amp; {{ $bride['name'] ?? '' }}</p>
-        </section>
-    </div>
-
-    @if (!empty($d['music']))
-        <audio id="bgm" src="{{ $d['music'] }}" loop preload="none"></audio>
-        <button class="music" id="mbtn" aria-label="Music">♪</button>
+    @if ($music)
+        <audio id="bgm" src="{{ $music }}" loop preload="none"></audio>
+        <button class="g-music hide" id="mbtn" type="button" aria-label="Music">{!! $ic('music', 20) !!}</button>
     @endif
 
-    <script>
-        // Countdown
-        (function() {
-            var el = document.getElementById('cd');
-            if (!el) return;
-            var t = new Date(el.dataset.date).getTime();
-
-            function tick() {
-                var s = Math.max(0, Math.floor((t - Date.now()) / 1000));
-                var v = {
-                    d: Math.floor(s / 86400),
-                    h: Math.floor(s % 86400 / 3600),
-                    m: Math.floor(s % 3600 / 60),
-                    s: s % 60
-                };
-                for (var k in v) el.querySelector('[data-u=' + k + ']').textContent = v[k];
-            }
-            tick();
-            setInterval(tick, 1000);
-        })();
-        // Music (browsers need a click to start audio)
-        (function() {
-            var a = document.getElementById('bgm'),
-                b = document.getElementById('mbtn');
-            if (!a) return;
-            b.onclick = function() {
-                a.paused ? a.play().catch(function() {}) : a.pause();
-                b.style.opacity = a.paused ? .6 : 1;
-            };
-        })();
-    </script>
+    @include('invitation-templates.gold.scripts')
 </body>
 
 </html>

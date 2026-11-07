@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Templates;
 
 use App\Models\Template;
+use App\Support\TemplateRegistry;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -120,7 +121,9 @@ class TemplateForm extends Component
             $out[] = [
                 'slot'      => $slot,
                 'label'     => $label,
-                'url'       => Arr::get($d, $this->slotPath($slot)),
+                // Saved value, else the default image from public/assets/images/default
+                'url'       => Arr::get($d, $this->slotPath($slot))
+                    ?: TemplateRegistry::defaultFor($this->slotPath($slot)),
                 'removable' => false,
             ];
         }

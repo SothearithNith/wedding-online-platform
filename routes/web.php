@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
     // Admin template preview (works for inactive templates too)
     Route::get('/admin/templates/{template}/preview', function (Template $template) {
         return view(TemplateRegistry::viewFor($template->key), [
-            'data'    => $template->sample_data ?? [],
+            'data'    => TemplateRegistry::withDefaults($template->sample_data ?? [], true),
             'rsvpUrl' => null,
         ]);
     })->name('templates.preview');
