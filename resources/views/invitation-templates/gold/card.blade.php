@@ -1,4 +1,4 @@
-{{-- ============================ HERO CARD ============================ --}}
+ 
 <section id="hero" class="g-hero" data-bg="{{ $heroBg }}" data-eager>
     <div class="kc-fx" aria-hidden="true">
         <div class="royal-glow"></div>
