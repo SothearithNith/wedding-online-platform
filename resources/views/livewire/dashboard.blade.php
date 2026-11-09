@@ -127,7 +127,7 @@
             </div>
         @endforeach
     </section>
- 
+
     <section id="templates" class="scroll-mt-28" x-data="{ filter: 'all' }">
         <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -164,72 +164,122 @@
             @endif
         </div>
 
-        @if ($templates->isEmpty())
-            <div class="mt-10 rounded-3xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center">
-                <p class="text-lg font-semibold text-slate-700">{{ trans_json('No templates yet') }}</p>
-                <p class="mt-1 text-sm text-slate-500">{{ trans_json('Please check back soon.') }}</p>
-            </div>
-        @else
-            <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                @foreach ($templates as $template)
-                    <article
-                        x-show="filter === 'all' || filter === '{{ \Illuminate\Support\Str::slug($template['category'] ?? '') }}'"
-                        x-transition.opacity
-                        class="group overflow-hidden rounded-3xl border border-slate-200 bg-white transition duration-300 hover:-translate-y-1.5 hover:border-rose-200 hover:shadow-xl hover:shadow-rose-500/10">
 
-                        {{-- Preview --}}
-                        <div class="relative aspect-[3/4] overflow-hidden">
-                            @if (!empty($template['image']))
-                                <img src="{{ asset($template['image']) }}" alt="{{ $template['name'] }}"
-                                    loading="lazy"
-                                    class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
-                            @else
-                                <div
-                                    class="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br {{ $gradients[$loop->index % count($gradients)] }} p-6 text-center text-white transition duration-500 group-hover:scale-105">
-                                    <svg class="h-10 w-10 opacity-90" viewBox="0 0 24 24" fill="currentColor"
-                                        aria-hidden="true">
-                                        <path
-                                            d="M12 21s-7.5-4.6-9.6-9.2C1 8.6 2.8 5 6.3 5c2 0 3.5 1.1 4.3 2.6h2.8C14.2 6.1 15.7 5 17.7 5 21.2 5 23 8.6 21.6 11.8 19.5 16.4 12 21 12 21z" />
-                                    </svg>
-                                    <p class="mt-3 text-xs font-semibold uppercase tracking-[0.3em] opacity-90">
-                                        {{ trans_json('Wedding') }}
-                                    </p>
-                                    <p class="mt-2 text-2xl font-bold">{{ $template['name'] }}</p>
-                                </div>
-                            @endif
+        <div wire:loading.remove wire:target="search,status,visibility,gotoPage,nextPage,previousPage"
+            class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 mt-4">
+            @forelse ($templates as $template)
+                <div wire:key="template-{{ $template->id }}"
+                    class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-xl hover:shadow-indigo-500/10">
+                    <div class="relative aspect-[4/5] overflow-hidden bg-slate-100">
 
-                            @if (!empty($template['category']))
-                                <span
-                                    class="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-rose-600 backdrop-blur">
-                                    {{ trans_json($template['category']) }}
-                                </span>
-                            @endif
+                        @if ($template->preview_src)
+                            <img src="{{ asset('storage/templates/' . basename($template->preview_src)) }}"loading="lazy"
+                                class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden')">
 
-                            {{-- Hover overlay --}}
                             <div
-                                class="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-slate-900/70 via-slate-900/10 to-transparent p-4 opacity-0 transition duration-300 group-hover:opacity-100">
-                                <a href="{{ $template['url'] ?? '#' }}"
-                                    class="w-full rounded-full bg-white px-4 py-2.5 text-center text-sm font-semibold text-slate-900 transition hover:bg-rose-50">
-                                    {{ trans_json('Preview') }}
-                                </a>
+                                class="hidden absolute inset-0 flex flex-col items-center justify-center gap-3 text-slate-300">
+                                <x-heroicon-o-photo class="h-12 w-12" />
+                                <span class="text-sm font-medium">{{ __('Preview unavailable') }}</span>
                             </div>
+                        @else
+                            <div class="flex h-full flex-col items-center justify-center gap-3 text-slate-300">
+                                <x-heroicon-o-photo class="h-12 w-12" />
+                                <span class="text-sm font-medium">{{ __('No preview available') }}</span>
+                            </div>
+                        @endif
+
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-slate-950/10 opacity-60 transition-opacity group-hover:opacity-100">
+                        </div>
+                        <div class="absolute inset-x-3 top-3 flex items-center justify-between">
+                            <span
+                                class="inline-flex items-center gap-1.5 rounded-lg border border-white/20 bg-white/95 px-2.5 py-1.5 text-xs font-semibold shadow-sm backdrop-blur">
+                                <span
+                                    class="h-1.5 w-1.5 rounded-full {{ $template->is_active ? 'bg-emerald-500' : 'bg-slate-400' }}"></span>
+                                <span class="{{ $template->is_active ? 'text-emerald-700' : 'text-slate-500' }}">
+                                    {{ $template->is_active ? __('Active') : __('Inactive') }}
+                                </span>
+                            </span>
+
+                            <span
+                                class="inline-flex items-center gap-1 rounded-lg bg-slate-950/60 px-2.5 py-1.5 text-xs font-medium text-white backdrop-blur-md">
+                                @if ($template->is_public)
+                                    <x-heroicon-o-globe-alt class="h-3.5 w-3.5" />
+                                    {{ __('Public') }}
+                                @else
+                                    <x-heroicon-o-lock-closed class="h-3.5 w-3.5" />
+                                    {{ __('Private') }}
+                                @endif
+                            </span>
                         </div>
 
-                        {{-- Info --}}
-                        <div class="flex items-center justify-between gap-3 p-5">
-                            <h3 class="truncate text-base font-semibold text-slate-900">{{ $template['name'] }}</h3>
-                            <a href="{{ $template['url'] ?? '#' }}"
-                                class="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-rose-600 transition hover:gap-2">
-                                {{ trans_json('Use') }}
-                                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                    stroke-width="2" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
-                                </svg>
+                        <div
+                            class="absolute inset-x-0 bottom-0 flex justify-center p-5 opacity-0 translate-y-3 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                            <a href="{{ route('templates.preview', $template) }}" target="_blank"
+                                class="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-lg transition hover:bg-indigo-50 hover:text-indigo-700">
+                                <x-heroicon-o-eye class="h-4 w-4" />
+                                {{ __('Preview template') }}
                             </a>
                         </div>
-                    </article>
-                @endforeach
-            </div>
-        @endif
+                    </div>
+
+                    <div class="flex flex-1 flex-col p-4">
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="min-w-0 flex-1">
+                                <h3 class="truncate text-base font-bold tracking-tight text-slate-900"
+                                    title="{{ $template->name }}">
+                                    {{ $template->name }}
+                                </h3>
+                                <p class="mt-1 truncate font-mono text-xs text-slate-400">
+                                    {{ $template->key }}
+                                </p>
+                            </div>
+                            <span
+                                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 transition group-hover:bg-indigo-600 group-hover:text-white">
+                                <x-heroicon-o-swatch class="h-5 w-5" />
+                            </span>
+                        </div>
+
+                        @if ($template->description)
+                            <p class="mt-3 line-clamp-2 min-h-10 text-sm leading-5 text-slate-500">
+                                {{ $template->description }}
+                            </p>
+                        @else
+                            <div class="min-h-10"></div>
+                        @endif
+                        <div class="mt-3 flex items-center gap-2 text-xs text-slate-500">
+                            <x-heroicon-o-envelope class="h-4 w-4 text-indigo-400" />
+                            <span>
+                                {{ trans_choice('{0} No invitations|{1} :count invitation|[2,*] :count invitations', $template->invitations_count, ['count' => $template->invitations_count]) }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            @empty
+                <div
+                    class="col-span-full flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-20 text-center">
+
+                    <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-500">
+                        <x-heroicon-o-swatch class="h-8 w-8" />
+                    </div>
+
+                    <h3 class="mt-5 text-base font-bold text-slate-800">
+                        {{ __('No templates found') }}
+                    </h3>
+
+                    <p class="mt-1 max-w-sm text-sm text-slate-500">
+                        {{ __('Try another search, or create your first template.') }}
+                    </p>
+
+                    <a href="{{ route('templates.create') }}" wire:navigate
+                        class="mt-5 inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700">
+                        <x-heroicon-o-plus class="h-5 w-5" />
+                        {{ __('Create template') }}
+                    </a>
+                </div>
+            @endforelse
+        </div>
     </section>
 </div>

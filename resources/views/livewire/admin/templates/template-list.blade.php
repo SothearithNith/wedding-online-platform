@@ -90,12 +90,10 @@
         @forelse ($templates as $template)
             <div wire:key="template-{{ $template->id }}"
                 class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-xl hover:shadow-indigo-500/10">
-
-                {{-- Preview --}}
                 <div class="relative aspect-[4/5] overflow-hidden bg-slate-100">
 
                     @if ($template->preview_src)
-                        <img src="{{ $template->preview_src }}" alt="{{ $template->name }}" loading="lazy"
+                        <img src="{{ asset('storage/templates/' . basename($template->preview_src)) }}" loading="lazy"
                             class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                             onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden')">
 

@@ -1,8 +1,12 @@
 <?php
 
 if (! function_exists('trans_json')) {
-    function trans_json(string $key): string
+    function trans_json(?string $key): string
     {
+        if (empty($key)) {
+            return '';
+        }
+
         static $translations = null;
 
         if ($translations === null) {
@@ -22,4 +26,3 @@ if (! function_exists('trans_json')) {
         return $key;
     }
 }
- 
