@@ -13,7 +13,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@100..900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Moul&display=swap" rel="stylesheet">
 
     @if (app()->getLocale() === 'km')
         {{-- Khmer Font --}}

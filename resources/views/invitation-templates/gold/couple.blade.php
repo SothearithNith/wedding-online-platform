@@ -1,4 +1,3 @@
-{{-- ============================ COUPLE ============================ --}}
 <section class="g-sec g-photo" id="couple" style="padding:96px 16px 80px">
     <div class="g-bgimg" data-bg="{{ $bg('intro') }}"></div>
     <div class="g-ov" style="{{ $overlay(0.55) }}"></div>

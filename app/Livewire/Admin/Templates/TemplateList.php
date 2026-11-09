@@ -85,10 +85,10 @@ class TemplateList extends Component
             ->orderBy('sort')
             ->latest('id')
             ->paginate(12);
-
+        // dd($templates);
         return view('livewire.admin.templates.template-list', [
             'templates' => $templates,
-            'total'=> Template::count(),
+            'total' => Template::count(),
             'activeCount' => Template::where('is_active', true)->count(),
             'publicCount' => Template::where('is_public', true)->count(),
         ]);
