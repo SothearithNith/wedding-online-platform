@@ -30,18 +30,12 @@ Route::get('/i/{invitation}', function (Invitation $invitation) {
 Route::middleware('guest')->group(function () {
     Route::get('/login', Login::class)->name('login');
 });
-
+Route::get('/lang/{locale}', function (string $locale) {
+    abort_unless(in_array($locale, ['en', 'km']), 404);
+    session(['locale' => $locale]);
+    return redirect()->to(url()->previous(route('admin')));
+})->name('lang.switch');
 Route::middleware('auth')->group(function () {
-
-    // Language switcher
-    Route::get('/lang/{locale}', function (string $locale) {
-        abort_unless(in_array($locale, ['en', 'km']), 404);
-
-        session(['locale' => $locale]);
-
-        return redirect()->to(url()->previous(route('admin')));
-    })->name('lang.switch');
-
     // Admin dashboard
     Route::get('/admin', AdminDashboard::class)->name('admin');
 
