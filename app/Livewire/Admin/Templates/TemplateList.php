@@ -87,8 +87,8 @@ class TemplateList extends Component
             ->paginate(12);
 
         return view('livewire.admin.templates.template-list', [
-            'templates'   => $templates,
-            'total'       => Template::count(),
+            'templates' => $templates,
+            'total'=> Template::count(),
             'activeCount' => Template::where('is_active', true)->count(),
             'publicCount' => Template::where('is_public', true)->count(),
         ]);
