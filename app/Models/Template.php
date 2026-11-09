@@ -28,22 +28,47 @@ class Template extends Model
         'is_public'   => 'boolean',
     ];
 
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
+
     public function invitations(): HasMany
     {
         return $this->hasMany(Invitation::class);
     }
 
-    // External URLs pass through; uploaded files come from the "public" disk
+    /*
+    |--------------------------------------------------------------------------
+    | Accessors
+    |--------------------------------------------------------------------------
+    */
+
     protected function previewSrc(): Attribute
     {
-        return Attribute::get(function () {
-            if (! $this->preview_url) {
+        return Attribute::get(function (): ?string {
+            $path = trim((string) $this->preview_url);
+
+            if ($path === '') {
                 return null;
             }
 
-            return str_starts_with($this->preview_url, 'http')
-                ? $this->preview_url
-                : Storage::disk('public')->url($this->preview_url);
+            // External image URL
+            if (filter_var($path, FILTER_VALIDATE_URL)) {
+                return $path;
+            }
+
+            // Normalize stored paths
+            $path = ltrim($path, '/');
+
+            // Remove storage/ prefix if already included
+            if (str_starts_with($path, 'storage/')) {
+                $path = substr($path, strlen('storage/'));
+            }
+
+            // Generate public storage URL
+            return Storage::disk('public')->url($path);
         });
     }
 }
