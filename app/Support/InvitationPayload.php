@@ -6,49 +6,74 @@ use App\Models\Invitation;
 
 class InvitationPayload
 {
-    public static function from(Invitation $inv): array
+    public static function from(Invitation $invitation): array
     {
-        $inv->loadMissing(['template', 'people', 'events', 'stories', 'gallery']);
+        $invitation->loadMissing([
+            'template',
+            'people',
+            'events',
+            'stories',
+            'gallery',
+        ]);
 
-        $person = fn(string $role) => optional($inv->people->firstWhere('role', $role));
+        $person = fn (string $role) => $invitation->people
+            ->firstWhere('role', $role);
+
+        $groom = $person('groom');
+        $bride = $person('bride');
 
         return [
-            'templateId' => $inv->template?->key,
-            'label'      => $inv->label,
+            'templateId' => $invitation->template?->key ?? 'gold',
+            'label' => $invitation->label,
+
             'data' => [
                 'groom' => [
-                    'name'    => $person('groom')->name,
-                    'parents' => $person('groom')->parents,
-                    'photo'   => $person('groom')->photo,
+                    'name' => $groom?->name,
+                    'parents' => $groom?->parents,
+                    'photo' => $groom?->photo,
                 ],
                 'bride' => [
-                    'name'    => $person('bride')->name,
-                    'parents' => $person('bride')->parents,
-                    'photo'   => $person('bride')->photo,
+                    'name' => $bride?->name,
+                    'parents' => $bride?->parents,
+                    'photo' => $bride?->photo,
                 ],
-                'date'      => $inv->event_date?->toIso8601String(),
-                'dateText'  => $inv->date_text,
-                'intro'     => $inv->intro,
-                'quote'     => $inv->quote,
-                'cover'     => $inv->cover,
-                'events'    => $inv->events->map(fn($e) => [
-                    'time'   => $e->time,
-                    'title'  => $e->title,
-                    'place'  => $e->place,
-                    'mapUrl' => $e->map_url,
-                ])->all(),
-                'gallery'   => $inv->gallery->pluck('url')->all(),
-                'story'     => $inv->stories->map(fn($s) => [
-                    'year'  => $s->year,
-                    'title' => $s->title,
-                    'text'  => $s->text,
-                ])->all(),
-                'dressCode'   => $inv->dress_code ?? [],
-                'gift'        => $inv->gift ?? [],
-                'apology'     => $inv->apology,
-                'thanks'      => $inv->thanks,
-                'music'       => $inv->music,
-                'backgrounds' => $inv->backgrounds ?? [],
+
+                'date' => $invitation->event_date?->toIso8601String(),
+                'dateText' => $invitation->date_text,
+                'intro' => $invitation->intro,
+                'quote' => $invitation->quote,
+                'cover' => $invitation->cover,
+
+                'events' => $invitation->events
+                    ->map(fn ($event) => [
+                        'time' => $event->time,
+                        'title' => $event->title,
+                        'place' => $event->place,
+                        'mapUrl' => $event->map_url,
+                    ])
+                    ->values()
+                    ->all(),
+
+                'gallery' => $invitation->gallery
+                    ->pluck('url')
+                    ->values()
+                    ->all(),
+
+                'story' => $invitation->stories
+                    ->map(fn ($story) => [
+                        'year' => $story->year,
+                        'title' => $story->title,
+                        'text' => $story->text,
+                    ])
+                    ->values()
+                    ->all(),
+
+                'dressCode' => $invitation->dress_code ?? [],
+                'gift' => $invitation->gift ?? [],
+                'apology' => $invitation->apology,
+                'thanks' => $invitation->thanks,
+                'music' => $invitation->music,
+                'backgrounds' => $invitation->backgrounds ?? [],
             ],
         ];
     }
