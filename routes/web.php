@@ -16,14 +16,12 @@ Route::get('/', Dashboard::class)->name('dashboard');
 
 // Public invitation page
 Route::get('/i/{invitation}', function (Invitation $invitation) {
-    abort_unless($invitation->isPublished(), 404);
-
+    abort_unless($invitation->isPublished(), 404); 
     $template = $invitation->template;
     abort_unless($template && $template->is_active, 404);
-
     return view(TemplateRegistry::viewFor($template->key), [
-        'data'    => InvitationPayload::from($invitation)['data'],
-        'rsvpUrl' => null, // set to your RSVP POST route when you build it
+        'data'  => InvitationPayload::from($invitation)['data'],
+        'rsvpUrl' => null,
     ]);
 })->name('invitation.show');
 
