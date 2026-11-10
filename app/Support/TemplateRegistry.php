@@ -8,6 +8,9 @@ class TemplateRegistry
 {
     public const DEFAULT_DIR = 'assets/images/default';
 
+    /** Default wedding song, relative to /public. */
+    public const DEFAULT_MUSIC = 'assets/music/wedding.mp3';
+
     public const DEFAULT_IMAGES = [
         'cover' => 'cover.jpg',
         'groom.photo' => 'groom.jpg',
@@ -61,8 +64,20 @@ class TemplateRegistry
         return asset(self::DEFAULT_DIR . '/' . ltrim($file, '/'));
     }
 
+    /** URL of the default song, or null when public/assets/music/wedding.mp3 does not exist (no 404 noise). */
+    public static function defaultMusicUrl(): ?string
+    {
+        return is_file(public_path(self::DEFAULT_MUSIC))
+            ? asset(self::DEFAULT_MUSIC)
+            : null;
+    }
+
     public static function defaultFor(string $path): ?string
     {
+        if ($path === 'music') {
+            return self::defaultMusicUrl();
+        }
+
         $file = self::DEFAULT_IMAGES[$path] ?? null;
 
         return $file ? self::defaultUrl($file) : null;
@@ -84,6 +99,11 @@ class TemplateRegistry
             if (blank(data_get($data, $path))) {
                 data_set($data, $path, self::defaultUrl($file));
             }
+        }
+
+        // No song chosen -> use the default one (only if the file really exists)
+        if (blank($data['music'] ?? null) && ($music = self::defaultMusicUrl())) {
+            $data['music'] = $music;
         }
 
         if ($gallery && empty($data['gallery'])) {

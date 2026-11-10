@@ -6,13 +6,76 @@
     $viewData = GoldInvitationPresenter::prepare(
         is_array($data ?? null) ? $data : [],
         $templateKey,
-        $eventType ?? 'wedding'
+        $eventType ?? 'wedding',
     );
 
     extract($viewData, EXTR_SKIP);
+
+    // ---- music: take the first NON-EMPTY value from the field (path / origin_url / link) ----
+    $defaultMusic = is_file(public_path('assets/music/wedding.mp3')) ? asset('assets/music/wedding.mp3') : '';
+
+    $pickMusic = function ($v) use (&$pickMusic) {
+        if (is_array($v)) {
+            foreach (['path', 'origin_url', 'url', 'src', 'file'] as $k) {
+                $r = $pickMusic($v[$k] ?? null);
+                if ($r !== '') {
+                    return $r;
+                }
+            }
+            return '';
+        }
+        return is_string($v) ? trim($v) : '';
+    };
+
+    $musicRaw = '';
+    foreach (
+        [
+            $music ?? null,
+            $data['music'] ?? null,
+            $w['music'] ?? null,
+            $data['music_path'] ?? null,
+            $data['music_origin_url'] ?? null,
+            $data['music_url'] ?? null,
+        ]
+        as $candidate
+    ) {
+        $musicRaw = $pickMusic($candidate);
+        if ($musicRaw !== '') {
+            break;
+        }
+    }
+
+    $musicRaw = str_replace('\\', '/', $musicRaw);
+    $musicYoutubeId = null;
+    $musicSrc = '';
+
+    if ($musicRaw !== '') {
+        if (
+            preg_match(
+                '~(?:youtu\.be/|youtube(?:-nocookie)?\.com/(?:watch\?(?:[^#]*&)?v=|embed/|shorts/))([A-Za-z0-9_-]{11})~i',
+                $musicRaw,
+                $m,
+            )
+        ) {
+            $musicYoutubeId = $m[1];
+        } elseif (preg_match('#^(https?://|//)#i', $musicRaw)) {
+            $musicSrc = $musicRaw;
+        } elseif (preg_match('#^/?assets/#', $musicRaw)) {
+            $musicSrc = asset(ltrim($musicRaw, '/'));
+        } else {
+            $rel = ltrim(preg_replace('#^/?(public/|storage/)#', '', $musicRaw), '/');
+            $musicSrc = asset('storage/' . $rel);
+        }
+    }
+
+    // only when the field is truly empty -> default song
+    if ($musicSrc === '' && !$musicYoutubeId) {
+        $musicSrc = $defaultMusic;
+    }
 @endphp
 <!DOCTYPE html>
 <html lang="km">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -32,15 +95,17 @@
 
     <noscript>
         <style>
-            .gc { display: none !important; }
+            .gc {
+                display: none !important;
+            }
         </style>
     </noscript>
     <script>
         document.documentElement.classList.add('js');
     </script>
 </head>
-<body>
-    @include('invitation-templates.gold.cover')
+
+<body> @include('invitation-templates.gold.cover')
 
     <main class="gw" id="gw" data-template="{{ $templateKey }}">
         @include('invitation-templates.gold.card')
@@ -56,9 +121,20 @@
         @include('invitation-templates.gold.thanks')
     </main>
 
-    @if ($music)
-        <audio id="bgm" src="{{ $music }}" loop preload="none"></audio>
-        <button class="g-music hide" id="mbtn" type="button" aria-label="Music">
+    @if ($musicSrc || $musicYoutubeId)
+        @if ($musicYoutubeId)
+            <div aria-hidden="true"
+                style="position:fixed;left:0;bottom:0;width:200px;height:200px;opacity:.01;pointer-events:none;z-index:-1;overflow:hidden">
+                <iframe id="yt-player" width="200" height="200" title="Music" frameborder="0"
+                    allow="autoplay; encrypted-media"
+                    src="https://www.youtube-nocookie.com/embed/{{ $musicYoutubeId }}?enablejsapi=1&playsinline=1&controls=0&loop=1&playlist={{ $musicYoutubeId }}&rel=0&origin={{ urlencode(request()->getSchemeAndHttpHost()) }}"></iframe>
+            </div>
+        @else
+            <audio id="bgm" src="{{ $musicSrc }}" loop preload="auto"></audio>
+        @endif
+
+        <button class="g-music hide" id="mbtn" type="button" aria-label="Music" data-yt="{{ $musicYoutubeId }}"
+            data-fallback="{{ $defaultMusic }}">
             {!! $ic('music', 20) !!}
         </button>
     @endif
@@ -66,4 +142,5 @@
     @include('invitation-templates.gold.scripts')
     @include('invitation-templates.gold.motion')
 </body>
+
 </html>
