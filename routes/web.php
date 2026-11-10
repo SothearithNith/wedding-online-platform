@@ -2,6 +2,7 @@
 <?php
 
 use App\Http\Controllers\PublicWeddingController;
+use App\Http\Controllers\RsvpController;
 use App\Livewire\Admin\AdminDashboard;
 use App\Livewire\Admin\Templates\TemplateForm;
 use App\Livewire\Admin\Templates\TemplateList;
@@ -160,16 +161,7 @@ Route::middleware(['auth'])
         })->name('logout');
     });
 
-
-/*
-|--------------------------------------------------------------------------
-| Public Wedding Slug Route
-|--------------------------------------------------------------------------
-|
-| IMPORTANT:
-| This must remain below the application routes.
-| Reserved application URLs cannot be used as wedding slugs.
-|
-*/
-
 Route::get('/{slug}', [PublicWeddingController::class, 'show'])->name('wedding.show');
+Route::post('/rsvp/{invitation}', [RsvpController::class, 'store'])
+    ->middleware('throttle:10,1')
+    ->name('invitations.rsvp');

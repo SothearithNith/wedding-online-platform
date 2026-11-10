@@ -4,6 +4,27 @@ namespace App\Support;
 
 class InvitationPresenter
 {
+    public static function class(string $templateKey): string
+    {
+        return match ($templateKey) {
+            'lotus' => LotusInvitationPresenter::class,
+            default => GoldInvitationPresenter::class, // 'gold' and anything unknown
+        };
+    }
+
+    /** Labels (K) and icon helper (ic) for a template. */
+    public static function shared(string $templateKey, string $eventType = 'wedding'): array
+    {
+        $class = self::class($templateKey);
+        $p = $class::prepare([], $templateKey, $eventType);
+
+        // fall back to Gold if a presenter doesn't expose these
+        if (! isset($p['K'], $p['ic'])) {
+            $p = GoldInvitationPresenter::prepare([], 'gold', $eventType);
+        }
+
+        return ['K' => $p['K'], 'ic' => $p['ic']];
+    }
     public static function prepare(
         array $input,
         string $template = 'gold',

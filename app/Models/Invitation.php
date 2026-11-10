@@ -9,28 +9,36 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-/**
- * One wedding invitation. This replaces the old `weddings` table / Wedding model.
- *
- * Storage layout:
- *   - simple texts / images / arrays  -> columns on `invitations`
- *   - groom + bride                   -> invitation_people (role = groom | bride)
- *   - events / stories / gallery      -> their own tables
- *   - anything else a template adds   -> `extra` (json), so nothing is ever lost
- *
- * The templates and the admin form still work with ONE plain array (the old `data`):
- * toTemplateData() builds it, saveFromData() writes it back.
- */
 class Invitation extends Model
 {
     public const RELATIONS = ['template', 'people', 'events', 'stories', 'gallery'];
 
     /** Slugs that would clash with application routes. */
     public const RESERVED = [
-        'login', 'logout', 'register', 'password', 'forgot-password', 'reset-password',
-        'verify-email', 'email', 'confirm-password', 'dashboard', 'admin', 'api',
-        'templates', 'weddings', 'profile', 'settings', 'storage', 'livewire', 'up',
-        'build', 'assets', 'vendor', 'wedding', 'i',
+        'login',
+        'logout',
+        'register',
+        'password',
+        'forgot-password',
+        'reset-password',
+        'verify-email',
+        'email',
+        'confirm-password',
+        'dashboard',
+        'admin',
+        'api',
+        'templates',
+        'weddings',
+        'profile',
+        'settings',
+        'storage',
+        'livewire',
+        'up',
+        'build',
+        'assets',
+        'vendor',
+        'wedding',
+        'i',
     ];
 
     /**
@@ -38,8 +46,13 @@ class Invitation extends Model
      * dateText, dressCode, mapUrl ...). The snake_case column name is also accepted when reading.
      */
     private const STRING_COLUMNS = [
-        'intro' => 'intro', 'quote' => 'quote', 'apology' => 'apology', 'thanks' => 'thanks',
-        'cover' => 'cover', 'music' => 'music', 'date_text' => 'dateText',
+        'intro' => 'intro',
+        'quote' => 'quote',
+        'apology' => 'apology',
+        'thanks' => 'thanks',
+        'cover' => 'cover',
+        'music' => 'music',
+        'date_text' => 'dateText',
     ];
 
     private const ARRAY_COLUMNS = ['dress_code' => 'dressCode', 'gift' => 'gift', 'backgrounds' => 'backgrounds'];
@@ -57,10 +70,24 @@ class Invitation extends Model
     ];
 
     protected $fillable = [
-        'user_id', 'template_id', 'label', 'slug', 'event_date', 'date_text',
-        'intro', 'quote', 'apology', 'thanks', 'cover', 'music',
-        'dress_code', 'gift', 'backgrounds', 'extra',
-        'status', 'published_at',
+        'user_id',
+        'template_id',
+        'label',
+        'slug',
+        'event_date',
+        'date_text',
+        'intro',
+        'quote',
+        'apology',
+        'thanks',
+        'cover',
+        'music',
+        'dress_code',
+        'gift',
+        'backgrounds',
+        'extra',
+        'status',
+        'published_at',
     ];
 
     protected $casts = [
@@ -113,7 +140,7 @@ class Invitation extends Model
     public function stories(): HasMany
     {
         return $this->hasMany(InvitationStory::class)->orderBy('sort');
-    }
+    }   
 
     public function gallery(): HasMany
     {
@@ -189,8 +216,8 @@ class Invitation extends Model
         while (
             in_array($slug, self::RESERVED, true)
             || self::where('slug', $slug)
-                ->when($ignoreId, fn ($q) => $q->whereKeyNot($ignoreId))
-                ->exists()
+            ->when($ignoreId, fn($q) => $q->whereKeyNot($ignoreId))
+            ->exists()
         ) {
             $slug = $base . '-' . $n++;
         }
@@ -263,7 +290,7 @@ class Invitation extends Model
             ]);
         }
 
-        $data[self::listKey('events', $shape + $data)] = $this->events->map(fn ($e) => [
+        $data[self::listKey('events', $shape + $data)] = $this->events->map(fn($e) => [
             'time'   => (string) $e->time,
             'title'  => (string) $e->title,
             'place'  => (string) $e->place,
@@ -271,7 +298,7 @@ class Invitation extends Model
         ] + ($aliases ? ['map_url' => (string) $e->map_url] : []))->values()->all();
 
         $data[self::listKey('stories', $shape + $data)] = $this->stories
-            ->map(fn ($s) => $s->only(['year', 'title', 'text']))
+            ->map(fn($s) => $s->only(['year', 'title', 'text']))
             ->values()->all();
 
         $data['gallery'] = $this->gallery->pluck('url')->values()->all();
@@ -361,7 +388,7 @@ class Invitation extends Model
             unset($extra[$alias]);
         }
 
-        $gallery = array_values(array_filter((array) ($data['gallery'] ?? []), fn ($u) => is_string($u) && trim($u) !== ''));
+        $gallery = array_values(array_filter((array) ($data['gallery'] ?? []), fn($u) => is_string($u) && trim($u) !== ''));
         unset($extra['gallery']);
 
         $attrs['extra'] = $extra;
