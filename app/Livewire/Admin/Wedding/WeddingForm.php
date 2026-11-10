@@ -302,9 +302,20 @@ class WeddingForm extends Component
         return $limits ? min($limits) : 0;
     }
 
+    /**
+     * Disk for new uploads. Comes from WEDDING_UPLOAD_DISK through config/wedding.php,
+     * so config/wedding.php MUST exist. Falls back to "public".
+     */
     private function uploadDisk(): string
     {
-        return (string) config('wedding.upload_disk', 'public');
+        return (string) (config('wedding.upload_disk') ?: env('WEDDING_UPLOAD_DISK') ?: 'public');
+    }
+
+    /** Name of the disk new uploads go to (shown on the Photos tab, handy for checking R2 is active). */
+    #[Computed]
+    public function storageDisk(): string
+    {
+        return $this->uploadDisk();
     }
 
     /* ---------------------------------------------------------------
@@ -649,8 +660,13 @@ class WeddingForm extends Component
             $mime = $file->getMimeType();
             $size = $file->getSize();
 
-            $disk   = $this->uploadDisk();
-            $stored = $file->store('weddings/' . auth()->id(), $disk);
+            $disk = $this->uploadDisk();
+
+            if (! config("filesystems.disks.$disk")) {
+                throw new \RuntimeException("Disk [$disk] is not defined in config/filesystems.php (check WEDDING_UPLOAD_DISK and run php artisan config:clear).");
+            }
+
+            $stored = $file->store('weddings/' . auth()->id(), ['disk' => $disk]);
 
             if (! $stored) {
                 throw new \RuntimeException('The file could not be saved to the "' . $disk . '" disk.');
@@ -850,6 +866,11 @@ class WeddingForm extends Component
                 text: collect($e->errors())->flatten()->first() ?? ''
             );
 
+            // jump to the Basics tab when the problem is there
+            if (array_intersect(array_keys($e->errors()), ['template_key', 'groom_name', 'bride_name', 'slug', 'label'])) {
+                $this->dispatch('goto-tab', tab: 'basics');
+            }
+
             throw $e;
         }
 
@@ -896,17 +917,55 @@ class WeddingForm extends Component
     {
         $stillUsed = Invitation::flattenStrings($savedData);
 
+        $disk = $this->uploadDisk();
+
         foreach (array_unique($this->trash) as $url) {
             if ($url === '' || in_array($url, $stillUsed, true)) {
                 continue;
             }
 
+            // 1) file on the upload disk (R2): delete it and its media row
+            if ($path = $this->ownedDiskPath($url, $disk)) {
+                try {
+                    Media::where('user_id', auth()->id())
+                        ->where('disk', $disk)
+                        ->where('path', $path)
+                        ->get()
+                        ->each->delete(); // the model also removes the file
+
+                    Storage::disk($disk)->delete($path); // in case there was no media row
+                } catch (\Throwable $e) {
+                    report($e);
+                }
+
+                continue;
+            }
+
+            // 2) older files on the local public disk (original behaviour)
             if ($path = Invitation::ownedPath($url, (int) auth()->id())) {
                 Invitation::forgetFile($path);
             }
         }
 
         $this->trash = [];
+    }
+
+    /**
+     * If $url belongs to the upload disk (starts with that disk's public "url" setting)
+     * and sits inside this user's folder, return the storage path. Otherwise null.
+     */
+    private function ownedDiskPath(string $url, string $disk): ?string
+    {
+        $base = rtrim((string) config("filesystems.disks.$disk.url"), '/');
+
+        if ($base === '' || ! str_starts_with($url, $base . '/')) {
+            return null;
+        }
+
+        $path   = ltrim(substr($url, strlen($base)), '/');
+        $prefix = 'weddings/' . auth()->id() . '/';
+
+        return str_starts_with($path, $prefix) && ! str_contains($path, '..') ? $path : null;
     }
 
     public function render()

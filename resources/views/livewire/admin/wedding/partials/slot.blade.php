@@ -2,15 +2,15 @@
      window.weddingUploader (defined with @assets in wedding-form.blade.php). --}}
 @php
     $isBackground = ($s['section'] ?? null) !== null;
-    $hasLibrary   = $isBackground && ! empty($this->library);
-    $ownImages    = $isBackground ? $this->ownImages : [];
-    $canPick      = $isBackground && ($hasLibrary || ! empty($ownImages));
-    $isNew        = $s['slot'] === 'gallery_new';
-    $btn          = 'inline-flex flex-1 items-center justify-center gap-1 rounded-lg border px-2 py-1.5 text-xs font-medium transition';
+    $hasLibrary = $isBackground && !empty($this->library);
+    $ownImages = $isBackground ? $this->ownImages : [];
+    $canPick = $isBackground && ($hasLibrary || !empty($ownImages));
+    $isNew = $s['slot'] === 'gallery_new';
+    $btn =
+        'inline-flex flex-1 items-center justify-center gap-1 rounded-lg border px-2 py-1.5 text-xs font-medium transition';
 @endphp
 
-<div wire:key="slot-{{ $s['slot'] }}"
-    x-data="weddingUploader(@js($s['slot']), @js((bool) $s['is_music']), @js($this->uploadLimit), @js($isNew))"
+<div wire:key="slot-{{ $s['slot'] }}" x-data="weddingUploader(@js($s['slot']), @js((bool) $s['is_music']), @js($this->uploadLimit), @js($isNew))"
     class="flex flex-col gap-2 rounded-2xl border border-gray-200 bg-white p-2.5 shadow-sm transition hover:shadow-md">
 
     {{-- Title + badge --}}
@@ -18,24 +18,26 @@
         <p class="truncate text-xs font-semibold text-gray-800">{{ $s['label'] }}</p>
 
         @if ($s['saved'])
-            <span class="shrink-0 rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-semibold text-green-700">{{ __('Yours') }}</span>
+            <span
+                class="shrink-0 rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-semibold text-green-700">{{ __('Yours') }}</span>
         @elseif ($s['url'])
-            <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-500">{{ __('Default') }}</span>
+            <span
+                class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-500">{{ __('Default') }}</span>
         @endif
     </div>
 
     {{-- Preview --}}
-    <div class="relative flex {{ $s['is_music'] ? 'min-h-24' : 'aspect-[3/4]' }} items-center justify-center overflow-hidden rounded-xl bg-gray-100 ring-1 ring-inset ring-gray-200">
+    <div
+        class="relative flex {{ $s['is_music'] ? 'min-h-24' : 'aspect-[3/4]' }} items-center justify-center overflow-hidden rounded-xl bg-gray-100 ring-1 ring-inset ring-gray-200">
         @if ($s['is_music'])
             @if ($s['url'])
-                <audio controls src="{{ $s['url'] }}" class="w-full px-2"></audio>
+                <audio controls preload="none" src="{{ $s['url'] }}" class="w-full px-2"></audio>
             @else
                 <span class="text-4xl text-gray-300">♪</span>
             @endif
         @elseif ($s['url'])
-            <img wire:key="img-{{ $s['slot'] }}-{{ md5((string) $s['url']) }}"
-                src="{{ $s['url'] }}" alt="" class="h-full w-full object-cover"
-                x-on:load="imgErr = false" x-on:error="imgErr = true">
+            <img wire:key="img-{{ $s['slot'] }}-{{ md5((string) $s['url']) }}" src="{{ $s['url'] }}"
+                alt="" class="h-full w-full object-cover" x-on:load="imgErr = false" x-on:error="imgErr = true">
 
             <p x-show="imgErr" x-cloak
                 class="absolute inset-x-1 bottom-1 rounded bg-red-50 px-1.5 py-1 text-center text-[10px] leading-tight text-red-600">
@@ -51,7 +53,8 @@
         @endif
 
         {{-- Upload progress --}}
-        <div x-show="busy" x-cloak class="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-white/85 px-4 text-xs font-medium text-amber-700">
+        <div x-show="busy" x-cloak
+            class="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-white/85 px-4 text-xs font-medium text-amber-700">
             <span x-text="status || '{{ __('Uploading…') }}'"></span>
             <div class="h-1.5 w-full overflow-hidden rounded-full bg-amber-100">
                 <div class="h-full rounded-full bg-amber-500 transition-all" x-bind:style="`width: ${pct}%`"></div>
@@ -107,7 +110,8 @@
         </button>
     </div>
 
-    <p x-show="err" x-text="err" x-cloak class="rounded-lg bg-red-50 px-2 py-1.5 text-[11px] leading-snug text-red-700"></p>
+    <p x-show="err" x-text="err" x-cloak
+        class="rounded-lg bg-red-50 px-2 py-1.5 text-[11px] leading-snug text-red-700"></p>
 
     @error('uploads.' . $s['slot'])
         <p class="text-xs text-red-600">{{ $message }}</p>
@@ -116,8 +120,8 @@
     {{-- Picker (section backgrounds only): my images + library --}}
     @if ($canPick)
         @php
-            $groups = collect($this->library)->sortBy(fn ($items, $section) => $section === $s['section'] ? 0 : 1);
-            $start  = ! empty($ownImages) ? 'mine' : 'library';
+            $groups = collect($this->library)->sortBy(fn($items, $section) => $section === $s['section'] ? 0 : 1);
+            $start = !empty($ownImages) ? 'mine' : 'library';
         @endphp
 
         <div x-show="picker === '{{ $s['slot'] }}'" style="display:none" x-on:keydown.escape.window="picker = null"
@@ -131,10 +135,11 @@
                 </div>
 
                 <div class="mb-4 flex gap-1 rounded-lg bg-gray-100 p-1 text-sm">
-                    @if (! empty($ownImages))
+                    @if (!empty($ownImages))
                         <button type="button" x-on:click="pane = 'mine'"
                             x-bind:class="pane === 'mine' ? 'bg-white shadow' : 'text-gray-500'"
-                            class="flex-1 rounded-md px-3 py-1.5 font-medium">{{ __('My images') }} ({{ count($ownImages) }})</button>
+                            class="flex-1 rounded-md px-3 py-1.5 font-medium">{{ __('My images') }}
+                            ({{ count($ownImages) }})</button>
                     @endif
                     @if ($hasLibrary)
                         <button type="button" x-on:click="pane = 'library'"
@@ -143,7 +148,7 @@
                     @endif
                 </div>
 
-                @if (! empty($ownImages))
+                @if (!empty($ownImages))
                     <div x-show="pane === 'mine'" class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
                         @foreach ($ownImages as $img)
                             <button type="button" wire:key="own-{{ $s['slot'] }}-{{ $loop->index }}"
@@ -151,7 +156,8 @@
                                 x-on:click="picker = null"
                                 class="overflow-hidden rounded-xl border-2 border-gray-200 text-left transition hover:border-amber-500">
                                 <div class="aspect-[3/4] bg-gray-100">
-                                    <img src="{{ $img['url'] }}" alt="" loading="lazy" class="h-full w-full object-cover">
+                                    <img src="{{ $img['url'] }}" alt="" loading="lazy"
+                                        class="h-full w-full object-cover">
                                 </div>
                                 <p class="truncate px-2 py-1.5 text-xs">{{ $img['label'] }}</p>
                             </button>
@@ -162,7 +168,8 @@
                 @if ($hasLibrary)
                     <div x-show="pane === 'library'">
                         @foreach ($groups as $section => $items)
-                            <p class="mb-2 mt-4 text-xs font-semibold uppercase tracking-wide text-gray-500 first:mt-0">
+                            <p
+                                class="mb-2 mt-4 text-xs font-semibold uppercase tracking-wide text-gray-500 first:mt-0">
                                 {{ \Illuminate\Support\Str::headline((string) $section) }}
                                 @if ($section === $s['section'])
                                     <span class="text-amber-600">· {{ __('this section') }}</span>
@@ -176,7 +183,8 @@
                                         x-on:click="picker = null"
                                         class="overflow-hidden rounded-xl border-2 border-gray-200 text-left transition hover:border-amber-500">
                                         <div class="aspect-[3/4] bg-gray-100">
-                                            <img src="{{ $b['url'] }}" alt="" loading="lazy" class="h-full w-full object-cover">
+                                            <img src="{{ $b['url'] }}" alt="" loading="lazy"
+                                                class="h-full w-full object-cover">
                                         </div>
                                         <p class="truncate px-2 py-1.5 text-xs">
                                             {{ $b['name'] ?: __('Background') }}
