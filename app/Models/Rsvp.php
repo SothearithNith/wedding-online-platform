@@ -9,7 +9,14 @@ class Rsvp extends Model
 {
     protected $table = 'rsvps';
 
-    protected $fillable = ['guest_name', 'attending', 'guests_count', 'message', 'ip'];
+    protected $fillable = [
+        'invitation_id',
+        'guest_name',
+        'attending',
+        'guests_count',
+        'message',
+        'ip',
+    ];
 
     protected $casts = ['attending' => 'boolean'];
 

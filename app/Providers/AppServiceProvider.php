@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Livewire\Admin\RSVP\InvitationRsvp;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -24,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         Gate::before(function ($user, string $ability) {
             return $user->hasRole('Master Admin') ? true : null;
+            Livewire::component('invitation-rsvp', InvitationRsvp::class);
         });
     }
 }
