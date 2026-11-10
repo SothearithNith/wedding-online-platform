@@ -37,8 +37,9 @@ class WeddingForm extends Component
     ];
 
     // Section background slots. Add every key your templates read with $bg('...').
-    // Template sample_data and the library can add more automatically.
     private const DEFAULT_SECTIONS = ['card', 'all', 'intro', 'count', 'story', 'schedule', 'gallery', 'rsvp', 'thanks'];
+
+    private const MUSIC_EXTENSIONS = ['mp3', 'm4a'];
 
     private const SKELETON = [
         'groom'       => ['name' => '', 'parents' => '', 'photo' => ''],
@@ -158,6 +159,8 @@ class WeddingForm extends Component
         if (! $this->slugTouched) {
             $this->slug = '';
         }
+
+        $this->refreshViews();
     }
 
     private function normalize(array $data): array
@@ -172,9 +175,13 @@ class WeddingForm extends Component
             }
         }
 
-        // backgrounds must always be an array so Arr::set() works
+        // backgrounds / gallery must always be arrays so Arr::set() works
         if (! is_array($out['backgrounds'] ?? null)) {
             $out['backgrounds'] = [];
+        }
+
+        if (! is_array($out['gallery'] ?? null)) {
+            $out['gallery'] = [];
         }
 
         return $out;
@@ -220,6 +227,8 @@ class WeddingForm extends Component
     {
         if (! $this->wedding) {
             $this->selectTemplate($value);
+        } else {
+            $this->refreshViews();
         }
     }
 
@@ -247,6 +256,55 @@ class WeddingForm extends Component
     {
         data_set($this->data, 'groom.name', $this->groom_name);
         data_set($this->data, 'bride.name', $this->bride_name);
+    }
+
+    /**
+     * Computed properties are cached for the whole request. After any change to
+     * $this->data we drop the caches so the same request renders the new image.
+     */
+    private function refreshViews(): void
+    {
+        unset($this->photoGroups, $this->ownImages);
+    }
+
+    /* ---------------------------------------------------------------
+     |  Server upload limit (shown to the browser so it can shrink images)
+     | ------------------------------------------------------------- */
+
+    private static function iniBytes(string|false $value): int
+    {
+        $value = trim((string) $value);
+
+        if ($value === '') {
+            return 0;
+        }
+
+        $n    = (int) $value;
+        $unit = strtolower(substr($value, -1));
+
+        return match ($unit) {
+            'g'     => $n * 1024 ** 3,
+            'm'     => $n * 1024 ** 2,
+            'k'     => $n * 1024,
+            default => $n,
+        };
+    }
+
+    /** Smallest of upload_max_filesize / post_max_size in bytes (0 = unknown / unlimited). */
+    #[Computed]
+    public function uploadLimit(): int
+    {
+        $limits = array_filter([
+            self::iniBytes(ini_get('upload_max_filesize')),
+            self::iniBytes(ini_get('post_max_size')),
+        ], fn($v) => $v > 0);
+
+        return $limits ? min($limits) : 0;
+    }
+
+    private function uploadDisk(): string
+    {
+        return (string) config('wedding.upload_disk', 'public');
     }
 
     /* ---------------------------------------------------------------
@@ -309,13 +367,21 @@ class WeddingForm extends Component
             : asset($path);
     }
 
-    /** @return string[] */
+    /**
+     * Section list for the background cards.
+     *
+     * ORDER MATTERS: the defaults come first, then the library, and sections that
+     * only exist in the saved data come last. Before, saved sections came first,
+     * so a card jumped to the top as soon as you gave it an image.
+     *
+     * @return string[]
+     */
     private function backgroundSections(): array
     {
         $fromData = array_keys((array) ($this->data['backgrounds'] ?? []));
         $fromLib  = array_keys($this->library);
 
-        return collect([...$fromData, ...$fromLib, ...self::DEFAULT_SECTIONS])
+        return collect([...self::DEFAULT_SECTIONS, ...$fromLib, ...$fromData])
             ->map(fn($s) => trim((string) $s))
             ->filter()
             ->unique()
@@ -397,8 +463,6 @@ class WeddingForm extends Component
         }
 
         $this->putSlot($slot, $url);
-
-        unset($this->ownImages); // clear the cached list so the render sees the change
     }
 
     /* ---------------------------------------------------------------
@@ -427,12 +491,11 @@ class WeddingForm extends Component
         }
 
         Arr::set($this->data, $path, $url);
+
+        $this->refreshViews();
     }
 
-    /**
-     * Every upload card. Named buildSlots (NOT "slots") on purpose, and it is a
-     * plain private method, so it can never clash with anything in Livewire.
-     */
+    /** Every upload card. Plain private method so it can never clash with Livewire. */
     private function buildSlots(): array
     {
         $d   = $this->data;
@@ -527,10 +590,29 @@ class WeddingForm extends Component
         return array_values(array_filter($groups, fn($g) => ! empty($g['slots'])));
     }
 
-    /** Runs when a file is chosen in any slot (cover, backgrounds_card, gallery_new, music ...). */
+    /**
+     * Public URL for a stored file.
+     * If the disk URL uses the same host as APP_URL we keep only the path, so the
+     * preview still works when APP_URL does not match the address you browse with.
+     */
+    private function publicUrl(string $stored, string $disk): string
+    {
+        $url     = Storage::disk($disk)->url($stored);
+        $host    = parse_url($url, PHP_URL_HOST);
+        $appHost = parse_url((string) config('app.url'), PHP_URL_HOST);
+
+        if ($host !== null && $host === $appHost) {
+            return parse_url($url, PHP_URL_PATH) ?: $url;
+        }
+
+        return $url;
+    }
+
+    /** Runs when a file arrives in any slot (cover, backgrounds_card, gallery_new, music ...). */
     public function updatedUploads($file, string $slot): void
     {
         $isGallery = $slot === 'gallery_new';
+        $isMusic   = $slot === 'music';
 
         if (! $isGallery && ! array_key_exists($slot, $this->slotLabels())) {
             unset($this->uploads[$slot]);
@@ -548,18 +630,39 @@ class WeddingForm extends Component
 
         try {
             $this->validateOnly("uploads.$slot", [
-                "uploads.$slot" => $slot === 'music'
-                    ? ['file', 'mimes:mp3,m4a,mpeg', 'max:15360']
-                    : ['image', 'max:8192'],
+                "uploads.$slot" => $isMusic ? ['file', 'max:15360'] : ['image', 'max:8192'],
             ]);
 
-            $stored = $file->store('weddings/' . auth()->id(), 'public');
-            $url    = Storage::disk('public')->url($stored);
+            // m4a / mp3 mime detection is unreliable, so music is checked by extension.
+            if ($isMusic) {
+                $ext = strtolower((string) $file->getClientOriginalExtension());
 
-            $this->recordMedia($file, $stored, $slot === 'music');
+                if (! in_array($ext, self::MUSIC_EXTENSIONS, true)) {
+                    throw ValidationException::withMessages([
+                        "uploads.$slot" => __('Music must be an .mp3 or .m4a file.'),
+                    ]);
+                }
+            }
+
+            // read metadata BEFORE store()
+            $name = $file->getClientOriginalName();
+            $mime = $file->getMimeType();
+            $size = $file->getSize();
+
+            $disk   = $this->uploadDisk();
+            $stored = $file->store('weddings/' . auth()->id(), $disk);
+
+            if (! $stored) {
+                throw new \RuntimeException('The file could not be saved to the "' . $disk . '" disk.');
+            }
+
+            $url = $this->publicUrl($stored, $disk);
+
+            $this->recordUpload($stored, $name, $mime, $size, $isMusic, $disk);
 
             if ($isGallery) {
                 $this->data['gallery'][] = $url;
+                $this->refreshViews();
             } else {
                 $this->putSlot($slot, $url);
             }
@@ -573,30 +676,37 @@ class WeddingForm extends Component
         }
     }
 
-    private function recordMedia($file, string $storedPath, bool $isMusic): void
+    /** Media row for a file we stored ourselves (source = upload). Never breaks the upload. */
+    private function recordUpload(string $storedPath, ?string $name, ?string $mime, ?int $size, bool $isMusic, string $disk): void
     {
         try {
-            Media::create([
-                'user_id'       => auth()->id(),
-                'source'        => 'upload',
-                'disk'          => 'public',
-                'path'          => $storedPath,
-                'resource_type' => $isMusic ? 'audio' : 'image',
-                'mime'          => $file->getMimeType(),
-                'size'          => $file->getSize(),
-                'name'          => $file->getClientOriginalName(),
-            ]);
+            Media::fromUpload((int) auth()->id(), $storedPath, $name, $mime, $size, $isMusic, $disk);
         } catch (\Throwable $e) {
             report($e);
         }
     }
 
-    /** Paste an image URL / public path instead of uploading. */
+    /** Media row for a pasted link (source = external). Never breaks the form. */
+    private function recordExternal(string $url, bool $isMusic): void
+    {
+        try {
+            Media::fromExternal((int) auth()->id(), $url, $isMusic);
+        } catch (\Throwable $e) {
+            report($e);
+        }
+    }
+
+    private function isValidLink(string $url): bool
+    {
+        return (bool) preg_match('#^(https?://|/)#i', $url);
+    }
+
+    /** Paste an image / music link instead of uploading. */
     public function setSlotUrl(string $slot, string $url): void
     {
         $url = trim($url);
 
-        if ($url !== '' && ! preg_match('#^(https?://|/)#i', $url)) {
+        if ($url !== '' && ! $this->isValidLink($url)) {
             $this->dispatch('swal', type: 'error', title: __('Use a link starting with http(s):// or /'));
 
             return;
@@ -609,6 +719,12 @@ class WeddingForm extends Component
                 $this->trash[] = (string) $g[(int) $m[1]];
                 $g[(int) $m[1]] = $url;
                 $this->data['gallery'] = array_values(array_filter($g, fn($u) => $u !== ''));
+
+                if ($url !== '') {
+                    $this->recordExternal($url, false);
+                }
+
+                $this->refreshViews();
             }
 
             return;
@@ -624,7 +740,35 @@ class WeddingForm extends Component
             return;
         }
 
+        $this->recordExternal($url, $slot === 'music');
         $this->putSlot($slot, $url);
+    }
+
+    /** Add a new gallery photo from a link. */
+    public function addGalleryUrl(string $url): void
+    {
+        $url = trim($url);
+
+        if ($url === '') {
+            return;
+        }
+
+        if (! $this->isValidLink($url)) {
+            $this->dispatch('swal', type: 'error', title: __('Use a link starting with http(s):// or /'));
+
+            return;
+        }
+
+        if (count($this->data['gallery'] ?? []) >= self::MAX_GALLERY) {
+            $this->dispatch('swal', type: 'error', title: __('Maximum 12 gallery photos.'));
+
+            return;
+        }
+
+        $this->recordExternal($url, false);
+        $this->data['gallery'][] = $url;
+
+        $this->refreshViews();
     }
 
     public function clearSlot(string $slot): void
@@ -636,6 +780,8 @@ class WeddingForm extends Component
         $path = $this->slotPath($slot);
         $this->trash[] = (string) Arr::get($this->data, $path, '');
         Arr::forget($this->data, $path);
+
+        $this->refreshViews();
     }
 
     public function removeGallery(int $i): void
@@ -648,6 +794,8 @@ class WeddingForm extends Component
 
         array_splice($g, $i, 1);
         $this->data['gallery'] = $g;
+
+        $this->refreshViews();
     }
 
     /* ---------------------------------------------------------------
