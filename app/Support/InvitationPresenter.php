@@ -11,7 +11,7 @@ class InvitationPresenter
     ): array {
         $data = self::merge(self::defaults(), $input);
 
-        $image = fn ($path) => self::image($path);
+        $image = fn($path) => self::image($path);
 
         $groom = $data['groom'];
         $bride = $data['bride'];
@@ -27,12 +27,14 @@ class InvitationPresenter
         }
 
         $background = function (string $section) use ($own, $library, $image) {
-            foreach ([
-                $own[$section] ?? null,
-                $own['all'] ?? null,
-                $library[$section] ?? null,
-                $library['all'] ?? null,
-            ] as $candidate) {
+            foreach (
+                [
+                    $own[$section] ?? null,
+                    $own['all'] ?? null,
+                    $library[$section] ?? null,
+                    $library['all'] ?? null,
+                ] as $candidate
+            ) {
                 if (is_string($candidate) && $candidate !== '') {
                     return $candidate;
                 }
@@ -56,9 +58,22 @@ class InvitationPresenter
 
         $colors = array_values(array_filter(
             (array) ($data['dressCode']['colors'] ?? []),
-            fn ($color) => is_string($color)
+            fn($color) => is_string($color)
                 && preg_match('/^#[0-9a-fA-F]{3,8}$/', $color)
         ));
+
+        /* ---------- music: uploaded file, direct link, YouTube, or default ---------- */
+        $musicRaw = is_string($data['music'] ?? null) ? trim($data['music']) : '';
+        $youtubeId = self::getYoutubeId($musicRaw);
+        $musicFile = '';
+
+        if (! $youtubeId) {
+            $musicFile = self::image($musicRaw);
+
+            if ($musicFile === '' && is_file(public_path('assets/music/wedding.mp3'))) {
+                $musicFile = asset('assets/music/wedding.mp3');
+            }
+        }
 
         return [
             'w' => $data,
@@ -76,15 +91,16 @@ class InvitationPresenter
             'giftQr' => $image($gift['qr'] ?? '')
                 ?: TemplateRegistry::defaultUrl('qr.jpg'),
 
-            'music' => $image($data['music'] ?? ''),
+            'music' => $musicFile,
+            'musicYoutubeId' => $youtubeId,
             'bg' => $background,
             'heroBg' => $heroBackground,
             'colors' => $colors,
-            'parents' => fn ($value) => self::parents($value),
+            'parents' => fn($value) => self::parents($value),
 
             'icsTitle' => $groom['name'] . ' ' . self::labels()['and'] . ' ' . $bride['name'],
             'icsEvents' => array_map(
-                fn ($event) => [
+                fn($event) => [
                     'time' => $event['time'] ?? '',
                     'title' => $event['title'] ?? '',
                     'place' => $event['place'] ?? '',
@@ -100,7 +116,7 @@ class InvitationPresenter
 
     private static function defaults(): array
     {
-        $d = fn (string $file) => TemplateRegistry::defaultUrl($file);
+        $d = fn(string $file) => TemplateRegistry::defaultUrl($file);
 
         return [
             'groom' => [
@@ -228,7 +244,7 @@ class InvitationPresenter
                 'trim',
                 preg_split('/\r\n|\r|\n|,(?![^()]*\))/u', (string) $value)
             ),
-            fn ($item) => $item !== ''
+            fn($item) => $item !== ''
         ));
     }
 
@@ -289,5 +305,42 @@ class InvitationPresenter
             'coverBye' => 'ដោយក្តីគោរព និងសេចក្តីស្រឡាញ់',
             'and' => 'និង',
         ];
+    }
+
+    private static function getYoutubeId($url): ?string
+    {
+        if (! is_string($url) || trim($url) === '') {
+            return null;
+        }
+
+        $parts = parse_url(trim($url));
+
+        if (! $parts) {
+            return null;
+        }
+
+        $host = strtolower($parts['host'] ?? '');
+
+        if (str_contains($host, 'youtu.be')) {
+            $id = trim($parts['path'] ?? '', '/');
+        } elseif (
+            str_contains($host, 'youtube.com')
+            || str_contains($host, 'youtube-nocookie.com')
+        ) {
+            parse_str($parts['query'] ?? '', $query);
+
+            $id = $query['v'] ?? null;
+
+            if (! $id && str_starts_with($parts['path'] ?? '', '/embed/')) {
+                $id = basename($parts['path']);
+            }
+        } else {
+            return null;
+        }
+
+        return is_string($id)
+            && preg_match('/^[a-zA-Z0-9_-]{11}$/', $id)
+            ? $id
+            : null;
     }
 }

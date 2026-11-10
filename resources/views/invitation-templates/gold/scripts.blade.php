@@ -621,28 +621,166 @@
             })
         })();
 
-        /* ---------- cover (golden doors) + music ---------- */
-        (function() {
-            var gc = $('#gc');
+        /* ---------- music: <audio> file, or YouTube with automatic mp3 fallback ---------- */
+        var music = (function() {
             var audio = $('#bgm'),
-                mbtn = $('#mbtn');
+                mbtn = $('#mbtn'),
+                frame = $('#yt-player');
+            var ytId = mbtn ? mbtn.getAttribute('data-yt') : '';
+            var fallbackSrc = mbtn ? mbtn.getAttribute('data-fallback') : '';
+            var noop = {
+                play: function() {},
+                toggle: function() {}
+            };
+            if (!mbtn || (!audio && !(ytId && frame))) return noop;
 
-            function bindMusic() {
-                if (!audio || !mbtn) return;
-                mbtn.classList.remove('hide');
-                mbtn.onclick = function() {
-                    if (audio.paused) audio.play().catch(function() {});
-                    else audio.pause();
-                };
-                audio.addEventListener('play', function() {
-                    mbtn.classList.add('on');
+            mbtn.classList.remove('hide');
+            var playing = false;
+
+            function setOn(on) {
+                playing = on;
+                mbtn.classList.toggle('on', on);
+            }
+
+            function audioApi(el) {
+                el.addEventListener('play', function() {
+                    setOn(true);
                 });
-                audio.addEventListener('pause', function() {
-                    mbtn.classList.remove('on');
+                el.addEventListener('pause', function() {
+                    setOn(false);
+                });
+                return {
+                    play: function() {
+                        var p = el.play();
+                        if (p && p.catch) p.catch(function() {});
+                    },
+                    toggle: function() {
+                        if (el.paused) this.play();
+                        else el.pause();
+                    }
+                };
+            }
+
+            var api;
+
+            if (ytId && frame) {
+                var yt = null,
+                    ready = false,
+                    want = false,
+                    failed = false,
+                    fb = null,
+                    loadTimer = null,
+                    startTimer = null;
+
+                function useFallback() {
+                    if (failed) return;
+                    failed = true;
+                    clearTimeout(loadTimer);
+                    clearTimeout(startTimer);
+                    try {
+                        if (yt && yt.destroy) yt.destroy();
+                    } catch (e) {}
+                    if (!fallbackSrc) return;
+                    var a = new Audio(fallbackSrc);
+                    a.loop = true;
+                    a.preload = 'auto';
+                    fb = audioApi(a);
+                    if (want) fb.play();
+                }
+
+                function startYT() {
+                    try {
+                        yt.unMute();
+                        yt.setVolume(100);
+                        yt.playVideo();
+                    } catch (e) {
+                        useFallback();
+                        return;
+                    }
+                    // if it has not really started shortly after, switch to the default song
+                    clearTimeout(startTimer);
+                    startTimer = setTimeout(function() {
+                        if (!playing && !failed) useFallback();
+                    }, 3500);
+                }
+
+                window.onYouTubeIframeAPIReady = function() {
+                    try {
+                        yt = new YT.Player('yt-player', {
+                            events: {
+                                onReady: function() {
+                                    ready = true;
+                                    clearTimeout(loadTimer);
+                                    if (want) startYT();
+                                },
+                                onStateChange: function(e) {
+                                    if (e.data === 1) {
+                                        clearTimeout(startTimer);
+                                        setOn(true);
+                                    } else if (e.data === 2) {
+                                        setOn(false);
+                                    }
+                                },
+                                onError: function() {
+                                    useFallback();
+                                }
+                            }
+                        });
+                    } catch (e) {
+                        useFallback();
+                    }
+                };
+
+                var s = document.createElement('script');
+                s.src = 'https://www.youtube.com/iframe_api';
+                s.async = true;
+                s.onerror = useFallback;
+                document.head.appendChild(s);
+
+                // blocked iframe / blocked API: never becomes ready
+                loadTimer = setTimeout(function() {
+                    if (!ready) useFallback();
+                }, 4000);
+
+                api = {
+                    play: function() {
+                        want = true;
+                        if (fb) fb.play();
+                        else if (ready) startYT();
+                    },
+                    toggle: function() {
+                        if (fb) {
+                            fb.toggle();
+                            return;
+                        }
+                        if (playing) {
+                            want = false;
+                            if (ready) yt.pauseVideo();
+                        } else {
+                            api.play();
+                        }
+                    }
+                };
+            } else {
+                api = audioApi(audio);
+                // if the field's file/link cannot load, use the default song
+                audio.addEventListener('error', function() {
+                    if (fallbackSrc && audio.getAttribute('src') !== fallbackSrc) {
+                        audio.setAttribute('src', fallbackSrc);
+                        audio.load();
+                    }
                 });
             }
-            bindMusic();
 
+            mbtn.addEventListener('click', function() {
+                api.toggle();
+            });
+            return api;
+        })();
+
+        /* ---------- cover (golden doors) ---------- */
+        (function() {
+            var gc = $('#gc');
             if (!gc) return;
             gc.style.display = '';
             document.body.style.overflow = 'hidden';
@@ -658,7 +796,7 @@
                 gc.classList.add('opened');
                 gc.setAttribute('inert', '');
                 document.body.style.overflow = '';
-                if (audio) audio.play().catch(function() {}); // a click is required for audio
+                music.play(); // the click is the user gesture browsers require
                 setTimeout(function() {
                     gc.classList.add('slide');
                 }, 1000);

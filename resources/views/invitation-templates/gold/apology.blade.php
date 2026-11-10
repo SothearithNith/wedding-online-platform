@@ -1,4 +1,4 @@
-{{-- ============================ APOLOGY ============================ --}}
+ 
 @php
     preg_match_all('/[^។]+។?/u', (string) $w['apology'], $m);
     $lines = array_values(array_filter(array_map('trim', $m[0] ?? [])));

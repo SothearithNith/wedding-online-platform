@@ -1,4 +1,4 @@
-{{-- ============================ COUNTDOWN ============================ --}}
+ 
 <section class="g-sec g-paper" id="countdown" style="padding:80px 20px;text-align:center">
     <div class="g-bgimg" data-bg="{{ $bg('countdown') }}"></div>
     <div class="g-chakra"></div>

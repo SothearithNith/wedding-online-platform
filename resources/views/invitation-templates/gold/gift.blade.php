@@ -1,4 +1,3 @@
-{{-- ============================ GIFT ============================ --}}
 @if (!empty($gift['accountNumber']))
     <section class="cream" id="gift">
         <div class="g-bgimg on" data-bg="{{ $bg('gift') }}" data-eager style="z-index:0;--bo:1"></div>

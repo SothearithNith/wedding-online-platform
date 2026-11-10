@@ -101,7 +101,7 @@
         <input type="text" x-ref="link"
             wire:key="url-{{ $s['slot'] }}-{{ md5((string) ($s['saved'] ? $s['url'] : '')) }}"
             value="{{ $isNew ? '' : ($s['saved'] ? $s['url'] : '') }}"
-            placeholder="{{ $s['is_music'] ? '/music/wedding.mp3' : 'https://…' }}"
+            placeholder="{{ $s['is_music'] ? '/assets/music/wedding.mp3' : 'https://…' }}"
             x-on:keydown.enter.prevent="applyLink($refs.link.value)"
             class="min-w-0 flex-1 rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-xs placeholder:text-gray-400 focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/30">
         <button type="button" x-on:click="applyLink($refs.link.value)"

@@ -41,6 +41,9 @@ class WeddingForm extends Component
 
     private const MUSIC_EXTENSIONS = ['mp3', 'm4a'];
 
+    /** Biggest file accepted per upload, in KB (20 MB). Keep php.ini and config/livewire.php at or above this. */
+    private const MAX_UPLOAD_KB = 20480;
+
     private const SKELETON = [
         'groom'       => ['name' => '', 'parents' => '', 'photo' => ''],
         'bride'       => ['name' => '', 'parents' => '', 'photo' => ''],
@@ -519,12 +522,10 @@ class WeddingForm extends Component
 
             $default = null;
 
-            if ($slot !== 'music') {
-                try {
-                    $default = TemplateRegistry::defaultFor($path);
-                } catch (\Throwable $e) {
-                    report($e);
-                }
+            try {
+                $default = TemplateRegistry::defaultFor($path); // music too: public/assets/music/wedding.mp3
+            } catch (\Throwable $e) {
+                report($e);
             }
 
             $hasSaved = is_string($saved) && $saved !== '';
@@ -641,7 +642,7 @@ class WeddingForm extends Component
 
         try {
             $this->validateOnly("uploads.$slot", [
-                "uploads.$slot" => $isMusic ? ['file', 'max:15360'] : ['image', 'max:8192'],
+                "uploads.$slot" => $isMusic ? ['file', 'max:' . self::MAX_UPLOAD_KB] : ['image', 'max:' . self::MAX_UPLOAD_KB],
             ]);
 
             // m4a / mp3 mime detection is unreliable, so music is checked by extension.
@@ -686,7 +687,11 @@ class WeddingForm extends Component
             $this->dispatch('swal', type: 'error', title: __('Upload failed'), text: collect($e->errors())->flatten()->first() ?? '');
         } catch (\Throwable $e) {
             report($e);
-            $this->dispatch('swal', type: 'error', title: __('Upload failed'), text: $e->getMessage());
+
+            // Flysystem hides the real reason in the previous exception (S3 / curl message)
+            $reason = $e->getPrevious()?->getMessage() ?: $e->getMessage();
+
+            $this->dispatch('swal', type: 'error', title: __('Upload failed'), text: Str::limit(trim(preg_replace('/\s+/', ' ', $reason)), 280));
         } finally {
             unset($this->uploads[$slot]);
         }
