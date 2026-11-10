@@ -71,6 +71,12 @@ class TemplateRegistry
     public static function withDefaults(array $data, bool $gallery = false): array
     {
         foreach (self::DEFAULT_IMAGES as $path => $file) {
+            // Backgrounds are resolved by the presenter ($bg: own -> all -> library -> default file).
+            // Filling backgrounds.all here would hide the library backgrounds of every section.
+            if (str_starts_with($path, 'backgrounds.')) {
+                continue;
+            }
+
             if (str_starts_with($path, 'gift.') && empty($data['gift'])) {
                 continue;
             }
@@ -82,7 +88,7 @@ class TemplateRegistry
 
         if ($gallery && empty($data['gallery'])) {
             $data['gallery'] = array_map(
-                fn (string $file) => self::defaultUrl($file),
+                fn(string $file) => self::defaultUrl($file),
                 self::DEFAULT_GALLERY
             );
         }
