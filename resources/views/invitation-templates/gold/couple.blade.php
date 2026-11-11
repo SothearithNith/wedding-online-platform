@@ -1,7 +1,6 @@
 <section class="g-sec g-photo" id="couple" style="padding:96px 16px 80px">
     <div class="g-bgimg" data-bg="{{ $bg('intro') }}"></div>
-    <div class="g-ov" style="{{ $overlay(0.55) }}"></div>
-    {{-- {!! $edge('top', '#fbfaf6') !!} --}}
+    <div class="g-ov" style="{{ $overlay(0.55) }}"></div> 
 
     <div class="cp-wrap">
         <div class="cp-in" id="cp">
@@ -165,5 +164,4 @@
         </div>
     </div>
 
-    {{-- {!! $edge('bottom', '#ffffff') !!} --}}
 </section>

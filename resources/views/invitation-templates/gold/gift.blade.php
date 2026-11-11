@@ -1,7 +1,7 @@
 @if (!empty($gift['accountNumber']))
-    <section class="cream" id="gift">
-        <div class="g-bgimg on" data-bg="{{ $bg('gift') }}" data-eager style="z-index:0;--bo:1"></div>
-        <div class="veil" aria-hidden="true"></div>
+    <section class="g-sec g-photo" id="gift" style="padding:112px 20px;text-align:center">
+        <div class="g-bgimg" data-bg="{{ $bg('gift') }}"></div>
+        <div class="g-ov" style="{{ $overlay(0.08) }}"></div>
         <div class="petals" aria-hidden="true">
             @for ($i = 0; $i < 12; $i++)
                 <i
@@ -9,9 +9,10 @@
             @endfor
         </div>
 
-        <div class="z2">
-            {!! $title($K['gift'], 'dark') !!}
-            <p class="kf-sub rv">{{ $K['giftSub'] }}</p>
+        <div class="g-arch-glass">
+            <div class="gloss"></div>
+            {!! $title($K['gift']) !!}
+            <p class="kf-sub rv ts" style="color:rgba(255,255,255,.9);opacity:1">{{ $K['giftSub'] }}</p>
 
             <div class="rv" data-delay="150">
                 <div class="gold-card float">
