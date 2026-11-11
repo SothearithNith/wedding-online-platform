@@ -4,10 +4,7 @@ namespace App\Support;
 
 use Illuminate\Support\HtmlString;
 
-/**
- * Prepares data and visual helpers consumed by the Gold invitation partials.
- * The markup stays in Blade; shared preparation stays here.
- */
+
 class GoldInvitationPresenter
 {
     public static function prepare(
@@ -80,9 +77,9 @@ class GoldInvitationPresenter
                 'qr' => $dflt('qr.jpg'),
             ],
             'apology' =>
-                'ប្រសិនបើយើងខ្ញុំមិនបានអញ្ជើញដល់ផ្ទាល់ ឬមានកំហុសឆ្គងអ្វីមួយ សូមលោក លោកស្រី អភ័យទោសដោយក្តីមេត្តា។ ការមកចូលរួម និងការយោគយល់របស់អ្នក គឺមានតម្លៃបំផុតសម្រាប់យើងខ្ញុំ។',
+            'ប្រសិនបើយើងខ្ញុំមិនបានអញ្ជើញដល់ផ្ទាល់ ឬមានកំហុសឆ្គងអ្វីមួយ សូមលោក លោកស្រី អភ័យទោសដោយក្តីមេត្តា។ ការមកចូលរួម និងការយោគយល់របស់អ្នក គឺមានតម្លៃបំផុតសម្រាប់យើងខ្ញុំ។',
             'thanks' =>
-                'ការអញ្ជើញចូលរួមរបស់អ្នក គឺជាកិត្តិយស និងសេចក្តីសុខដ៏ធំបំផុតសម្រាប់យើងខ្ញុំ។ សូមអរគុណយ៉ាងជ្រាលជ្រៅ!',
+            'ការអញ្ជើញចូលរួមរបស់អ្នក គឺជាកិត្តិយស និងសេចក្តីសុខដ៏ធំបំផុតសម្រាប់យើងខ្ញុំ។ សូមអរគុណយ៉ាងជ្រាលជ្រៅ!',
             'music' => '',
             'backgrounds' => [],
         ];
@@ -164,8 +161,7 @@ class GoldInvitationPresenter
             $own['all'] ?? '' ?:
             $img($library['card'] ?? '') ?:
             $img($library['all'] ?? '') ?:
-            $img($w['cover']) ?:
-            (is_file(public_path("images/{$templateKey}/bg.jpg")) ? asset("images/{$templateKey}/bg.jpg") : $dflt('background.jpg'));
+            $img($w['cover']) ?: (is_file(public_path("images/{$templateKey}/bg.jpg")) ? asset("images/{$templateKey}/bg.jpg") : $dflt('background.jpg'));
 
         // Parents: split on new lines or commas (not inside brackets)
         $parents = fn($v) => array_values(
@@ -227,6 +223,7 @@ class GoldInvitationPresenter
             'coverOpen' => 'បើកលិខិតអញ្ជើញ',
             'coverBye' => 'ដោយក្តីគោរព និងសេចក្តីស្រឡាញ់',
             'and' => 'និង',
+            'countdowns' => 'ថ្ងៃកម្មវីធី'
         ];
 
         /* ---------- small SVG helpers ---------- */
@@ -267,22 +264,22 @@ class GoldInvitationPresenter
             $p =
                 [
                     'heart' =>
-                        '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+                    '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
                     'gift' =>
-                        '<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/>',
+                    '<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/>',
                     'sparkles' =>
-                        '<path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>',
+                    '<path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>',
                     'star' => '<path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L8 14.2 3 9.3l6.9-1Z"/>',
                     'pin' => '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
                     'cal' => '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
                     'calplus' =>
-                        '<path d="M8 2v4M16 2v4M21 13V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8M3 10h18M16 19h6M19 16v6"/>',
+                    '<path d="M8 2v4M16 2v4M21 13V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8M3 10h18M16 19h6M19 16v6"/>',
                     'check' => '<path d="M20 6 9 17l-5-5"/>',
                     'copy' =>
-                        '<rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
+                    '<rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
                     'send' => '<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
                     'share' =>
-                        '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/>',
+                    '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/>',
                     'mail' => '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>',
                     'x' => '<path d="M18 6 6 18M6 6l12 12"/>',
                     'left' => '<path d="m15 18-6-6 6-6"/>',
@@ -402,10 +399,35 @@ class GoldInvitationPresenter
             return ['time' => $e['time'] ?? '', 'title' => $e['title'] ?? '', 'place' => $e['place'] ?? ''];
         }, $events);
         return compact(
-            'w', 'img', 'safeLink', 'groom', 'bride', 'gallery', 'events',
-            'story', 'colors', 'gift', 'giftQr', 'music', 'own', 'library',
-            'bg', 'heroBg', 'parents', 'K', 'GOLD', 'lotus', 'ic', 'title',
-            'corner', 'kbach', 'bloom', 'edge', 'overlay', 'icons', 'icsTitle',
+            'w',
+            'img',
+            'safeLink',
+            'groom',
+            'bride',
+            'gallery',
+            'events',
+            'story',
+            'colors',
+            'gift',
+            'giftQr',
+            'music',
+            'own',
+            'library',
+            'bg',
+            'heroBg',
+            'parents',
+            'K',
+            'GOLD',
+            'lotus',
+            'ic',
+            'title',
+            'corner',
+            'kbach',
+            'bloom',
+            'edge',
+            'overlay',
+            'icons',
+            'icsTitle',
             'icsEvents'
         );
     }

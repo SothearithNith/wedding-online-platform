@@ -1,5 +1,4 @@
-@if (count($story))
-
+@if (count($story)) 
     <section class="g-sec g-photo" id="story" style="padding:112px 20px">
         <div class="g-bgimg" data-bg="{{ $bg('story') }}"></div>
         <div class="g-ov" style="{{ $overlay(0.08) }}"></div>
