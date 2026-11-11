@@ -1,4 +1,3 @@
-{{-- ============================ SCHEDULE ============================ --}}
 @if (count($events))
     @php $schedBg = $bg('schedule'); @endphp
     <section class="g-sec" id="schedule" style="padding:112px 20px;background:#1b1209">
@@ -44,7 +43,6 @@
                                 <div class="rv" data-v="{{ $i % 2 ? 'right' : 'left' }}"
                                     data-delay="{{ $i * 80 }}">
                                     <div class="ev-card">
-                                        <span class="edge" aria-hidden="true"></span>
                                         <div>
                                             <p class="ev-time tnum">{{ $e['time'] ?? '' }}</p>
                                             <div class="dl" style="margin-top:12px" aria-hidden="true">

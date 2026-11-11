@@ -1,7 +1,6 @@
 <section class="g-sec g-photo" id="countdown" style="padding:112px 20px;text-align:center">
     <div class="g-bgimg" data-bg="{{ $bg('countdown') }}"></div>
     <div class="g-ov" style="{{ $overlay(0.08) }}"></div>
-    {!! $edge('top', '#ffffff') !!}
     <div class="g-arch-glass">
         <div class="gloss"></div>
         {!! $title($K['countdowns']) !!}
@@ -38,7 +37,6 @@
             </button>
         </div>
     </div>
-    {!! $edge('bottom', '#ffffff') !!}
     <style>
         /* countdown on glass */
         #countdown .cd-box {
