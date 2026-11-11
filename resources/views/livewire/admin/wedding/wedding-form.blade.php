@@ -21,7 +21,6 @@
         'rounded-xl border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50';
 @endphp
 
-{{-- Upload helper: shrinks big photos in the browser, checks the server limit, shows progress. --}}
 @assets
     <script>
         window.weddingUploader = function(slot, isMusic, limit, isNew) {
@@ -153,8 +152,6 @@
     x-on:goto-tab.window="tab = $event.detail.tab; window.scrollTo({ top: 0, behavior: 'smooth' })">
 
     @include('livewire.admin.wedding.partials.swal')
-
-    {{-- ============ SAVED SCREEN ============ --}}
     @if ($savedUrl)
         <div class="space-y-6" x-data="{ copied: false }">
             <div role="status"
@@ -207,7 +204,6 @@
             </div>
         </div>
     @else
-        {{-- ============ HEADER ============ --}}
         <header
             class="overflow-hidden rounded-3xl bg-gradient-to-br from-amber-500 via-amber-500 to-amber-600 p-5 text-white shadow-md sm:p-7">
             <div class="flex flex-wrap items-start justify-between gap-4">
@@ -247,7 +243,6 @@
             </div>
         </header>
 
-        {{-- ============ STEPPER ============ --}}
         <nav class="grid grid-cols-3 gap-2 rounded-2xl bg-gray-100 p-1.5">
             @foreach ($tabs as $key => [$num, $name, $icon])
                 <button type="button"
@@ -268,12 +263,8 @@
             @endforeach
         </nav>
 
-        {{-- novalidate: the server validates; native "required" on a hidden tab would block the submit silently --}}
         <form wire:submit="save" class="space-y-6" novalidate>
-
-            {{-- ============ 1. BASICS ============ --}}
             <div x-show="tab === 'basics'" class="space-y-6">
-
                 <section class="{{ $card }}">
                     <div>
                         <h2 class="{{ $h2 }}">{{ __('Custom name') }} <span class="text-red-500">*</span>
@@ -398,9 +389,7 @@
                 </div>
             </div>
 
-            {{-- ============ 2. PHOTOS & MUSIC ============ --}}
-            <div x-show="tab === 'photos'" style="display:none" class="space-y-6">
-
+            <div x-show="tab === 'photos'" style="display:none" class="space-y-6"> 
                 @forelse ($this->photoGroups as $group)
                     <section wire:key="group-{{ $group['key'] }}" class="{{ $card }}">
                         <div>
@@ -455,7 +444,6 @@
                 </div>
             </div>
 
-            {{-- ============ 3. DETAILS ============ --}}
             <div x-show="tab === 'details'" style="display:none" class="space-y-6">
                 <p class="text-xs text-gray-500">
                     {{ __('Date, schedule, texts, love story, dress code, gift. Fields save when you press Save.') }}
@@ -717,7 +705,6 @@
                 </div>
             </div>
 
-            {{-- Premium Glass Bottom Action Bar --}}
             <div class="fixed inset-x-0 bottom-0 z-40 transition-[left] duration-300 ease-out lg:left-20"
                 :class="collapsed ? 'lg:left-20' : 'lg:left-72'">
 

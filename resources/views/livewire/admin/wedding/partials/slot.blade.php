@@ -1,5 +1,3 @@
-{{-- One upload tile. Expects $s (slot array). Needs `picker` in the parent x-data and
-     window.weddingUploader (defined with @assets in wedding-form.blade.php). --}}
 @php
     $isBackground = ($s['section'] ?? null) !== null;
     $hasLibrary = $isBackground && !empty($this->library);
@@ -8,12 +6,10 @@
     $isNew = $s['slot'] === 'gallery_new';
     $btn =
         'inline-flex flex-1 items-center justify-center gap-1 rounded-lg border px-2 py-1.5 text-xs font-medium transition';
-@endphp
 
+@endphp 
 <div wire:key="slot-{{ $s['slot'] }}" x-data="weddingUploader(@js($s['slot']), @js((bool) $s['is_music']), @js($this->uploadLimit), @js($isNew))"
     class="flex flex-col gap-2 rounded-2xl border border-gray-200 bg-white p-2.5 shadow-sm transition hover:shadow-md">
-
-    {{-- Title + badge --}}
     <div class="flex items-center justify-between gap-2 px-0.5">
         <p class="truncate text-xs font-semibold text-gray-800">{{ $s['label'] }}</p>
 
@@ -26,7 +22,6 @@
         @endif
     </div>
 
-    {{-- Preview --}}
     <div
         class="relative flex {{ $s['is_music'] ? 'min-h-24' : 'aspect-[3/4]' }} items-center justify-center overflow-hidden rounded-xl bg-gray-100 ring-1 ring-inset ring-gray-200">
         @if ($s['is_music'])
@@ -52,7 +47,6 @@
             </div>
         @endif
 
-        {{-- Upload progress --}}
         <div x-show="busy" x-cloak
             class="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-white/85 px-4 text-xs font-medium text-amber-700">
             <span x-text="status || '{{ __('Uploading…') }}'"></span>
@@ -62,7 +56,6 @@
         </div>
     </div>
 
-    {{-- Actions --}}
     <div class="flex flex-wrap gap-1.5">
         <input type="file" x-ref="file" x-on:change="pick($event)" class="hidden"
             @if ($isNew) multiple @endif
@@ -95,9 +88,7 @@
         @endif
     </div>
 
-    {{-- Link panel --}}
     <div x-show="linkOpen" x-cloak class="flex gap-1.5">
-        {{-- keyed by URL so the box always shows the current link after an upload --}}
         <input type="text" x-ref="link"
             wire:key="url-{{ $s['slot'] }}-{{ md5((string) ($s['saved'] ? $s['url'] : '')) }}"
             value="{{ $isNew ? '' : ($s['saved'] ? $s['url'] : '') }}"
@@ -117,7 +108,6 @@
         <p class="text-xs text-red-600">{{ $message }}</p>
     @enderror
 
-    {{-- Picker (section backgrounds only): my images + library --}}
     @if ($canPick)
         @php
             $groups = collect($this->library)->sortBy(fn($items, $section) => $section === $s['section'] ? 0 : 1);

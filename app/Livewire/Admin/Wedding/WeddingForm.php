@@ -18,47 +18,41 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use RuntimeException;
 
 #[Layout('layouts.app')]
 #[Title('Wedding')]
 class WeddingForm extends Component
 {
     use WithFileUploads;
-
     private const MAX_GALLERY = 12;
-
-    // Fixed slots: groom_photo -> groom.photo, cover -> cover, music -> music ...
     private const BASE_LABELS = [
-        'cover'       => 'Cover',
+        'cover' => 'Cover',
         'groom_photo' => 'Groom photo',
         'bride_photo' => 'Bride photo',
-        'gift_qr'     => 'Gift QR',
-        'music'       => 'Music (mp3 / m4a)',
+        'gift_qr' => 'Gift QR',
+        'music' => 'Music (mp3 / m4a)',
     ];
-
-    // Section background slots. Add every key your templates read with $bg('...').
-    private const DEFAULT_SECTIONS = ['card', 'all', 'intro', 'count', 'story', 'schedule', 'gallery', 'rsvp', 'thanks'];
-
+    // private const DEFAULT_SECTIONS = ['card', 'all', 'intro', 'count', 'story', 'schedule', 'gallery', 'rsvp', 'thanks'];
+    private const DEFAULT_SECTIONS = ['card', 'all', 'intro', 'story', 'schedule', 'gallery', 'rsvp', 'thanks'];
     private const MUSIC_EXTENSIONS = ['mp3', 'm4a'];
-
-    /** Biggest file accepted per upload, in KB (20 MB). Keep php.ini and config/livewire.php at or above this. */
     private const MAX_UPLOAD_KB = 20480;
 
     private const SKELETON = [
-        'groom'       => ['name' => '', 'parents' => '', 'photo' => ''],
-        'bride'       => ['name' => '', 'parents' => '', 'photo' => ''],
-        'date'        => '',
-        'dateText'    => '',
-        'cover'       => '',
-        'gallery'     => [],
+        'groom' => ['name' => '', 'parents' => '', 'photo' => ''],
+        'bride' => ['name' => '', 'parents' => '', 'photo' => ''],
+        'date' => '',
+        'dateText'  => '',
+        'cover' => '',
+        'gallery' => [],
         'backgrounds' => [],
-        'intro'       => '',
-        'quote'       => '',
-        'apology'     => '',
-        'thanks'      => '',
-        'dressCode'   => ['title' => '', 'note' => '', 'colors' => []],
-        'gift'        => ['bank' => '', 'accountName' => '', 'accountNumber' => '', 'qr' => ''],
-        'music'       => '',
+        'intro' => '',
+        'quote' => '',
+        'apology' => '',
+        'thanks' => '',
+        'dressCode' => ['title' => '', 'note' => '', 'colors' => []],
+        'gift' => ['bank' => '', 'accountName' => '', 'accountNumber' => '', 'qr' => ''],
+        'music' => '',
     ];
 
     public ?Invitation $wedding = null;
@@ -139,10 +133,6 @@ class WeddingForm extends Component
         ];
     }
 
-    /* ---------------------------------------------------------------
-     |  Template + names + slug
-     | ------------------------------------------------------------- */
-
     private function selectTemplate(string $key): void
     {
         $template = Template::where('key', $key)->where('is_active', true)->first();
@@ -150,26 +140,21 @@ class WeddingForm extends Component
         if (! $template) {
             return;
         }
-
         $this->template_key = $template->key;
-        $this->data         = $this->normalize($template->sample_data ?? []);
-        $this->dateLocal    = substr((string) ($this->data['date'] ?? ''), 0, 16);
-
+        $this->data = $this->normalize($template->sample_data ?? []);
+        $this->dateLocal = substr((string) ($this->data['date'] ?? ''), 0, 16);
         $this->groom_name = '';
         $this->bride_name = '';
         $this->syncNames();
-
         if (! $this->slugTouched) {
             $this->slug = '';
         }
-
         $this->refreshViews();
     }
 
     private function normalize(array $data): array
     {
         $out = array_replace_recursive(self::SKELETON, $data);
-
         foreach (['events', 'stories'] as $logical) {
             $aliases = $logical === 'events' ? ['events', 'schedule'] : ['story', 'stories', 'timeline'];
 
@@ -178,7 +163,6 @@ class WeddingForm extends Component
             }
         }
 
-        // backgrounds / gallery must always be arrays so Arr::set() works
         if (! is_array($out['backgrounds'] ?? null)) {
             $out['backgrounds'] = [];
         }
@@ -270,10 +254,6 @@ class WeddingForm extends Component
         unset($this->photoGroups, $this->ownImages);
     }
 
-    /* ---------------------------------------------------------------
-     |  Server upload limit (shown to the browser so it can shrink images)
-     | ------------------------------------------------------------- */
-
     private static function iniBytes(string|false $value): int
     {
         $value = trim((string) $value);
@@ -346,7 +326,7 @@ class WeddingForm extends Component
                 ->map(fn($rows) => $rows->map(fn($b) => [
                     'id'         => $b->id,
                     'name'       => (string) $b->name,
-                    'url'        => $this->backgroundUrl($b->path),
+                    'url' => $this->backgroundUrl($b->path),
                     'is_default' => (bool) $b->is_default,
                 ])->filter(fn($b) => $b['url'])->values()->all())
                 ->filter()
@@ -381,15 +361,6 @@ class WeddingForm extends Component
             : asset($path);
     }
 
-    /**
-     * Section list for the background cards.
-     *
-     * ORDER MATTERS: the defaults come first, then the library, and sections that
-     * only exist in the saved data come last. Before, saved sections came first,
-     * so a card jumped to the top as soon as you gave it an image.
-     *
-     * @return string[]
-     */
     private function backgroundSections(): array
     {
         $fromData = array_keys((array) ($this->data['backgrounds'] ?? []));
@@ -398,6 +369,7 @@ class WeddingForm extends Component
         return collect([...self::DEFAULT_SECTIONS, ...$fromLib, ...$fromData])
             ->map(fn($s) => trim((string) $s))
             ->filter()
+            ->reject(fn($s) => $s === 'count')   // keep "countdown" only
             ->unique()
             ->values()
             ->all();
@@ -409,8 +381,8 @@ class WeddingForm extends Component
 
         foreach ($this->backgroundSections() as $section) {
             $labels['backgrounds_' . $section] = match ($section) {
-                'all'   => 'Background: shared',
-                'card'  => 'Background: Card (first screen)',
+                'all' => 'Background: shared',
+                'card' => 'Background: Card (first screen)',
                 default => 'Background: ' . Str::headline($section),
             };
         }
@@ -479,14 +451,10 @@ class WeddingForm extends Component
         $this->putSlot($slot, $url);
     }
 
-    /* ---------------------------------------------------------------
-     |  Image / music slots
-     | ------------------------------------------------------------- */
+
 
     private function slotPath(string $slot): string
     {
-        // Only the first underscore becomes a dot:
-        // groom_photo -> groom.photo, backgrounds_card -> backgrounds.card
         return preg_replace('/_/', '.', $slot, 1);
     }
 
@@ -494,10 +462,7 @@ class WeddingForm extends Component
     private function putSlot(string $slot, string $url): void
     {
         $path = $this->slotPath($slot);
-
         $this->trash[] = (string) Arr::get($this->data, $path, '');
-
-        // make sure the parent is an array (backgrounds / gift / groom ...)
         $parent = Str::before($path, '.');
 
         if ($parent !== $path && ! is_array($this->data[$parent] ?? null)) {
@@ -523,7 +488,7 @@ class WeddingForm extends Component
             $default = null;
 
             try {
-                $default = TemplateRegistry::defaultFor($path); // music too: public/assets/music/wedding.mp3
+                $default = TemplateRegistry::defaultFor($path);
             } catch (\Throwable $e) {
                 report($e);
             }
@@ -531,13 +496,13 @@ class WeddingForm extends Component
             $hasSaved = is_string($saved) && $saved !== '';
 
             $out[] = [
-                'slot'          => $slot,
-                'label'         => $label,
-                'saved'         => $hasSaved,
-                'url'           => $hasSaved ? $saved : $default,
+                'slot' => $slot,
+                'label' => $label,
+                'saved' => $hasSaved,
+                'url' => $hasSaved ? $saved : $default,
                 'gallery_index' => null,
-                'is_music'      => $slot === 'music',
-                'section'       => $section,
+                'is_music' => $slot === 'music',
+                'section' => $section,
             ];
         }
 
@@ -545,32 +510,31 @@ class WeddingForm extends Component
 
         foreach ($gallery as $i => $url) {
             $out[] = [
-                'slot'          => "gallery_$i",
-                'label'         => 'Gallery ' . ($i + 1),
-                'saved'         => true,
-                'url'           => $url,
+                'slot' => "gallery_$i",
+                'label' => 'Gallery ' . ($i + 1),
+                'saved' => true,
+                'url' => $url,
                 'gallery_index' => $i,
-                'is_music'      => false,
-                'section'       => null,
+                'is_music' => false,
+                'section' => null,
             ];
         }
 
         if (count($gallery) < self::MAX_GALLERY) {
             $out[] = [
-                'slot'          => 'gallery_new',
-                'label'         => 'Add gallery image',
-                'saved'         => false,
-                'url'           => null,
+                'slot' => 'gallery_new',
+                'label' => 'Add gallery image',
+                'saved' => false,
+                'url' => null,
                 'gallery_index' => null,
-                'is_music'      => false,
-                'section'       => null,
+                'is_music' => false,
+                'section' => null,
             ];
         }
 
         return $out;
     }
 
-    /** The upload cards grouped for the Photos tab (plain arrays, no Blade filtering). */
     #[Computed]
     public function photoGroups(): array
     {
@@ -598,15 +562,10 @@ class WeddingForm extends Component
                 'slots' => $slots->filter(fn($s) => $s['slot'] === 'music')->values()->all(),
             ],
         ];
-
         return array_values(array_filter($groups, fn($g) => ! empty($g['slots'])));
     }
 
-    /**
-     * Public URL for a stored file.
-     * If the disk URL uses the same host as APP_URL we keep only the path, so the
-     * preview still works when APP_URL does not match the address you browse with.
-     */
+
     private function publicUrl(string $stored, string $disk): string
     {
         $url     = Storage::disk($disk)->url($stored);
@@ -620,7 +579,6 @@ class WeddingForm extends Component
         return $url;
     }
 
-    /** Runs when a file arrives in any slot (cover, backgrounds_card, gallery_new, music ...). */
     public function updatedUploads($file, string $slot): void
     {
         $isGallery = $slot === 'gallery_new';
@@ -644,8 +602,6 @@ class WeddingForm extends Component
             $this->validateOnly("uploads.$slot", [
                 "uploads.$slot" => $isMusic ? ['file', 'max:' . self::MAX_UPLOAD_KB] : ['image', 'max:' . self::MAX_UPLOAD_KB],
             ]);
-
-            // m4a / mp3 mime detection is unreliable, so music is checked by extension.
             if ($isMusic) {
                 $ext = strtolower((string) $file->getClientOriginalExtension());
 
@@ -655,8 +611,6 @@ class WeddingForm extends Component
                     ]);
                 }
             }
-
-            // read metadata BEFORE store()
             $name = $file->getClientOriginalName();
             $mime = $file->getMimeType();
             $size = $file->getSize();
@@ -664,13 +618,13 @@ class WeddingForm extends Component
             $disk = $this->uploadDisk();
 
             if (! config("filesystems.disks.$disk")) {
-                throw new \RuntimeException("Disk [$disk] is not defined in config/filesystems.php (check WEDDING_UPLOAD_DISK and run php artisan config:clear).");
+                throw new RuntimeException("Disk [$disk] is not defined in config/filesystems.php (check WEDDING_UPLOAD_DISK and run php artisan config:clear).");
             }
 
             $stored = $file->store('weddings/' . auth()->id(), ['disk' => $disk]);
 
             if (! $stored) {
-                throw new \RuntimeException('The file could not be saved to the "' . $disk . '" disk.');
+                throw new RuntimeException('The file could not be saved to the "' . $disk . '" disk.');
             }
 
             $url = $this->publicUrl($stored, $disk);
@@ -687,8 +641,6 @@ class WeddingForm extends Component
             $this->dispatch('swal', type: 'error', title: __('Upload failed'), text: collect($e->errors())->flatten()->first() ?? '');
         } catch (\Throwable $e) {
             report($e);
-
-            // Flysystem hides the real reason in the previous exception (S3 / curl message)
             $reason = $e->getPrevious()?->getMessage() ?: $e->getMessage();
 
             $this->dispatch('swal', type: 'error', title: __('Upload failed'), text: Str::limit(trim(preg_replace('/\s+/', ' ', $reason)), 280));
@@ -697,7 +649,6 @@ class WeddingForm extends Component
         }
     }
 
-    /** Media row for a file we stored ourselves (source = upload). Never breaks the upload. */
     private function recordUpload(string $storedPath, ?string $name, ?string $mime, ?int $size, bool $isMusic, string $disk): void
     {
         try {
@@ -891,10 +842,10 @@ class WeddingForm extends Component
         $templateId = Template::where('key', $valid['template_key'])->value('id');
 
         $payload = [
-            'template_id'  => $templateId,
-            'label'        => $valid['label'],
-            'slug'         => $valid['slug'],
-            'status'       => $publish ? 'published' : 'draft',
+            'template_id' => $templateId,
+            'label' => $valid['label'],
+            'slug' => $valid['slug'],
+            'status' => $publish ? 'published' : 'draft',
             'published_at' => $publish ? ($this->wedding?->published_at ?? now()) : null,
         ];
 
@@ -912,7 +863,7 @@ class WeddingForm extends Component
 
         $this->wedding->refresh();
         $this->savedIsNew = $isNew;
-        $this->savedUrl   = $this->wedding->url;
+        $this->savedUrl = $this->wedding->url;
 
         $this->dispatch('swal', type: 'success', title: $isNew ? __('Wedding created.') : __('Wedding updated.'));
         $this->dispatch('scroll-top');
@@ -955,10 +906,6 @@ class WeddingForm extends Component
         $this->trash = [];
     }
 
-    /**
-     * If $url belongs to the upload disk (starts with that disk's public "url" setting)
-     * and sits inside this user's folder, return the storage path. Otherwise null.
-     */
     private function ownedDiskPath(string $url, string $disk): ?string
     {
         $base = rtrim((string) config("filesystems.disks.$disk.url"), '/');
