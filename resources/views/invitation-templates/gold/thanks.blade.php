@@ -1,4 +1,3 @@
-{{-- ============================ THANKS ============================ --}}
 <section class="g-sec g-photo" id="thanks" style="padding:128px 24px 160px;text-align:center">
     <div class="g-bgimg" data-bg="{{ $bg('thanks') }}"></div>
     <div class="g-ov" style="{{ $overlay(0.6) }}"></div>
