@@ -227,33 +227,19 @@ html:not(.js) .kx-heart-wrap {
     position: relative;
 }
 
-.g-edge {
+/* SECTION BLEND: soft dark fade top/bottom + thin gold hairline on photo sections */
+.g-photo::before {
+    content: "";
     position: absolute;
-    left: 0;
-    right: 0;
-    height: 14px;
-    z-index: 3;
+    inset: 0;
+    z-index: -1;
     pointer-events: none;
-}
-
-.g-edge.top {
-    top: -1px;
-    background: radial-gradient(
-            circle at 50% 0,
-            var(--ec) 8px,
-            transparent 8.5px
-        )
-        0 0/20px 14px repeat-x;
-}
-
-.g-edge.bottom {
-    bottom: -1px;
-    background: radial-gradient(
-            circle at 50% 100%,
-            var(--ec) 8px,
-            transparent 8.5px
-        )
-        0 0/20px 14px repeat-x;
+    background:
+        linear-gradient(to bottom, rgba(18, 11, 4, 0.6), transparent 110px),
+        linear-gradient(to top, rgba(18, 11, 4, 0.6), transparent 110px);
+    box-shadow:
+        inset 0 1px 0 rgba(246, 227, 160, 0.55),
+        inset 0 -1px 0 rgba(246, 227, 160, 0.55);
 }
 
 .g-arch-glass {
@@ -402,13 +388,6 @@ html:not(.js) .kx-heart-wrap {
     z-index: 80;
     overflow: hidden;
 }
-/* =====================================================================
-   STEP 1: in gold-wedding.css, DELETE all door rules from
-   ".gc-door {" (or the "Khmer temple doors" comment) down to
-   ".gc-door.r .knob {...}" and paste this whole block there.
-   (Needs the existing @keyframes kc-spin, kc-foil, kx-sun-pulse,
-    kx-sway and the --band / --chakra / --kx-ease variables.)
-   ===================================================================== */
 
 /* ---------- Golden Khmer temple doors ---------- */
 .gc-door {
@@ -427,7 +406,6 @@ html:not(.js) .kx-heart-wrap {
     width: 50%;
     overflow: hidden;
     background:
-        /* moving gilded sheen */
         linear-gradient(
                 105deg,
                 transparent 35%,
@@ -435,22 +413,20 @@ html:not(.js) .kx-heart-wrap {
                 transparent 65%
             )
             160% 0 / 250% 100% no-repeat,
-        /* soft warm glow */
         radial-gradient(
-                ellipse at 50% 42%,
-                rgba(255, 244, 190, 0.45),
-                transparent 62%
-            ),
-        /* gold body */
+            ellipse at 50% 42%,
+            rgba(255, 244, 190, 0.45),
+            transparent 62%
+        ),
         linear-gradient(
-                90deg,
-                #7a5410 0%,
-                #c99a30 14%,
-                #f6e3a0 42%,
-                #e3bd5a 62%,
-                #b98a2a 84%,
-                #6b4a10 100%
-            );
+            90deg,
+            #7a5410 0%,
+            #c99a30 14%,
+            #f6e3a0 42%,
+            #e3bd5a 62%,
+            #b98a2a 84%,
+            #6b4a10 100%
+        );
     box-shadow:
         inset 0 0 40px rgba(70, 42, 5, 0.5),
         0 0 30px rgba(0, 0, 0, 0.35);
@@ -824,8 +800,7 @@ html:not(.js) .kx-heart-wrap {
         gcd-bloom 1.4s var(--kx-ease, ease-out) both,
         gcd-glow 4s ease-in-out 2.4s infinite;
     animation-delay:
-        calc(var(--i) * 0.15s + 0.5s),
-        calc(var(--i) * 0.2s + 2.4s);
+        calc(var(--i) * 0.15s + 0.5s), calc(var(--i) * 0.2s + 2.4s);
 }
 
 @keyframes gcd-bloom {
@@ -920,7 +895,8 @@ html:not(.js) .kx-heart-wrap {
 
 .gc-door.r .knob {
     left: -15px;
-} 
+}
+
 .gc.opened {
     pointer-events: none;
 }
@@ -1093,7 +1069,7 @@ html:not(.js) .kx-heart-wrap {
     }
 }
 
-/* ---------- Cover TOP block (positioned higher) ---------- */
+/* ---------- Cover TOP block ---------- */
 .gc-top {
     position: absolute;
     left: 0;
@@ -1103,7 +1079,6 @@ html:not(.js) .kx-heart-wrap {
     text-align: center;
 }
 
-/* logo + halo */
 .gc-logo {
     position: relative;
     display: flex;
@@ -1179,7 +1154,6 @@ html:not(.js) .kx-heart-wrap {
         drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45));
 }
 
-/* ornament dividers */
 .gc-orn {
     display: flex;
     align-items: center;
@@ -1214,7 +1188,6 @@ html:not(.js) .kx-heart-wrap {
     animation: kx-diamond 3s ease-in-out infinite;
 }
 
-/* invite text */
 .gc-invite {
     margin-top: 14px;
     font-size: 12px;
@@ -1223,7 +1196,6 @@ html:not(.js) .kx-heart-wrap {
     text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
 }
 
-/* names */
 .gc-names {
     display: flex;
     flex-direction: column;
@@ -1263,7 +1235,6 @@ html:not(.js) .kx-heart-wrap {
     background: linear-gradient(270deg, transparent, #e3bd5a);
 }
 
-/* subtitle pill */
 .gc-sub {
     display: inline-block;
     margin-top: 10px;
@@ -1277,7 +1248,6 @@ html:not(.js) .kx-heart-wrap {
     backdrop-filter: blur(3px);
 }
 
-/* short screens */
 @media (max-height: 700px) {
     .gc-top {
         top: 3%;
@@ -1333,7 +1303,7 @@ html:not(.js) .kx-heart-wrap {
     right: 12px;
 }
 
-/* ---------- Open invitation button (single, consolidated) ---------- */
+/* ---------- Open invitation button ---------- */
 .gc-open {
     position: relative;
     z-index: 20;
@@ -2468,6 +2438,20 @@ html:not(.js) .kx-heart-wrap {
     }
 }
 
+#countdown .cd-box {
+    background: rgba(255, 255, 255, 0.08);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
+
+#countdown .cd-box::before {
+    border-color: rgba(246, 227, 160, 0.45);
+}
+
+#countdown .cd-grid > div + div {
+    border-left-color: rgba(246, 227, 160, 0.3);
+}
+
 .ac-wrap {
     display: flex;
     justify-content: center;
@@ -2550,6 +2534,18 @@ html:not(.js) .kx-heart-wrap {
     100% {
         transform: translateX(130%);
     }
+}
+
+#countdown .ac-btn {
+    background: rgba(0, 0, 0, 0.25);
+    border-color: rgba(246, 227, 160, 0.7);
+    color: #f6e3a0;
+}
+
+#countdown .ac-btn:hover,
+#countdown .ac-btn.done {
+    background: var(--foil);
+    color: #3b2503;
 }
 
 .burst-ring {
@@ -4074,10 +4070,6 @@ textarea.rs-field {
 
 /* =====================================================================
    KHMER MOTION LAYER
-   - Backgrounds: Ken-Burns drift, parallax, cross-fade when swapped
-   - Kbach / lotus / apsara-inspired movement
-   - Falling champa petals, gold fireflies, shimmering foil
-   - Extra reveal styles: lotus-bloom, fan-unfold, temple-rise, curtain
    All of it is switched off by prefers-reduced-motion (bottom of file).
    ===================================================================== */
 :root {
@@ -4654,16 +4646,149 @@ button[type="submit"]::after {
 }
 
 /* ---------- Khmer title font ---------- */
+@font-face {
+    font-family: "AKbalthomKbach";
+    src: url("/assets/fonts/AKbalthomKbachRegular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 .title-font {
-    font-family: "Moul", serif !important;
+    font-family: "AKbalthomKbach", serif !important;
     font-weight: 400;
     font-style: normal;
     line-height: 1.8;
 }
 
-/* =====================================================================
-   REDUCED MOTION (single block, covers everything)
-   ===================================================================== */
+.st-title {
+    font-family: "AKbalthomKbach", serif !important;
+}
+
+.g-div {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 16px;
+    background: radial-gradient(
+        ellipse at 50% 50%,
+        #8c2a38 0%,
+        #5e1220 55%,
+        #3a0810 100%
+    );
+    border-block: 1px solid rgba(246, 227, 160, 0.7);
+    box-shadow:
+        inset 0 3px 0 #3a0810,
+        inset 0 4px 0 rgba(246, 227, 160, 0.35),
+        inset 0 -3px 0 #3a0810,
+        inset 0 -4px 0 rgba(246, 227, 160, 0.35);
+}
+.g-div::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.08;
+    background: #f6e3a0;
+    -webkit-mask-image: var(--chakra);
+    mask-image: var(--chakra);
+    -webkit-mask-size: 48px 48px;
+    mask-size: 48px 48px;
+}
+.g-div-svg {
+    display: block;
+    width: min(100%, 400px);
+    height: auto;
+    overflow: visible;
+}
+
+/* the vine draws itself when the box scrolls into view (class "in" comes from JS) */
+.g-div .kb-draw {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+}
+
+.g-div.in .kb-draw {
+    animation: kx-stroke 2s var(--kx-ease) forwards;
+    animation-delay: calc(var(--i, 0) * 0.3s + 0.4s);
+}
+
+/* lotus petals and flame leaves bloom open from their base */
+.g-div .kb-petal,
+.g-div .kb-leaf {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+}
+
+.g-div.in .kb-petal {
+    animation: gcd-bloom 1.2s var(--kx-ease) both;
+    animation-delay: calc(var(--i, 0) * 0.15s + 0.2s);
+}
+
+.g-div.in .kb-leaf {
+    animation: gcd-bloom 1s var(--kx-ease) both;
+    animation-delay: calc(var(--i, 0) * 0.3s + 1.4s);
+}
+
+/* soft glow on the lotus once it has opened */
+.g-div.in .kb-lotus {
+    animation: kb-glow 4s ease-in-out 2.4s infinite;
+}
+
+@keyframes kb-glow {
+    0%,
+    100% {
+        filter: drop-shadow(0 0 0 rgba(227, 189, 90, 0));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 6px rgba(255, 226, 140, 0.9));
+    }
+}
+
+html:not(.js) .g-div .kb-petal,
+html:not(.js) .g-div .kb-leaf {
+    opacity: 1;
+}
+
+html:not(.js) .g-div .kb-draw {
+    stroke-dashoffset: 0;
+}
+
+/* band version: a row of kbach scrolls that slowly flows sideways */
+.g-div--band {
+    padding: 12px 0;
+}
+
+.g-div-band {
+    display: block;
+    width: 100%;
+    height: 20px;
+    background: var(--foil);
+    background-size: 220% 100%;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 20' width='64' height='20'%3E%3Cg fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M0 10H4M4 10C10 10 11 3 18 3C25 3 26 11 19 11C15 11 15 7 18 7'/%3E%3Cpath d='M32 10H36M36 10C42 10 43 17 50 17C57 17 58 9 51 9C47 9 47 13 50 13'/%3E%3C/g%3E%3Ccircle cx='29' cy='10' r='1.3'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 20' width='64' height='20'%3E%3Cg fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M0 10H4M4 10C10 10 11 3 18 3C25 3 26 11 19 11C15 11 15 7 18 7'/%3E%3Cpath d='M32 10H36M36 10C42 10 43 17 50 17C57 17 58 9 51 9C47 9 47 13 50 13'/%3E%3C/g%3E%3Ccircle cx='29' cy='10' r='1.3'/%3E%3C/svg%3E");
+    -webkit-mask-repeat: repeat-x;
+    mask-repeat: repeat-x;
+    -webkit-mask-size: 64px 20px;
+    mask-size: 64px 20px;
+    animation:
+        gd-band 6s linear infinite,
+        kc-foil 6s linear infinite;
+}
+
+@keyframes gd-band {
+    to {
+        -webkit-mask-position: 64px 0;
+        mask-position: 64px 0;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .gw *,
     .gw *::before,

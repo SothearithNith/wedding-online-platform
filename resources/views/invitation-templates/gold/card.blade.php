@@ -1,4 +1,3 @@
- 
 <section id="hero" class="g-hero" data-bg="{{ $heroBg }}" data-eager>
     <div class="kc-fx" aria-hidden="true">
         <div class="royal-glow"></div>
@@ -18,8 +17,6 @@
         <div class="kc-shape" aria-hidden="true"></div>
         <div class="kc-rays" aria-hidden="true"></div>
         <div class="kc-sun" aria-hidden="true"></div>
-
-        {{-- rotating mandala --}}
         <svg aria-hidden="true" viewBox="-100 -100 200 200" class="kc-mandala">
             <g fill="none" stroke="{{ $GOLD }}" stroke-width="0.8">
                 @for ($i = 0; $i < 16; $i++)
@@ -38,26 +35,9 @@
         <div class="royal-enter" style="--d:50ms;position:relative;z-index:10;width:100%;margin:-8px 0 4px">
             {!! $kbach('kc-kb-top', true) !!}
         </div>
-        <div class="royal-enter" style="--d:150ms;position:relative;z-index:10">
-            <img src="{{ asset('assets/images/gold/angkor.png') }}" alt="" width="320" height="134"
-                class="kc-angkor" onerror="this.style.display='none'">
-            <div class="kc-angkor-base" aria-hidden="true"></div>
-        </div>
-        <div class="royal-enter" style="--d:300ms;position:relative;z-index:10;margin-top:4px">
-            <div class="royal-ornament-glow">
-                <div class="chakra-band" style="width:150px"></div>
-            </div>
-        </div>
 
         <div class="royal-enter"
-            style="--d:450ms;position:relative;z-index:10;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:12px">
-            <span class="royal-shimmer" style="font-size:14px">❧</span>
-            <span class="kc-moul" style="font-size:11px;letter-spacing:.15em;color:#e3bd5a">{{ $K['wedding'] }}</span>
-            <span class="royal-shimmer" style="font-size:14px">❧</span>
-        </div>
-
-        <div class="royal-enter"
-            style="--d:650ms;position:relative;z-index:10;margin-top:8px;display:flex;width:100%;max-width:310px;flex-direction:column;align-items:center">
+            style="--d:650ms;position:relative;z-index:10;margin-top:-20px;display:flex;width:100%;max-width:310px;flex-direction:column;align-items:center">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
                 <span class="hl-rule" style="width:40px"></span>
                 <span class="royal-diamond" style="font-size:18px;color:#e3bd5a">✥</span>
@@ -74,7 +54,6 @@
             </div>
         </div>
 
-        {{-- parents --}}
         <div class="royal-enter"
             style="--d:1150ms;position:relative;z-index:10;margin-top:16px;display:grid;width:100%;grid-template-columns:1fr 1fr;gap:12px">
             @foreach ([[$K['parentsGroom'], $groom['parents']], [$K['parentsBride'], $bride['parents']]] as [$lab, $par])
@@ -83,7 +62,7 @@
                     <div class="hl-rule" style="width:32px;margin:4px auto 0"></div>
                     <div style="margin-top:8px;display:flex;flex-direction:column;align-items:center;gap:6px">
                         @foreach ($parents($par) as $n)
-                            <p class="hl-parent">{{ $n }}</p>
+                            <p class="hl-parent title-font">{{ $n }}</p>
                         @endforeach
                     </div>
                 </div>
@@ -103,7 +82,6 @@
                 {{ $w['intro'] }}</p>
         </div>
 
-        {{-- emblem --}}
         <div class="rv" data-v="zoom" data-delay="150" style="position:relative;z-index:10;margin-top:8px">
             <div class="royal-emblem-glow">
                 <div style="position:relative;margin:0 auto;height:112px;width:96px;color:#fbeec1">
@@ -133,12 +111,11 @@
             </div>
         @endif
 
-        {{-- names --}}
         <div class="royal-enter"
             style="--d:1550ms;position:relative;z-index:10;margin-top:16px;display:grid;width:100%;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px">
             <div style="min-width:0">
                 <p class="hl-label">{{ $K['groom'] }}</p>
-                <p class="kc-name kc-moul" style="margin-top:6px">{{ $groom['name'] }}</p>
+                <p class="kc-name kc-moul title-font" style="margin-top:6px">{{ $groom['name'] }}</p>
             </div>
             <svg aria-hidden="true" viewBox="-50 -50 100 100" width="44" height="44" class="kc-knot">
                 @for ($i = 0; $i < 8; $i++)
@@ -153,7 +130,7 @@
             </svg>
             <div style="min-width:0">
                 <p class="hl-label">{{ $K['bride'] }}</p>
-                <p class="kc-name kc-moul" style="margin-top:6px">{{ $bride['name'] }}</p>
+                <p class="kc-name kc-moul title-font" style="margin-top:6px">{{ $bride['name'] }}</p>
             </div>
         </div>
 
