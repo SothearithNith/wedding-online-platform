@@ -62,7 +62,7 @@
                                 throw new Error(
                                     `This file is ${mb(out.size)} but the server accepts at most ${mb(limit)}. ` +
                                     `Use a smaller file, or raise upload_max_filesize and post_max_size in php.ini.`
-                                    );
+                                );
                             }
 
                             await this.send(out);
@@ -717,41 +717,111 @@
                 </div>
             </div>
 
-            {{-- ============ Sticky save bar ============ --}}
-            <div class="fixed inset-x-0 bottom-4 z-30 mx-auto w-[calc(100%-2rem)] max-w-5xl">
-                <div
-                    class="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-gray-200 bg-white/90 px-4 py-3 shadow-xl backdrop-blur">
+            {{-- Premium Glass Bottom Action Bar --}}
+            <div class="fixed inset-x-0 bottom-0 z-40 transition-[left] duration-300 ease-out lg:left-20"
+                :class="collapsed ? 'lg:left-20' : 'lg:left-72'">
 
-                    <label class="flex cursor-pointer items-center gap-3 text-sm">
-                        <span class="relative inline-flex items-center">
-                            <input type="checkbox" wire:model.live="is_published" class="peer sr-only">
-                            <span
-                                class="h-6 w-11 rounded-full bg-gray-300 transition peer-checked:bg-green-500 peer-focus-visible:ring-2 peer-focus-visible:ring-green-500/40 after:absolute after:left-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow after:transition-all after:content-[''] peer-checked:after:translate-x-5"></span>
-                        </span>
-                        <span>
-                            <span class="font-medium">{{ $is_published ? __('Published') : __('Draft') }}</span>
-                            <span class="hidden text-xs text-gray-500 sm:inline">
-                                —
-                                {{ $is_published ? __('anyone with the link can open it') : __('only you can preview it') }}
-                            </span>
-                        </span>
-                    </label>
+                <div class="mx-auto w-full max-w-7xl px-3 pb-4 sm:px-6 lg:px-8">
 
-                    <div class="flex items-center gap-3">
-                        <a href="{{ route('weddings.index') }}" wire:navigate
-                            class="text-sm text-gray-500 hover:underline">
-                            {{ __('Cancel') }}
-                        </a>
+                    <div
+                        class="relative overflow-hidden rounded-2xl border border-white/70
+                    bg-white/65 shadow-[0_8px_40px_rgba(15,23,42,0.10)]
+                    backdrop-blur-2xl backdrop-saturate-150
+                    ring-1 ring-gray-900/[0.04]">
 
-                        <button type="submit" wire:loading.attr="disabled" wire:target="save"
-                            class="rounded-xl bg-amber-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-amber-700 disabled:opacity-60">
-                            <span wire:loading.remove
-                                wire:target="save">{{ $wedding ? __('Save changes') : __('Create wedding') }}</span>
-                            <span wire:loading wire:target="save">{{ __('Saving…') }}</span>
-                        </button>
+                        {{-- Subtle glass highlight --}}
+                        <div
+                            class="pointer-events-none absolute inset-x-0 top-0 h-px
+                        bg-gradient-to-r from-transparent via-white to-transparent">
+                        </div>
+
+                        <div
+                            class="relative flex flex-col gap-4 px-4 py-4
+                        sm:flex-row sm:items-center sm:justify-between
+                        sm:px-6">
+
+                            {{-- Publication Status --}}
+                            <label class="group flex cursor-pointer items-center gap-3">
+
+                                <span class="relative inline-flex shrink-0 items-center">
+                                    <input type="checkbox" wire:model.live="is_published" class="peer sr-only">
+
+                                    <span
+                                        class="relative h-7 w-12 rounded-full
+                                     bg-slate-300/80 shadow-inner
+                                     transition-all duration-300
+                                     after:absolute after:left-1 after:top-1
+                                     after:h-5 after:w-5 after:rounded-full
+                                     after:bg-white after:shadow-md
+                                     after:transition-all after:duration-300
+                                     after:content-['']
+                                     peer-checked:bg-emerald-500
+                                     peer-checked:after:translate-x-5
+                                     peer-focus-visible:ring-4
+                                     peer-focus-visible:ring-emerald-500/20">
+                                    </span>
+                                </span>
+
+                                <span class="flex flex-col gap-0.5">
+                                    <span class="flex items-center gap-2 text-sm font-semibold text-slate-800">
+                                        {{ $is_published ? __('Published') : __('Draft') }}
+
+                                        <span
+                                            class="h-1.5 w-1.5 rounded-full
+                                {{ $is_published ? 'bg-emerald-500' : 'bg-amber-500' }}">
+                                        </span>
+                                    </span>
+
+                                    <span class="text-xs text-slate-500">
+                                        {{ $is_published ? __('Anyone with the link can open it') : __('Only you can preview it') }}
+                                    </span>
+                                </span>
+
+                            </label>
+
+                            {{-- Action Buttons --}}
+                            <div class="flex items-center justify-end gap-2 sm:gap-3">
+
+                                <a href="{{ route('weddings.index') }}" wire:navigate
+                                    class="rounded-xl px-4 py-2.5 text-sm font-medium
+                               text-slate-500 transition-all duration-200
+                               hover:bg-white/70 hover:text-slate-800">
+                                    {{ __('Cancel') }}
+                                </a>
+
+                                <button type="submit" wire:loading.attr="disabled" wire:target="save"
+                                    class="group relative inline-flex items-center justify-center
+                               gap-2 overflow-hidden rounded-xl
+                               border border-amber-500/20
+                               bg-gradient-to-r from-amber-500 to-amber-600
+                               px-6 py-2.5 text-sm font-semibold text-white
+                               shadow-[0_4px_14px_rgba(217,119,6,0.25)]
+                               transition-all duration-300
+                               hover:-translate-y-0.5 hover:from-amber-600
+                               hover:to-amber-700
+                               hover:shadow-[0_7px_20px_rgba(217,119,6,0.30)]
+                               active:translate-y-0
+                               disabled:cursor-not-allowed disabled:opacity-60">
+
+                                    <span wire:loading.remove wire:target="save"
+                                        class="inline-flex items-center gap-2">
+                                        <i class="bi bi-check2-circle text-base"></i>
+                                        {{ $wedding ? __('Save changes') : __('Create wedding') }}
+                                    </span>
+
+                                    <span wire:loading wire:target="save" class="inline-flex items-center gap-2">
+                                        <i class="bi bi-arrow-repeat animate-spin"></i>
+                                        {{ __('Saving…') }}
+                                    </span>
+
+                                </button>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
+
         </form>
 
     @endif
