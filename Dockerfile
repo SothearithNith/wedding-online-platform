@@ -1,7 +1,3 @@
-
-# ==========================================
-# Stage 1: PHP Base
-# ==========================================
 FROM dunglas/frankenphp:1-php8.4 AS base
 
 RUN install-php-extensions \
@@ -16,10 +12,6 @@ RUN install-php-extensions \
 
 WORKDIR /app
 
-
-# ==========================================
-# Stage 2: Composer Dependencies
-# ==========================================
 FROM base AS composer-dependencies
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -33,10 +25,6 @@ RUN composer install \
     --optimize-autoloader \
     --no-scripts
 
-
-# ==========================================
-# Stage 3: Frontend Build
-# ==========================================
 FROM node:22-alpine AS frontend
 
 WORKDIR /app
@@ -45,19 +33,15 @@ COPY package.json package-lock.json ./
 
 RUN npm ci
 
-COPY resources ./resources
-COPY public ./public
-COPY vite.config.js ./
+COPY . .
 
 RUN npm run build
 
-# Verify Vite generated the production manifest
-RUN test -f public/build/manifest.json
+# Verify Vite generated its production manifest
+RUN echo "Checking production assets..." \
+    && ls -lah public/build \
+    && test -s public/build/manifest.json
 
-
-# ==========================================
-# Stage 4: Production
-# ==========================================
 FROM base AS production
 
 WORKDIR /app
@@ -67,17 +51,19 @@ ENV APP_DEBUG=false
 ENV LOG_CHANNEL=stderr
 
 COPY . .
-
-# Composer dependencies
+ 
 COPY --from=composer-dependencies /app/vendor ./vendor
 
-# Production CSS and JavaScript
+# Copy compiled Vite CSS and JS
 COPY --from=frontend /app/public/build ./public/build
 
+# Copy Caddy configuration
 COPY Caddyfile /etc/caddy/Caddyfile
 
+# Copy startup script
 COPY --chmod=755 docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 
+# Prepare Laravel directories
 RUN mkdir -p \
     storage/framework/cache \
     storage/framework/sessions \
@@ -85,6 +71,7 @@ RUN mkdir -p \
     storage/logs \
     bootstrap/cache
 
+# Permissions
 RUN chown -R www-data:www-data storage bootstrap/cache
 
 EXPOSE 8080

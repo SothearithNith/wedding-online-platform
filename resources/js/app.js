@@ -1,5 +1,7 @@
 import Swal from "sweetalert2";
 import axios from "axios";
+import "./bootstrap";
+
 
 window.Swal = Swal;
 window.axios = axios;
