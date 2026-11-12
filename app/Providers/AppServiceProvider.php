@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Livewire\Admin\RSVP\InvitationRsvp;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,5 +28,11 @@ class AppServiceProvider extends ServiceProvider
             return $user->hasRole('Master Admin') ? true : null;
             Livewire::component('invitation-rsvp', InvitationRsvp::class);
         });
+
+
+        // apply css
+        if (app()->environment('production')) {
+            URL::forceScheme('https');
+        }
     }
 }
