@@ -27,7 +27,7 @@ class Login extends Component
 
     public function login(): void
     {
-        Log::info('Wedding login method reached', [
+        dd('Wedding login method reached', [
             'session_id' => request()->session()->getId(),
             'has_session_cookie' => request()->cookies->has(
                 config('session.cookie')
