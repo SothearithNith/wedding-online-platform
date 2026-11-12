@@ -1,3 +1,7 @@
+
+# ==========================================
+# Stage 1: PHP Base
+# ==========================================
 FROM dunglas/frankenphp:1-php8.4 AS base
 
 RUN install-php-extensions \
@@ -12,6 +16,10 @@ RUN install-php-extensions \
 
 WORKDIR /app
 
+
+# ==========================================
+# Stage 2: Composer Dependencies
+# ==========================================
 FROM base AS composer-dependencies
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -25,6 +33,10 @@ RUN composer install \
     --optimize-autoloader \
     --no-scripts
 
+
+# ==========================================
+# Stage 3: Frontend Build
+# ==========================================
 FROM node:22-alpine AS frontend
 
 WORKDIR /app
@@ -33,15 +45,26 @@ COPY package.json package-lock.json ./
 
 RUN npm ci
 
+# Copy source files for Tailwind scanning
 COPY . .
 
+# Print Node and Vite versions
+RUN node --version && npm --version
+RUN npm list vite tailwindcss @tailwindcss/vite laravel-vite-plugin
+
+# Build frontend
 RUN npm run build
 
-# Verify Vite generated its production manifest
-RUN echo "Checking production assets..." \
-    && ls -lah public/build \
+# Inspect generated files
+RUN echo "===== VITE BUILD OUTPUT =====" \
+    && find public/build -maxdepth 3 -type f -print \
+    && echo "===== MANIFEST CHECK =====" \
     && test -s public/build/manifest.json
 
+
+# ==========================================
+# Stage 4: Production
+# ==========================================
 FROM base AS production
 
 WORKDIR /app
@@ -51,19 +74,16 @@ ENV APP_DEBUG=false
 ENV LOG_CHANNEL=stderr
 
 COPY . .
- 
+
 COPY --from=composer-dependencies /app/vendor ./vendor
 
-# Copy compiled Vite CSS and JS
+# Copy compiled CSS and JS
 COPY --from=frontend /app/public/build ./public/build
 
-# Copy Caddy configuration
 COPY Caddyfile /etc/caddy/Caddyfile
 
-# Copy startup script
 COPY --chmod=755 docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 
-# Prepare Laravel directories
 RUN mkdir -p \
     storage/framework/cache \
     storage/framework/sessions \
@@ -71,7 +91,6 @@ RUN mkdir -p \
     storage/logs \
     bootstrap/cache
 
-# Permissions
 RUN chown -R www-data:www-data storage bootstrap/cache
 
 EXPOSE 8080
