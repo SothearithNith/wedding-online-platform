@@ -8,12 +8,11 @@ export default defineConfig({
             input: ["resources/css/app.css", "resources/js/app.js"],
             refresh: true,
         }),
-
         tailwindcss(),
     ],
 
     build: {
-        manifest: true,
+        manifest: "manifest.json",
         outDir: "public/build",
         emptyOutDir: true,
     },
