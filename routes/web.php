@@ -15,22 +15,21 @@ use App\Models\Template;
 use App\Support\InvitationPayload;
 use App\Support\TemplateRegistry;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 
 
 
-Route::get('/debug-session', fn() => [
-    'is_secure'     => request()->isSecure(),
-    'scheme'        => request()->getScheme(),
-    'host'          => request()->getHost(),
-    'session_id'    => session()->getId(),
-    'driver'        => config('session.driver'),
-    'domain'        => config('session.domain'),
-    'secure_cookie' => config('session.secure'),
-    'same_site'     => config('session.same_site'),
-    'cookie_name'   => config('session.cookie'),
-]);
+Route::get('/debug-session', function () {
+    session()->increment('hits');
+    return [
+        'session_id' => session()->getId(),
+        'hits'       => session('hits'),
+        'cookies'    => array_keys(request()->cookies->all()),
+        'db_rows'    => DB::table('sessions')->count(),
+    ];
+});
 // Public homepage
 Route::get('/', Dashboard::class)
     ->name('dashboard');
