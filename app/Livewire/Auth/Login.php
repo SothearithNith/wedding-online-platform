@@ -12,27 +12,32 @@ use Livewire\Attributes\Title;
 class Login extends Component
 {
     public string $email = '';
+
     public string $password = '';
+
     public bool $remember = false;
 
-    public function mount()
-    { 
+    public function mount(): void
+    {
         if (Auth::check()) {
-            return redirect()->route('admin');
+            $this->redirectRoute('admin');
         }
     }
 
-    public function login()
+    public function login(): void
     {
         $validated = $this->validate([
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],
         ]);
 
-        if (!Auth::attempt([
+        $authenticated = Auth::attempt([
             'email' => $validated['email'],
             'password' => $validated['password'],
-        ], $this->remember)) {
+        ], $this->remember);
+
+        if (! $authenticated) {
+            $this->reset('password');
 
             $this->dispatch(
                 'swal',
@@ -44,16 +49,11 @@ class Login extends Component
             return;
         }
 
+        // Regenerate the session after successful authentication.
         request()->session()->regenerate();
 
-        $this->dispatch(
-            'swal',
-            icon: 'success',
-            title: 'Welcome Back!',
-            text: 'You have successfully logged in.'
-        );
-
-        return $this->redirectRoute('admin', navigate: true);
+        // Redirect to the administrator dashboard.
+        $this->redirectRoute('admin');
     }
 
     public function render()
