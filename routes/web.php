@@ -97,3 +97,14 @@ Route::get('/{slug}', [PublicWeddingController::class, 'show'])->name('wedding.s
 Route::post('/rsvp/{invitation}', [RsvpController::class, 'store'])
     ->middleware('throttle:10,1')
     ->name('invitations.rsvp');
+Route::get('/debug-session', fn() => [
+    'is_secure'     => request()->isSecure(),
+    'scheme'        => request()->getScheme(),
+    'host'          => request()->getHost(),
+    'session_id'    => session()->getId(),
+    'driver'        => config('session.driver'),
+    'domain'        => config('session.domain'),
+    'secure_cookie' => config('session.secure'),
+    'same_site'     => config('session.same_site'),
+    'cookie_name'   => config('session.cookie'),
+]);

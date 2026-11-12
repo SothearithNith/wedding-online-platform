@@ -26,15 +26,7 @@ class Login extends Component
     }
 
     public function login(): void
-    {
-        dd('Wedding login method reached', [
-            'session_id' => request()->session()->getId(),
-            'has_session_cookie' => request()->cookies->has(
-                config('session.cookie')
-            ),
-            'secure' => request()->isSecure(),
-        ]);
-
+    { 
         $validated = $this->validate([
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],
