@@ -1,6 +1,6 @@
 
 # ==========================================
-# Base: PHP 8.4 + FrankenPHP
+# Stage 1: PHP Base
 # ==========================================
 FROM dunglas/frankenphp:1-php8.4 AS base
 
@@ -17,7 +17,7 @@ RUN install-php-extensions \
     opcache
 
 # ==========================================
-# Composer dependencies
+# Stage 2: Composer Dependencies
 # ==========================================
 FROM base AS vendor
 
@@ -40,7 +40,7 @@ RUN composer dump-autoload \
     --no-scripts
 
 # ==========================================
-# Frontend build
+# Stage 3: Frontend Build
 # ==========================================
 FROM node:22-alpine AS frontend
 
@@ -55,7 +55,7 @@ COPY . .
 RUN npm run build
 
 # ==========================================
-# Production
+# Stage 4: Production
 # ==========================================
 FROM base AS production
 
@@ -67,9 +67,11 @@ COPY --from=frontend /app/public/build /app/public/build
 
 COPY Caddyfile /etc/caddy/Caddyfile
 
+# Copy entrypoint as executable
 COPY --chmod=755 docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 
-RUN mkdir -p storage/framework/cache \
+RUN mkdir -p \
+    storage/framework/cache \
     storage/framework/sessions \
     storage/framework/views \
     storage/logs \
@@ -81,6 +83,6 @@ ENV APP_DEBUG=false
 
 EXPOSE 8080
 
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint"]
+ENTRYPOINT ["sh", "/usr/local/bin/docker-entrypoint"]
 
 CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
