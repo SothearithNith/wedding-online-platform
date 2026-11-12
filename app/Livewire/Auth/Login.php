@@ -2,11 +2,10 @@
 
 namespace App\Livewire\Auth;
 
-use AWS\CRT\Log;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
+use Livewire\Component;
 
 #[Layout('layouts.guest')]
 #[Title('Admin Login')]
@@ -18,26 +17,25 @@ class Login extends Component
 
     public bool $remember = false;
 
-    public function mount(): void
+    public function mount()
     {
         if (Auth::check()) {
-            $this->redirectRoute('admin');
+            return $this->redirectRoute('admin');
         }
     }
 
-    public function login(): void
-    { 
+    public function login()
+    {
+        if (Auth::check()) {
+            return $this->redirectRoute('admin');
+        }
+
         $validated = $this->validate([
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],
         ]);
 
-        $authenticated = Auth::attempt([
-            'email' => $validated['email'],
-            'password' => $validated['password'],
-        ], $this->remember);
-
-        if (! $authenticated) {
+        if (! Auth::attempt($validated, $this->remember)) {
             $this->reset('password');
 
             $this->dispatch(
@@ -49,8 +47,10 @@ class Login extends Component
 
             return;
         }
-        request()->session()->regenerate();
-        $this->redirectRoute('admin');
+
+        session()->regenerate();
+
+        return $this->redirectRoute('admin');
     }
 
     public function render()
