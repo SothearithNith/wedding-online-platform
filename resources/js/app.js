@@ -4,7 +4,6 @@ import "./bootstrap";
 
 window.Swal = Swal;
 window.axios = axios;
-
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 document.addEventListener("livewire:init", () => {
@@ -18,9 +17,7 @@ document.addEventListener("livewire:init", () => {
             confirmButtonColor: "#7c3aed",
         });
     });
-});
 
-document.addEventListener("livewire:init", () => {
     Livewire.hook("request", ({ fail }) => {
         fail(({ status, preventDefault }) => {
             if (status === 419) {
