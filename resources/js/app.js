@@ -2,7 +2,6 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import "./bootstrap";
 
-
 window.Swal = Swal;
 window.axios = axios;
 
@@ -17,6 +16,17 @@ document.addEventListener("livewire:init", () => {
             title: data.title ?? "Notification",
             text: data.text ?? "",
             confirmButtonColor: "#7c3aed",
+        });
+    });
+});
+
+document.addEventListener("livewire:init", () => {
+    Livewire.hook("request", ({ fail }) => {
+        fail(({ status, preventDefault }) => {
+            if (status === 419) {
+                preventDefault();
+                window.location.reload();
+            }
         });
     });
 });
