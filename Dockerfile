@@ -49,11 +49,10 @@ COPY resources ./resources
 COPY public ./public
 COPY vite.config.js ./
 
-# Include other frontend configuration if your project uses it.
-COPY postcss.config.js* ./
-COPY tailwind.config.js* ./
-
 RUN npm run build
+
+# Verify Vite generated the production manifest
+RUN test -f public/build/manifest.json
 
 
 # ==========================================
@@ -67,19 +66,16 @@ ENV APP_ENV=production
 ENV APP_DEBUG=false
 ENV LOG_CHANNEL=stderr
 
-# Copy Laravel application
 COPY . .
 
-# Copy Composer dependencies
+# Composer dependencies
 COPY --from=composer-dependencies /app/vendor ./vendor
 
-# Copy compiled CSS and JavaScript
+# Production CSS and JavaScript
 COPY --from=frontend /app/public/build ./public/build
 
-# Caddy configuration
 COPY Caddyfile /etc/caddy/Caddyfile
 
-# Entrypoint
 COPY --chmod=755 docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 
 RUN mkdir -p \
