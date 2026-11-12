@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Auth;
 
+use AWS\CRT\Log;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
@@ -26,6 +27,14 @@ class Login extends Component
 
     public function login(): void
     {
+        Log::info('Wedding login method reached', [
+            'session_id' => request()->session()->getId(),
+            'has_session_cookie' => request()->cookies->has(
+                config('session.cookie')
+            ),
+            'secure' => request()->isSecure(),
+        ]);
+
         $validated = $this->validate([
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],
@@ -48,11 +57,7 @@ class Login extends Component
 
             return;
         }
-
-        // Regenerate the session after successful authentication.
         request()->session()->regenerate();
-
-        // Redirect to the administrator dashboard.
         $this->redirectRoute('admin');
     }
 
