@@ -1,4 +1,3 @@
-
 <?php
 
 use App\Http\Middleware\SetLocale;
@@ -16,7 +15,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             SetLocale::class,
         ]);
+
         $middleware->trustProxies(at: '*');
+        $middleware->validateCsrfTokens(except: [
+            'rsvp/*',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
