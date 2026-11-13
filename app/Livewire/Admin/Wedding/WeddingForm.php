@@ -33,7 +33,7 @@ class WeddingForm extends Component
         'gift_qr' => 'Gift QR',
         'music' => 'Music (mp3 / m4a)',
     ];
-    // private const DEFAULT_SECTIONS = ['card', 'all', 'intro', 'count', 'story', 'schedule', 'gallery', 'rsvp', 'thanks'];
+
     private const DEFAULT_SECTIONS = ['card', 'all', 'intro', 'story', 'schedule', 'gallery', 'rsvp', 'thanks'];
     private const MUSIC_EXTENSIONS = ['mp3', 'm4a'];
     private const MAX_UPLOAD_KB = 20480;
@@ -82,17 +82,16 @@ class WeddingForm extends Component
     {
         if ($wedding && $wedding->exists) {
             abort_unless($wedding->user_id === auth()->id(), 403);
-
-            $this->wedding      = $wedding;
+            $this->wedding = $wedding;
             $this->template_key = $wedding->template_key;
-            $this->label        = (string) $wedding->label;
-            $this->slug         = $wedding->slug;
-            $this->slugTouched  = true;
+            $this->label = (string) $wedding->label;
+            $this->slug = $wedding->slug;
+            $this->slugTouched = true;
             $this->is_published = $wedding->isPublished();
-            $this->groom_name   = $wedding->groom_name;
-            $this->bride_name   = $wedding->bride_name;
-            $this->data         = $this->normalize($wedding->toTemplateData());
-            $this->dateLocal    = substr((string) ($this->data['date'] ?? ''), 0, 16);
+            $this->groom_name = $wedding->groom_name;
+            $this->bride_name = $wedding->bride_name;
+            $this->data = $this->normalize($wedding->toTemplateData());
+            $this->dateLocal = substr((string) ($this->data['date'] ?? ''), 0, 16);
 
             return;
         }
@@ -118,10 +117,10 @@ class WeddingForm extends Component
     {
         return [
             'template_key' => ['required', Rule::exists('templates', 'key')->where('is_active', true)],
-            'label'        => ['required', 'string', 'max:80'],
-            'groom_name'   => ['required', 'string', 'max:120'],
-            'bride_name'   => ['required', 'string', 'max:120'],
-            'slug'         => [
+            'label' => ['required', 'string', 'max:80'],
+            'groom_name' => ['required', 'string', 'max:120'],
+            'bride_name' => ['required', 'string', 'max:120'],
+            'slug' => [
                 'required',
                 'string',
                 'max:150',
@@ -129,7 +128,7 @@ class WeddingForm extends Component
                 Rule::notIn(Invitation::RESERVED),
             ],
             'is_published' => ['boolean'],
-            'data'         => ['array'],
+            'data' => ['array'],
         ];
     }
 
@@ -245,10 +244,6 @@ class WeddingForm extends Component
         data_set($this->data, 'bride.name', $this->bride_name);
     }
 
-    /**
-     * Computed properties are cached for the whole request. After any change to
-     * $this->data we drop the caches so the same request renders the new image.
-     */
     private function refreshViews(): void
     {
         unset($this->photoGroups, $this->ownImages);
@@ -266,9 +261,9 @@ class WeddingForm extends Component
         $unit = strtolower(substr($value, -1));
 
         return match ($unit) {
-            'g'     => $n * 1024 ** 3,
-            'm'     => $n * 1024 ** 2,
-            'k'     => $n * 1024,
+            'g' => $n * 1024 ** 3,
+            'm' => $n * 1024 ** 2,
+            'k' => $n * 1024,
             default => $n,
         };
     }
@@ -285,10 +280,6 @@ class WeddingForm extends Component
         return $limits ? min($limits) : 0;
     }
 
-    /**
-     * Disk for new uploads. Comes from WEDDING_UPLOAD_DISK through config/wedding.php,
-     * so config/wedding.php MUST exist. Falls back to "public".
-     */
     private function uploadDisk(): string
     {
         return (string) (config('wedding.upload_disk') ?: env('WEDDING_UPLOAD_DISK') ?: 'public');
@@ -300,10 +291,6 @@ class WeddingForm extends Component
     {
         return $this->uploadDisk();
     }
-
-    /* ---------------------------------------------------------------
-     |  Background library
-     | ------------------------------------------------------------- */
 
     #[Computed]
     public function library(): array
@@ -324,8 +311,8 @@ class WeddingForm extends Component
                 ->get()
                 ->groupBy('section')
                 ->map(fn($rows) => $rows->map(fn($b) => [
-                    'id'         => $b->id,
-                    'name'       => (string) $b->name,
+                    'id' => $b->id,
+                    'name' => (string) $b->name,
                     'url' => $this->backgroundUrl($b->path),
                     'is_default' => (bool) $b->is_default,
                 ])->filter(fn($b) => $b['url'])->values()->all())
@@ -408,9 +395,9 @@ class WeddingForm extends Component
     #[Computed]
     public function ownImages(): array
     {
-        $d    = $this->data;
+        $d = $this->data;
         $rows = [
-            ['Cover',       Arr::get($d, 'cover')],
+            ['Cover', Arr::get($d, 'cover')],
             ['Groom photo', Arr::get($d, 'groom.photo')],
             ['Bride photo', Arr::get($d, 'bride.photo')],
         ];
@@ -432,7 +419,7 @@ class WeddingForm extends Component
             }
 
             $seen[$url] = true;
-            $out[]      = ['label' => $label, 'url' => $url];
+            $out[] = ['label' => $label, 'url' => $url];
         }
 
         return $out;
@@ -477,12 +464,12 @@ class WeddingForm extends Component
     /** Every upload card. Plain private method so it can never clash with Livewire. */
     private function buildSlots(): array
     {
-        $d   = $this->data;
+        $d = $this->data;
         $out = [];
 
         foreach ($this->slotLabels() as $slot => $label) {
-            $path    = $this->slotPath($slot);
-            $saved   = Arr::get($d, $path);
+            $path = $this->slotPath($slot);
+            $saved = Arr::get($d, $path);
             $section = str_starts_with($slot, 'backgrounds_') ? substr($slot, strlen('backgrounds_')) : null;
 
             $default = null;
@@ -542,22 +529,22 @@ class WeddingForm extends Component
 
         $groups = [
             [
-                'key'   => 'main',
+                'key' => 'main',
                 'title' => __('Main photos'),
                 'slots' => $slots->filter(fn($s) => in_array($s['slot'], ['cover', 'groom_photo', 'bride_photo', 'gift_qr'], true))->values()->all(),
             ],
             [
-                'key'   => 'backgrounds',
+                'key' => 'backgrounds',
                 'title' => __('Section backgrounds'),
                 'slots' => $slots->filter(fn($s) => str_starts_with($s['slot'], 'backgrounds_'))->values()->all(),
             ],
             [
-                'key'   => 'gallery',
+                'key' => 'gallery',
                 'title' => __('Gallery'),
                 'slots' => $slots->filter(fn($s) => str_starts_with($s['slot'], 'gallery_'))->values()->all(),
             ],
             [
-                'key'   => 'music',
+                'key' => 'music',
                 'title' => __('Music'),
                 'slots' => $slots->filter(fn($s) => $s['slot'] === 'music')->values()->all(),
             ],
@@ -568,8 +555,8 @@ class WeddingForm extends Component
 
     private function publicUrl(string $stored, string $disk): string
     {
-        $url     = Storage::disk($disk)->url($stored);
-        $host    = parse_url($url, PHP_URL_HOST);
+        $url = Storage::disk($disk)->url($stored);
+        $host = parse_url($url, PHP_URL_HOST);
         $appHost = parse_url((string) config('app.url'), PHP_URL_HOST);
 
         if ($host !== null && $host === $appHost) {
@@ -582,7 +569,7 @@ class WeddingForm extends Component
     public function updatedUploads($file, string $slot): void
     {
         $isGallery = $slot === 'gallery_new';
-        $isMusic   = $slot === 'music';
+        $isMusic = $slot === 'music';
 
         if (! $isGallery && ! array_key_exists($slot, $this->slotLabels())) {
             unset($this->uploads[$slot]);
@@ -802,10 +789,6 @@ class WeddingForm extends Component
         );
     }
 
-    /* ---------------------------------------------------------------
-     |  Save
-     | ------------------------------------------------------------- */
-
     public function save()
     {
         if (! $this->slugTouched || $this->slug === '') {
@@ -837,7 +820,7 @@ class WeddingForm extends Component
         $data['gallery'] = array_values(array_filter((array) ($data['gallery'] ?? [])));
 
         $publish = (bool) $valid['is_published'];
-        $isNew   = ! $this->wedding;
+        $isNew = ! $this->wedding;
 
         $templateId = Template::where('key', $valid['template_key'])->value('id');
 
