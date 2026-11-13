@@ -27,9 +27,9 @@ class TemplateSeeder extends Seeder
                 'thanks',
             ]],
             'sample_data' => TemplateRegistry::sample(),
-            'is_active'   => true,
-            'is_public'   => true,
-            'sort'        => 1,
+            'is_active'=> true,
+            'is_public'=> true,
+            'sort' => 1,
         ]);
 
         Template::updateOrCreate(['key' => 'lotus'], [
@@ -49,9 +49,9 @@ class TemplateSeeder extends Seeder
                 'thanks',
             ]],
             'sample_data' => TemplateRegistry::sample(),
-            'is_active'   => true,
-            'is_public'   => true,
-            'sort'        => 2,
+            'is_active'=> true,
+            'is_public'=> true,
+            'sort'=> 2,
         ]);
     }
 }

@@ -12,7 +12,8 @@ return new class extends Migration {
             $t->foreignId('invitation_id')->constrained()->cascadeOnDelete();
             $t->string('role', 10);                       // groom | bride
             $t->string('name');
-            $t->string('parents')->nullable();
+            $t->string('dad')->nullable();
+            $t->string('mom')->nullable();
             $t->text('photo')->nullable();
             $t->timestamps();
 

@@ -39,8 +39,8 @@ class WeddingForm extends Component
     private const MAX_UPLOAD_KB = 20480;
 
     private const SKELETON = [
-        'groom' => ['name' => '', 'parents' => '', 'photo' => ''],
-        'bride' => ['name' => '', 'parents' => '', 'photo' => ''],
+        'groom' => ['name' => '', 'dad' => '', 'mom' => '', 'photo' => ''],
+        'bride' => ['name' => '', 'dad' => '', 'mom' => '', 'photo' => ''],
         'date' => '',
         'dateText'  => '',
         'cover' => '',
@@ -450,8 +450,7 @@ class WeddingForm extends Component
     {
         $path = $this->slotPath($slot);
         $this->trash[] = (string) Arr::get($this->data, $path, '');
-        $parent = Str::before($path, '.');
-
+        $parent = Str::before($path, '.'); 
         if ($parent !== $path && ! is_array($this->data[$parent] ?? null)) {
             $this->data[$parent] = [];
         }

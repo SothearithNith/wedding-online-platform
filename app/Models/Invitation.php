@@ -50,7 +50,7 @@ class Invitation extends Model
     ];
 
     private const ARRAY_COLUMNS = ['dress_code' => 'dressCode', 'gift' => 'gift', 'backgrounds' => 'backgrounds'];
-    private const PERSON_FIELDS = ['name', 'parents', 'photo'];
+    private const PERSON_FIELDS = ['name', 'dad','mom', 'photo'];
     private const LIST_ALIASES = [
         'events'  => ['events', 'schedule'],
         'stories' => ['story', 'stories', 'timeline'],
@@ -251,7 +251,8 @@ class Invitation extends Model
 
             $data[$role] = array_merge((array) ($data[$role] ?? []), [
                 'name' => (string) $person?->name,
-                'parents' => (string) $person?->parents,
+                'dad' => (string) $person?->dad,
+                'mom' => (string) $person?->mom,
                 'photo' => (string) $person?->photo,
             ]);
         }
@@ -363,7 +364,8 @@ class Invitation extends Model
                 $row = $this->people()->firstOrNew(['role' => $role]);
                 $row->fill([
                     'name'    => (string) ($fields['name'] ?? ''),
-                    'parents' => (string) ($fields['parents'] ?? ''),
+                    'dad' => (string) ($fields['dad'] ?? ''),
+                    'mom' => (string) ($fields['mom'] ?? ''),
                     'photo'   => (string) ($fields['photo'] ?? ''),
                 ])->save();
             }
@@ -400,7 +402,7 @@ class Invitation extends Model
         $this->unsetRelation('people')->unsetRelation('events')
             ->unsetRelation('stories')->unsetRelation('gallery');
     }
- 
+
     public static function ownedPath(mixed $url, int $userId): ?string
     {
         if (! is_string($url)) {

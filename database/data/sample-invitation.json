@@ -1,86 +1,49 @@
 {
-    "templateId": "gold",
-    "label": "ស៊ន់ សុវណ្ណ",
-    "data": {
-        "groom": {
-            "name": "ស៊ន់ សុវណ្ណ",
-            "parents": "ពូ ចាន់ និង មីង សុភា",
-            "photo": "/assets/images/default/groom.jpg"
-        },
-        "bride": {
-            "name": "ភួង សិលា",
-            "parents": "ពូ វិបុល និង មីង ដាវី",
-            "photo": "/assets/images/default/bride.jpg"
-        },
-        "date": "2026-12-20T08:00:00+07:00",
-        "dateText": "ថ្ងៃអាទិត្យ ទី២០ ខែធ្នូ ឆ្នាំ២០២៦",
-        "intro": "សូមគោរពអញ្ជើញ ចូលរួមជាភ្ញៀវកិត្តិយស ក្នុងពិធីអាពាហ៍ពិពាហ៍របស់យើងខ្ញុំ",
-        "quote": "ស្នេហាពិតមិនមានទីបញ្ចប់ឡើយ",
-        "cover": "/assets/images/default/cover.jpg",
-        "events": [
-            {
-                "time": "07:00",
-                "title": "ពិធីហែជំនូន",
-                "place": "គេហដ្ឋានខាងកូនប្រុស",
-                "mapUrl": "https://maps.google.com"
-            },
-            {
-                "time": "11:00",
-                "title": "ពិធីមង្គលការ",
-                "place": "សណ្ឋាគារ ភ្នំពេញ",
-                "mapUrl": "https://maps.google.com"
-            },
-            {
-                "time": "18:00",
-                "title": "ពិធីជប់លៀង",
-                "place": "មជ្ឈមណ្ឌលសន្និបាត",
-                "mapUrl": "https://maps.google.com"
-            }
-        ],
-        "gallery": [
-            "/assets/images/default/gallery-1.jpg",
-            "/assets/images/default/gallery-2.jpg",
-            "/assets/images/default/gallery-3.jpg",
-            "/assets/images/default/gallery-4.jpg"
-        ],
-        "story": [
-            {
-                "year": "២០១៩",
-                "title": "ជួបគ្នាលើកដំបូង",
-                "text": "យើងបានជួបគ្នាជាលើកដំបូងនៅសាកលវិទ្យាល័យ ហើយមិត្តភាពដ៏ស្រស់ស្អាតក៏ចាប់ផ្តើម។"
-            },
-            {
-                "year": "២០២២",
-                "title": "ក្លាយជាគូស្នេហ៍",
-                "text": "ពីមិត្តភាព ក្លាយជាស្នេហា ដែលពោរពេញដោយសេចក្តីសុខ និងស្នាមញញឹម។"
-            },
-            {
-                "year": "២០២៥",
-                "title": "ពាក្យសន្យា",
-                "text": "ក្នុងរាត្រីដ៏ស្ងប់ស្ងាត់មួយ គាត់បានសុំនាងរៀបការ ហើយនាងក៏ឆ្លើយថា យល់ព្រម។"
-            },
-            {
-                "year": "២០២៦",
-                "title": "ថ្ងៃមង្គលការ",
-                "text": "ហើយឥឡូវនេះ យើងសូមអញ្ជើញអ្នកមកចូលរួមសាក្សីស្នេហារបស់យើង។"
-            }
-        ],
-        "dressCode": {
-            "title": "ឈុតសម្លៀកបំពាក់",
-            "note": "សូមពាក់ពណ៌ទន់ភ្លន់ ឬសម្លៀកបំពាក់ប្រពៃណីខ្មែរ",
-            "colors": ["#7a1f2b", "#e6b84a", "#fbf6ea", "#2f855a", "#d6336c"]
-        },
-        "gift": {
-            "bank": "ABA Bank",
-            "accountName": "SOKHA & SREY NEANG",
-            "accountNumber": "000 123 456",
-            "qr": "/assets/images/default/qr.jpg"
-        },
-        "apology": "ប្រសិនបើយើងខ្ញុំមិនបានអញ្ជើញដល់ផ្ទាល់ ឬមានកំហុសឆ្គងអ្វីមួយ សូមលោក លោកស្រី អភ័យទោសដោយក្តីមេត្តា។ ការមកចូលរួម និងការយោគយល់របស់អ្នក គឺមានតម្លៃបំផុតសម្រាប់យើងខ្ញុំ។",
-        "thanks": "ការអញ្ជើញចូលរួមរបស់អ្នក គឺជាកិត្តិយស និងសេចក្តីសុខដ៏ធំបំផុតសម្រាប់យើងខ្ញុំ។ សូមអរគុណយ៉ាងជ្រាលជ្រៅ!",
-        "music": "/music/wedding.mp3",
-        "backgrounds": {
-            "all": "/assets/images/default/background.jpg"
+    "date": "2026-12-20T08:00:00+07:00",
+    "gift": {
+        "qr": "/assets/images/default/qr.jpg",
+        "bank": "ABA Bank",
+        "accountName": "SOKHA & SREY NEANG",
+        "accountNumber": "000 123 456"
+    },
+    "bride": {
+        "name": "ភួង សិលា",
+        "photo": "/assets/images/default/bride.jpg",
+        "dad": "ឈ្មោះឪពុក",
+        "mom": "ឈ្មោះម្តាយ"
+    },
+    "groom": {
+        "name": "ស៊ន់ សុវណ្ណ",
+        "photo": "/assets/images/default/groom.jpg",
+        "dad": "ឈ្មោះឪពុក",
+        "mom": "ឈ្មោះម្តាយ"
+    },
+    "intro": "សូមគោរពអញ្ជើញ ចូលរួមជាភ្ញៀវកិត្តិយស ក្នុងពិធីអាពាហ៍ពិពាហ៍របស់យើងខ្ញុំ",
+    "music": "/music/wedding.mp3",
+    "quote": "ស្នេហាពិតមិនមានទីបញ្ចប់ឡើយ",
+    "story": [
+        {
+            "text": "យើងបានជួបគ្នាជាលើកដំបូងនៅសាកលវិទ្យាល័យ ហើយមិត្តភាពដ៏ស្រស់ស្អាតក៏ចាប់ផ្តើម។",
+            "year": "២០១៩",
+            "title": "ជួបគ្នាលើកដំបូង"
         }
-    }
+    ],
+    "events": [
+        {
+            "time": "07:00",
+            "place": "គេហដ្ឋានខាងកូនប្រុស",
+            "title": "ពិធីហែជំនូន",
+            "mapUrl": "https://maps.google.com"
+        }
+    ],
+    "thanks": "ការអញ្ជើញចូលរួមរបស់អ្នក គឺជាកិត្តិយស និងសេចក្តីសុខដ៏ធំបំផុតសម្រាប់យើងខ្ញុំ។ សូមអរគុណយ៉ាងជ្រាលជ្រៅ!",
+    "apology": "ប្រសិនបើយើងខ្ញុំមិនបានអញ្ជើញដល់ផ្ទាល់ ឬមានកំហុសឆ្គងអ្វីមួយ សូមលោក លោកស្រី អភ័យទោសដោយក្តីមេត្តា។ ការមកចូលរួម និងការយោគយល់របស់អ្នក គឺមានតម្លៃបំផុតសម្រាប់យើងខ្ញុំ។",
+    "gallery": ["/assets/images/default/gallery-4.jpg"],
+    "dateText": "ថ្ងៃអាទិត្យ ទី២០ ខែធ្នូ ឆ្នាំ២០២៦",
+    "dressCode": {
+        "note": "សូមពាក់ពណ៌ទន់ភ្លន់ ឬសម្លៀកបំពាក់ប្រពៃណីខ្មែរ",
+        "title": "ឈុតសម្លៀកបំពាក់",
+        "colors": ["#7a1f2b", "#e6b84a", "#fbf6ea", "#2f855a", "#d6336c"]
+    },
+    "backgrounds": { "all": "/assets/images/default/background.jpg" }
 }

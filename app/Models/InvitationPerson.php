@@ -9,7 +9,7 @@ class InvitationPerson extends Model
 {
     protected $table = 'invitation_people';
 
-    protected $fillable = ['role', 'name', 'parents', 'photo'];
+    protected $fillable = ['role', 'name', 'dad','mom', 'photo'];
 
     public function invitation(): BelongsTo
     {
