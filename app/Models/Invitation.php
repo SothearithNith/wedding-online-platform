@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\Storage;
 class Invitation extends Model
 {
     public const RELATIONS = ['template', 'people', 'events', 'stories', 'gallery'];
-
-    /** Slugs that would clash with application routes. */
     public const RESERVED = [
         'login',
         'logout',
@@ -41,10 +39,6 @@ class Invitation extends Model
         'i',
     ];
 
-    /**
-     * column => key used in the template data (the data is camelCase, like the original Next.js app:
-     * dateText, dressCode, mapUrl ...). The snake_case column name is also accepted when reading.
-     */
     private const STRING_COLUMNS = [
         'intro' => 'intro',
         'quote' => 'quote',
@@ -56,14 +50,7 @@ class Invitation extends Model
     ];
 
     private const ARRAY_COLUMNS = ['dress_code' => 'dressCode', 'gift' => 'gift', 'backgrounds' => 'backgrounds'];
-
-    /** Keys inside groom / bride that live in invitation_people. */
     private const PERSON_FIELDS = ['name', 'parents', 'photo'];
-
-    /**
-     * A template may call a list "story" or "stories", "events" or "schedule" ...
-     * The first alias that exists in the data wins; otherwise the first one is used.
-     */
     private const LIST_ALIASES = [
         'events'  => ['events', 'schedule'],
         'stories' => ['story', 'stories', 'timeline'],
@@ -91,12 +78,12 @@ class Invitation extends Model
     ];
 
     protected $casts = [
-        'event_date'   => 'datetime',
+        'event_date' => 'datetime',
         'published_at' => 'datetime',
-        'dress_code'   => 'array',
-        'gift'         => 'array',
+        'dress_code'=> 'array',
+        'gift' => 'array',
         'backgrounds'  => 'array',
-        'extra'        => 'array',
+        'extra' => 'array',
     ];
 
     protected static function booted(): void
@@ -112,10 +99,6 @@ class Invitation extends Model
             $invitation->rsvps()->delete();
         });
     }
-
-    /* ---------------------------------------------------------------
-     |  Relations
-     | ------------------------------------------------------------- */
 
     public function user(): BelongsTo
     {
@@ -140,7 +123,7 @@ class Invitation extends Model
     public function stories(): HasMany
     {
         return $this->hasMany(InvitationStory::class)->orderBy('sort');
-    }   
+    }
 
     public function gallery(): HasMany
     {
@@ -156,10 +139,6 @@ class Invitation extends Model
     {
         return $this->status === 'published';
     }
-
-    /* ---------------------------------------------------------------
-     |  Accessors
-     | ------------------------------------------------------------- */
 
     public function person(string $role): ?InvitationPerson
     {
@@ -191,10 +170,6 @@ class Invitation extends Model
         return route('wedding.show', ['slug' => $this->slug]);
     }
 
-    /* ---------------------------------------------------------------
-     |  Slug from the groom's name (Khmer letters are kept)
-     | ------------------------------------------------------------- */
-
     /** "Sok Dara" -> "sok-dara", "សុខ ដារ៉ា" -> "សុខ-ដារ៉ា". May return ''. */
     public static function makeSlug(string $text): string
     {
@@ -211,7 +186,7 @@ class Invitation extends Model
     {
         $base = self::makeSlug($text) ?: 'wedding';
         $slug = $base;
-        $n    = 2;
+        $n  = 2;
 
         while (
             in_array($slug, self::RESERVED, true)
@@ -224,10 +199,6 @@ class Invitation extends Model
 
         return $slug;
     }
-
-    /* ---------------------------------------------------------------
-     |  Template data  <->  columns / tables
-     | ------------------------------------------------------------- */
 
     /** Which key does this template use for a list? ('events' or 'schedule', ...) */
     public static function listKey(string $logical, ?array $shape = null): string
@@ -243,11 +214,6 @@ class Invitation extends Model
         return $aliases[0];
     }
 
-    /**
-     * The single array the templates and the admin form work with (camelCase keys).
-     * $aliases = true also adds the snake_case names (map_url, date_text, dress_code, event_date)
-     * for templates that read those; the admin form uses false.
-     */
     public function toTemplateData(bool $aliases = false): array
     {
         $this->loadMissing(['template', 'people', 'events', 'stories', 'gallery']);
@@ -284,9 +250,9 @@ class Invitation extends Model
             $person = $this->person($role);
 
             $data[$role] = array_merge((array) ($data[$role] ?? []), [
-                'name'    => (string) $person?->name,
+                'name' => (string) $person?->name,
                 'parents' => (string) $person?->parents,
-                'photo'   => (string) $person?->photo,
+                'photo' => (string) $person?->photo,
             ]);
         }
 
@@ -316,10 +282,7 @@ class Invitation extends Model
         return $data;
     }
 
-    /**
-     * Write the template-data array back: columns, groom/bride, events, stories, gallery.
-     * Whatever is not mapped goes into `extra`. Does NOT touch slug / status / template.
-     */
+
     public function saveFromData(array $data): void
     {
         $extra = $data;
@@ -409,11 +372,11 @@ class Invitation extends Model
             foreach ($events as $i => $e) {
                 $e = (array) $e;
                 $this->events()->create([
-                    'time'    => (string) ($e['time'] ?? ''),
-                    'title'   => (string) ($e['title'] ?? ''),
-                    'place'   => (string) ($e['place'] ?? ''),
+                    'time' => (string) ($e['time'] ?? ''),
+                    'title'=> (string) ($e['title'] ?? ''),
+                    'place' => (string) ($e['place'] ?? ''),
                     'map_url' => (string) ($e['mapUrl'] ?? $e['map_url'] ?? ''),
-                    'sort'    => $i,
+                    'sort'=> $i,
                 ]);
             }
 
@@ -421,10 +384,10 @@ class Invitation extends Model
             foreach ($stories as $i => $s) {
                 $s = (array) $s;
                 $this->stories()->create([
-                    'year'  => (string) ($s['year'] ?? ''),
+                    'year' => (string) ($s['year'] ?? ''),
                     'title' => (string) ($s['title'] ?? ''),
-                    'text'  => (string) ($s['text'] ?? ''),
-                    'sort'  => $i,
+                    'text' => (string) ($s['text'] ?? ''),
+                    'sort' => $i,
                 ]);
             }
 
@@ -437,16 +400,7 @@ class Invitation extends Model
         $this->unsetRelation('people')->unsetRelation('events')
             ->unsetRelation('stories')->unsetRelation('gallery');
     }
-
-    /* ---------------------------------------------------------------
-     |  Uploaded files
-     | ------------------------------------------------------------- */
-
-    /**
-     * Turn a stored URL back into a path on the public disk, but ONLY when it is a file
-     * uploaded by this user (weddings/{userId}/...). Template sample images, external
-     * URLs and other users' files return null, so they are never deleted.
-     */
+ 
     public static function ownedPath(mixed $url, int $userId): ?string
     {
         if (! is_string($url)) {

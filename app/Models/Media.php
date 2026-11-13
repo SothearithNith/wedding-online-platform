@@ -7,17 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
 
-/**
- * One row per image / audio file used by a wedding.
- *
- *  source = "upload"   -> a file we stored (disk + path filled)
- *  source = "external" -> a pasted link (original_url filled, disk/path empty)
- *
- * Matches your migration: source enum('upload','external'), size default 0.
- */
+
 class Media extends Model
 {
-    public const SOURCE_UPLOAD   = 'upload';
+    public const SOURCE_UPLOAD = 'upload';
     public const SOURCE_EXTERNAL = 'external';
 
     protected $table = 'media';
@@ -40,19 +33,18 @@ class Media extends Model
     ];
 
     private const MIMES = [
-        'jpg'  => 'image/jpeg',
+        'jpg' => 'image/jpeg',
         'jpeg' => 'image/jpeg',
-        'png'  => 'image/png',
-        'gif'  => 'image/gif',
+        'png' => 'image/png',
+        'gif' => 'image/gif',
         'webp' => 'image/webp',
         'avif' => 'image/avif',
-        'mp3'  => 'audio/mpeg',
-        'm4a'  => 'audio/mp4',
+        'mp3' => 'audio/mpeg',
+        'm4a' => 'audio/mp4',
     ];
 
     protected static function booted(): void
     {
-        // Deleting an uploaded row also removes its file. External links have no file.
         static::deleting(function (Media $media) {
             if ($media->isUpload() && $media->path) {
                 try {
@@ -86,7 +78,6 @@ class Media extends Model
         return $query->where('source', self::SOURCE_EXTERNAL);
     }
 
-    /* --------------------------------- helpers ---------------------------------- */
 
     public function isUpload(): bool
     {
@@ -98,19 +89,16 @@ class Media extends Model
         return $this->source === self::SOURCE_EXTERNAL;
     }
 
-    /** Address for <img src> / <audio src>, for both kinds of row. */
     public function getUrlAttribute(): ?string
     {
         if ($this->isExternal() || ! $this->path) {
             return $this->original_url;
         }
 
-        return Storage::disk($this->disk ?: 'public')->url($this->path);
+        return Storage::disk($this->disk ?: config('filesystems.upload_disk', 'r2'))
+            ->url($this->path);
     }
 
-    /* -------------------------------- factories --------------------------------- */
-
-    /** A file we stored ourselves. */
     public static function fromUpload(
         int $userId,
         string $path,
@@ -118,22 +106,23 @@ class Media extends Model
         ?string $mime = null,
         ?int $size = null,
         bool $isMusic = false,
-        string $disk = 'public',
+        ?string $disk = null,
     ): self {
+        $disk ??= config('filesystems.upload_disk', 'r2');
+
         return static::create([
-            'user_id'       => $userId,
-            'source'        => self::SOURCE_UPLOAD,
-            'disk'          => $disk,
-            'path'          => $path,
-            'original_url'  => null,
+            'user_id' => $userId,
+            'source' => self::SOURCE_UPLOAD,
+            'disk' => $disk,
+            'path' => $path,
+            'original_url' => null,
             'resource_type' => $isMusic ? 'audio' : 'image',
-            'mime'          => $mime,
-            'size'          => $size ?? 0,
-            'name'          => $name,
+            'mime' => $mime,
+            'size' => $size ?? 0,
+            'name' => $name,
         ]);
     }
 
-    /** A pasted link (http(s)://... or /public/path.jpg). The same link twice = one row. */
     public static function fromExternal(int $userId, string $url, bool $isMusic = false): self
     {
         $url  = trim($url);
@@ -144,17 +133,17 @@ class Media extends Model
 
         return static::firstOrCreate(
             [
-                'user_id'      => $userId,
-                'source'       => self::SOURCE_EXTERNAL,
+                'user_id' => $userId,
+                'source' => self::SOURCE_EXTERNAL,
                 'original_url' => $url,
             ],
             [
-                'disk'          => null,
-                'path'          => null,
+                'disk' => null,
+                'path' => null,
                 'resource_type' => $isAudio ? 'audio' : 'image',
-                'mime'          => self::MIMES[$ext] ?? null,
-                'size'          => 0,
-                'name'          => basename($path) ?: null,
+                'mime' => self::MIMES[$ext] ?? null,
+                'size' => 0,
+                'name' => basename($path) ?: null,
             ],
         );
     }
