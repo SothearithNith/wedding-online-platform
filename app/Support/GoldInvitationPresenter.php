@@ -15,8 +15,8 @@ class GoldInvitationPresenter
         $dflt = fn(string $f) => TemplateRegistry::defaultUrl($f);
 
         $defaults = [
-            'groom' => ['name' => 'ស៊ន់ សុវណ្ណ', 'parents' => "ពូ ចាន់\nមីង សុភា", 'photo' => $dflt('groom.jpg')],
-            'bride' => ['name' => 'ភួង សិលា', 'parents' => "ពូ វិបុល\nមីង ដាវី", 'photo' => $dflt('bride.jpg')],
+            'groom' => ['name' => 'និត សុវណ្ណ', 'parents' => "ពូ ចាន់\nមីង សុភា", 'photo' => $dflt('groom.jpg')],
+            'bride' => ['name' => 'សុក សិលា', 'parents' => "ពូ វិបុល\nមីង ដាវី", 'photo' => $dflt('bride.jpg')],
             'date' => '2026-12-20T08:00:00+07:00',
             'dateText' => 'ថ្ងៃអាទិត្យ ទី២០ ខែធ្នូ ឆ្នាំ២០២៦',
             'intro' => 'សូមគោរពអញ្ជើញ ចូលរួមជាភ្ញៀវកិត្តិយស ក្នុងពិធីអាពាហ៍ពិពាហ៍របស់យើងខ្ញុំ',
