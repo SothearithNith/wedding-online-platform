@@ -75,38 +75,53 @@
         </div>
 
         {{-- Visual: stacked invitation cards --}}
-        <div class="relative mx-auto h-[26rem] w-full max-w-md sm:h-[30rem]" aria-hidden="true">
+        <div class="relative mx-auto h-[28rem] w-full max-w-md sm:h-[32rem]" aria-hidden="true">
             <div class="absolute inset-0 -z-10 rounded-full bg-gradient-to-br from-rose-200/60 to-pink-200/60 blur-3xl">
             </div>
 
             {{-- Back card --}}
             <div
-                class="absolute left-0 top-10 h-72 w-52 -rotate-6 rounded-3xl bg-gradient-to-br from-amber-200 to-rose-300 shadow-xl sm:h-80 sm:w-56">
+                class="absolute left-0 top-10 h-72 w-52 -rotate-6 overflow-hidden rounded-3xl bg-gradient-to-br from-amber-200 to-rose-300 shadow-xl ring-1 ring-white/40 transition duration-500 hover:-rotate-3 sm:h-80 sm:w-56">
+                <img src="{{ $heroBack }}" alt="" loading="lazy"
+                    class="h-full w-full object-cover object-top" onerror="this.style.display='none'">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
             </div>
+
             {{-- Right card --}}
             <div
-                class="absolute right-0 top-16 h-72 w-52 rotate-6 rounded-3xl bg-gradient-to-br from-fuchsia-300 to-purple-400 shadow-xl sm:h-80 sm:w-56">
+                class="absolute right-0 top-16 h-72 w-52 rotate-6 overflow-hidden rounded-3xl bg-gradient-to-br from-fuchsia-300 to-purple-400 shadow-xl ring-1 ring-white/40 transition duration-500 hover:rotate-3 sm:h-80 sm:w-56">
+                <img src="{{ asset($heroRight) }}" alt="" loading="lazy"
+                    class="h-full w-full object-cover object-top" onerror="this.style.display='none'">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
             </div>
-            {{-- Front card --}}
             <div
-                class="absolute left-1/2 top-0 flex h-80 w-60 -translate-x-1/2 flex-col items-center justify-center rounded-3xl border border-white/60 bg-white p-6 text-center shadow-2xl shadow-rose-500/20 sm:h-96 sm:w-64">
-                <span class="flex h-14 w-14 items-center justify-center rounded-full bg-rose-50 text-rose-500">
-                    <svg class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor">
+                class="absolute left-1/2 top-0 h-80 w-60 -translate-x-1/2 overflow-hidden rounded-3xl bg-gradient-to-br from-rose-200 to-pink-300 shadow-2xl shadow-rose-500/30 ring-1 ring-white/60 sm:h-[26rem] sm:w-64">
+
+                <img src="{{ asset($heroFront) }}" alt="" loading="lazy"
+                    class="absolute inset-0 h-full w-full object-cover object-top" onerror="this.style.display='none'">
+
+                <div
+                    class="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/50 to-transparent">
+                </div>
+                <span
+                    class="absolute left-1/2 top-3 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full border border-white/30 bg-white/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-md">
+                    <svg class="h-3 w-3 text-rose-200" viewBox="0 0 24 24" fill="currentColor">
                         <path
                             d="M12 21s-7.5-4.6-9.6-9.2C1 8.6 2.8 5 6.3 5c2 0 3.5 1.1 4.3 2.6h2.8C14.2 6.1 15.7 5 17.7 5 21.2 5 23 8.6 21.6 11.8 19.5 16.4 12 21 12 21z" />
                     </svg>
-                </span>
-                <p class="mt-4 text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
                     {{ trans_json('We are getting married') }}
-                </p>
-                <p class="mt-3 text-3xl font-bold text-slate-900">Sok <span class="text-rose-500">&amp;</span> Dara</p>
-                <div class="my-5 h-px w-16 bg-rose-200"></div>
-                <p class="text-sm text-slate-500">14 &middot; 02 &middot; 2027</p>
-                <p class="mt-1 text-sm text-slate-500">Phnom Penh</p>
-                <span
-                    class="mt-6 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 px-5 py-2 text-xs font-semibold text-white">
-                    {{ trans_json('RSVP') }}
                 </span>
+                <div
+                    class="absolute inset-x-3 bottom-3 rounded-2xl border border-white/30 bg-white/10 p-3.5 text-center text-white shadow-xl shadow-black/20 backdrop-blur-lg">
+                    <p class="text-2xl font-bold drop-shadow-sm">{{ trans_json('Sok') }} <span
+                            class="text-rose-300">&amp;</span> {{ trans_json('Dara') }} </p>
+                    <p class="mt-1 text-xs text-white/80">14 &middot; 02 &middot; 2027 &middot;
+                        {{ trans_json('Phnom Penh') }} </p>
+                    <span
+                        class="mt-3 inline-block rounded-full bg-gradient-to-r from-rose-500 to-pink-500 px-5 py-1.5 text-xs font-semibold text-white shadow-lg shadow-rose-500/30">
+                        {{ trans_json('RSVP') }}
+                    </span>
+                </div>
             </div>
         </div>
     </section>

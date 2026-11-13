@@ -24,7 +24,9 @@ class Dashboard extends Component
 
     #[Url(except: 'all')]
     public string $visibility = 'all'; // all | public | private
-
+    public $heroBack = 'assets/images/hero/front.png';
+    public $heroRight = 'assets/images/hero/front.png';
+    public $heroFront = 'assets/images/hero/front.png';
     public function updatingSearch(): void
     {
         $this->resetPage();
@@ -91,13 +93,6 @@ class Dashboard extends Component
 
     public function render()
     {
-        // dd($this->getTemplates()->items());
-        $templates = [
-            ['name' => 'Classic Rose',   'category' => 'Classic', 'image' => null, 'url' => '#'],
-            ['name' => 'Golden Khmer',   'category' => 'Khmer',   'image' => null, 'url' => '#'],
-            ['name' => 'Modern Minimal', 'category' => 'Modern',  'image' => null, 'url' => '#'],
-            ['name' => 'Floral Dream',   'category' => 'Floral',  'image' => null, 'url' => '#'],
-        ];
 
         return view('livewire.dashboard', [
             'templates' => $this->getTemplates()->items(),
