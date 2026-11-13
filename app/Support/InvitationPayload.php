@@ -29,12 +29,14 @@ class InvitationPayload
             'data' => [
                 'groom' => [
                     'name' => $groom?->name,
-                    'parents' => $groom?->parents,
+                    'dad' => $groom?->dad,
+                    'mom'=>$groom?->mom,
                     'photo' => $groom?->photo,
                 ],
                 'bride' => [
                     'name' => $bride?->name,
-                    'parents' => $bride?->parents,
+                    'dad' => $bride?->dad,
+                    'mom' => $bride?->mom,
                     'photo' => $bride?->photo,
                 ],
 

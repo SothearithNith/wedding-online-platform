@@ -55,15 +55,18 @@
         </div>
 
         <div class="royal-enter"
-            style="--d:1150ms;position:relative;z-index:10;margin-top:16px;display:grid;width:100%;grid-template-columns:1fr 1fr;gap:12px">
-            @foreach ([[$K['parentsGroom'], $groom['parents']], [$K['parentsBride'], $bride['parents']]] as [$lab, $par])
+            style="--d:1150ms;position:relative;z-index:10;margin-top:16px;display:grid;width:100%;grid-template-columns:1fr 1fr;gap:12px"> 
+            @foreach ([[$groom['dad'], $groom['mom']], [$bride['dad'], $bride['mom']]] as [$dad, $mom])
                 <div style="min-width:0;padding:0 4px">
-                    <p class="hl-label">{{ $lab }}</p>
                     <div class="hl-rule" style="width:32px;margin:4px auto 0"></div>
+
                     <div style="margin-top:8px;display:flex;flex-direction:column;align-items:center;gap:6px">
-                        @foreach ($parents($par) as $n)
-                            <p class="hl-parent title-font">{{ $n }}</p>
-                        @endforeach
+                        <p class="hl-parent">
+                            {{ trans_json('Mr.') }}&nbsp;&nbsp;<span class="title-font">{{ $dad }}</span>
+                        </p>
+                        <p class="hl-parent">
+                            {{ trans_json('Ms.') }}&nbsp;&nbsp;<span class="title-font">{{ $mom }}</span>
+                        </p>
                     </div>
                 </div>
             @endforeach

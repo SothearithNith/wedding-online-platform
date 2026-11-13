@@ -2,9 +2,9 @@
     $basicsError = $errors->hasAny(['template_key', 'groom_name', 'bride_name', 'slug', 'label']);
 
     $tabs = [
-        'basics' => ['1', __('Basics'), '✦'],
-        'photos' => ['2', __('Photos & music'), '❖'],
-        'details' => ['3', __('Details'), '✎'],
+        'basics' => ['1', trans_json('Basics'), '✦'],
+        'photos' => ['2', trans_json('Photos & music'), '❖'],
+        'details' => ['3', trans_json('Details'), '✎'],
     ];
 
     $inputCls =
@@ -160,18 +160,18 @@
                     class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-green-500 text-sm font-bold text-white">✓</span>
                 <div>
                     <p class="font-semibold">
-                        {{ $savedIsNew ? __('Invitation created successfully') : __('Changes saved successfully') }}
+                        {{ $savedIsNew ? trans_json('Invitation created successfully') : trans_json('Changes saved successfully') }}
                     </p>
                     <p class="text-sm opacity-80">
                         {{ $is_published
-                            ? __('Your invitation is live. Copy the link below and send it to your guests.')
-                            : __('Saved as a draft. Only you can preview it until you publish.') }}
+                            ? trans_json('Your invitation is live. Copy the link below and send it to your guests.')
+                            : trans_json('Saved as a draft. Only you can preview it until you publish.') }}
                     </p>
                 </div>
             </div>
 
             <div class="{{ $card }}">
-                <p class="text-sm font-medium text-gray-600">{{ __('Invitation link:') }}</p>
+                <p class="text-sm font-medium text-gray-600">{{ trans_json('Invitation link:') }}</p>
 
                 <div class="flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 p-3 text-sm">
                     <a href="{{ $savedUrl }}" target="_blank"
@@ -181,23 +181,23 @@
                     <button type="button"
                         x-on:click="navigator.clipboard.writeText(@js($savedUrl)); copied = true; setTimeout(() => copied = false, 1500)"
                         class="rounded-lg border border-gray-300 bg-white px-3 py-1.5 font-medium hover:bg-gray-50">
-                        <span x-show="!copied">{{ __('Copy') }}</span>
-                        <span x-show="copied" x-cloak>✓ {{ __('Copied') }}</span>
+                        <span x-show="!copied">{{ trans_json('Copy') }}</span>
+                        <span x-show="copied" x-cloak>✓ {{ trans_json('Copied') }}</span>
                     </button>
                 </div>
 
                 <div class="flex flex-wrap gap-3 pt-1 text-sm">
                     <a href="{{ route('weddings.index') }}" wire:navigate
                         class="rounded-xl bg-amber-600 px-5 py-2.5 font-semibold text-white shadow-sm hover:bg-amber-700">
-                        {{ __('All weddings') }}
+                        {{ trans_json('All weddings') }}
                     </a>
                     <a href="{{ route('weddings.edit', $wedding) }}" wire:navigate class="{{ $back }}">
-                        {{ __('Keep editing') }}
+                        {{ trans_json('Keep editing') }}
                     </a>
                     @if ($savedIsNew)
                         <a href="{{ route('weddings.create', ['template' => $template_key]) }}" wire:navigate
                             class="{{ $back }}">
-                            {{ __('Create another') }}
+                            {{ trans_json('Create another') }}
                         </a>
                     @endif
                 </div>
@@ -210,10 +210,10 @@
                 <div class="min-w-0">
                     <a href="{{ route('weddings.index') }}" wire:navigate
                         class="text-sm text-white/80 hover:text-white">
-                        ← {{ __('Back to weddings') }}
+                        ← {{ trans_json('Back to weddings') }}
                     </a>
                     <h1 class="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
-                        {{ $wedding ? __('Edit wedding') : __('New wedding') }}
+                        {{ $wedding ? trans_json('Edit wedding') : trans_json('New wedding') }}
                     </h1>
 
                     <p class="mt-1 truncate text-sm text-white/90">
@@ -222,7 +222,7 @@
                             <span class="mx-1 opacity-80">&</span>
                             <span class="font-semibold">{{ $bride_name ?: '…' }}</span>
                         @else
-                            {{ __('Pick a template, type the names, add photos. The link is made for you.') }}
+                            {{ trans_json('Pick a template, type the names, add photos. The link is made for you.') }}
                         @endif
                     </p>
                 </div>
@@ -230,13 +230,13 @@
                 <div class="flex items-center gap-2">
                     <span
                         class="rounded-full px-3 py-1 text-xs font-semibold {{ $is_published ? 'bg-green-500 text-white' : 'bg-white/20 text-white' }}">
-                        {{ $is_published ? __('Published') : __('Draft') }}
+                        {{ $is_published ? trans_json('Published') : trans_json('Draft') }}
                     </span>
 
                     @if ($wedding)
                         <a href="{{ $wedding->url }}" target="_blank"
                             class="rounded-xl bg-white/95 px-3.5 py-1.5 text-sm font-medium text-amber-800 shadow-sm hover:bg-white">
-                            {{ __('View live page') }} ↗
+                            {{ trans_json('View live page') }} ↗
                         </a>
                     @endif
                 </div>
@@ -267,15 +267,15 @@
             <div x-show="tab === 'basics'" class="space-y-6">
                 <section class="{{ $card }}">
                     <div>
-                        <h2 class="{{ $h2 }}">{{ __('Custom name') }} <span class="text-red-500">*</span>
+                        <h2 class="{{ $h2 }}">{{ trans_json('Custom name') }} <span class="text-red-500">*</span>
                         </h2>
                         <p class="{{ $hint }}">
-                            {{ __('The custom name is only for you. Guests never see it.') }}</p>
+                            {{ trans_json('The custom name is only for you. Guests never see it.') }}</p>
                     </div>
 
                     <div>
                         <input type="text" wire:model="label" maxlength="80" required
-                            placeholder="{{ __('e.g. សុខា & ស្រីនាង – ភ្នំពេញ') }}" class="{{ $inputCls }}">
+                            placeholder="{{ trans_json('e.g. សុខា & ស្រីនាង – ភ្នំពេញ') }}" class="{{ $inputCls }}">
                         @error('label')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -284,11 +284,11 @@
 
                 <section class="{{ $card }}">
                     <div>
-                        <h2 class="{{ $h2 }}">{{ __('Template') }}</h2>
+                        <h2 class="{{ $h2 }}">{{ trans_json('Template') }}</h2>
                         <p class="{{ $hint }}">
                             {{ $wedding
-                                ? __('You can switch template. Your content stays; only the design changes.')
-                                : __('Choosing a template fills the form with its sample content. Switching later resets what you typed.') }}
+                                ? trans_json('You can switch template. Your content stays; only the design changes.')
+                                : trans_json('Choosing a template fills the form with its sample content. Switching later resets what you typed.') }}
                         </p>
                     </div>
 
@@ -311,7 +311,7 @@
                                             @if ($template_key === $t->key)
                                                 <span
                                                     class="shrink-0 rounded-full bg-amber-500 px-2 py-0.5 text-[10px] font-semibold text-white">✓
-                                                    {{ __('Selected') }}</span>
+                                                    {{ trans_json('Selected') }}</span>
                                             @endif
                                         </div>
                                         @if ($t->description)
@@ -330,11 +330,11 @@
                 </section>
 
                 <section class="{{ $card }}">
-                    <h2 class="{{ $h2 }}">{{ __('The couple') }}</h2>
+                    <h2 class="{{ $h2 }}">{{ trans_json('The couple') }}</h2>
 
                     <div class="grid gap-4 sm:grid-cols-2">
                         <div>
-                            <label class="{{ $lbl }}">{{ __('Groom name') }}</label>
+                            <label class="{{ $lbl }}">{{ trans_json('Groom name') }}</label>
                             <input type="text" wire:model.live.debounce.400ms="groom_name"
                                 class="{{ $inputCls }}">
                             @error('groom_name')
@@ -343,7 +343,7 @@
                         </div>
 
                         <div>
-                            <label class="{{ $lbl }}">{{ __('Bride name') }}</label>
+                            <label class="{{ $lbl }}">{{ trans_json('Bride name') }}</label>
                             <input type="text" wire:model.live.debounce.400ms="bride_name"
                                 class="{{ $inputCls }}">
                             @error('bride_name')
@@ -355,9 +355,9 @@
 
                 <section class="{{ $card }}">
                     <div>
-                        <h2 class="{{ $h2 }}">{{ __('Public link') }}</h2>
+                        <h2 class="{{ $h2 }}">{{ trans_json('Public link') }}</h2>
                         <p class="{{ $hint }}">
-                            {{ __('Made from the groom\'s name (Khmer letters work). If it is taken, a number is added. After you save, the link stays the same even if you change the name.') }}
+                            {{ trans_json('Made from the groom\'s name (Khmer letters work). If it is taken, a number is added. After you save, the link stays the same even if you change the name.') }}
                         </p>
                     </div>
 
@@ -366,7 +366,7 @@
                         <span
                             class="hidden bg-gray-50 px-3 py-2.5 text-sm text-gray-500 sm:block">{{ rtrim(url('/'), '/') }}/</span>
                         <input type="text" wire:model.blur="slug"
-                            placeholder="{{ __('made-from-the-groom-name') }}"
+                            placeholder="{{ trans_json('made-from-the-groom-name') }}"
                             class="min-w-0 flex-1 bg-transparent px-3.5 py-2.5 text-sm outline-none">
                     </div>
                     @error('slug')
@@ -384,12 +384,12 @@
                     <button type="button"
                         x-on:click="tab = 'photos'; window.scrollTo({ top: 0, behavior: 'smooth' })"
                         class="{{ $next }}">
-                        {{ __('Next: Photos') }} →
+                        {{ trans_json('Next: Photos') }} →
                     </button>
                 </div>
             </div>
 
-            <div x-show="tab === 'photos'" style="display:none" class="space-y-6"> 
+            <div x-show="tab === 'photos'" style="display:none" class="space-y-6">
                 @forelse ($this->photoGroups as $group)
                     <section wire:key="group-{{ $group['key'] }}" class="{{ $card }}">
                         <div>
@@ -397,15 +397,15 @@
 
                             @if ($group['key'] === 'main')
                                 <p class="{{ $hint }}">
-                                    {{ __('Upload a photo, or paste a link. Large photos are resized automatically before they are sent.') }}
+                                    {{ trans_json('Upload a photo, or paste a link. Large photos are resized automatically before they are sent.') }}
                                 </p>
                             @elseif ($group['key'] === 'backgrounds')
                                 <p class="{{ $hint }}">
-                                    {{ __('Upload your own photo to replace the background of any section. "Shared" is used for every section without its own photo. Empty slots use the template\'s default.') }}
+                                    {{ trans_json('Upload your own photo to replace the background of any section. "Shared" is used for every section without its own photo. Empty slots use the template\'s default.') }}
                                 </p>
                             @elseif ($group['key'] === 'gallery')
                                 <p class="{{ $hint }}">
-                                    {{ __('Up to 12 photos. You can pick several files at once.') }}</p>
+                                    {{ trans_json('Up to 12 photos. You can pick several files at once.') }}</p>
                             @endif
                         </div>
 
@@ -418,15 +418,15 @@
                 @empty
                     <div
                         class="rounded-2xl border border-dashed border-gray-300 bg-white p-8 text-center text-sm text-gray-500">
-                        {{ __('No photo slots yet. Choose a template on the Basics tab first.') }}
+                        {{ trans_json('No photo slots yet. Choose a template on the Basics tab first.') }}
                     </div>
                 @endforelse
 
                 <p class="rounded-xl bg-gray-50 px-4 py-3 text-xs leading-relaxed text-gray-500">
-                    {{ __('Files are uploaded straight away and linked to this wedding when you press Save. Images and music up to 20 MB.') }}
-                    {{ __('New files are stored on: :disk.', ['disk' => $this->storageDisk]) }}
+                    {{ trans_json('Files are uploaded straight away and linked to this wedding when you press Save. Images and music up to 20 MB.') }}
+                    {{ trans_json('New files are stored on: :disk.', ['disk' => $this->storageDisk]) }}
                     @if ($this->uploadLimit)
-                        {{ __('Your server accepts files up to :size.', ['size' => number_format($this->uploadLimit / 1048576, 1) . ' MB']) }}
+                        {{ trans_json('Your server accepts files up to :size.', ['size' => number_format($this->uploadLimit / 1048576, 1) . ' MB']) }}
                     @endif
                 </p>
 
@@ -434,19 +434,19 @@
                     <button type="button"
                         x-on:click="tab = 'basics'; window.scrollTo({ top: 0, behavior: 'smooth' })"
                         class="{{ $back }}">
-                        ← {{ __('Back') }}
+                        ← {{ trans_json('Back') }}
                     </button>
                     <button type="button"
                         x-on:click="tab = 'details'; window.scrollTo({ top: 0, behavior: 'smooth' })"
                         class="{{ $next }}">
-                        {{ __('Next: Details') }} →
+                        {{ trans_json('Next: Details') }} →
                     </button>
                 </div>
             </div>
 
             <div x-show="tab === 'details'" style="display:none" class="space-y-6">
                 <p class="text-xs text-gray-500">
-                    {{ __('Date, schedule, texts, love story, dress code, gift. Fields save when you press Save.') }}
+                    {{ trans_json('Date, schedule, texts, love story, dress code, gift. Fields save when you press Save.') }}
                 </p>
 
                 @php
@@ -455,71 +455,83 @@
                 @endphp
 
                 <section class="{{ $card }}">
-                    <h2 class="{{ $h2 }}">{{ __('Parents') }}</h2>
+                    <h2 class="{{ $h2 }}">{{ trans_json('Parents') }}</h2>
+
                     <div class="grid gap-4 sm:grid-cols-2">
                         <div>
-                            <label class="{{ $lbl }}">{{ __("Groom's parents") }}</label>
-                            <input type="text" wire:model.blur="data.groom.parents" class="{{ $inputCls }}">
+                            <label class="{{ $lbl }}">{{ trans_json("Groom's Father") }}</label>
+                            <input type="text" wire:model.blur="data.groom.dad" class="{{ $inputCls }}">
                         </div>
                         <div>
-                            <label class="{{ $lbl }}">{{ __("Bride's parents") }}</label>
-                            <input type="text" wire:model.blur="data.bride.parents" class="{{ $inputCls }}">
+                            <label class="{{ $lbl }}">{{ trans_json("Groom's Mother") }}</label>
+                            <input type="text" wire:model.blur="data.groom.mom" class="{{ $inputCls }}">
+                        </div>
+                    </div>
+
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <div>
+                            <label class="{{ $lbl }}">{{ trans_json("Bride's Father") }}</label>
+                            <input type="text" wire:model.blur="data.bride.dad" class="{{ $inputCls }}">
+                        </div>
+                        <div>
+                            <label class="{{ $lbl }}">{{ trans_json("Bride's Mother") }}</label>
+                            <input type="text" wire:model.blur="data.bride.mom" class="{{ $inputCls }}">
                         </div>
                     </div>
                 </section>
 
                 <section class="{{ $card }}">
                     <div>
-                        <h2 class="{{ $h2 }}">{{ __('Date') }}</h2>
+                        <h2 class="{{ $h2 }}">{{ trans_json('Date') }}</h2>
                         <p class="{{ $hint }}">
-                            {{ __('Cambodia time (UTC+7). Leave the date text empty to generate it in Khmer.') }}</p>
+                            {{ trans_json('Cambodia time (UTC+7). Leave the date text empty to generate it in Khmer.') }}</p>
                     </div>
                     <div class="grid gap-4 sm:grid-cols-2">
                         <div>
-                            <label class="{{ $lbl }}">{{ __('Wedding date and time') }}</label>
+                            <label class="{{ $lbl }}">{{ trans_json('Wedding date and time') }}</label>
                             <input type="datetime-local" wire:model.blur="dateLocal" class="{{ $inputCls }}">
                         </div>
                         <div>
-                            <label class="{{ $lbl }}">{{ __('Date text (optional)') }}</label>
+                            <label class="{{ $lbl }}">{{ trans_json('Date text (optional)') }}</label>
                             <input type="text" wire:model.blur="data.dateText" class="{{ $inputCls }}">
                         </div>
                     </div>
                 </section>
 
                 <section class="{{ $card }}">
-                    <h2 class="{{ $h2 }}">{{ __('Schedule') }}</h2>
+                    <h2 class="{{ $h2 }}">{{ trans_json('Schedule') }}</h2>
 
                     @foreach ($data[$eventsKey] ?? [] as $i => $ev)
                         <div wire:key="ev-{{ $i }}"
                             class="space-y-3 rounded-xl border border-gray-200 bg-gray-50/70 p-3.5">
                             <div class="flex items-center justify-between">
-                                <p class="text-sm font-semibold">{{ __('Event') }} {{ $i + 1 }}</p>
+                                <p class="text-sm font-semibold">{{ trans_json('Event') }} {{ $i + 1 }}</p>
                                 <button type="button"
                                     wire:click="removeItem('{{ $eventsKey }}', {{ $i }})"
-                                    class="{{ $rm }}">{{ __('Remove') }}</button>
+                                    class="{{ $rm }}">{{ trans_json('Remove') }}</button>
                             </div>
                             <div class="grid gap-3 sm:grid-cols-2">
                                 <div>
-                                    <label class="{{ $lbl }}">{{ __('Time') }}</label>
+                                    <label class="{{ $lbl }}">{{ trans_json('Time') }}</label>
                                     <input type="time"
                                         wire:model.blur="data.{{ $eventsKey }}.{{ $i }}.time"
                                         class="{{ $inputCls }}">
                                 </div>
                                 <div>
-                                    <label class="{{ $lbl }}">{{ __('Title') }}</label>
+                                    <label class="{{ $lbl }}">{{ trans_json('Title') }}</label>
                                     <input type="text"
                                         wire:model.blur="data.{{ $eventsKey }}.{{ $i }}.title"
                                         class="{{ $inputCls }}">
                                 </div>
                                 <div>
-                                    <label class="{{ $lbl }}">{{ __('Place') }}</label>
+                                    <label class="{{ $lbl }}">{{ trans_json('Place') }}</label>
                                     <input type="text"
                                         wire:model.blur="data.{{ $eventsKey }}.{{ $i }}.place"
                                         class="{{ $inputCls }}">
                                 </div>
                                 <div>
                                     <label
-                                        class="{{ $lbl }}">{{ __('Google Maps link (optional)') }}</label>
+                                        class="{{ $lbl }}">{{ trans_json('Google Maps link (optional)') }}</label>
                                     <input type="text"
                                         wire:model.blur="data.{{ $eventsKey }}.{{ $i }}.mapUrl"
                                         placeholder="https://maps.google.com/..." class="{{ $inputCls }}">
@@ -530,34 +542,34 @@
 
                     @if (count($data[$eventsKey] ?? []) < 12)
                         <button type="button" wire:click="addEvent" class="{{ $add }} w-full">+
-                            {{ __('Add event') }}</button>
+                            {{ trans_json('Add event') }}</button>
                     @endif
                 </section>
 
                 <section class="{{ $card }}">
-                    <h2 class="{{ $h2 }}">{{ __('Words') }}</h2>
+                    <h2 class="{{ $h2 }}">{{ trans_json('Words') }}</h2>
                     <div>
-                        <label class="{{ $lbl }}">{{ __('Invitation message') }}</label>
+                        <label class="{{ $lbl }}">{{ trans_json('Invitation message') }}</label>
                         <textarea rows="3" wire:model.blur="data.intro" class="{{ $inputCls }}"></textarea>
                     </div>
                     <div>
-                        <label class="{{ $lbl }}">{{ __('Quote') }}</label>
+                        <label class="{{ $lbl }}">{{ trans_json('Quote') }}</label>
                         <input type="text" wire:model.blur="data.quote" class="{{ $inputCls }}">
                     </div>
                     <div>
-                        <label class="{{ $lbl }}">{{ __('Apology note') }}</label>
+                        <label class="{{ $lbl }}">{{ trans_json('Apology note') }}</label>
                         <textarea rows="4" wire:model.blur="data.apology" class="{{ $inputCls }}"></textarea>
                     </div>
                     <div>
-                        <label class="{{ $lbl }}">{{ __('Thank-you note') }}</label>
+                        <label class="{{ $lbl }}">{{ trans_json('Thank-you note') }}</label>
                         <textarea rows="4" wire:model.blur="data.thanks" class="{{ $inputCls }}"></textarea>
                     </div>
                 </section>
 
                 <section class="{{ $card }}">
                     <div>
-                        <h2 class="{{ $h2 }}">{{ __('Love story') }}</h2>
-                        <p class="{{ $hint }}">{{ __('Optional. Remove all items to hide this section.') }}
+                        <h2 class="{{ $h2 }}">{{ trans_json('Love story') }}</h2>
+                        <p class="{{ $hint }}">{{ trans_json('Optional. Remove all items to hide this section.') }}
                         </p>
                     </div>
 
@@ -565,26 +577,26 @@
                         <div wire:key="st-{{ $i }}"
                             class="space-y-3 rounded-xl border border-gray-200 bg-gray-50/70 p-3.5">
                             <div class="flex items-center justify-between">
-                                <p class="text-sm font-semibold">{{ __('Moment') }} {{ $i + 1 }}</p>
+                                <p class="text-sm font-semibold">{{ trans_json('Moment') }} {{ $i + 1 }}</p>
                                 <button type="button"
                                     wire:click="removeItem('{{ $storyKey }}', {{ $i }})"
-                                    class="{{ $rm }}">{{ __('Remove') }}</button>
+                                    class="{{ $rm }}">{{ trans_json('Remove') }}</button>
                             </div>
                             <div class="grid gap-3 sm:grid-cols-2">
                                 <div>
-                                    <label class="{{ $lbl }}">{{ __('Year') }}</label>
+                                    <label class="{{ $lbl }}">{{ trans_json('Year') }}</label>
                                     <input type="text"
                                         wire:model.blur="data.{{ $storyKey }}.{{ $i }}.year"
                                         class="{{ $inputCls }}">
                                 </div>
                                 <div>
-                                    <label class="{{ $lbl }}">{{ __('Title') }}</label>
+                                    <label class="{{ $lbl }}">{{ trans_json('Title') }}</label>
                                     <input type="text"
                                         wire:model.blur="data.{{ $storyKey }}.{{ $i }}.title"
                                         class="{{ $inputCls }}">
                                 </div>
                                 <div class="sm:col-span-2">
-                                    <label class="{{ $lbl }}">{{ __('Text') }}</label>
+                                    <label class="{{ $lbl }}">{{ trans_json('Text') }}</label>
                                     <textarea rows="2" wire:model.blur="data.{{ $storyKey }}.{{ $i }}.text"
                                         class="{{ $inputCls }}"></textarea>
                                 </div>
@@ -594,24 +606,24 @@
 
                     @if (count($data[$storyKey] ?? []) < 10)
                         <button type="button" wire:click="addStory" class="{{ $add }} w-full">+
-                            {{ __('Add moment') }}</button>
+                            {{ trans_json('Add moment') }}</button>
                     @endif
                 </section>
 
                 <section class="{{ $card }}">
                     <div>
-                        <h2 class="{{ $h2 }}">{{ __('Dress code') }}</h2>
+                        <h2 class="{{ $h2 }}">{{ trans_json('Dress code') }}</h2>
                         <p class="{{ $hint }}">
-                            {{ __('Optional. Remove all colors to hide this section.') }}</p>
+                            {{ trans_json('Optional. Remove all colors to hide this section.') }}</p>
                     </div>
                     <div class="grid gap-4 sm:grid-cols-2">
                         <div>
-                            <label class="{{ $lbl }}">{{ __('Title') }}</label>
+                            <label class="{{ $lbl }}">{{ trans_json('Title') }}</label>
                             <input type="text" wire:model.blur="data.dressCode.title"
                                 class="{{ $inputCls }}">
                         </div>
                         <div>
-                            <label class="{{ $lbl }}">{{ __('Note') }}</label>
+                            <label class="{{ $lbl }}">{{ trans_json('Note') }}</label>
                             <input type="text" wire:model.blur="data.dressCode.note"
                                 class="{{ $inputCls }}">
                         </div>
@@ -621,7 +633,7 @@
                             <div wire:key="color-{{ $i }}" class="flex items-center gap-1">
                                 <input type="color" wire:model.blur="data.dressCode.colors.{{ $i }}"
                                     class="h-10 w-10 cursor-pointer rounded-lg border border-gray-300 bg-white p-1"
-                                    aria-label="{{ __('Color') }} {{ $i + 1 }}">
+                                    aria-label="{{ trans_json('Color') }} {{ $i + 1 }}">
                                 <button type="button"
                                     wire:click="removeItem('dressCode.colors', {{ $i }})"
                                     class="text-xs text-red-600">✕</button>
@@ -629,30 +641,30 @@
                         @endforeach
                         @if (count($data['dressCode']['colors'] ?? []) < 8)
                             <button type="button" wire:click="addColor" class="{{ $add }}">+
-                                {{ __('Color') }}</button>
+                                {{ trans_json('Color') }}</button>
                         @endif
                     </div>
                 </section>
 
                 <section class="{{ $card }}">
                     <div>
-                        <h2 class="{{ $h2 }}">{{ __('Wedding gift') }}</h2>
+                        <h2 class="{{ $h2 }}">{{ trans_json('Wedding gift') }}</h2>
                         <p class="{{ $hint }}">
-                            {{ __('Optional. Leave the account number empty to hide this section. The QR image is on the Photos tab.') }}
+                            {{ trans_json('Optional. Leave the account number empty to hide this section. The QR image is on the Photos tab.') }}
                         </p>
                     </div>
                     <div class="grid gap-4 sm:grid-cols-3">
                         <div>
-                            <label class="{{ $lbl }}">{{ __('Bank') }}</label>
+                            <label class="{{ $lbl }}">{{ trans_json('Bank') }}</label>
                             <input type="text" wire:model.blur="data.gift.bank" class="{{ $inputCls }}">
                         </div>
                         <div>
-                            <label class="{{ $lbl }}">{{ __('Account name') }}</label>
+                            <label class="{{ $lbl }}">{{ trans_json('Account name') }}</label>
                             <input type="text" wire:model.blur="data.gift.accountName"
                                 class="{{ $inputCls }}">
                         </div>
                         <div>
-                            <label class="{{ $lbl }}">{{ __('Account number') }}</label>
+                            <label class="{{ $lbl }}">{{ trans_json('Account number') }}</label>
                             <input type="text" wire:model.blur="data.gift.accountNumber"
                                 class="{{ $inputCls }}">
                         </div>
@@ -682,7 +694,7 @@
                 @endphp
                 @if ($other->isNotEmpty())
                     <section class="{{ $card }}">
-                        <h2 class="{{ $h2 }}">{{ __('Other') }}</h2>
+                        <h2 class="{{ $h2 }}">{{ trans_json('Other') }}</h2>
                         <div class="grid gap-4 sm:grid-cols-2">
                             @foreach ($other as $k => $v)
                                 <div wire:key="other-{{ $k }}">
@@ -700,7 +712,7 @@
                     <button type="button"
                         x-on:click="tab = 'photos'; window.scrollTo({ top: 0, behavior: 'smooth' })"
                         class="{{ $back }}">
-                        ← {{ __('Back') }}
+                        ← {{ trans_json('Back') }}
                     </button>
                 </div>
             </div>
@@ -751,7 +763,7 @@
 
                                 <span class="flex flex-col gap-0.5">
                                     <span class="flex items-center gap-2 text-sm font-semibold text-slate-800">
-                                        {{ $is_published ? __('Published') : __('Draft') }}
+                                        {{ $is_published ? trans_json('Published') : trans_json('Draft') }}
 
                                         <span
                                             class="h-1.5 w-1.5 rounded-full
@@ -760,7 +772,7 @@
                                     </span>
 
                                     <span class="text-xs text-slate-500">
-                                        {{ $is_published ? __('Anyone with the link can open it') : __('Only you can preview it') }}
+                                        {{ $is_published ? trans_json('Anyone with the link can open it') : trans_json('Only you can preview it') }}
                                     </span>
                                 </span>
 
@@ -773,7 +785,7 @@
                                     class="rounded-xl px-4 py-2.5 text-sm font-medium
                                text-slate-500 transition-all duration-200
                                hover:bg-white/70 hover:text-slate-800">
-                                    {{ __('Cancel') }}
+                                    {{ trans_json('Cancel') }}
                                 </a>
 
                                 <button type="submit" wire:loading.attr="disabled" wire:target="save"
@@ -793,12 +805,12 @@
                                     <span wire:loading.remove wire:target="save"
                                         class="inline-flex items-center gap-2">
                                         <i class="bi bi-check2-circle text-base"></i>
-                                        {{ $wedding ? __('Save changes') : __('Create wedding') }}
+                                        {{ $wedding ? trans_json('Save changes') : trans_json('Create wedding') }}
                                     </span>
 
                                     <span wire:loading wire:target="save" class="inline-flex items-center gap-2">
                                         <i class="bi bi-arrow-repeat animate-spin"></i>
-                                        {{ __('Saving…') }}
+                                        {{ trans_json('Saving…') }}
                                     </span>
 
                                 </button>

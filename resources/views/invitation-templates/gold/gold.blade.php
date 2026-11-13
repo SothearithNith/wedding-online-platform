@@ -1,19 +1,13 @@
 @php
     use App\Support\GoldInvitationPresenter;
-
     $templateKey = $templateKey ?? 'gold';
-
     $viewData = GoldInvitationPresenter::prepare(
         is_array($data ?? null) ? $data : [],
         $templateKey,
         $eventType ?? 'wedding',
     );
-
     extract($viewData, EXTR_SKIP);
-
-    // ---- music: take the first NON-EMPTY value from the field (path / origin_url / link) ----
     $defaultMusic = is_file(public_path('assets/music/wedding.mp3')) ? asset('assets/music/wedding.mp3') : '';
-
     $pickMusic = function ($v) use (&$pickMusic) {
         if (is_array($v)) {
             foreach (['path', 'origin_url', 'url', 'src', 'file'] as $k) {
@@ -26,7 +20,6 @@
         }
         return is_string($v) ? trim($v) : '';
     };
-
     $musicRaw = '';
     foreach (
         [
@@ -66,9 +59,7 @@
             $rel = ltrim(preg_replace('#^/?(public/|storage/)#', '', $musicRaw), '/');
             $musicSrc = asset('storage/' . $rel);
         }
-    }
-
-    // only when the field is truly empty -> default song
+    } 
     if ($musicSrc === '' && !$musicYoutubeId) {
         $musicSrc = $defaultMusic;
     }
