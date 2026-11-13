@@ -13,7 +13,7 @@ return new class extends Migration {
             $t->string('role', 10);                       // groom | bride
             $t->string('name');
             $t->string('parents')->nullable();
-            $t->string('photo')->nullable();
+            $t->text('photo')->nullable();
             $t->timestamps();
 
             $t->unique(['invitation_id', 'role']);
@@ -25,7 +25,7 @@ return new class extends Migration {
             $t->string('time', 5);                        // HH:MM
             $t->string('title');
             $t->string('place')->nullable();
-            $t->string('map_url', 2048)->nullable();
+            $t->text('map_url')->nullable();
             $t->unsignedSmallInteger('sort')->default(0);
             $t->timestamps();
         });
@@ -43,7 +43,7 @@ return new class extends Migration {
         Schema::create('invitation_gallery', function (Blueprint $t) {
             $t->id();
             $t->foreignId('invitation_id')->constrained()->cascadeOnDelete();
-            $t->string('url', 2048);
+            $t->text('url');
             $t->unsignedSmallInteger('sort')->default(0);
             $t->timestamps();
         });
