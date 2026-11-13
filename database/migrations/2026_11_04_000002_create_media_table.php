@@ -20,9 +20,7 @@ return new class extends Migration {
 
             // Storage configuration
             $table->string('disk')->nullable(); // cloudinary
-            $table->string('path')->nullable(); // Cloudinary public_id
-
-            // External image URL
+            $table->string('path')->nullable(); // Cloudinary public_id 
             $table->text('original_url')->nullable();
 
             // Media information

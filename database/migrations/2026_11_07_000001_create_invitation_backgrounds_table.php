@@ -13,7 +13,7 @@ return new class extends Migration
             $t->string('template', 50)->default('gold');
             $t->string('section', 50)->default('all');
             $t->string('name')->nullable();
-            $t->string('path');
+            $t->text('path');
             $t->string('event_type', 50)->default('wedding');
             $t->boolean('is_default')->default(false);
             $t->boolean('is_active')->default(true);
