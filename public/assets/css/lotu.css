@@ -4872,3 +4872,917 @@ html:not(.js) .g-div .kb-draw {
         transform: none;
     }
 }
+
+/* =====================================================================
+   LOTUS · CUSTOM LAYER  ("Pond at dusk")
+   Paste at the VERY END of lotu.css (or load after it).
+   Same class names, so no HTML changes are needed.
+
+   Why it looks different from Gold
+   ---------------------------------------------------------------
+   GOLD  = hard metal: diamonds, arches, straight gold hairlines,
+           sunburst rays, shine sweeps.
+   LOTUS = water + petals: leaf-shaped corners, ripple rings,
+           soft pearl/rose gradients, wavy borders, glow,
+           a small aqua "leaf" accent.
+
+   Quick tuning: change the variables in section 0 only.
+   ===================================================================== */
+
+/* =====================================================================
+   0. TOKENS
+   ===================================================================== */
+.gw,
+.gc {
+    --lt-leaf: #86d9c8; /* aqua lotus-leaf accent (use sparingly) */
+    --lt-rose: #ff9fc0; /* petal rose */
+    --lt-pearl: #fff3fb;
+    --lt-ink: #3a1457;
+
+    --primary: #8a4fb0;
+    --accent: #6f8fa8;
+
+    /* sunset-petal gradient: orchid -> rose -> violet (no metallic look) */
+    --foil: linear-gradient(
+        120deg,
+        #8b4bb5 0%,
+        #d88ad8 28%,
+        #ff9fc0 50%,
+        #9c84e8 74%,
+        #8b4bb5 100%
+    );
+    /* pearl gradient for buttons / pills (light, so dark text stays readable) */
+    --pearl: linear-gradient(135deg, #fff3fb 0%, #f1c4ee 48%, #cdbdf7 100%);
+
+    /* ripple rings replace the diamond lattice everywhere */
+    --chakra: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' width='48' height='48'%3E%3Ccircle cx='24' cy='24' r='22' fill='none' stroke='black' stroke-width='1.2'/%3E%3Ccircle cx='24' cy='24' r='14' fill='none' stroke='black' stroke-width='1.2'/%3E%3Ccircle cx='24' cy='24' r='4.5'/%3E%3C/svg%3E");
+    /* wave band replaces the diamond band */
+    --band: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 14' width='28' height='14'%3E%3Cpath d='M0 9Q7 1 14 9T28 9' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='14' cy='3' r='1.4'/%3E%3C/svg%3E");
+}
+
+/* petal-corner helpers (leaf shape: two opposite corners are round) */
+:root {
+    --lt-r-lg: 44px 10px 44px 10px;
+    --lt-r-lg-in: 41px 7px 41px 7px;
+    --lt-r-md: 24px 6px 24px 6px;
+    --lt-r-leaf: 150px 10px 150px 10px;
+    --lt-r-leaf-alt: 10px 150px 10px 150px;
+}
+
+/* =====================================================================
+   1. TYPOGRAPHY: softer, airier
+   ===================================================================== */
+body {
+    background: #efe6f6;
+}
+
+.gw {
+    background: #fbf5fc;
+}
+
+.st-title {
+    letter-spacing: 0.02em;
+}
+
+.st-light .st-title {
+    color: var(--lt-pearl);
+    text-shadow:
+        0 0 22px rgba(255, 159, 192, 0.55),
+        0 0 40px rgba(217, 160, 224, 0.45),
+        0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.st-dark .st-title {
+    color: var(--lt-ink);
+    text-shadow: 0 2px 18px rgba(255, 159, 192, 0.45);
+}
+
+.kx-name,
+.kc-name {
+    letter-spacing: 0.01em;
+}
+
+/* =====================================================================
+   2. SECTION SHELLS: water-glow edges instead of hard hairlines
+   ===================================================================== */
+.g-photo {
+    background: linear-gradient(180deg, #4a3a66 0%, #1d1330 100%);
+}
+
+.g-photo::before {
+    background:
+        radial-gradient(
+            ellipse 80% 90px at 50% 0%,
+            rgba(255, 159, 192, 0.22),
+            transparent 100%
+        ),
+        radial-gradient(
+            ellipse 80% 90px at 50% 100%,
+            rgba(134, 217, 200, 0.18),
+            transparent 100%
+        ),
+        linear-gradient(to bottom, rgba(18, 8, 30, 0.55), transparent 110px),
+        linear-gradient(to top, rgba(18, 8, 30, 0.55), transparent 110px);
+    box-shadow: none;
+}
+
+/* the soft light sweep becomes a slow pinkish tide */
+.g-photo::after {
+    background: linear-gradient(
+        100deg,
+        transparent 30%,
+        rgba(255, 190, 220, 0.12) 50%,
+        transparent 70%
+    );
+}
+
+.g-chakra {
+    opacity: 0.06;
+}
+
+/* glass panel: leaf corners */
+.g-arch-glass {
+    border-radius: var(--lt-r-lg);
+    border: 1px solid rgba(255, 220, 245, 0.45);
+    background: rgba(28, 12, 46, 0.34);
+    -webkit-backdrop-filter: blur(6px) saturate(1.2);
+    backdrop-filter: blur(6px) saturate(1.2);
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.35),
+        0 0 40px rgba(255, 159, 192, 0.12),
+        inset 0 1px 0 rgba(255, 240, 250, 0.4);
+}
+
+/* =====================================================================
+   3. LINES / ORNAMENTS: wavy + glowing, no straight gold rules
+   ===================================================================== */
+.g-foil-line {
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--lt-rose),
+        #d88ad8,
+        var(--lt-leaf),
+        transparent
+    );
+    box-shadow: 0 0 14px rgba(255, 159, 192, 0.5);
+}
+
+.g-foil-box {
+    border: 1.5px solid #d08ad8;
+    border-radius: var(--lt-r-md);
+    box-shadow:
+        inset 0 0 14px rgba(255, 159, 192, 0.12),
+        0 0 14px rgba(217, 160, 224, 0.18);
+}
+
+.st-orn span:first-child {
+    background: linear-gradient(90deg, transparent, var(--lt-rose));
+}
+
+.st-orn span:last-child {
+    background: linear-gradient(270deg, transparent, var(--lt-rose));
+}
+
+/* every "diamond" becomes a petal (lens shape rotated 45deg) */
+.dia,
+.kx-dia,
+.kf-divider b,
+.ap-divider b,
+.gc-orn i,
+.cd-box .dm {
+    border-radius: 0 100% 0 100%;
+}
+
+.kx-dia {
+    background: var(--lt-rose);
+}
+
+.gc-orn i,
+.cd-box .dm {
+    animation: lt-petal-turn 4s ease-in-out infinite;
+}
+
+@keyframes lt-petal-turn {
+    0%,
+    100% {
+        transform: rotate(45deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(135deg) scale(1.2);
+    }
+}
+
+.gc-orn span,
+.kf-divider span,
+.ap-divider span,
+.kg-orn span {
+    background: linear-gradient(90deg, transparent, var(--lt-rose), transparent);
+}
+
+.g-div {
+    background: radial-gradient(
+        ellipse at 50% 50%,
+        #4a1f6b 0%,
+        #2b0f45 60%,
+        #1a0830 100%
+    );
+    border-block: 0;
+    box-shadow:
+        inset 0 0 30px rgba(255, 159, 192, 0.12),
+        inset 0 1px 0 rgba(255, 190, 220, 0.3),
+        inset 0 -1px 0 rgba(134, 217, 200, 0.3);
+}
+
+/* =====================================================================
+   4. LOTUS-FAN RAYS (12 wide petals) instead of the thin gold sunburst
+   ===================================================================== */
+.kc-rays,
+.gc-logo-halo,
+.gc-door .mand {
+    background: repeating-conic-gradient(
+        from 0deg,
+        rgba(255, 170, 205, 0.26) 0 11deg,
+        transparent 11deg 30deg
+    );
+}
+
+.cp-halo div {
+    background: repeating-conic-gradient(
+        from 0deg,
+        rgba(255, 190, 225, 0.5) 0deg 10deg,
+        transparent 10deg 30deg
+    );
+}
+
+.kc-sun {
+    background: radial-gradient(
+        circle,
+        rgba(255, 190, 220, 0.5) 0%,
+        rgba(200, 140, 235, 0.22) 42%,
+        transparent 70%
+    );
+}
+
+/* =====================================================================
+   5. COVER DOORS: pearl-lilac with water ripples
+   ===================================================================== */
+.gc-door {
+    background:
+        radial-gradient(
+            ellipse at 50% 42%,
+            rgba(255, 235, 250, 0.4),
+            transparent 62%
+        ),
+        linear-gradient(
+            90deg,
+            #3b1659 0%,
+            #7d4fb0 18%,
+            #e7c6f0 46%,
+            #f7d3e8 60%,
+            #a77ad0 86%,
+            #35134f 100%
+        );
+}
+
+/* ripple rings spreading from the centre seam */
+.gc-door .pat {
+    opacity: 0.4;
+    background: repeating-radial-gradient(
+        circle at 100% 50%,
+        rgba(60, 22, 90, 0.5) 0 1px,
+        transparent 1px 26px
+    );
+    -webkit-mask-image: none;
+    mask-image: none;
+}
+
+.gc-door.r .pat {
+    background: repeating-radial-gradient(
+        circle at 0% 50%,
+        rgba(60, 22, 90, 0.5) 0 1px,
+        transparent 1px 26px
+    );
+}
+
+.gc-door .frame {
+    border-radius: 18px;
+    border-color: #5b2a80;
+}
+
+.gc-door .frame::before {
+    border-radius: 12px;
+}
+
+.gc-door .bar {
+    width: 6px;
+    background: linear-gradient(
+        180deg,
+        transparent,
+        #fbd5ea 20%,
+        #d9a0e0 50%,
+        #fbd5ea 80%,
+        transparent
+    );
+    box-shadow: 0 0 16px rgba(255, 159, 192, 0.6);
+}
+
+.gc-door .knob {
+    background: radial-gradient(
+        circle at 35% 30%,
+        #fff 0 12%,
+        #ffb6d2 38%,
+        #8a4fb0 78%
+    );
+    box-shadow:
+        0 0 0 3px rgba(74, 31, 102, 0.9),
+        0 0 0 5px #ffe6f4,
+        0 0 20px rgba(255, 159, 192, 0.7);
+}
+
+/* cover corner ornaments: soft glow, round frame */
+.gc-corner {
+    border-radius: 28px 6px 28px 6px;
+    border-color: rgba(255, 190, 225, 0.6);
+}
+
+.gc-guest {
+    border-radius: var(--lt-r-md);
+    border: 1px solid rgba(255, 190, 225, 0.8);
+    background: rgba(255, 247, 253, 0.94);
+}
+
+.gc-sub {
+    border-color: rgba(255, 190, 225, 0.45);
+}
+
+/* open button: ripple rings instead of a gold shine sweep */
+.gc-open {
+    background: var(--pearl);
+    color: var(--lt-ink) !important;
+    -webkit-text-fill-color: var(--lt-ink);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    animation:
+        khmer-reveal 1s cubic-bezier(0.2, 0.7, 0.2, 1) both,
+        lt-ripple 2.8s ease-out 2.4s infinite;
+    animation-delay: var(--d, 0ms), 2.4s;
+}
+
+.gc-open svg,
+.gc-open-ornament {
+    color: var(--lt-ink);
+}
+
+.gc-open::after {
+    display: none;
+}
+
+.gc-open:hover {
+    background: linear-gradient(135deg, #ffffff 0%, #f7d0f0 50%, #d8c8fb 100%);
+    box-shadow: 0 8px 26px rgba(255, 159, 192, 0.5);
+}
+
+@keyframes lt-ripple {
+    0% {
+        box-shadow:
+            0 4px 14px rgba(60, 25, 90, 0.25),
+            0 0 0 0 rgba(255, 159, 192, 0.55),
+            0 0 0 0 rgba(134, 217, 200, 0.4);
+    }
+
+    70%,
+    100% {
+        box-shadow:
+            0 4px 14px rgba(60, 25, 90, 0.25),
+            0 0 0 16px rgba(255, 159, 192, 0),
+            0 0 0 30px rgba(134, 217, 200, 0);
+    }
+}
+
+/* =====================================================================
+   6. HERO
+   ===================================================================== */
+.kc-date {
+    border-color: rgba(255, 190, 225, 0.8);
+    background: rgba(255, 159, 192, 0.12);
+    border-radius: 999px;
+}
+
+.kc-date::after {
+    display: none; /* no metal shine */
+}
+
+.kc-shape {
+    background: radial-gradient(
+        ellipse 50% 46% at 50% 52%,
+        rgba(30, 8, 48, 0.72) 0%,
+        rgba(30, 8, 48, 0.56) 45%,
+        rgba(30, 8, 48, 0.22) 72%,
+        transparent 100%
+    );
+}
+
+.hl-label {
+    color: rgba(255, 190, 225, 0.9);
+}
+
+.hl-rule {
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 159, 192, 0.6),
+        transparent
+    );
+}
+
+.chakra-band {
+    background: linear-gradient(90deg, #d88ad8, var(--lt-rose), var(--lt-leaf));
+}
+
+/* =====================================================================
+   7. COUPLE: leaf-shaped glow, soft frame
+   ===================================================================== */
+.kx-fglow {
+    background: radial-gradient(circle, #ffb6d2, transparent 70%);
+    opacity: 0.45;
+}
+
+/* =====================================================================
+   8. COUNTDOWN
+   ===================================================================== */
+.cd-box {
+    border-radius: var(--lt-r-lg);
+}
+
+.cd-box::before {
+    inset: 7px;
+    border-radius: var(--lt-r-lg-in);
+    border: 1px dashed rgba(138, 79, 176, 0.45);
+}
+
+#countdown .cd-box::before {
+    border-color: rgba(255, 200, 230, 0.5);
+}
+
+.cd-grid > div + div {
+    border-left: 0;
+    position: relative;
+}
+
+/* tiny pearl between each number instead of a hard line */
+.cd-grid > div + div::before {
+    content: "";
+    position: absolute;
+    left: -2px;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    margin-top: -2px;
+    border-radius: 50%;
+    background: var(--lt-rose);
+    box-shadow: 0 0 8px var(--lt-rose);
+}
+
+.ac-btn {
+    border-color: #d08ad8;
+    animation: lt-ripple-soft 3.2s ease-out infinite;
+}
+
+.ac-btn::after {
+    display: none;
+}
+
+.ac-btn:hover,
+.ac-btn.done,
+#countdown .ac-btn:hover,
+#countdown .ac-btn.done {
+    background: var(--pearl);
+    color: var(--lt-ink);
+}
+
+@keyframes lt-ripple-soft {
+    0% {
+        box-shadow:
+            0 6px 20px rgba(0, 0, 0, 0.15),
+            0 0 0 0 rgba(255, 159, 192, 0.5);
+    }
+
+    70%,
+    100% {
+        box-shadow:
+            0 6px 20px rgba(0, 0, 0, 0.15),
+            0 0 0 14px rgba(255, 159, 192, 0);
+    }
+}
+
+.burst-ring {
+    border-color: var(--lt-rose);
+}
+
+.burst-spark {
+    background: var(--lt-leaf);
+}
+
+/* =====================================================================
+   9. STORY TIMELINE: round pearl nodes, no diamonds
+   ===================================================================== */
+.tl-line {
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(
+        to bottom,
+        var(--lt-rose),
+        rgba(217, 160, 224, 0.7),
+        var(--lt-leaf) 85%,
+        transparent
+    );
+}
+
+.tl .node {
+    transform: none;
+    border-radius: 50% 0 50% 0; /* a single petal */
+    background: linear-gradient(135deg, #fff3fb, #e08ad0);
+    animation: lt-node 3s ease-in-out infinite;
+}
+
+.tl .node svg {
+    transform: none;
+}
+
+@keyframes lt-node {
+    0%,
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+
+    50% {
+        transform: scale(1.14) rotate(8deg);
+    }
+}
+
+.tl .yr {
+    color: var(--lt-rose);
+}
+
+/* =====================================================================
+   10. SCHEDULE
+   ===================================================================== */
+.sc-date .badge {
+    border-radius: 50% 0 50% 0;
+    background: var(--pearl);
+}
+
+.sc-date .badge::before {
+    border-radius: 50% 0 50% 0;
+    border-color: rgba(255, 190, 225, 0.5);
+}
+
+.dl .l1 {
+    background: linear-gradient(to right, transparent, var(--lt-rose));
+}
+
+.dl .l2 {
+    background: linear-gradient(to left, transparent, var(--lt-rose));
+}
+
+.ev-fill {
+    background: linear-gradient(to bottom, var(--lt-rose), #d88ad8, var(--lt-leaf));
+    box-shadow: 0 0 12px rgba(255, 159, 192, 0.6);
+}
+
+.ev-node {
+    border-radius: 50% 0 50% 0;
+    border-color: rgba(255, 190, 225, 0.4);
+    color: rgba(255, 190, 225, 0.7);
+}
+
+.ev-list > li.reached .ev-node {
+    background: var(--pearl);
+    color: var(--lt-ink);
+}
+
+.ev-list > li.active .ev-node::after {
+    border-radius: 50% 0 50% 0;
+    border-color: var(--lt-leaf);
+}
+
+.ev-card {
+    border-radius: var(--lt-r-md);
+    border-color: rgba(255, 190, 225, 0.25);
+}
+
+.ev-list > li.active .ev-card {
+    border-color: rgba(255, 190, 225, 0.65);
+    box-shadow: 0 0 30px rgba(255, 159, 192, 0.22);
+}
+
+.ev-card .edge {
+    width: 3px;
+    background: linear-gradient(to bottom, var(--lt-rose), var(--lt-leaf));
+}
+
+.ev-time {
+    color: var(--lt-pearl);
+}
+
+.ev-place svg {
+    color: var(--lt-leaf);
+}
+
+.ev-end.on span {
+    border-color: var(--lt-leaf);
+    color: var(--lt-leaf);
+    background: rgba(134, 217, 200, 0.15);
+}
+
+/* =====================================================================
+   11. GALLERY: leaf-shaped tiles instead of arches
+   ===================================================================== */
+.kg-frame,
+.kg-inner {
+    border-radius: var(--lt-r-leaf);
+}
+
+.kg-tile.kg-odd .kg-frame,
+.kg-tile.kg-odd .kg-inner {
+    border-radius: var(--lt-r-leaf-alt);
+}
+
+.kg-frame {
+    padding: 2px;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.45),
+        0 0 24px rgba(255, 159, 192, 0.18);
+}
+
+.kg-frame:hover {
+    box-shadow:
+        0 18px 44px rgba(255, 159, 192, 0.4),
+        0 0 30px rgba(134, 217, 200, 0.25);
+}
+
+.kg-inner::after {
+    background: linear-gradient(
+        115deg,
+        transparent 35%,
+        rgba(255, 210, 235, 0.4) 50%,
+        transparent 65%
+    );
+}
+
+/* the little finial above each arch is not needed on a leaf */
+.kg-finial {
+    display: none;
+}
+
+.kg-lb-frame {
+    border-radius: 120px 12px 120px 12px;
+    padding: 3px;
+    box-shadow: 0 0 70px rgba(255, 159, 192, 0.35);
+}
+
+.kg-lb-frame img {
+    border-radius: 117px 9px 117px 9px;
+}
+
+.kg-thumb {
+    border-radius: 18px 3px 18px 3px;
+}
+
+.kg-thumb.on {
+    border-color: var(--lt-rose);
+}
+
+.kg-count {
+    color: var(--lt-rose);
+}
+
+/* =====================================================================
+   12. DRESS CODE: petal swatches instead of diamonds
+   ===================================================================== */
+.dc-sw {
+    width: 52px;
+    height: 52px;
+    transform: rotate(0deg);
+    border-radius: 50% 0 50% 0;
+    padding: 2px;
+    box-shadow: 0 4px 12px rgba(138, 79, 176, 0.25);
+}
+
+.dc-sw span {
+    border-radius: 50% 0 50% 0;
+}
+
+.dc-sw:nth-child(even) {
+    border-radius: 0 50% 0 50%;
+}
+
+.dc-sw:nth-child(even) span {
+    border-radius: 0 50% 0 50%;
+}
+
+/* =====================================================================
+   13. RSVP + WISHES
+   ===================================================================== */
+.rs-field,
+.rs-toggle button {
+    border-radius: 20px 6px 20px 6px;
+    border-color: rgba(255, 190, 225, 0.4);
+}
+
+.rs-field:focus {
+    border-color: var(--lt-rose);
+    box-shadow: 0 0 0 3px rgba(255, 159, 192, 0.3);
+}
+
+.rs-toggle button.on {
+    background: var(--pearl);
+    color: var(--lt-ink);
+}
+
+.rs-send,
+.btn-foil,
+.ev-map {
+    background: var(--pearl);
+    color: var(--lt-ink);
+}
+
+.rs-send {
+    border-radius: 22px 6px 22px 6px;
+}
+
+.rs-done .tick b,
+.wish-av {
+    background: var(--pearl);
+    color: var(--lt-ink);
+}
+
+.rs-done .tick b {
+    border-radius: 50% 0 50% 0;
+}
+
+.wish-list li {
+    border-radius: 20px 6px 20px 6px;
+    border-color: rgba(255, 190, 225, 0.25);
+}
+
+.wish-name {
+    color: var(--lt-pearl);
+}
+
+.wish-title b {
+    background: rgba(255, 159, 192, 0.22);
+    color: var(--lt-pearl);
+    -webkit-text-fill-color: var(--lt-pearl);
+}
+
+.wish-more {
+    border-color: rgba(255, 190, 225, 0.5);
+    color: var(--lt-pearl);
+}
+
+.wish-head span:first-child {
+    background: linear-gradient(to right, transparent, var(--lt-rose));
+}
+
+.wish-head span:last-child {
+    background: linear-gradient(to left, transparent, var(--lt-rose));
+}
+
+/* =====================================================================
+   14. GIFT + APOLOGY CARDS: petal-cornered card, pearl edge
+   ===================================================================== */
+.gold-card {
+    padding: 2px;
+    border-radius: var(--lt-r-lg);
+    background: linear-gradient(
+        135deg,
+        #f1c4ee 0%,
+        #ff9fc0 35%,
+        #b9a2f0 70%,
+        #86d9c8 100%
+    );
+    box-shadow:
+        0 18px 50px rgba(110, 40, 150, 0.32),
+        0 0 40px rgba(255, 159, 192, 0.18);
+}
+
+.gold-card-in {
+    border-radius: var(--lt-r-lg-in);
+    background: linear-gradient(180deg, #fffafe, #fbf1fb);
+}
+
+.gold-card-in::before {
+    inset: 9px;
+    border-radius: 36px 5px 36px 5px;
+    border: 1px dashed rgba(181, 111, 196, 0.5);
+}
+
+.gold-card-in::after {
+    background: linear-gradient(
+        115deg,
+        transparent 38%,
+        rgba(255, 210, 235, 0.4) 50%,
+        transparent 62%
+    );
+}
+
+.gold-card.ap-c {
+    border-radius: var(--lt-r-lg);
+}
+
+.gold-card.ap-c .gold-card-in {
+    border-radius: var(--lt-r-lg-in);
+}
+
+.kf-qr {
+    border: 2px solid #e6b0ea;
+    border-radius: 22px 6px 22px 6px;
+}
+
+.kf-bank {
+    color: #9a4fb8;
+}
+
+.kf-btn {
+    border-color: #d08ad8;
+    border-radius: 22px 6px 22px 6px;
+}
+
+.kf-btn:hover,
+.kf-btn.done {
+    background: var(--pearl);
+    color: var(--lt-ink);
+    box-shadow: 0 8px 22px rgba(255, 159, 192, 0.45);
+}
+
+.petals i {
+    background: linear-gradient(135deg, #fff0f8, #f1b0dc);
+}
+
+/* =====================================================================
+   15. THANKS + MUSIC
+   ===================================================================== */
+.th-bloom {
+    color: var(--lt-rose);
+    filter: drop-shadow(0 0 12px rgba(255, 159, 192, 0.55));
+}
+
+.th-btn {
+    border-color: rgba(255, 210, 235, 0.7);
+    border-radius: 22px 6px 22px 6px;
+}
+
+.th-btn:hover {
+    box-shadow: 0 10px 28px rgba(255, 159, 192, 0.45);
+}
+
+.th-btn::after,
+button[type="submit"]::after {
+    display: none; /* no metal shine sweep on buttons */
+}
+
+.g-music {
+    background: linear-gradient(135deg, #5a2a80, #8a4fb0);
+    color: var(--lt-pearl);
+    box-shadow:
+        0 6px 16px rgba(0, 0, 0, 0.35),
+        0 0 0 3px rgba(255, 159, 192, 0.25);
+}
+
+/* =====================================================================
+   16. FALLING PETALS + FIREFLIES: rose and aqua mix
+   ===================================================================== */
+.kx-petals i {
+    background: radial-gradient(
+        120% 120% at 30% 20%,
+        #fff5fb 0%,
+        #f6b8dd 50%,
+        #c070c8 100%
+    );
+}
+
+.kx-petals i.pink {
+    background: radial-gradient(
+        120% 120% at 30% 20%,
+        #fff0f4 0%,
+        #ffb0c8 50%,
+        #e0527f 100%
+    );
+}
+
+.kx-fireflies b:nth-child(3n) {
+    background: #c8f5ea;
+    box-shadow: 0 0 10px 3px rgba(134, 217, 200, 0.75);
+}
+
+.g-particle:nth-child(3n),
+.royal-particle:nth-child(3n) {
+    background: #c8f5ea;
+    box-shadow: 0 0 9px 2px rgba(134, 217, 200, 0.6);
+}
