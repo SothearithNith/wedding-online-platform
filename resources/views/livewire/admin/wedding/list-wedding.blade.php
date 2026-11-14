@@ -14,47 +14,47 @@
 <div class="mx-auto max-w-6xl space-y-6 p-4">
 
     @include('livewire.admin.wedding.partials.swal')
+    <div>
+        <div
+            class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-600 p-6 text-white shadow-xl shadow-indigo-500/20 sm:p-8">
+            <div class="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/10 blur-2xl">
+            </div>
+            <div
+                class="pointer-events-none absolute -bottom-16 left-1/3 h-48 w-48 rounded-full bg-fuchsia-300/20 blur-3xl">
+            </div>
 
-    {{-- Header --}}
-    <div class="flex flex-wrap items-center justify-between gap-3">
-        <div>
-            <h1 class="text-2xl font-semibold tracking-tight">{{ trans_json('Weddings') }}</h1>
-            <p class="text-sm text-gray-500">
-                {{ trans_json('Each wedding has its own link built from the groom\'s name.') }}
-            </p>
+            <div class="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold sm:text-3xl">{{ trans_json('Weddings') }}</h1>
+                    <p class="mt-1.5 max-w-xl text-sm text-indigo-100">
+                        {{ trans_json("Each wedding has its own link built from the groom's name.") }}
+                    </p>
+                </div>
+
+                <a href="{{ route('weddings.create') }}" wire:navigate
+                    class="group inline-flex shrink-0 items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-indigo-700 shadow-lg transition hover:scale-[1.03] hover:shadow-xl active:scale-95">
+                    <x-heroicon-o-plus class="h-5 w-5 transition-transform duration-300 group-hover:rotate-90" />
+                    {{ trans_json('New wedding') }}
+                </a>
+            </div>
+
+            <div class="relative mt-6 grid grid-cols-3 gap-3">
+                @foreach ([[trans_json('Total'), $counts['all'], 'heroicon-o-heart'], [trans_json('Published'), $counts['published'], 'heroicon-o-check-circle'], [trans_json('Draft'), $counts['draft'], 'heroicon-o-globe-alt']] as [$label, $value, $icon])
+                    <div class="flex items-center gap-3 rounded-2xl bg-white/15 p-3 backdrop-blur sm:p-4">
+                        <div class="hidden h-10 w-10 items-center justify-center rounded-xl bg-white/20 sm:flex">
+                            <x-dynamic-component :component="$icon" class="h-5 w-5" />
+                        </div>
+                        <div>
+                            <p class="text-xl font-bold leading-none sm:text-2xl">{{ $value }}</p>
+                            <p class="mt-1 text-xs text-indigo-100">{{ $label }}</p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </div>
-
-        <a href="{{ route('weddings.create') }}" wire:navigate
-            class="inline-flex items-center gap-1.5 rounded-xl bg-amber-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-700">
-            <x-heroicon-o-plus class="h-4 w-4 stroke-2" />
-            {{ trans_json('New wedding') }}
-        </a>
     </div>
 
-    {{-- Status filters --}}
-    <div class="grid grid-cols-3 gap-3">
-        @foreach ($filters as $key => [$name, $numCls, $icon, $iconCls])
-            <button type="button" wire:click="setStatus('{{ $key }}')" @class([
-                'group flex items-center justify-between gap-3 rounded-2xl border p-4 text-left shadow-sm transition',
-                'border-amber-500 bg-amber-50 ring-2 ring-amber-500/20' => $status === $key,
-                'border-gray-200 bg-white hover:border-amber-300 hover:shadow' =>
-                    $status !== $key,
-            ])>
-                <span class="min-w-0">
-                    <span class="block text-3xl font-semibold leading-none {{ $numCls }}">
-                        {{ $counts[$key] }}
-                    </span>
-                    <span class="mt-1.5 block truncate text-sm text-gray-500">{{ $name }}</span>
-                </span>
 
-                <span
-                    class="hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl sm:flex {{ $iconCls }}">
-                    <x-dynamic-component :component="$icon" class="h-5 w-5" />
-                </span>
-            </button>
-        @endforeach
-    </div>
- 
     <div class="relative">
         <x-heroicon-o-magnifying-glass
             class="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />

@@ -4,6 +4,7 @@
 use App\Http\Controllers\PublicWeddingController;
 use App\Http\Controllers\RsvpController;
 use App\Livewire\Admin\AdminDashboard;
+use App\Livewire\Admin\RSVP\RSVPList;
 use App\Livewire\Admin\Templates\TemplateForm;
 use App\Livewire\Admin\Templates\TemplateList;
 use App\Livewire\Admin\UserManagement\Feature\FeatureList;
@@ -73,23 +74,23 @@ Route::middleware(['auth'])
             Route::get('/{template}/edit', TemplateForm::class)->name('edit');
         });
 
-    Route::prefix('access-control')->name('access-control.')->group(function () {
+        Route::prefix('access-control')->name('access-control.')->group(function () {
+            // User Management
+            Route::get('/users', UserList::class)->name('users.index');
+            Route::get('/users/create', UserCreate::class)->name('users.create');
+            Route::get('/users/{user}/edit', UserEdit::class)->name('users.edit');
 
-        // User Management
-        Route::get('/users', UserList::class)->name('users.index');
-        Route::get('/users/create', UserCreate::class)->name('users.create');
-        Route::get('/users/{user}/edit', UserEdit::class)->name('users.edit');
+            // Role Management
+            Route::get('/roles', RoleList::class)->name('roles.index');
+            Route::get('/roles/create', RoleCreate::class)->name('roles.create');
+            Route::get('/roles/{role}/edit', RoleEdit::class)->name('roles.edit');
+            Route::get('/roles/{role}/permissions', ApplyPermission::class)->name('roles.permissions');
 
-        // Role Management
-        Route::get('/roles', RoleList::class)->name('roles.index');
-        Route::get('/roles/create', RoleCreate::class)->name('roles.create');
-        Route::get('/roles/{role}/edit', RoleEdit::class)->name('roles.edit');
-        Route::get('/roles/{role}/permissions', ApplyPermission::class)->name('roles.permissions');
+            // Feature Management
+            Route::get('/features', FeatureList::class)->name('features.index');
+        });
 
-        // Feature Management
-        Route::get('/features', FeatureList::class)->name('features.index');
-    });
-
+        Route::get('/rsvp', RSVPList::class)->name('rsvp.index');
         Route::post('/logout', function () {
             Auth::logout();
             request()->session()->invalidate();

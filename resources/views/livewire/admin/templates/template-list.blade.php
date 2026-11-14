@@ -7,21 +7,21 @@
 
         <div class="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-2xl font-bold sm:text-3xl">{{ __('Invitation Templates') }}</h1>
+                <h1 class="text-2xl font-bold sm:text-3xl">{{ trans_json('Invitation Templates') }}</h1>
                 <p class="mt-1.5 max-w-xl text-sm text-indigo-100">
-                    {{ __('Design and manage the wedding invitation templates your couples can choose from.') }}
+                    {{ trans_json('Design and manage the wedding invitation templates your couples can choose from.') }}
                 </p>
             </div>
 
             <a href="{{ route('templates.create') }}" wire:navigate
                 class="group inline-flex shrink-0 items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-indigo-700 shadow-lg transition hover:scale-[1.03] hover:shadow-xl active:scale-95">
                 <x-heroicon-o-plus class="h-5 w-5 transition-transform duration-300 group-hover:rotate-90" />
-                {{ __('Create template') }}
+                {{ trans_json('Create template') }}
             </a>
         </div>
 
         <div class="relative mt-6 grid grid-cols-3 gap-3">
-            @foreach ([[__('Total'), $total, 'heroicon-o-swatch'], [__('Active'), $activeCount, 'heroicon-o-check-circle'], [__('Public'), $publicCount, 'heroicon-o-globe-alt']] as [$label, $value, $icon])
+            @foreach ([[trans_json('Total'), $total, 'heroicon-o-swatch'], [trans_json('Active'), $activeCount, 'heroicon-o-check-circle'], [trans_json('Public'), $publicCount, 'heroicon-o-globe-alt']] as [$label, $value, $icon])
                 <div class="flex items-center gap-3 rounded-2xl bg-white/15 p-3 backdrop-blur sm:p-4">
                     <div class="hidden h-10 w-10 items-center justify-center rounded-xl bg-white/20 sm:flex">
                         <x-dynamic-component :component="$icon" class="h-5 w-5" />
@@ -49,19 +49,19 @@
             <x-heroicon-o-magnifying-glass
                 class="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
             <input type="search" wire:model.live.debounce.300ms="search"
-                placeholder="{{ __('Search by name or key...') }}"
+                placeholder="{{ trans_json('Search by name or key...') }}"
                 class="w-full rounded-xl border border-slate-200 py-2.5 pl-10 pr-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10">
         </div>
 
         <select wire:model.live="visibility"
             class="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10">
-            <option value="all">{{ __('All visibility') }}</option>
-            <option value="public">{{ __('Public') }}</option>
-            <option value="private">{{ __('Private') }}</option>
+            <option value="all">{{ trans_json('All visibility') }}</option>
+            <option value="public">{{ trans_json('Public') }}</option>
+            <option value="private">{{ trans_json('Private') }}</option>
         </select>
 
         <div class="inline-flex rounded-xl bg-slate-100 p-1 text-sm font-medium">
-            @foreach (['all' => __('All'), 'active' => __('Active'), 'inactive' => __('Inactive')] as $key => $label)
+            @foreach (['all' => trans_json('All'), 'active' => trans_json('Active'), 'inactive' => trans_json('Inactive')] as $key => $label)
                 <button type="button" wire:click="$set('status', '{{ $key }}')"
                     class="flex-1 rounded-lg px-3.5 py-1.5 transition {{ $status === $key ? 'bg-white text-indigo-700 shadow-sm' : 'text-slate-500 hover:text-slate-800' }}">
                     {{ $label }}
@@ -99,12 +99,12 @@
                     <div
                         class="hidden absolute inset-0 flex flex-col items-center justify-center gap-3 pb-40 text-white/70">
                         <x-heroicon-o-photo class="h-12 w-12" />
-                        <span class="text-sm font-medium">{{ __('Preview unavailable') }}</span>
+                        <span class="text-sm font-medium">{{ trans_json('Preview unavailable') }}</span>
                     </div>
                 @else
                     <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 pb-40 text-white/70">
                         <x-heroicon-o-photo class="h-12 w-12" />
-                        <span class="text-sm font-medium">{{ __('No preview available') }}</span>
+                        <span class="text-sm font-medium">{{ trans_json('No preview available') }}</span>
                     </div>
                 @endif
 
@@ -119,17 +119,17 @@
                         class="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/20 px-3 py-1.5 text-xs font-semibold text-white shadow-sm backdrop-blur-md">
                         <span
                             class="h-2 w-2 rounded-full {{ $template->is_active ? 'bg-emerald-400' : 'bg-slate-300' }}"></span>
-                        {{ $template->is_active ? __('Active') : __('Inactive') }}
+                        {{ $template->is_active ? trans_json('Active') : trans_json('Inactive') }}
                     </span>
 
                     <span
                         class="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-slate-950/30 px-3 py-1.5 text-xs font-semibold text-white shadow-sm backdrop-blur-md">
                         @if ($template->is_public)
                             <x-heroicon-o-globe-alt class="h-3.5 w-3.5" />
-                            {{ __('Public') }}
+                            {{ trans_json('Public') }}
                         @else
                             <x-heroicon-o-lock-closed class="h-3.5 w-3.5" />
-                            {{ __('Private') }}
+                            {{ trans_json('Private') }}
                         @endif
                     </span>
                 </div>
@@ -179,7 +179,7 @@
                         {{-- Active toggle --}}
                         <button type="button" wire:click="toggleActive({{ $template->id }})" role="switch"
                             aria-checked="{{ $template->is_active ? 'true' : 'false' }}"
-                            title="{{ $template->is_active ? __('Deactivate') : __('Activate') }}"
+                            title="{{ $template->is_active ? trans_json('Deactivate') : trans_json('Activate') }}"
                             class="relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors duration-200 {{ $template->is_active ? 'bg-emerald-500' : 'bg-white/30' }}">
                             <span
                                 class="inline-block h-5 w-5 rounded-full bg-white shadow-sm transition-transform duration-200 {{ $template->is_active ? 'translate-x-5' : 'translate-x-0.5' }}"></span>
@@ -187,17 +187,17 @@
 
                         <div class="flex items-center gap-1"><a
                                 href="{{ route('admin.templates.preview', $template) }}" target="_blank"
-                                title="{{ __('Preview') }}"
+                                title="{{ trans_json('Preview') }}"
                                 class="flex h-9 w-9 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-white/90 transition hover:bg-white/25 hover:text-white">
                                 <x-heroicon-o-eye class="h-5 w-5" />
                             </a>
                             <a href="{{ route('templates.edit', $template) }}" wire:navigate
-                                title="{{ __('Edit template') }}"
+                                title="{{ trans_json('Edit template') }}"
                                 class="flex h-9 w-9 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-white/90 transition hover:bg-white/25 hover:text-white">
                                 <x-heroicon-o-pencil-square class="h-5 w-5" />
                             </a>
                             <button type="button" wire:click="delete({{ $template->id }})"
-                                wire:confirm="{{ __('Delete this template?') }}" title="{{ __('Delete') }}"
+                                wire:confirm="{{ trans_json('Delete this template?') }}" title="{{ trans_json('Delete') }}"
                                 class="flex h-9 w-9 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-white/90 transition hover:bg-red-500/50 hover:text-white">
                                 <x-heroicon-o-trash class="h-5 w-5" />
                             </button>
@@ -216,17 +216,17 @@
                 </div>
 
                 <h3 class="mt-5 text-base font-bold text-slate-800">
-                    {{ __('No templates found') }}
+                    {{ trans_json('No templates found') }}
                 </h3>
 
                 <p class="mt-1 max-w-sm text-sm text-slate-500">
-                    {{ __('Try another search, or create your first template.') }}
+                    {{ trans_json('Try another search, or create your first template.') }}
                 </p>
 
                 <a href="{{ route('templates.create') }}" wire:navigate
                     class="mt-5 inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700">
                     <x-heroicon-o-plus class="h-5 w-5" />
-                    {{ __('Create template') }}
+                    {{ trans_json('Create template') }}
                 </a>
             </div>
         @endforelse
