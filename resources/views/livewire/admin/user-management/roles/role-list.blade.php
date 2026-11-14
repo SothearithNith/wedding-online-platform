@@ -97,7 +97,6 @@
     {{-- Table --}}
     <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
 
-        {{-- Loading bar --}}
         <div class="h-1 w-full overflow-hidden bg-slate-100">
             <div wire:loading wire:target="search,status,visibility,gotoPage,nextPage,previousPage,toggleActive"
                 class="h-full w-1/3 animate-pulse rounded-full bg-gradient-to-r from-indigo-500 to-fuchsia-500"></div>
@@ -111,6 +110,7 @@
                         class="bg-gradient-to-r from-slate-50 to-indigo-50/40 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
                         <th class="px-6 py-4">{{ trans_json('Role') }}</th>
                         <th class="hidden px-6 py-4 sm:table-cell">{{ trans_json('Permissions') }}</th>
+                        <th class="hidden px-6 py-4 lg:table-cell">{{ trans_json('Users') }}</th>
                         <th class="hidden px-6 py-4 md:table-cell">{{ trans_json('Visibility') }}</th>
                         <th class="px-6 py-4">{{ trans_json('Status') }}</th>
                         <th class="px-6 py-4 text-right">{{ trans_json('Actions') }}</th>
@@ -171,9 +171,7 @@
                                         @endforeach
                                         @if ($role->permissions_count > 2)
                                             <span
-                                                class="rounded-md bg-indigo-50 px-1.5 py-0.5 text-[10px] font-semibold text-indigo-600">
-                                                +{{ $role->permissions_count - 2 }}
-                                            </span>
+                                                class="rounded-md bg-indigo-50 px-1.5 py-0.5 text-[10px] font-semibold text-indigo-600">+{{ $role->permissions_count - 2 }}</span>
                                         @elseif ($role->permissions_count === 0)
                                             <span
                                                 class="text-[10px] italic text-slate-400">{{ trans_json('No permissions yet') }}</span>
@@ -182,19 +180,26 @@
                                 </div>
                             </td>
 
+                            {{-- Users --}}
+                            <td class="hidden px-6 py-4 lg:table-cell">
+                                <span
+                                    class="inline-flex items-center gap-1.5 rounded-lg bg-slate-50 px-2.5 py-1 text-xs font-semibold text-slate-600 ring-1 ring-inset ring-slate-200">
+                                    <x-heroicon-o-users class="h-3.5 w-3.5" />
+                                    {{ $role->users_count }}
+                                </span>
+                            </td>
+
                             {{-- Visibility --}}
                             <td class="hidden px-6 py-4 md:table-cell">
                                 @if ($role->is_public)
                                     <span
                                         class="inline-flex items-center gap-1.5 rounded-full bg-sky-50 px-3 py-1 text-xs font-medium text-sky-700 ring-1 ring-inset ring-sky-200">
-                                        <x-heroicon-o-globe-alt class="h-3.5 w-3.5" />
-                                        {{ trans_json('Public') }}
+                                        <x-heroicon-o-globe-alt class="h-3.5 w-3.5" /> {{ trans_json('Public') }}
                                     </span>
                                 @else
                                     <span
                                         class="inline-flex items-center gap-1.5 rounded-full bg-slate-50 px-3 py-1 text-xs font-medium text-slate-600 ring-1 ring-inset ring-slate-200">
-                                        <x-heroicon-o-lock-closed class="h-3.5 w-3.5" />
-                                        {{ trans_json('Private') }}
+                                        <x-heroicon-o-lock-closed class="h-3.5 w-3.5" /> {{ trans_json('Private') }}
                                     </span>
                                 @endif
                             </td>
@@ -247,7 +252,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-20 text-center">
+                            <td colspan="6" class="px-6 py-20 text-center">
                                 <div
                                     class="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-indigo-50 to-fuchsia-50 text-indigo-400">
                                     <x-heroicon-o-shield-exclamation class="h-8 w-8" />
@@ -268,6 +273,7 @@
                 </tbody>
             </table>
         </div>
+
         <div class="border-t border-slate-100 bg-slate-50/50 px-6 py-3">
             @if ($roles->hasPages())
                 {{ $roles->links() }}

@@ -11,7 +11,7 @@ use Livewire\Component;
 #[Title('Admin Login')]
 class Login extends Component
 {
-    public string $email = '';
+    public string $username = '';
 
     public string $password = '';
 
@@ -31,7 +31,7 @@ class Login extends Component
         }
 
         $validated = $this->validate([
-            'email' => ['required', 'email'],
+            'username' => ['required', 'string'],
             'password' => ['required', 'string'],
         ]);
 
@@ -42,7 +42,7 @@ class Login extends Component
                 'swal',
                 icon: 'error',
                 title: 'Login Failed',
-                text: 'Invalid email address or password.'
+                text: 'Invalid username or password.'
             );
 
             return;

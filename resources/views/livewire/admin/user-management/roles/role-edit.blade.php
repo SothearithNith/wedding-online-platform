@@ -3,7 +3,6 @@
     {{-- Hero header --}}
     <div
         class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-600 p-6 text-white shadow-xl shadow-indigo-500/20 sm:p-8">
-
         <div class="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/10 blur-2xl"></div>
         <div class="pointer-events-none absolute -bottom-16 left-1/3 h-48 w-48 rounded-full bg-fuchsia-300/20 blur-3xl">
         </div>
@@ -41,7 +40,6 @@
 
     <form wire:submit="save" class="grid gap-6 lg:grid-cols-3">
 
-        {{-- Form --}}
         <div class="space-y-6 lg:col-span-2">
 
             {{-- Basic info --}}
@@ -69,13 +67,11 @@
                         </div>
                         @error('name')
                             <p class="mt-1.5 flex items-center gap-1 text-xs text-rose-600">
-                                <x-heroicon-s-exclamation-circle class="h-4 w-4" />
-                                {{ $message }}
+                                <x-heroicon-s-exclamation-circle class="h-4 w-4" /> {{ $message }}
                             </p>
                         @enderror
                     </div>
 
-                    {{-- Guard (locked) --}}
                     <div>
                         <label
                             class="mb-1.5 block text-sm font-medium text-slate-700">{{ trans_json('Guard') }}</label>
@@ -152,10 +148,8 @@
                             class="flex h-16 w-16 items-center justify-center rounded-2xl border-4 border-white bg-gradient-to-br from-indigo-500 to-violet-500 text-2xl font-bold text-white shadow-md">
                             {{ $name !== '' ? mb_strtoupper(mb_substr(trim($name), 0, 1)) : '?' }}
                         </div>
-
                         <p class="mt-3 truncate text-lg font-bold text-slate-900">
-                            {{ $name !== '' ? $name : trans_json('Role name') }}
-                        </p>
+                            {{ $name !== '' ? $name : trans_json('Role name') }}</p>
                         <p class="mt-0.5 flex items-center gap-2 text-xs text-slate-400">
                             <span
                                 class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[10px] uppercase text-slate-500">{{ $role->guard_name }}</span>
@@ -174,7 +168,6 @@
                                     <x-heroicon-o-lock-closed class="h-3.5 w-3.5" /> {{ trans_json('Private') }}
                                 </span>
                             @endif
-
                             <span
                                 class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold {{ $status ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-500' }}">
                                 <span
@@ -185,8 +178,7 @@
 
                         <div class="mt-5 flex items-center justify-between rounded-xl bg-violet-50/70 px-4 py-3">
                             <span class="flex items-center gap-2 text-xs font-medium text-violet-700">
-                                <x-heroicon-o-key class="h-4 w-4" />
-                                {{ trans_json('Permissions applied') }}
+                                <x-heroicon-o-key class="h-4 w-4" /> {{ trans_json('Permissions applied') }}
                             </span>
                             <span class="text-sm font-bold text-violet-700">{{ $this->permissionsCount }}</span>
                         </div>
@@ -205,20 +197,10 @@
                     <button type="submit" wire:loading.attr="disabled" wire:target="save" @disabled(!$this->hasChanges)
                         class="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-fuchsia-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition hover:shadow-xl active:scale-95 disabled:cursor-not-allowed disabled:opacity-50">
                         <span wire:loading.remove wire:target="save" class="inline-flex items-center gap-2">
-                            <x-heroicon-o-check class="h-5 w-5" />
-                            {{ trans_json('Save changes') }}
+                            <x-heroicon-o-check class="h-5 w-5" /> {{ trans_json('Save changes') }}
                         </span>
-                        <span wire:loading wire:target="save" class="inline-flex items-center gap-2">
-                            <svg class="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none">
-                                <circle class="opacity-25" cx="12" cy="12" r="10"
-                                    stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z">
-                                </path>
-                            </svg>
-                            {{ trans_json('Saving...') }}
-                        </span>
+                        <span wire:loading wire:target="save">{{ trans_json('Saving...') }}</span>
                     </button>
-
                     <a href="{{ route('access-control.roles.index') }}" wire:navigate
                         class="inline-flex flex-1 items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 active:scale-95">
                         {{ trans_json('Cancel') }}

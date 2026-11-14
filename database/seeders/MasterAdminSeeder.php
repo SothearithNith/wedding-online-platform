@@ -15,10 +15,12 @@ class MasterAdminSeeder extends Seeder
         $user = User::firstOrCreate(
             [
                 'email' => 'admin@u.local',
+                'username'=> 'admin'
             ],
             [
                 'name' =>  'admin',
                 'password' => Hash::make( '0'),
+                'role_id'=>1
             ]
         );
 
