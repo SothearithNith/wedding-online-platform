@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Menu extends Model
@@ -20,7 +21,7 @@ class Menu extends Model
         'is_active',
     ];
 
-    protected $casts = ['is_active' => 'boolean'];
+    protected $casts = ['is_active' => 'boolean', 'sort_order' => 'integer'];
 
     // $menu->name returns the Khmer or English name based on the current locale
     protected function name(): Attribute
@@ -32,11 +33,25 @@ class Menu extends Model
         );
     }
 
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(self::class, 'parent_id');
+    }
+
+    /** Active children only. Used by the sidebar and Apply Permission. */
     public function children(): HasMany
     {
         return $this->hasMany(self::class, 'parent_id')
             ->where('is_active', true)
             ->orderBy('sort_order');
+    }
+
+    /** Every child, including inactive. Used by the Features admin page. */
+    public function allChildren(): HasMany
+    {
+        return $this->hasMany(self::class, 'parent_id')
+            ->orderBy('sort_order')
+            ->orderBy('id');
     }
 
     public function scopeRootTree($query)
