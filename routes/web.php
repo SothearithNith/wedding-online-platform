@@ -1,3 +1,4 @@
+
 <?php
 
 use App\Http\Controllers\PublicWeddingController;
@@ -16,11 +17,10 @@ use App\Support\TemplateRegistry;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-// Public homepage
-Route::get('/', Dashboard::class)->name('dashboard');
-
+Route::get('/', Dashboard::class)->name('dashboard'); 
 Route::get('/i/{invitation}', function (Invitation $invitation) {
     abort_unless($invitation->isPublished(), 404);
+
     $template = $invitation->template;
     abort_unless($template && $template->is_active, 404);
 
@@ -30,17 +30,22 @@ Route::get('/i/{invitation}', function (Invitation $invitation) {
     ]);
 })->name('invitation.show');
 
-// No "guest" middleware: Login::mount() already redirects logged-in users,
-// and the guest middleware would redirect Livewire's update requests to HTML.
 Route::get('/login', Login::class)->name('login');
-
 Route::get('/lang/{locale}', function (string $locale) {
     abort_unless(in_array($locale, ['en', 'km'], true), 404);
-
     session(['locale' => $locale]);
-
     return redirect()->back(fallback: route('dashboard'));
 })->name('lang.switch');
+
+Route::get('/admin/templates/{template}/preview', function (Template $template) {
+    return view(TemplateRegistry::viewFor($template->key), [
+        'data' => TemplateRegistry::withDefaults(
+            $template->sample_data ?? [],
+            true
+        ),
+        'rsvpUrl' => null,
+    ]);
+})->name('admin.templates.preview');
 
 Route::middleware(['auth'])
     ->prefix('admin')
@@ -58,15 +63,6 @@ Route::middleware(['auth'])
             Route::get('/', TemplateList::class)->name('index');
             Route::get('/create', TemplateForm::class)->name('create');
             Route::get('/{template}/edit', TemplateForm::class)->name('edit');
-            Route::get('/{template}/preview', function (Template $template) {
-                return view(TemplateRegistry::viewFor($template->key), [
-                    'data' => TemplateRegistry::withDefaults(
-                        $template->sample_data ?? [],
-                        true
-                    ),
-                    'rsvpUrl' => null,
-                ]);
-            })->name('preview');
         });
 
         Route::post('/logout', function () {
@@ -82,7 +78,6 @@ Route::post('/rsvp/{invitation}', [RsvpController::class, 'store'])
     ->middleware('throttle:10,1')
     ->name('invitations.rsvp');
 
-// Keep this LAST, and restrict what it can match
 Route::get('/{slug}', [PublicWeddingController::class, 'show'])
     ->where('slug', '^(?!admin|login|livewire|lang|up|i$)[A-Za-z0-9\-_]+$')
     ->name('wedding.show');
