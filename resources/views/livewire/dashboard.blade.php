@@ -231,7 +231,7 @@
 
                         <div
                             class="absolute inset-x-0 bottom-0 flex justify-center p-5 opacity-0 translate-y-3 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                            <a href="{{ route('templates.preview', $template) }}" target="_blank"
+                            <a href="{{ route('admin.templates.preview', $template) }}" target="_blank"
                                 class="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-lg transition hover:bg-indigo-50 hover:text-indigo-700">
                                 <x-heroicon-o-eye class="h-4 w-4" />
                                 {{ __('Preview template') }}
