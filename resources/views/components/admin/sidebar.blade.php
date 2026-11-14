@@ -17,8 +17,6 @@
     ]"
     class="fixed inset-y-0 left-0 z-50 flex w-72 max-w-[85vw] flex-col border-r border-slate-200 bg-white
            transition-all duration-300 ease-out lg:translate-x-0 lg:shadow-none">
-
-    {{-- Brand --}}
     <div class="flex h-20 shrink-0 items-center gap-3 border-b border-slate-100 px-5"
         :class="collapsed ? 'lg:justify-center lg:px-0' : ''">
         <a href="{{ route('admin') }}" wire:navigate
@@ -37,8 +35,6 @@
             <x-heroicon-o-x-mark class="h-6 w-6" />
         </button>
     </div>
-
-    {{-- Navigation --}}
     <nav class="flex-1 space-y-1 overflow-y-auto px-3 py-5" aria-label="{{ __('Main menu') }}">
         <p class="mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider text-slate-400"
             :class="collapsed ? 'lg:hidden' : ''">
@@ -61,8 +57,6 @@
 
             @if ($hasChildren)
                 @continue($visibleChildren->isEmpty())
-
-                {{-- Group with sub-menu --}}
                 <div x-data="{ expanded: {{ $childActive ? 'true' : 'false' }} }">
                     <button type="button"
                         @click="(collapsed && window.innerWidth >= 1024) ? (collapsed = false, expanded = true) : (expanded = !expanded)"
@@ -74,8 +68,6 @@
                             class="h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-110" />
                         <span class="flex-1 truncate text-left"
                             :class="collapsed ? 'lg:hidden' : ''">{{ $menu->name }}</span>
-
-                        {{-- Chevron wrapped in a span, since :class on a Blade component is unreliable --}}
                         <span class="shrink-0 transition-transform duration-200"
                             :class="[expanded ? 'rotate-180' : '', collapsed ? 'lg:hidden' : '']">
                             <x-heroicon-o-chevron-down class="h-4 w-4 text-slate-400" />
@@ -88,7 +80,7 @@
                             @php
                                 $childIsActive = $child->route_name && request()->routeIs($child->route_name);
                                 $childHref = $href($child);
-                            @endphp
+                            @endphp 
                             <a href="{{ $childHref }}" @if ($childHref !== '#') wire:navigate @endif
                                 @if ($childIsActive) aria-current="page" @endif
                                 class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors
@@ -103,7 +95,6 @@
                     </div>
                 </div>
             @else
-                {{-- Single link --}}
                 <a href="{{ $menuHref }}" title="{{ $menu->name }}"
                     @if ($menuHref !== '#') wire:navigate @endif
                     @if ($isActive) aria-current="page" @endif
@@ -127,7 +118,6 @@
         @endforelse
     </nav>
 
-    {{-- Bottom: user + collapse toggle --}}
     <div class="shrink-0 space-y-2 border-t border-slate-100 p-3">
         <div class="flex items-center gap-3 rounded-2xl bg-gradient-to-br from-slate-50 to-indigo-50/50 p-2.5"
             :class="collapsed ? 'lg:justify-center lg:bg-none lg:p-0' : ''">

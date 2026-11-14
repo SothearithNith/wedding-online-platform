@@ -185,22 +185,17 @@
                                 class="inline-block h-5 w-5 rounded-full bg-white shadow-sm transition-transform duration-200 {{ $template->is_active ? 'translate-x-5' : 'translate-x-0.5' }}"></span>
                         </button>
 
-                        <div class="flex items-center gap-1">
-                            {{-- Preview --}}
-                            <a href="{{ route('templates.preview', $template) }}" target="_blank"
+                        <div class="flex items-center gap-1"><a
+                                href="{{ route('admin.templates.preview', $template) }}" target="_blank"
                                 title="{{ __('Preview') }}"
                                 class="flex h-9 w-9 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-white/90 transition hover:bg-white/25 hover:text-white">
                                 <x-heroicon-o-eye class="h-5 w-5" />
                             </a>
-
-                            {{-- Edit --}}
                             <a href="{{ route('templates.edit', $template) }}" wire:navigate
                                 title="{{ __('Edit template') }}"
                                 class="flex h-9 w-9 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-white/90 transition hover:bg-white/25 hover:text-white">
                                 <x-heroicon-o-pencil-square class="h-5 w-5" />
                             </a>
-
-                            {{-- Delete --}}
                             <button type="button" wire:click="delete({{ $template->id }})"
                                 wire:confirm="{{ __('Delete this template?') }}" title="{{ __('Delete') }}"
                                 class="flex h-9 w-9 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-white/90 transition hover:bg-red-500/50 hover:text-white">

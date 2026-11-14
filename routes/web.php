@@ -6,6 +6,9 @@ use App\Http\Controllers\RsvpController;
 use App\Livewire\Admin\AdminDashboard;
 use App\Livewire\Admin\Templates\TemplateForm;
 use App\Livewire\Admin\Templates\TemplateList;
+use App\Livewire\Admin\UserManagement\Feature\FeatureList;
+use App\Livewire\Admin\UserManagement\Roles\RoleList;
+use App\Livewire\Admin\UserManagement\Users\UserList;
 use App\Livewire\Admin\Wedding\ListWedding;
 use App\Livewire\Admin\Wedding\WeddingForm;
 use App\Livewire\Auth\Login;
@@ -17,7 +20,7 @@ use App\Support\TemplateRegistry;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', Dashboard::class)->name('dashboard'); 
+Route::get('/', Dashboard::class)->name('dashboard');
 Route::get('/i/{invitation}', function (Invitation $invitation) {
     abort_unless($invitation->isPublished(), 404);
 
@@ -63,6 +66,12 @@ Route::middleware(['auth'])
             Route::get('/', TemplateList::class)->name('index');
             Route::get('/create', TemplateForm::class)->name('create');
             Route::get('/{template}/edit', TemplateForm::class)->name('edit');
+        });
+
+        Route::prefix('access-control')->name('access-control.')->group(function () {
+            Route::get('/users', UserList::class)->name('users.index');
+            Route::get('/roles', RoleList::class)->name('roles.index');
+            Route::get('/features', FeatureList::class)->name('features.index');
         });
 
         Route::post('/logout', function () {
