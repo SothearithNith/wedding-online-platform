@@ -20,10 +20,10 @@ class TemplateList extends Component
     public string $search = '';
 
     #[Url(except: 'all')]
-    public string $status = 'all'; // all | active | inactive
+    public string $status = 'all';
 
     #[Url(except: 'all')]
-    public string $visibility = 'all'; // all | public | private
+    public string $visibility = 'all';
 
     public function updatingSearch(): void
     {
@@ -85,7 +85,7 @@ class TemplateList extends Component
             ->orderBy('sort')
             ->latest('id')
             ->paginate(12);
-        // dd($templates);
+            
         return view('livewire.admin.templates.template-list', [
             'templates' => $templates,
             'total' => Template::count(),

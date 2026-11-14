@@ -47,6 +47,16 @@ class RolePermissionSeeder extends Seeder
             'guard_name' => 'web',
         ]);
 
+        $admin = Role::firstOrCreate([
+            'name' => 'Admin',
+            'guard_name' => 'web',
+        ]);
+
+        $user = Role::firstOrCreate([
+            'name' => 'User',
+            'guard_name' => 'web',
+        ]);
+
         // Assign every existing permission.
         $masterAdmin->syncPermissions(Permission::all());
 
