@@ -7,6 +7,9 @@ use App\Livewire\Admin\AdminDashboard;
 use App\Livewire\Admin\Templates\TemplateForm;
 use App\Livewire\Admin\Templates\TemplateList;
 use App\Livewire\Admin\UserManagement\Feature\FeatureList;
+use App\Livewire\Admin\UserManagement\Roles\ApplyPermission;
+use App\Livewire\Admin\UserManagement\Roles\RoleCreate;
+use App\Livewire\Admin\UserManagement\Roles\RoleEdit;
 use App\Livewire\Admin\UserManagement\Roles\RoleList;
 use App\Livewire\Admin\UserManagement\Users\UserList;
 use App\Livewire\Admin\Wedding\ListWedding;
@@ -71,6 +74,9 @@ Route::middleware(['auth'])
         Route::prefix('access-control')->name('access-control.')->group(function () {
             Route::get('/users', UserList::class)->name('users.index');
             Route::get('/roles', RoleList::class)->name('roles.index');
+            Route::get('/create', RoleCreate::class)->name('roles.create');
+            Route::get('/{role}/edit', RoleEdit::class)->name('roles.edit');
+            Route::get('/{role}/permissions', ApplyPermission::class)->name('roles.permissions');
             Route::get('/features', FeatureList::class)->name('features.index');
         });
 

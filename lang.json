@@ -119,5 +119,11 @@
     "We are getting married": "យើងនឹងរៀបការ",
     "Sok": "សុក",
     "Phnom Penh": "ភ្នំពេញ",
-    "Dara": "ដារ៉ា"
+    "Dara": "ដារ៉ា",
+    "Roles": "សិទ្ធិប្រើប្រាស់",
+    "Role Management": "ការគ្រប់គ្រងតួនាទី",
+    "Manage user roles and control access to system features.": "គ្រប់គ្រងតួនាទីអ្នកប្រើប្រាស់ និងត្រួតពិនិត្យការចូលប្រើមុខងារនានានៅក្នុងប្រព័ន្ធ។",
+    "Create role": "បង្កើតតួនាទី",
+    "Total": "សរុប",
+    "Inactive": "អសកម្ម"
 }
