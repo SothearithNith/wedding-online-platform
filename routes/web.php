@@ -4,6 +4,7 @@
 use App\Http\Controllers\PublicWeddingController;
 use App\Http\Controllers\RsvpController;
 use App\Livewire\Admin\AdminDashboard;
+use App\Livewire\Admin\RSVP\RSVPDetails;
 use App\Livewire\Admin\RSVP\RSVPList;
 use App\Livewire\Admin\Templates\TemplateForm;
 use App\Livewire\Admin\Templates\TemplateList;
@@ -90,7 +91,11 @@ Route::middleware(['auth'])
             Route::get('/features', FeatureList::class)->name('features.index');
         });
 
-        Route::get('/rsvp', RSVPList::class)->name('rsvp.index');
+        Route::prefix('rsvp')->name('rsvp.')->group(function () {
+            Route::get('/', RSVPList::class)->name('index');
+            Route::get('/{rsvp}/detail', RSVPDetails::class)->name('detail');
+        });
+
         Route::post('/logout', function () {
             Auth::logout();
             request()->session()->invalidate();

@@ -41,7 +41,6 @@
         </div>
     </div>
 
-    {{-- Filters --}}
     <div
         class="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm lg:flex-row lg:items-center">
         <div class="relative flex-1">
@@ -60,8 +59,7 @@
             @endforeach
         </select>
     </div>
-
-    {{-- Table --}}
+ 
     <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
         <div class="h-1 w-full overflow-hidden bg-slate-100">
             <div wire:loading wire:target="search,role,gotoPage,nextPage,previousPage,delete"

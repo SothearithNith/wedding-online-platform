@@ -70,9 +70,9 @@ class ListWedding extends Component
             ->pluck('total', 'status');
 
         $counts = [
-            'all'       => (int) $perStatus->sum(),
+            'all'=> (int) $perStatus->sum(),
             'published' => (int) ($perStatus['published'] ?? 0),
-            'draft'     => (int) ($perStatus['draft'] ?? 0),
+            'draft' => (int) ($perStatus['draft'] ?? 0),
         ];
 
         $weddings = Invitation::with(['template', 'people'])
