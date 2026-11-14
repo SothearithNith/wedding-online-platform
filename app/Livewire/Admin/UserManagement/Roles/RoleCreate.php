@@ -44,10 +44,7 @@ class RoleCreate extends Component
 
     protected function validationAttributes(): array
     {
-        return [
-            'name' => __('role name'),
-            'guard_name' => __('guard'),
-        ];
+        return ['name' => __('role name'), 'guard_name' => __('guard')];
     }
 
     public function updated(string $property): void

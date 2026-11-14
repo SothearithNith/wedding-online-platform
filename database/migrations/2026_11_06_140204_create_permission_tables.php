@@ -33,7 +33,7 @@ return new class extends Migration
         });
 
         Schema::create($tableNames['roles'], static function (Blueprint $table) use ($teams, $columnNames) {
-            $table->id();  
+            $table->id();
             if ($teams || config('permission.testing')) {
                 $table->unsignedBigInteger($columnNames['team_foreign_key'])->nullable();
                 $table->index($columnNames['team_foreign_key'], 'roles_team_foreign_key_index');
@@ -41,6 +41,7 @@ return new class extends Migration
             $table->string('name', 125);
             $table->string('guard_name', 125);
             $table->boolean('status')->default(true);
+            $table->boolean('is_public')->default(true);
             $table->timestamps();
 
             if ($teams || config('permission.testing')) {

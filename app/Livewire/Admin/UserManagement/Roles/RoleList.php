@@ -86,7 +86,7 @@ class RoleList extends Component
         return Role::query()
             ->whereNotIn('id', self::PROTECTED_IDS)
             ->with('permissions:id,name')
-            ->withCount('permissions')
+            ->withCount(['permissions', 'users'])
             ->when($this->search !== '', fn($q) => $q->where('name', 'like', "%{$this->search}%"))
             ->when($this->status === 'active', fn($q) => $q->where('status', true))
             ->when($this->status === 'inactive', fn($q) => $q->where('status', false))

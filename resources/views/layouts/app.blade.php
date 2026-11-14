@@ -32,6 +32,28 @@
                 font-stretch: condensed;
             }
         </style>
+        <style>
+            [x-cloak] {
+                display: none !important
+            }
+        </style>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            document.addEventListener('livewire:init', () => {
+                Livewire.on('swal', (event) => {
+                    const d = Array.isArray(event) ? event[0] : event;
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        icon: d.icon ?? 'success',
+                        title: d.title ?? '',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    });
+                });
+            });
+        </script>
     @else
         {{-- English Font --}}
         <link rel="preconnect" href="https://fonts.googleapis.com">

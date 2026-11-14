@@ -44,18 +44,18 @@
 
             <form wire:submit="login" class="space-y-5">
 
-                {{-- Email --}}
+                {{-- username --}}
                 <div>
 
-                    <label for="email" class="block text-sm font-medium text-slate-700 mb-2">
-                        Email Address
+                    <label for="username" class="block text-sm font-medium text-slate-700 mb-2">
+                        {{ trans_json('Username') }}
                     </label>
 
-                    <input id="email" type="email" wire:model="email" placeholder="admin@example.com"
-                        autocomplete="username" autofocus required
+                    <input id="username" type="text" wire:model="username" placeholder="nsr" autocomplete="username"
+                        autofocus required
                         class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10">
 
-                    @error('email')
+                    @error('username')
                         <p class="text-sm text-red-600 mt-2">
                             {{ $message }}
                         </p>

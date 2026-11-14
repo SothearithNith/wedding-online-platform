@@ -11,6 +11,8 @@ use App\Livewire\Admin\UserManagement\Roles\ApplyPermission;
 use App\Livewire\Admin\UserManagement\Roles\RoleCreate;
 use App\Livewire\Admin\UserManagement\Roles\RoleEdit;
 use App\Livewire\Admin\UserManagement\Roles\RoleList;
+use App\Livewire\Admin\UserManagement\Users\UserCreate;
+use App\Livewire\Admin\UserManagement\Users\UserEdit;
 use App\Livewire\Admin\UserManagement\Users\UserList;
 use App\Livewire\Admin\Wedding\ListWedding;
 use App\Livewire\Admin\Wedding\WeddingForm;
@@ -71,14 +73,22 @@ Route::middleware(['auth'])
             Route::get('/{template}/edit', TemplateForm::class)->name('edit');
         });
 
-        Route::prefix('access-control')->name('access-control.')->group(function () {
-            Route::get('/users', UserList::class)->name('users.index');
-            Route::get('/roles', RoleList::class)->name('roles.index');
-            Route::get('/create', RoleCreate::class)->name('roles.create');
-            Route::get('/{role}/edit', RoleEdit::class)->name('roles.edit');
-            Route::get('/{role}/permissions', ApplyPermission::class)->name('roles.permissions');
-            Route::get('/features', FeatureList::class)->name('features.index');
-        });
+    Route::prefix('access-control')->name('access-control.')->group(function () {
+
+        // User Management
+        Route::get('/users', UserList::class)->name('users.index');
+        Route::get('/users/create', UserCreate::class)->name('users.create');
+        Route::get('/users/{user}/edit', UserEdit::class)->name('users.edit');
+
+        // Role Management
+        Route::get('/roles', RoleList::class)->name('roles.index');
+        Route::get('/roles/create', RoleCreate::class)->name('roles.create');
+        Route::get('/roles/{role}/edit', RoleEdit::class)->name('roles.edit');
+        Route::get('/roles/{role}/permissions', ApplyPermission::class)->name('roles.permissions');
+
+        // Feature Management
+        Route::get('/features', FeatureList::class)->name('features.index');
+    });
 
         Route::post('/logout', function () {
             Auth::logout();
