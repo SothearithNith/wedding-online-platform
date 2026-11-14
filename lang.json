@@ -125,5 +125,16 @@
     "Manage user roles and control access to system features.": "គ្រប់គ្រងតួនាទីអ្នកប្រើប្រាស់ និងត្រួតពិនិត្យការចូលប្រើមុខងារនានានៅក្នុងប្រព័ន្ធ។",
     "Create role": "បង្កើតតួនាទី",
     "Total": "សរុប",
-    "Inactive": "អសកម្ម"
+    "Inactive": "អសកម្ម",
+    "Create": "បង្កើត",
+    "Manage": "គ្រប់គ្រង",
+    "Turning on Create, Edit, Delete or Manage also turns on View. Turning off View clears the rest.": "ការបើកមុខងារ បង្កើត (Create) កែសម្រួល (Edit) លុប (Delete) ឬ គ្រប់គ្រង (Manage) នឹងធ្វើឱ្យមុខងារ មើល (View) ត្រូវបានបើកដំណើរការដោយស្វ័យប្រវត្តិ។ ការបិទមុខងារ មើល (View) នឹងបិទមុខងារផ្សេងទៀតទាំងអស់។",
+    "Apply permission": "កំណត់សិទ្ធិប្រើប្រាស់",
+    "Choose what this role can do in each part of the system.": "ជ្រើសរើសអ្វីដែលតួនាទីនេះអាចធ្វើបាននៅក្នុងផ្នែកនីមួយៗនៃប្រព័ន្ធ។",
+    "Features": "លក្ខណៈពិសេស",
+    "RSVP": "ការឆ្លើយតបការអញ្ជើញ",
+    "Invitation Templates": "គំរូលិខិតអញ្ជើញ",
+    "Design and manage the wedding invitation templates your couples can choose from.": "រចនា និងគ្រប់គ្រងគំរូកាតអញ្ជើញអាពាហ៍ពិពាហ៍ ដែលគូស្នេហ៍អាចជ្រើសរើសបាន។",
+    "RSVP Management": "ការគ្រប់គ្រងការឆ្លើយតបការអញ្ជើញ",
+    "Manage and track guest responses to wedding invitations.": "គ្រប់គ្រង និងតាមដានការឆ្លើយតបរបស់ភ្ញៀវចំពោះលិខិតអញ្ជើញចូលរួមពិធីមង្គលការ។"
 }
