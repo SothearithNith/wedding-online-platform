@@ -15,10 +15,12 @@ class DebugSessionCookie
 
         Log::info('SESSION COOKIE DEBUG', [
             'url' => $request->fullUrl(),
+            'session_started' => $request->hasSession(),
             'session_id' => $request->hasSession()
                 ? $request->session()->getId()
                 : null,
             'set_cookie' => $response->headers->all('set-cookie'),
+            'session_driver' => config('session.driver'),
             'cookie_name' => config('session.cookie'),
         ]);
 
