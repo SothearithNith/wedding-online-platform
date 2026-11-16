@@ -1,7 +1,3 @@
-
-# ==========================================
-# Stage 1: PHP Base
-# ==========================================
 FROM dunglas/frankenphp:1-php8.4 AS base
 
 RUN install-php-extensions \
@@ -14,12 +10,12 @@ RUN install-php-extensions \
     exif \
     opcache
 
+RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini \
+    && printf "output_buffering=4096\ndisplay_errors=Off\nlog_errors=On\nerror_log=/dev/stderr\n" > $PHP_INI_DIR/conf.d/zz-app.ini
+
 WORKDIR /app
 
 
-# ==========================================
-# Stage 2: Composer Dependencies
-# ==========================================
 FROM base AS composer-dependencies
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -33,10 +29,6 @@ RUN composer install \
     --optimize-autoloader \
     --no-scripts
 
-
-# ==========================================
-# Stage 3: Frontend Build
-# ==========================================
 FROM node:22-alpine AS frontend
 
 WORKDIR /app
@@ -61,10 +53,7 @@ RUN echo "===== VITE BUILD OUTPUT =====" \
     && echo "===== MANIFEST CHECK =====" \
     && test -s public/build/manifest.json
 
-
-# ==========================================
-# Stage 4: Production
-# ==========================================
+ 
 FROM base AS production
 
 WORKDIR /app
