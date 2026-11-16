@@ -1,12 +1,4 @@
 <?php
-
-/*
- | Minimal Livewire config: it only overrides the temporary upload settings.
- | Livewire merges it with its own defaults, so every other option keeps working.
- | (If you published the full file with `php artisan livewire:publish --config`,
- |  do not use this file; just change the 'rules' line there instead.)
- */
-
 return [
 
     'temporary_file_upload' => [
