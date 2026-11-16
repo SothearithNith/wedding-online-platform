@@ -5,7 +5,7 @@ use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Http\Request;
+use Illuminate\Session\TokenMismatchException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -14,9 +14,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->append(
-            DebugSessionCookie::class
-        );
+        // Behind the platform's TLS-terminating proxy
+        $middleware->trustProxies(at: '*');
+
+        // TEMPORARY: remove after debugging (logs session IDs)
+        $middleware->append(DebugSessionCookie::class);
 
         $middleware->web(append: [
             SetLocale::class,
@@ -28,29 +30,23 @@ return Application::configure(basePath: dirname(__DIR__))
             'rsvp/*',
         ]);
     })
-
     ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->report(function (\Throwable $e) {
-            if ($e instanceof \Illuminate\Session\TokenMismatchException) {
-                logger()->error('CSRF TOKEN MISMATCH', [
-                    'url' => request()->fullUrl(),
-                    'method' => request()->method(),
-                    'session_id' => request()->hasSession()
-                        ? request()->session()->getId()
-                        : null,
-                    'has_session' => request()->hasSession(),
-                    'has_cookie' => request()->hasCookie(
-                        config('session.cookie')
-                    ),
-                    'session_token_exists' => request()->hasSession()
-                        && request()->session()->has('_token'),
-                    'request_token_exists' => request()->input('_token') !== null,
-                    'csrf_header_exists' => request()->header('X-CSRF-TOKEN') !== null,
-                    'origin' => request()->header('Origin'),
-                    'referer' => request()->header('Referer'),
-                ]);
-            }
+        // TokenMismatchException is ignored by default, so un-ignore it
+        $exceptions->stopIgnoring(TokenMismatchException::class);
+
+        $exceptions->report(function (TokenMismatchException $e) {
+            logger()->error('CSRF TOKEN MISMATCH', [
+                'url' => request()->fullUrl(),
+                'method' => request()->method(),
+                'session_id' => request()->hasSession() ? request()->session()->getId() : null,
+                'has_session' => request()->hasSession(),
+                'has_cookie' => request()->hasCookie(config('session.cookie')),
+                'session_token_exists' => request()->hasSession() && request()->session()->has('_token'),
+                'request_token_exists' => request()->input('_token') !== null,
+                'csrf_header_exists' => request()->header('X-CSRF-TOKEN') !== null,
+                'origin' => request()->header('Origin'),
+                'referer' => request()->header('Referer'),
+            ]);
         });
     })
-
     ->create();
