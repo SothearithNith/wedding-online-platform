@@ -90,23 +90,22 @@
         @forelse ($templates as $template)
             <div wire:key="template-{{ $template->id }}"
                 class="group relative aspect-[3/5] overflow-hidden rounded-3xl bg-gradient-to-b from-slate-200 via-slate-300 to-slate-500 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-500/20">
-                @if ($template->preview_src)
-                    <img src="{{ asset('storage/templates/' . basename($template->preview_src)) }}" loading="lazy"
-                        alt="{{ $template->name }}"
-                        class="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                        onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden')">
-
-                    <div
-                        class="hidden absolute inset-0 flex flex-col items-center justify-center gap-3 pb-40 text-white/70">
-                        <x-heroicon-o-photo class="h-12 w-12" />
-                        <span class="text-sm font-medium">{{ trans_json('Preview unavailable') }}</span>
-                    </div>
-                @else
+                {{-- @if ($template->preview_src) --}}
+                <img src="{{ asset('storage/templates/' . basename($template->preview_src)) }}" loading="lazy"
+                    alt="{{ $template->name }}"
+                    class="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                    onerror="this.onerror=null; this.src='{{ asset('assets/images/hero/front.png') }}';">
+                <div
+                    class="hidden absolute inset-0 flex flex-col items-center justify-center gap-3 pb-40 text-white/70">
+                    <x-heroicon-o-photo class="h-12 w-12" />
+                    <span class="text-sm font-medium">{{ trans_json('Preview unavailable') }}</span>
+                </div>
+                {{-- @else
                     <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 pb-40 text-white/70">
                         <x-heroicon-o-photo class="h-12 w-12" />
                         <span class="text-sm font-medium">{{ trans_json('No preview available') }}</span>
                     </div>
-                @endif
+                @endif --}}
 
                 {{-- Light shade at the bottom only, so the image stays visible --}}
                 <div
@@ -197,7 +196,8 @@
                                 <x-heroicon-o-pencil-square class="h-5 w-5" />
                             </a>
                             <button type="button" wire:click="delete({{ $template->id }})"
-                                wire:confirm="{{ trans_json('Delete this template?') }}" title="{{ trans_json('Delete') }}"
+                                wire:confirm="{{ trans_json('Delete this template?') }}"
+                                title="{{ trans_json('Delete') }}"
                                 class="flex h-9 w-9 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-white/90 transition hover:bg-red-500/50 hover:text-white">
                                 <x-heroicon-o-trash class="h-5 w-5" />
                             </button>
