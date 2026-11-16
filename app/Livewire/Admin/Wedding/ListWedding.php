@@ -64,27 +64,33 @@ class ListWedding extends Component
     {
         $term = trim($this->search);
 
-        $perStatus = Invitation::where('user_id', auth()->id())
+        $user = auth()->user();
+        $isAdmin = in_array($user->role_id, [1, 2]);
+
+        $baseQuery = Invitation::query()
+            ->when(!$isAdmin, fn($q) => $q->where('user_id', $user->id));
+
+        $perStatus = (clone $baseQuery)
             ->selectRaw('status, count(*) as total')
             ->groupBy('status')
             ->pluck('total', 'status');
 
         $counts = [
-            'all'=> (int) $perStatus->sum(),
+            'all' => (int) $perStatus->sum(),
             'published' => (int) ($perStatus['published'] ?? 0),
             'draft' => (int) ($perStatus['draft'] ?? 0),
         ];
 
-        $weddings = Invitation::with(['template', 'people'])
-            ->where('user_id', auth()->id())
-            ->when($this->status !== 'all', fn ($q) => $q->where('status', $this->status))
+        $weddings = (clone $baseQuery)
+            ->with(['template', 'people'])
+            ->when($this->status !== 'all', fn($q) => $q->where('status', $this->status))
             ->when($term !== '', function ($q) use ($term) {
                 $like = '%' . $term . '%';
 
                 $q->where(function ($q) use ($like) {
                     $q->where('slug', 'like', $like)
                         ->orWhere('label', 'like', $like)
-                        ->orWhereHas('people', fn ($p) => $p->where('name', 'like', $like));
+                        ->orWhereHas('people', fn($p) => $p->where('name', 'like', $like));
                 });
             })
             ->latest('updated_at')

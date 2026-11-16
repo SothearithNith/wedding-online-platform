@@ -1,5 +1,5 @@
 <div>
-    @if ($isAdmin)
+    @if ($isAdmin && !$pushId)
         <div
             class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-600 p-6 text-white shadow-xl shadow-indigo-500/20 sm:p-8">
 
@@ -57,9 +57,9 @@
                         <tr
                             class="bg-gradient-to-r from-slate-50 to-indigo-50/40 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
                             <th class="px-6 py-4">{{ trans_json('Weddings') }}</th>
-                            <th class="px-6 py-4">{{ trans_json('Groom name') }}</th>
-                            <th class="px-6 py-4">{{ trans_json('Bride name') }}</th>
-                            <th class="px-6 py-4">{{ trans_json('Date') }}</th>
+                            <th class="hidden px-6 py-4 md:table-cell">{{ trans_json('Groom name') }}</th>
+                            <th class="hidden px-6 py-4 md:table-cell">{{ trans_json('Bride name') }}</th>
+                            <th class="hidden px-6 py-4 md:table-cell">{{ trans_json('Date') }}</th>
                             <th class="px-6 py-4 text-right">{{ trans_json('Actions') }}</th>
                         </tr>
                     </thead>
@@ -75,8 +75,7 @@
                                             <x-heroicon-o-heart class="h-5 w-5" />
                                         </div>
                                         <div class="min-w-0">
-                                            <p class="truncate font-semibold text-slate-900"> {{ $wedding->label }}
-                                            </p>
+                                            <p class="truncate font-semibold text-slate-900">{{ $wedding->label }}</p>
                                         </div>
                                     </div>
                                 </td>
@@ -91,7 +90,7 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center justify-end">
-                                        <a href="{{ route('rsvp.detail', $wedding->id) }}" wire:navigate
+                                        <a href="#" wire:click.prevent="pushInvitationId({{ $wedding->id }})"
                                             class="inline-flex items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 px-3.5 py-2 text-xs font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100 active:scale-95">
                                             <x-heroicon-o-eye class="h-4 w-4" />
                                             {{ trans_json('View Detail') }}
@@ -101,7 +100,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="2" class="px-6 py-20 text-center">
+                                <td colspan="5" class="px-6 py-20 text-center">
                                     <div
                                         class="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-indigo-50 to-fuchsia-50 text-indigo-400">
                                         <x-heroicon-o-clipboard-document-list class="h-8 w-8" />
@@ -138,6 +137,91 @@
                 @endif
             </div>
         </div>
-    @endif
+    @else
+        <div class="space-y-4">
+            <div
+                class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-600 p-6 text-white shadow-xl shadow-indigo-500/20 sm:p-8">
 
+                <div class="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/10 blur-2xl">
+                </div>
+
+                <div class="relative flex items-start justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl font-bold sm:text-3xl">
+                            {{ $selected?->label ?? trans_json('RSVP Management') }}
+                        </h1>
+                        <p class="mt-1.5 text-sm text-indigo-100">
+                            {{ trans_json('Guest responses to this invitation.') }}
+                        </p>
+                    </div>
+
+                    @if ($isAdmin)
+                        <button type="button" wire:click="closeDetail"
+                            class="inline-flex shrink-0 items-center gap-1.5 rounded-xl bg-white/20 px-3.5 py-2 text-xs font-semibold text-white backdrop-blur transition hover:bg-white/30 active:scale-95">
+                            <x-heroicon-o-arrow-left class="h-4 w-4" />
+                            {{ trans_json('Back') }}
+                        </button>
+                    @endif
+                </div>
+
+                <div class="relative mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                    @foreach ([[trans_json('Total responses'), $rsvp->count()], [trans_json('Can Join'), $rsvp->where('attending', 1)->count()], [trans_json('Cannot Join'), $rsvp->where('attending', '!=', 1)->count()], [trans_json('Total guests'), (int) $rsvp->where('attending', 1)->sum('guests_count')]] as [$label, $value])
+                        <div class="rounded-2xl bg-white/15 p-3 backdrop-blur sm:p-4">
+                            <p class="text-xl font-bold leading-none sm:text-2xl">{{ $value }}</p>
+                            <p class="mt-1 text-xs text-indigo-100">{{ $label }}</p>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm">
+                        <thead>
+                            <tr
+                                class="bg-gradient-to-r from-slate-50 to-indigo-50/40 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
+                                <th class="px-6 py-4">{{ trans_json('Guest') }}</th>
+                                <th class="px-6 py-4">{{ trans_json('Attendance') }}</th>
+                                <th class="hidden px-6 py-4 md:table-cell">{{ trans_json('Guests') }}</th>
+                                <th class="hidden px-6 py-4 md:table-cell">{{ trans_json('Message') }}</th>
+                                <th class="hidden px-6 py-4 md:table-cell">{{ trans_json('Date') }}</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="divide-y divide-slate-100">
+                            @forelse ($rsvp as $item)
+                                <tr wire:key="rsvp-{{ $item->id }}"
+                                    class="transition-colors hover:bg-indigo-50/30">
+                                    <td class="px-6 py-4 font-semibold text-slate-900">{{ $item->guest_name }}</td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold  {{ $item->attending == 1 ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600' }}">
+                                            {{ $item->attending == 1 ? trans_json('Can Join') : trans_json('Cannot Join') }}
+                                        </span>
+                                    </td>
+                                    <td class="hidden px-6 py-4 md:table-cell">{{ $item->guests_count ?? '-' }}</td>
+                                    <td class="hidden max-w-xs truncate px-6 py-4 md:table-cell">
+                                        {{ $item->message ?? '-' }}</td>
+                                    <td class="hidden px-6 py-4 md:table-cell">
+                                        {{ $item->created_at?->format('d M Y') }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="px-6 py-20 text-center">
+                                        <div
+                                            class="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-indigo-50 to-fuchsia-50 text-indigo-400">
+                                            <x-heroicon-o-clipboard-document-list class="h-8 w-8" />
+                                        </div>
+                                        <p class="mt-4 text-sm font-semibold text-slate-700">
+                                            {{ trans_json('No RSVP yet') }}
+                                        </p>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
