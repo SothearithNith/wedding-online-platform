@@ -50,7 +50,7 @@ class Login extends Component
 
         session()->regenerate();
 
-        return $this->redirectRoute('admin');
+        return $this->redirectRoute('admin', navigate: true);
     }
 
     public function render()
