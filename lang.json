@@ -136,5 +136,14 @@
     "Invitation Templates": "គំរូលិខិតអញ្ជើញ",
     "Design and manage the wedding invitation templates your couples can choose from.": "រចនា និងគ្រប់គ្រងគំរូកាតអញ្ជើញអាពាហ៍ពិពាហ៍ ដែលគូស្នេហ៍អាចជ្រើសរើសបាន។",
     "RSVP Management": "ការគ្រប់គ្រងការឆ្លើយតបការអញ្ជើញ",
-    "Manage and track guest responses to wedding invitations.": "គ្រប់គ្រង និងតាមដានការឆ្លើយតបរបស់ភ្ញៀវចំពោះលិខិតអញ្ជើញចូលរួមពិធីមង្គលការ។"
+    "Manage and track guest responses to wedding invitations.": "គ្រប់គ្រង និងតាមដានការឆ្លើយតបរបស់ភ្ញៀវចំពោះលិខិតអញ្ជើញចូលរួមពិធីមង្គលការ។",
+    "Guest responses to this invitation.": "ការឆ្លើយតបរបស់ភ្ញៀវចំពោះការអញ្ជើញនេះ។",
+    "Guest": "ភ្ញៀវ",
+    "Attendance": "វត្តមាន",
+    "Guests": "ភ្ញៀវចូលរួម",
+    "Message": "សារ",
+    "Total responses": "ចំនួនឆ្លើយតបសរុប",
+    "Can Join": "អាចចូលរួមបាន",
+    "Cannot Join": "មិនអាចចូលរួមបានទេ",
+    "Total guests": "ចំនួនភ្ញៀវសរុប"
 }
