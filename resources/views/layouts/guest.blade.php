@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 
@@ -12,8 +11,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    @if (app()->getLocale() === 'km')
-        {{-- Khmer Font --}}
+    @if (app()->getLocale() === 'km') 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -30,7 +28,6 @@
             }
         </style>
     @else
-        {{-- English Font --}}
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 

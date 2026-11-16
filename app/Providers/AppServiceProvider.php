@@ -20,12 +20,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Schema::defaultStringLength(191);
-
-        // Gate::before(function ($user, string $ability) {
-        //     return $user->hasRole('Master Admin') ? true : null;
-        // });
-
-        // Livewire::component('invitation-rsvp', InvitationRsvp::class);
         Gate::before(fn($user) => $user->hasRole('Master Admin') ? true : null);
         if (app()->environment('production')) {
             URL::forceScheme('https');
