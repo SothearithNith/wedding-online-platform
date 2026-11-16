@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\RSVP;
 
 use App\Models\Invitation;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -15,6 +16,12 @@ class RSVPList extends Component
     use WithPagination;
 
     public $search = '';
+    public $isAdmin = true;
+
+    public function mount()
+    {
+        $this->isAdmin = Auth::user()->role_id != 3;
+    }
 
     public function render()
     {
@@ -26,9 +33,9 @@ class RSVPList extends Component
             ->pluck('total', 'status');
 
         $counts = [
-            'all'       => (int) $perStatus->sum(),
+            'all' => (int) $perStatus->sum(),
             'published' => (int) ($perStatus['published'] ?? 0),
-            'draft'     => (int) ($perStatus['draft'] ?? 0),
+            'draft' => (int) ($perStatus['draft'] ?? 0),
         ];
 
         $weddings = Invitation::with(['template', 'people'])
