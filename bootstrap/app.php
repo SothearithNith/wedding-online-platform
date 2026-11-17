@@ -16,8 +16,6 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         // Behind the platform's TLS-terminating proxy
         $middleware->trustProxies(at: '*');
-
-        // TEMPORARY: remove after debugging (logs session IDs)
         $middleware->append(DebugSessionCookie::class);
 
         $middleware->web(append: [
@@ -48,5 +46,10 @@ return Application::configure(basePath: dirname(__DIR__))
                 'referer' => request()->header('Referer'),
             ]);
         });
+    })
+    ->withMiddleware(function ($middleware): void {
+        $middleware->alias([
+        'prevent.permission' => \App\Http\Middleware\PreventRolePermission::class,
+        ]);
     })
     ->create();

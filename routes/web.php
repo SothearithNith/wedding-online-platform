@@ -57,7 +57,7 @@ Route::get('/admin/templates/{template}/preview', function (Template $template) 
     ]);
 })->name('admin.templates.preview');
 
-Route::middleware(['auth'])
+Route::middleware(['auth', 'prevent.permission'])
     ->prefix('admin')
     ->name('')
     ->group(function () {
