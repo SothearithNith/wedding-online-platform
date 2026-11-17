@@ -55,8 +55,8 @@
         </div>
 
         <div class="royal-enter"
-            style="--d:1150ms;position:relative;z-index:10;margin-top:16px;display:grid;width:100%;grid-template-columns:1fr 1fr;gap:12px"> 
-            @foreach ([[$groom['dad'], $groom['mom']], [$bride['dad'], $bride['mom']]] as [$dad, $mom])
+            style="--d:1150ms;position:relative;z-index:10;margin-top:16px;display:grid;width:100%;grid-template-columns:1fr 1fr;gap:12px">
+            @foreach ([[$groom['dad'], $groom['mom']], [$bride['dad'], $bride['mom']]] as [$dad, $mom]) 
                 <div style="min-width:0;padding:0 4px">
                     <div class="hl-rule" style="width:32px;margin:4px auto 0"></div>
 

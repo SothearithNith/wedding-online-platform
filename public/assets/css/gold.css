@@ -4862,3 +4862,329 @@ html:not(.js) .g-div .kb-draw {
         transform: none;
     }
 }
+#couple {
+    position: relative;
+    overflow: hidden;
+}
+
+/* frame covers the whole section, above bg and content */
+.cp-frame-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    z-index: 30;
+    pointer-events: none;
+}
+
+/* content stays inside the frame's inner area, no background */
+#couple .cp-wrap {
+    position: relative;
+    z-index: 10;
+    padding: 0 28px;
+}
+
+/* ===== section = full screen ===== */
+#couple {
+    position: relative;
+    overflow: hidden;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+}
+
+#couple .cp-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    z-index: 30;
+    pointer-events: none;
+}
+
+#couple .cp-wrap {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    padding: 84px 40px;
+}
+
+/* ===== drifting gold petals ===== */
+#couple .cp-fx {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+    overflow: hidden;
+}
+#couple .cp-fx i {
+    position: absolute;
+    top: -20px;
+    width: 7px;
+    height: 12px;
+    border-radius: 80% 0 80% 0;
+    background: linear-gradient(135deg, #fff1b8, #d9a93f);
+    opacity: 0;
+    animation: cpFall linear infinite;
+}
+@keyframes cpFall {
+    0% {
+        transform: translate(0, 0) rotate(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translate(var(--dx), 105vh) rotate(300deg);
+        opacity: 0;
+    }
+}
+
+/* ===== stage: A top-left, B lower-right ===== */
+#couple .cp-stage {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 10px;
+    align-items: start;
+}
+#couple .cp-a {
+    grid-column: 1;
+    grid-row: 1;
+}
+#couple .cp-b {
+    grid-column: 2;
+    grid-row: 1;
+    margin-top: 140px;
+}
+
+/* dotted curve behind everything */
+#couple .cp-curve {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0;
+    animation: cpFade 1s ease 1.1s forwards;
+}
+
+/* heart sits on the middle of the curve */
+#couple .cp-heart {
+    position: absolute;
+    left: 50%;
+    top: 43%;
+    width: 46px;
+    height: 46px;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 5;
+    filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.65));
+    animation: cpPop 0.7s cubic-bezier(0.3, 1.6, 0.5, 1) 1.2s forwards;
+}
+#couple .cp-heart svg {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#couple .cp-rays {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 190px;
+    height: 190px;
+    margin: -95px 0 0 -95px;
+    border-radius: 50%;
+    background: repeating-conic-gradient(
+        from 0deg,
+        rgba(246, 227, 160, 0.38) 0 5deg,
+        transparent 5deg 15deg
+    );
+    -webkit-mask: radial-gradient(circle, #000 22%, transparent 70%);
+    mask: radial-gradient(circle, #000 22%, transparent 70%);
+    animation: cpSpin 40s linear infinite;
+}
+#couple .cp-beat {
+    transform-origin: 60px 60px;
+    animation: cpBeat 1.6s ease-in-out infinite;
+}
+
+/* ===== one person ===== */
+#couple .cp-person {
+    position: relative;
+    z-index: 2;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.75);
+    opacity: 0;
+    animation: cpInL 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation-delay: var(--d, 0ms);
+}
+#couple .cp-b {
+    animation-name: cpInR;
+}
+
+#couple .cp-card {
+    position: relative;
+    width: 100%;
+    max-width: 160px;
+    animation: cpFloat 6s ease-in-out infinite;
+}
+#couple .cp-b .cp-card {
+    animation-delay: -3s;
+}
+
+#couple .cp-glow {
+    position: absolute;
+    inset: -14% -22%;
+    background: radial-gradient(
+        closest-side,
+        rgba(246, 210, 110, 0.38),
+        transparent 72%
+    );
+    z-index: -1;
+}
+
+#couple .cp-photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.55));
+}
+
+/* lotus pedestal */
+#couple .cp-lotus {
+    display: block;
+    width: 78%;
+    height: 34px;
+    margin: -12px auto 0;
+    position: relative;
+    z-index: 2;
+}
+
+/* ===== text ===== */
+#couple .cp-text {
+    margin-top: 6px;
+    width: 100%;
+}
+
+#couple .cp-label {
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: #f6e3a0;
+}
+#couple .cp-name {
+    margin-top: 4px;
+    font-size: 14px;
+    line-height: 1.45;
+    color: #fbeec1;
+}
+
+#couple .cp-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 8px auto;
+    max-width: 130px;
+}
+#couple .cp-divider span {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #f0d58a);
+}
+#couple .cp-divider span:last-child {
+    transform: scaleX(-1);
+}
+#couple .cp-divider b {
+    font-size: 11px;
+    line-height: 1;
+    color: #e3bd5a;
+    font-weight: 400;
+}
+
+#couple .cp-parent {
+    margin: 1px 0;
+    font-size: 10px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* ===== animations ===== */
+@keyframes cpInL {
+    from {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+@keyframes cpInR {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+@keyframes cpFade {
+    to {
+        opacity: 1;
+    }
+}
+@keyframes cpPop {
+    to {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+@keyframes cpFloat {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-6px);
+    }
+}
+@keyframes cpBeat {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+@keyframes cpSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #couple * {
+        animation: none !important;
+    }
+    #couple .cp-person,
+    #couple .cp-curve {
+        opacity: 1;
+    }
+    #couple .cp-heart {
+        transform: translate(-50%, -50%);
+    }
+}
