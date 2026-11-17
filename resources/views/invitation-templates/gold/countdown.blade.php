@@ -3,11 +3,10 @@
     <div class="g-ov" style="{{ $overlay(0.08) }}"></div>
     <div class="g-arch-glass">
         <div class="gloss"></div>
-        {!! $title($K['countdowns']) !!}
-
+        {!! $title($K['countdowns']) !!} 
         <p class="rv ts" style="font-size:12px;letter-spacing:.3em;color:#f6e3a0">{{ $K['date'] }}</p>
-        <p class="rv g-foil font-display" data-delay="100" style="margin-top:12px;font-size:15px">
-            <span class="js-date" data-iso="{{ $w['date'] }}">{{ $w['dateText'] }}</span>
+        <p class="rv g-foil font-display title-font" data-delay="100" style="margin-top:12px;font-size:15px">
+            <span class="js-dat" data-iso="{{ $w['date'] }}">{{ $w['dateText'] }}</span>
         </p>
 
         <div class="rv" data-v="zoom" data-delay="200">
@@ -30,7 +29,7 @@
         </div>
 
         <div class="ac-wrap">
-            <button type="button" class="ac-btn" id="ac-btn">
+            <button type="button" class="ac-btn title-font" id="ac-btn">
                 <span id="ac-ic">{!! $ic('calplus', 16) !!}</span>
                 {{ $K['addCal'] }}
                 <span id="ac-lotus">{!! $lotus(8, 18, 'g-spin', 0) !!}</span>
@@ -38,7 +37,6 @@
         </div>
     </div>
     <style>
-        /* countdown on glass */
         #countdown .cd-box {
             background: rgba(255, 255, 255, 0.08);
             -webkit-backdrop-filter: blur(4px);

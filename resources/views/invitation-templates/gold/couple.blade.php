@@ -1,11 +1,7 @@
 <section class="g-sec g-photo" id="couple">
     <div class="g-bgimg" data-bg="{{ $bg('intro') }}"></div>
     <div class="g-ov" style="{{ $overlay(0.62) }}"></div>
-
-    {{-- gold frame, full screen --}}
     <img src="{{ asset('assets/images/gold/frame_gold.png') }}" alt="" aria-hidden="true" class="cp-frame">
-
-    {{-- shared SVG definitions (written once) --}}
     <svg width="0" height="0" style="position:absolute" aria-hidden="true">
         <defs>
             <path id="cpShape"
@@ -27,8 +23,6 @@
                 <stop offset=".7" stop-color="#000" stop-opacity="0" />
                 <stop offset="1" stop-color="#000" stop-opacity=".4" />
             </linearGradient>
-
-            {{-- Khmer lotus (5 petals), reused under each photo --}}
             <symbol id="cpLotus" viewBox="-60 -52 120 76">
                 <g fill="rgba(246,227,160,.12)" stroke="url(#cpGold)" stroke-width="2" stroke-linejoin="round">
                     @foreach ([-62, -34, 0, 34, 62] as $rot)
@@ -40,7 +34,6 @@
         </defs>
     </svg>
 
-    {{-- drifting gold petals --}}
     <div class="cp-fx" aria-hidden="true">
         @for ($i = 0; $i < 9; $i++)
             <i
@@ -50,8 +43,6 @@
 
     <div class="cp-wrap">
         <div class="cp-stage">
-
-            {{-- dotted gold curve from A to B --}}
             <svg class="cp-curve" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
                 <path d="M30 24 C52 24, 48 62, 70 62" fill="none" stroke="url(#cpGold)" stroke-width="2.2"
                     stroke-dasharray="0.1 7" stroke-linecap="round" vector-effect="non-scaling-stroke" />
@@ -77,7 +68,6 @@
                                 <rect width="300" height="420" fill="url(#cpShade)" />
                             </g>
 
-                            {{-- double gold outline + pearl dots --}}
                             <use href="#cpShape" fill="none" stroke="url(#cpGold)" stroke-width="8"
                                 stroke-linejoin="round" />
                             <use href="#cpShape" transform="translate(150 210) scale(.955) translate(-150 -210)"
@@ -86,13 +76,11 @@
                             <use href="#cpShape" transform="translate(150 210) scale(.915) translate(-150 -210)"
                                 fill="none" stroke="#fff1b8" stroke-opacity=".8" stroke-width="1.4" />
 
-                            {{-- temple-style finial --}}
                             <path
                                 d="M150 -22 C155 -10 163 -6 162 4 C161 11 155 14 150 22 C145 14 139 11 138 4 C137 -6 145 -10 150 -22Z"
                                 fill="url(#cpGold)" stroke="#7a5518" stroke-width="1" />
                         </svg>
 
-                        {{-- lotus pedestal --}}
                         <svg class="cp-lotus" aria-hidden="true">
                             <use href="#cpLotus" />
                         </svg>
@@ -118,7 +106,6 @@
                 </article>
             @endforeach
 
-            {{-- heart badge with sunburst --}}
             <div class="cp-heart" aria-hidden="true">
                 <span class="cp-rays"></span>
                 <svg viewBox="0 0 120 120">
@@ -134,8 +121,7 @@
                         </g>
                     </g>
                 </svg>
-            </div>
-
+            </div> 
         </div>
     </div>
 </section>

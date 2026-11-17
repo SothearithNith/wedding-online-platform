@@ -49,9 +49,9 @@
                                                 <span class="l1" style="width:32px"></span><span class="dia"
                                                     style="width:4px;height:4px"></span>
                                             </div>
-                                            <h3 class="font-khmer">{{ $e['title'] ?? '' }}</h3>
+                                            <h3 class="font-khmer title-font">{{ $e['title'] ?? '' }}</h3>
                                             @if (!empty($e['place']))
-                                                <p class="ev-place font-khmer">
+                                                <p class="ev-place font-khmer title-font">
                                                     {!! $ic('pin', 14) !!}<span>{{ $e['place'] }}</span></p>
                                             @endif
                                             @if ($link)
