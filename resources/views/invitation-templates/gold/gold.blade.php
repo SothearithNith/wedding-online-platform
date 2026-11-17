@@ -59,7 +59,7 @@
             $rel = ltrim(preg_replace('#^/?(public/|storage/)#', '', $musicRaw), '/');
             $musicSrc = asset('storage/' . $rel);
         }
-    } 
+    }
     if ($musicSrc === '' && !$musicYoutubeId) {
         $musicSrc = $defaultMusic;
     }
@@ -98,29 +98,29 @@
 
 <body>
     @include('invitation-templates.gold.cover')
-<main class="gw" id="gw" data-template="{{ $templateKey }}">
-    @include('invitation-templates.gold.card')
-    @include('invitation-templates.gold.divider')
-    @include('invitation-templates.gold.couple')
-    @include('invitation-templates.gold.divider', ['variant' => 'band'])
-    @include('invitation-templates.gold.countdown')
-    @include('invitation-templates.gold.divider')
-    @include('invitation-templates.gold.story')
-    @include('invitation-templates.gold.divider', ['variant' => 'band'])
-    @include('invitation-templates.gold.schedule')
-    @include('invitation-templates.gold.divider')
-    @include('invitation-templates.gold.gallery')
-    @include('invitation-templates.gold.divider', ['variant' => 'band'])
-    @include('invitation-templates.gold.dress-code')
-    @include('invitation-templates.gold.divider')
-    @include('invitation-templates.gold.rsvp')
-    @include('invitation-templates.gold.divider', ['variant' => 'band'])
-    @include('invitation-templates.gold.gift')
-    @include('invitation-templates.gold.divider')
-    @include('invitation-templates.gold.apology')
-    @include('invitation-templates.gold.divider', ['variant' => 'band'])
-    @include('invitation-templates.gold.thanks')
-</main>
+    <main class="gw" id="gw" data-template="{{ $templateKey }}">
+        @include('invitation-templates.gold.card')
+        @include('invitation-templates.gold.divider')
+        @include('invitation-templates.gold.couple')
+        @include('invitation-templates.gold.divider', ['variant' => 'band'])
+        @include('invitation-templates.gold.countdown')
+        @include('invitation-templates.gold.divider')
+        @include('invitation-templates.gold.story')
+        @include('invitation-templates.gold.divider', ['variant' => 'band'])
+        @include('invitation-templates.gold.schedule')
+        @include('invitation-templates.gold.divider')
+        @include('invitation-templates.gold.gallery')
+        @include('invitation-templates.gold.divider', ['variant' => 'band'])
+        @include('invitation-templates.gold.dress-code')
+        @include('invitation-templates.gold.divider')
+        @include('invitation-templates.gold.rsvp')
+        @include('invitation-templates.gold.divider', ['variant' => 'band'])
+        @include('invitation-templates.gold.gift')
+        @include('invitation-templates.gold.divider')
+        @include('invitation-templates.gold.apology')
+        @include('invitation-templates.gold.divider', ['variant' => 'band'])
+        @include('invitation-templates.gold.thanks')
+    </main>
 
     @if ($musicSrc || $musicYoutubeId)
         @if ($musicYoutubeId)
