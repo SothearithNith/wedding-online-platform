@@ -1,6 +1,7 @@
 import Swal from "sweetalert2";
 import axios from "axios";
 import "./bootstrap";
+import "./guest-invite";
 
 window.Swal = Swal;
 window.axios = axios;
