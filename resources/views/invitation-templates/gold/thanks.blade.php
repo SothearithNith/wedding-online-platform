@@ -1,7 +1,6 @@
 <section class="g-sec g-photo" id="thanks" style="padding:112px 20px 128px;text-align:center">
     <div class="g-bgimg" data-bg="{{ $bg('thanks') }}"></div>
     <div class="g-ov" style="{{ $overlay(0.35) }}"></div>
-
     <div class="petals" aria-hidden="true">
         @for ($i = 0; $i < 10; $i++)
             <i
@@ -27,7 +26,7 @@
                 {{ $groom['name'] }} {{ $K['and'] }} {{ $bride['name'] }}</p>
 
             <div class="rv" data-delay="450">
-                <button type="button" class="th-btn btn-foil" id="share-btn">
+                <button type="button" class="th-btn btn-foil title-font" id="share-btn">
                     <span id="share-ic">{!! $ic('share', 16) !!}</span>
                     <span id="share-tx">{{ $K['share'] }}</span>
                 </button>
