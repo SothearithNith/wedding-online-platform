@@ -4,7 +4,7 @@
 @endphp
 <section class="g-sec g-photo" id="apology" style="padding:112px 20px;text-align:center">
     <div class="g-bgimg" data-bg="{{ $bg('apology') }}"></div>
-    <div class="g-ov" style="{{ $overlay(0.08) }}"></div> 
+    <div class="g-ov" style="{{ $overlay(0.08) }}"></div>
 
     <div class="petals" aria-hidden="true">
         @for ($i = 0; $i < 8; $i++)
@@ -46,4 +46,49 @@
             </div>
         </div>
     </div>
+    <style>
+        /* Shared glass look (apology) */
+        #apology .g-arch-glass,
+        #apology .gold-card-in {
+            background: rgba(255, 255, 255, 0.08) !important;
+            background-image: none !important;
+            -webkit-backdrop-filter: blur(18px) saturate(140%);
+            backdrop-filter: blur(18px) saturate(140%);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.18),
+                inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        }
+
+        #apology .g-arch-glass {
+            background: rgba(255, 255, 255, 0.06) !important;
+        }
+
+        /* Outer wrapper stays clear so the blur isn't applied twice */
+        #apology .gold-card,
+        #apology .ap-card-w {
+            background: transparent !important;
+            -webkit-backdrop-filter: none;
+            backdrop-filter: none;
+            box-shadow: none;
+            border: 0;
+        }
+
+        #apology .gold-card::before,
+        #apology .gold-card::after {
+            background: none !important;
+        }
+
+        /* Text readable on glass */
+        #apology .ap-line,
+        #apology .gold-card-in {
+            color: #fff !important;
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35) !important;
+        }
+
+        /* Dividers */
+        #apology .ap-divider span {
+            background: rgba(255, 255, 255, 0.4) !important;
+        }
+    </style>
 </section>

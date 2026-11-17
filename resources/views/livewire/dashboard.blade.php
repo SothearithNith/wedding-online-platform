@@ -2,8 +2,6 @@
 @php
     $templates = collect($templates ?? []);
     $categories = $templates->pluck('category')->unique()->values();
-
-    // Fallback gradients when a template has no preview image
     $gradients = [
         'from-rose-400 to-pink-500',
         'from-amber-300 to-rose-400',
@@ -157,7 +155,6 @@
                 </p>
             </div>
 
-            {{-- Category filter --}}
             @if ($categories->isNotEmpty())
                 <div class="flex flex-wrap gap-2">
                     <button type="button" @click="filter = 'all'"
@@ -186,24 +183,16 @@
                 <div wire:key="template-{{ $template->id }}"
                     class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-xl hover:shadow-indigo-500/10">
                     <div class="relative aspect-[4/5] overflow-hidden bg-slate-100">
-
-                        @if ($template->preview_src)
-                            <img src="{{ asset('storage/templates/' . basename($template->preview_src)) }}"loading="lazy"
-                                class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden')">
-
-                            <div
-                                class="hidden absolute inset-0 flex flex-col items-center justify-center gap-3 text-slate-300">
-                                <x-heroicon-o-photo class="h-12 w-12" />
-                                <span class="text-sm font-medium">{{ __('Preview unavailable') }}</span>
-                            </div>
-                        @else
-                            <div class="flex h-full flex-col items-center justify-center gap-3 text-slate-300">
-                                <x-heroicon-o-photo class="h-12 w-12" />
-                                <span class="text-sm font-medium">{{ __('No preview available') }}</span>
-                            </div>
-                        @endif
-
+                        <img src="{{ asset('storage/templates/' . basename($template->preview_src)) }}"
+                            loading="lazy"
+                            class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            onerror="this.onerror=null; this.src='{{ asset('assets/images/hero/front.png') }}'; this.onerror=function(){ this.style.display='none'; this.nextElementSibling.classList.remove('hidden'); };">
+                        <div
+                            class="hidden absolute inset-0 flex flex-col items-center justify-center gap-3 text-slate-300">
+                            <x-heroicon-o-photo class="h-12 w-12" />
+                            <span class="text-sm font-medium">{{ __('Preview unavailable') }}</span>
+                        </div>
+                     
                         <div
                             class="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-slate-950/10 opacity-60 transition-opacity group-hover:opacity-100">
                         </div>
