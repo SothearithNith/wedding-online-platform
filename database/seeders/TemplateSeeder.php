@@ -27,8 +27,8 @@ class TemplateSeeder extends Seeder
                 'thanks',
             ]],
             'sample_data' => TemplateRegistry::sample(),
-            'is_active'=> true,
-            'is_public'=> true,
+            'is_active' => true,
+            'is_public' => true,
             'sort' => 1,
         ]);
 
@@ -49,9 +49,32 @@ class TemplateSeeder extends Seeder
                 'thanks',
             ]],
             'sample_data' => TemplateRegistry::sample(),
-            'is_active'=> true,
-            'is_public'=> true,
-            'sort'=> 2,
+            'is_active' => true,
+            'is_public' => true,
+            'sort' => 2,
+        ]);
+
+        Template::updateOrCreate(['key' => 'clean'], [
+            'name'        => 'Clean',
+            'description' => 'Simple, clean Khmer wedding invitation with soft motion and a single gold accent.',
+            'schema'      => ['sections' => [
+                'cover',
+                'intro',
+                'couple',
+                'countdown',
+                'story',
+                'schedule',
+                'gallery',
+                'dressCode',
+                'rsvp',
+                'gift',
+                'apology',
+                'thanks',
+            ]],
+            'sample_data' => TemplateRegistry::sample(),
+            'is_active'   => true,
+            'is_public'   => true,
+            'sort'        => 3,
         ]);
     }
 }

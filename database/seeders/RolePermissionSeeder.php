@@ -1,26 +1,100 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Database\Seeders;
 
-use Closure;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
 
-class PreventRolePermission
+class RolePermissionSeeder extends Seeder
 {
-    public function handle(Request $request, Closure $next, string $module, string $action): Response
+    public function run(): void
     {
-        $user = $request->user();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        abort_unless($user, 403);
+        $permissions = [
+            // Dashboard
+            'dashboard.view',
 
-        // Master Admin bypass
-        if ($user->hasRole('Master Admin')) {
-            return $next($request);
+            // Weddings
+            'weddings.view',
+            'weddings.create',
+            'weddings.edit',
+            'weddings.delete',
+
+            // Templates
+            'templates.view',
+            'templates.create',
+            'templates.edit',
+            'templates.delete',
+
+            // Invitations
+            'invitations.view',
+            'invitations.create',
+            'invitations.edit',
+            'invitations.delete',
+
+            // Users
+            'users.view',
+            'users.create',
+            'users.edit',
+            'users.delete',
+
+            // Access Control
+            'roles.view',
+            'roles.create',
+            'roles.edit',
+            'roles.delete',
+            'permissions.view',
+        ];
+
+        foreach ($permissions as $permission) {
+            Permission::firstOrCreate([
+                'name' => $permission,
+                'guard_name' => 'web',
+            ]);
         }
 
-        abort_unless($user->can("{$module}.{$action}"), 403);
+        // Roles
+        $masterAdmin = Role::firstOrCreate([
+            'name' => 'Master Admin',
+            'guard_name' => 'web',
+        ]);
 
-        return $next($request);
+        $admin = Role::firstOrCreate([
+            'name' => 'Admin',
+            'guard_name' => 'web',
+        ]);
+
+        $staff = Role::firstOrCreate([
+            'name' => 'Staff',
+            'guard_name' => 'web',
+        ]);
+
+        // Master Admin gets all permissions
+        $masterAdmin->syncPermissions(Permission::all());
+
+        // Admin permissions
+        $admin->syncPermissions([
+            'dashboard.view',
+            'weddings.view',
+            'weddings.create',
+            'weddings.edit',
+            'templates.view',
+            'invitations.view',
+            'invitations.create',
+            'invitations.edit',
+            'users.view',
+        ]);
+
+        // Staff permissions
+        $staff->syncPermissions([
+            'dashboard.view',
+            'weddings.view',
+            'invitations.view',
+        ]);
+
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
     }
 }
