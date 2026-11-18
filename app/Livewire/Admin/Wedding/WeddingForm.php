@@ -81,7 +81,14 @@ class WeddingForm extends Component
     public function mount(?Invitation $wedding = null): void
     {
         if ($wedding && $wedding->exists) {
-            abort_unless($wedding->user_id === auth()->id(), 403);
+            $user = auth()->user();
+
+            abort_unless(
+                $user->hasRole('Master Admin')
+                    || $user->can('weddings.manage')
+                    || $wedding->user_id === $user->id,
+                403
+            );
             $this->wedding = $wedding;
             $this->template_key = $wedding->template_key;
             $this->label = (string) $wedding->label;
@@ -450,7 +457,7 @@ class WeddingForm extends Component
     {
         $path = $this->slotPath($slot);
         $this->trash[] = (string) Arr::get($this->data, $path, '');
-        $parent = Str::before($path, '.'); 
+        $parent = Str::before($path, '.');
         if ($parent !== $path && ! is_array($this->data[$parent] ?? null)) {
             $this->data[$parent] = [];
         }
