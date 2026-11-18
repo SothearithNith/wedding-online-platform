@@ -1,118 +1,26 @@
 <?php
 
-namespace Database\Seeders;
+namespace App\Http\Middleware;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\PermissionRegistrar;
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class RolePermissionSeeder extends Seeder
+class PreventRolePermission
 {
-    // public function run(): void
-    // {
-    //     app(PermissionRegistrar::class)->forgetCachedPermissions();
-
-    //     $modules = [
-    //         'dashboard',
-    //         'weddings',
-    //         'temples',
-    //         'templates',
-    //         'users',
-    //         'roles',
-    //         'permissions',
-    //         'settings',
-    //     ];
-
-    //     $actions = [
-    //         'view',
-    //         'create',
-    //         'edit',
-    //         'delete',
-    //         'manage',
-    //     ];
-
-    //     foreach ($modules as $module) {
-    //         foreach ($actions as $action) {
-    //             Permission::firstOrCreate([
-    //                 'name' => "{$module}.{$action}",
-    //                 'guard_name' => 'web',
-    //             ]);
-    //         }
-    //     }
-
-    //     $masterAdmin = Role::firstOrCreate([
-    //         'name' => 'Master Admin',
-    //         'guard_name' => 'web',
-    //     ]);
-
-    //     $admin = Role::firstOrCreate([
-    //         'name' => 'Admin',
-    //         'guard_name' => 'web',
-    //     ]);
-
-    //     $user = Role::firstOrCreate([
-    //         'name' => 'User',
-    //         'guard_name' => 'web',
-    //     ]);
-
-    //     // Assign every existing permission.
-    //     $masterAdmin->syncPermissions(Permission::all());
-
-    //     app(PermissionRegistrar::class)->forgetCachedPermissions();
-    // }
-    public function run(): void
+    public function handle(Request $request, Closure $next, string $module, string $action): Response
     {
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $user = $request->user();
 
-        // Create Master Admin FIRST so it gets id 1 on a fresh database.
-        // The second array is only used when the role is created.
-        $masterAdmin = Role::firstOrCreate(
-            ['name' => 'Master Admin', 'guard_name' => 'web'],
-            ['status' => true, 'is_public' => false]
-        );
+        abort_unless($user, 403);
 
-        $admin = Role::firstOrCreate(
-            ['name' => 'Admin', 'guard_name' => 'web'],
-            ['status' => true, 'is_public' => true]
-        );
-
-        $user = Role::firstOrCreate(
-            ['name' => 'User', 'guard_name' => 'web'],
-            ['status' => true, 'is_public' => true]
-        );
-
-        $modules = ['dashboard', 'weddings', 'temples', 'templates', 'users', 'roles', 'permissions', 'settings'];
-        $actions = ['view', 'create', 'edit', 'delete', 'manage'];
-
-        foreach ($modules as $module) {
-            foreach ($actions as $action) {
-                Permission::firstOrCreate([
-                    'name' => "{$module}.{$action}",
-                    'guard_name' => 'web',
-                ]);
-            }
+        // Master Admin bypass
+        if ($user->hasRole('Master Admin')) {
+            return $next($request);
         }
 
-        // Master Admin gets everything (Gate::before also bypasses checks for it).
-        $masterAdmin->syncPermissions(Permission::all());
+        abort_unless($user->can("{$module}.{$action}"), 403);
 
-        // Starter defaults only. Change them later from the Apply permission page.
-        // Use givePermissionTo, not syncPermissions, so re-running the seeder
-        // never removes permissions you changed in the UI.
-        $admin->givePermissionTo(
-            Permission::where('guard_name', 'web')
-                ->where(function ($q) {
-                    foreach (['dashboard', 'weddings', 'temples', 'templates'] as $m) {
-                        $q->orWhere('name', 'like', "{$m}.%");
-                    }
-                })
-                ->get()
-        );
-
-        $user->givePermissionTo('dashboard.view');
-
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        return $next($request);
     }
 }

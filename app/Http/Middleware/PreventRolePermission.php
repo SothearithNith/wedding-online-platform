@@ -18,7 +18,7 @@ class PreventRolePermission
         $user = auth()->user();
 
         // Master Admin
-        if ((int) $user->role_id === 1) {
+        if ($user->role_id == 1) {
             return $next($request);
         }
 
