@@ -21,5 +21,5 @@
                     data-i18n-date="long">{{ $w['dateText'] }}</span><span class="hl"></span></div>
         </div>
     </div>
-    <div class="scroll" aria-hidden="true"><span data-i18n="scroll">{{ $K['scroll'] }}</span><i></i></div>
+    <div class="scroll title-font" aria-hidden="true"><span data-i18n="scroll">{{ $K['scroll'] }}</span><i></i></div>
 </header>

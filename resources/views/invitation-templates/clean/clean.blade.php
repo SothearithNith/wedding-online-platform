@@ -56,10 +56,6 @@
 
 <body>
     <div class="prog" id="prog" aria-hidden="true"></div>
-    <div class="lang" id="lang" data-l="km" role="group" aria-label="Language / ភាសា">
-        <button type="button" class="on" data-l="km" lang="km" aria-pressed="true">ខ្មែរ</button>
-        <button type="button" data-l="en" lang="en" aria-pressed="false">EN</button>
-    </div>
     @include('invitation-templates.clean.cover')
     @include('invitation-templates.clean.card')
     <main>
@@ -88,7 +84,8 @@
 
     @if ($musicSrc)
         <audio id="bgm" src="{{ $musicSrc }}" loop preload="auto"></audio>
-        <button class="mu" id="mu" type="button" aria-label="Music" aria-pressed="false">{!! $ic('music', 20) !!}</button>
+        <button class="mu" id="mu" type="button" aria-label="Music"
+            aria-pressed="false">{!! $ic('music', 20) !!}</button>
     @endif
 
     @include('invitation-templates.clean.scripts')
