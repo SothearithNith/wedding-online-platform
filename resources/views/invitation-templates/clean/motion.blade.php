@@ -1,8 +1,9 @@
-{{-- Optional motion: gold dust in hero/dark sections + petals after the cover opens --}}
+{{-- Optional motion: gold dust in hero/dark sections + petals after the cover opens (lighter on phones) --}}
 <script>
 (function () {
     'use strict';
     if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var small = innerWidth < 600;
 
     function dust(box, n) {
         if (!box) return;
@@ -15,12 +16,12 @@
             box.appendChild(b);
         }
     }
-    dust(document.getElementById('hero-fx'), 22);
-    [].slice.call(document.querySelectorAll('.dk-fx')).forEach(function (b) { dust(b, 18); });
+    dust(document.getElementById('hero-fx'), small ? 12 : 22);
+    [].slice.call(document.querySelectorAll('.dk-fx')).forEach(function (b) { dust(b, small ? 9 : 18); });
 
     function petals() {
         var w = document.createElement('div'); w.className = 'pt'; w.setAttribute('aria-hidden', 'true');
-        for (var i = 0; i < (innerWidth < 600 ? 10 : 16); i++) {
+        for (var i = 0; i < (small ? 8 : 14); i++) {
             var p = document.createElement('i');
             if (i % 4 === 0) p.className = 'pk';
             p.style.left = ((i * 37 + 7) % 100) + '%';
@@ -31,8 +32,12 @@
         }
         document.body.appendChild(w);
     }
-    var open = document.getElementById('open');
-    if (!open) { petals(); return; }
-    open.addEventListener('click', function () { setTimeout(petals, 2200); });
+    var open = document.getElementById('open'), cv = document.getElementById('cv');
+    if (!cv) { petals(); return; }
+    var done = false;
+    function once() { if (done) return; done = true; setTimeout(petals, 2200); }
+    if (open) open.addEventListener('click', once);
+    new MutationObserver(function (m, o) { if (cv.classList.contains('open')) { once(); o.disconnect(); } })
+        .observe(cv, { attributes: true, attributeFilter: ['class'] });   /* also fires on swipe-up open */
 })();
 </script>
