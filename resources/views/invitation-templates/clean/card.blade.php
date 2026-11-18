@@ -1,11 +1,24 @@
-{{-- HERO / CARD --}}
+{{-- HERO: temple arch drawn in gold, rays, parallax, floating lotus --}}
 <header class="hero" id="hero">
-    <div class="hero-bg" data-bg="{{ $heroBg }}"></div>
-    <div class="hero-in">
-        <p class="k rv">{{ $K['celebrate'] }}</p>
-        <h1 class="rv" style="--d:150ms">{{ $groom['name'] }}<b>{{ $K['and'] }}</b>{{ $bride['name'] }}</h1>
-        <p class="rv" style="--d:300ms;max-width:320px;margin:0 auto;font-size:14px">{{ $w['intro'] }}</p>
-        <p class="date rv" style="--d:450ms">{{ $w['dateText'] }}</p>
+    <div class="hero-bg" data-bg="{{ $heroBg }}" data-par="0.18"></div>
+    <div class="hero-rays" aria-hidden="true"></div>
+    <div class="hero-fx" id="hero-fx" aria-hidden="true"></div>
+    <div class="hero-frame">
+        <svg class="hero-arch" viewBox="0 0 300 470" preserveAspectRatio="none" aria-hidden="true">
+            <path pathLength="100" d="M8 462V160C8 84 74 52 150 6C226 52 292 84 292 160V462Z"/>
+            <path pathLength="100" d="M20 450V164C20 96 80 66 150 24C220 66 280 96 280 164V450Z"/>
+        </svg>
+        <div class="hero-in">
+            <span class="hi hero-emblem" style="--d:100ms">{!! $bloom('cl-bloom') !!}</span>
+            <p class="hi k" style="--d:300ms">{{ $K['celebrate'] }}</p>
+            <h1>
+                <span class="mask"><span class="hi nm" style="--d:500ms">{{ $groom['name'] }}</span></span>
+                <b class="hi" style="--d:700ms">{{ $K['and'] }}</b>
+                <span class="mask"><span class="hi nm" style="--d:900ms">{{ $bride['name'] }}</span></span>
+            </h1>
+            <p class="hi intro" style="--d:1100ms">{{ $w['intro'] }}</p>
+            <div class="hi date" style="--d:1300ms"><span class="hl"></span>{{ $w['dateText'] }}<span class="hl"></span></div>
+        </div>
     </div>
-    <div class="scroll" aria-hidden="true">{!! $ic('down', 20) !!}</div>
+    <div class="scroll" aria-hidden="true"><span>{{ $K['scroll'] }}</span><i></i></div>
 </header>
