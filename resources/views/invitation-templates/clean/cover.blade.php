@@ -34,5 +34,6 @@
                 <span data-i18n="coverOpen">{{ $K['coverOpen'] }}</span></button>
         </div>
     </div>
-    <div class="cv-hint" aria-hidden="true"><i></i><span data-i18n="swipe">{{ $K['swipe'] ?? 'អូសឡើងលើដើម្បីបើក' }}</span></div>
+    <div class="cv-hint title-font" aria-hidden="true"><i></i><span
+            data-i18n="swipe">{{ $K['swipe'] ?? 'អូសឡើងលើដើម្បីបើក' }}</span></div>
 </div>
