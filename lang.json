@@ -172,5 +172,13 @@
     "Manage the system menus. Each feature is linked to a permission that roles can be given.": "គ្រប់គ្រងម៉ឺនុយប្រព័ន្ធ។ មុខងារនីមួយៗត្រូវបានភ្ជាប់ទៅនឹងសិទ្ធិមួយ ដែលអាចផ្តល់ជូនដល់តួនាទីផ្សេងៗបាន។",
     "Hidden": "លាក់",
     "Groups": "ក្រុម",
-    "Create feature": "បង្កើតមុខងារ"
+    "Create feature": "បង្កើតមុខងារ",
+    "You have unsaved changes.": "អ្នកមានការផ្លាស់ប្តូរដែលមិនទាន់បានរក្សាទុក។",
+    "permissions selected": "ការអនុញ្ញាតដែលបានជ្រើសរើស",
+    "of": "នៃ",
+    "Save permissions": "រក្សាទុកសិទ្ធិ",
+    "Back to roles": "ត្រឡប់ទៅកាន់តួនាទីនានា",
+    "Clear": "ជម្រះ",
+    "Private": "ឯកជន",
+    "Management System": "ប្រព័ន្ធគ្រប់គ្រង"
 }
