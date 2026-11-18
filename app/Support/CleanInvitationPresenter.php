@@ -8,12 +8,13 @@ class CleanInvitationPresenter
 {
     public static function prepare(
         array $data = [],
-        string $templateKey = 'gold',
+        string $templateKey = 'clean',
         string $eventType = 'wedding'
     ): array {
         $dflt = fn(string $key) => TemplateRegistry::defaultUrl(
             TemplateRegistry::CLEAN_DEFAULT_IMAGES[$key] ?? $key
         );
+
         $defaults = [
             'groom' => [
                 'name' => 'កូន កំឡោះ',
@@ -130,6 +131,13 @@ class CleanInvitationPresenter
         $raw = is_array($data) ? $data : [];
         $w = $merge($defaults, $raw);
 
+        // FIX: older saved invitations / template defaults may still hold the
+        // retired ".../default/cover.jpg". Treat it as "not set" so the current
+        // default (clean_cover.jpg) is used instead.
+        if (is_string($w['cover'] ?? null) && preg_match('#(^|/)default/cover\.jpg$#i', $w['cover'])) {
+            $w['cover'] = $defaults['cover'];
+        }
+
         $img = function ($p) {
             if (!is_string($p) || $p === '') {
                 return '';
@@ -193,11 +201,12 @@ class CleanInvitationPresenter
 
         // Hero: card bg -> "all" -> library -> cover -> default file
         $heroBg =
-            $own['card'] ?? '' ?:
-            $own['all'] ?? '' ?:
+            ($own['card'] ?? '') ?: ($own['all'] ?? '') ?:
             $img($library['card'] ?? '') ?:
             $img($library['all'] ?? '') ?:
-            $img($w['cover']) ?: (is_file(public_path("images/{$templateKey}/bg.jpg")) ? asset("images/{$templateKey}/bg.jpg") : $dflt('backgrounds.all'));
+            $img($w['cover']) ?: (is_file(public_path("images/{$templateKey}/bg.jpg"))
+                ? asset("images/{$templateKey}/bg.jpg")
+                : $dflt('backgrounds.all'));
 
         // Parents: split on new lines or commas (not inside brackets)
         $parents = fn($v) => array_values(
