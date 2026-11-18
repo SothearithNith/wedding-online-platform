@@ -9,7 +9,7 @@
         <p style="margin:12px 0 0;font-weight:700">{{ $gift['bank'] ?? '' }}</p>
         <p class="mute" style="margin:0">{{ $gift['accountName'] ?? '' }}</p>
         <p class="no" id="acc">{{ $gift['accountNumber'] }}</p>
-        <button class="btn line" type="button" id="copy">{!! $ic('copy', 16) !!} <span id="copy-t">{{ $K['copy'] }}</span></button>
+        <button class="btn line shine" type="button" id="copy">{!! $ic('copy', 16) !!} <span id="copy-t">{{ $K['copy'] }}</span></button>
     </div>
 </div></section>
 @endif

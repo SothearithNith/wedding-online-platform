@@ -14,6 +14,6 @@
         </select>
         <textarea class="f" name="message" rows="3" maxlength="200" placeholder="{{ $K['wish'] }}"></textarea>
         <p class="err-t" id="rs-fail" hidden style="text-align:center">{{ $K['failed'] }}</p>
-        <button class="btn" type="submit" id="rs-send" style="justify-self:center">{!! $ic('send', 16) !!} {{ $K['send'] }}</button>
+        <button class="btn shine" type="submit" id="rs-send" style="justify-self:center">{!! $ic('send', 16) !!} {{ $K['send'] }}</button>
     </form>
 </div></section>

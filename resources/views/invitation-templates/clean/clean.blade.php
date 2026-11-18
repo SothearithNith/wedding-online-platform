@@ -1,7 +1,7 @@
 @php
-    use App\Support\GoldInvitationPresenter;
+    use App\Support\CleanInvitationPresenter;
     $templateKey = $templateKey ?? 'clean';
-    $viewData = GoldInvitationPresenter::prepare(is_array($data ?? null) ? $data : [], $templateKey, $eventType ?? 'wedding');
+    $viewData = CleanInvitationPresenter::prepare(is_array($data ?? null) ? $data : [], $templateKey, $eventType ?? 'wedding');
     extract($viewData, EXTR_SKIP);
 
     $defaultMusic = is_file(public_path('assets/music/wedding.mp3')) ? asset('assets/music/wedding.mp3') : '';
@@ -12,7 +12,7 @@
     $guestRaw = request()->query('guest');
     $guestName = is_string($guestRaw) && $guestRaw !== '' ? \Illuminate\Support\Str::limit($guestRaw, 60, '') : $K['coverGuest'];
     $kbachSvg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='26' viewBox='0 0 40 34'%3E%3Cpath d='M20 31C8 29 5 17 12 9c0 6 4 8 8 6-1-6 3-11 8-12-1 7 4 11 3 18-1 6-5 9-11 10z' fill='none' stroke='%23d9b44a' stroke-width='1.4'/%3E%3C/svg%3E";
-    $orn = '<div class="cl-orn" aria-hidden="true"><span></span><i></i><span></span></div>';
+    $orn = '<div class="cl-orn rv" data-v="zoom" aria-hidden="true"><span></span>'.$lotus(8, 34, 'cl-spin', 1.3).'<span></span></div>';
 @endphp
 <!DOCTYPE html>
 <html lang="km">
@@ -30,6 +30,7 @@
 </head>
 
 <body>
+<div class="prog" id="prog" aria-hidden="true"></div>
 @include('invitation-templates.clean.cover')
 @include('invitation-templates.clean.card')
 <main>
