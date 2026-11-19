@@ -1,28 +1,20 @@
-{{-- RSVP (enhanced) — keeps all original IDs, names and data-i18n hooks so your existing JS still works --}}
 <section class="cl" id="rsvp">
     <div class="cl-wrap">
-        <h2 class="cl-h rv" data-i18n="rsvp">{{ $K['rsvp'] }}</h2>{!! $orn !!}
+        <h2 class="cl-h rv title-font" data-i18n="rsvp">{{ $K['rsvp'] }}</h2>{!! $orn !!}
         <p class="mute rv" data-i18n="rsvpSub">{{ $K['rsvpSub'] }}</p>
-
-        {{-- Success state --}}
         <div class="ok" id="ok" role="status">
             <span class="ok-burst" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
             <b>✓</b>
             <p data-i18n="sent">{{ $K['sent'] }}</p>
         </div>
-
         <form class="form rsvp-card rv" id="rs" method="POST" action="{{ $rsvpAction }}" data-att="1"
             novalidate>
             @csrf
-
-            {{-- Name --}}
             <div class="rsvp-field">
                 <input class="f" id="rs-name" name="guest_name" data-i18n-ph="yourName"
                     placeholder="{{ $K['yourName'] }}" maxlength="60" autocomplete="name" enterkeyhint="next">
                 <p class="err-t" id="rs-err" role="alert" hidden data-i18n="required">{{ $K['required'] }}</p>
             </div>
-
-            {{-- Attendance: two big choice cards --}}
             <input type="hidden" name="attending" id="rs-att" value="1">
             <div class="seg rsvp-seg" role="group">
                 <button type="button" class="on" data-v="1" aria-pressed="true">
@@ -46,8 +38,6 @@
                     <span data-i18n="decline">{{ $K['decline'] }}</span>
                 </button>
             </div>
-
-            {{-- Guests: native select kept for JS/back-end, stepper added on top --}}
             <div class="rsvp-guests">
                 <select class="f" name="guests_count" id="rs-g" data-i18n-aria="guests"
                     aria-label="{{ $K['guests'] }}">
@@ -63,7 +53,6 @@
                 </div>
             </div>
 
-            {{-- Wish with counter --}}
             <div class="rsvp-field">
                 <textarea class="f" id="rs-msg" name="message" rows="3" maxlength="200" data-i18n-ph="wish"
                     placeholder="{{ $K['wish'] }}"></textarea>
@@ -73,7 +62,7 @@
             <p class="err-t" id="rs-fail" role="alert" hidden style="text-align:center" data-i18n="failed">
                 {{ $K['failed'] }}</p>
 
-            <button class="btn shine" type="submit" id="rs-send" style="justify-self:center">
+            <button class="btn shine title-font" type="submit" id="rs-send" style="justify-self:center">
                 {!! $ic('send', 16) !!} <span data-i18n="send">{{ $K['send'] }}</span>
             </button>
         </form>
@@ -81,7 +70,6 @@
 </section>
 
 <style>
-    /* ---------- RSVP enhancements (scoped; uses your theme vars with fallbacks) ---------- */
     #rsvp .rsvp-card {
         position: relative;
         max-width: 460px;
@@ -356,7 +344,6 @@
 </style>
 
 <script>
-    /* Purely additive — does not replace your existing RSVP script */
     (function() {
         var f = document.getElementById('rs');
         if (!f) return;
