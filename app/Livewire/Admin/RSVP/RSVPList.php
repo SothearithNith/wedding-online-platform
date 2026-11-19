@@ -50,9 +50,9 @@ class RSVPList extends Component
             ->pluck('total', 'status');
 
         $counts = [
-            'all'       => (int) $perStatus->sum(),
+            'all' => (int) $perStatus->sum(),
             'published' => (int) ($perStatus['published'] ?? 0),
-            'draft'     => (int) ($perStatus['draft'] ?? 0),
+            'draft' => (int) ($perStatus['draft'] ?? 0),
         ];
 
         $weddings = Invitation::with(['template', 'people'])
@@ -61,7 +61,6 @@ class RSVPList extends Component
             ->latest('updated_at')
             ->paginate(9);
 
-        // Which invitation's RSVPs are we showing?
         $selected = null;
 
         if ($this->isAdmin) {
