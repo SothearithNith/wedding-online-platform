@@ -7,7 +7,7 @@
         $eventType ?? 'wedding',
     );
     extract($viewData, EXTR_SKIP);
-
+    // dd($viewData);
     $defaultMusic = is_file(public_path('assets/music/wedding.mp3')) ? asset('assets/music/wedding.mp3') : '';
     $musicSrc = is_string($music ?? null) && $music !== '' ? $music : $defaultMusic;
 

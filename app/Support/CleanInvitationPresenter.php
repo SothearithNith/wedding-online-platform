@@ -28,6 +28,7 @@ class CleanInvitationPresenter
             ],
             'date' => '2026-12-20T08:00:00+07:00',
             'dateText' => 'ថ្ងៃអាទិត្យ ទី២០ ខែធ្នូ ឆ្នាំ២០២៦',
+            'location' => 'វេលាម៉ោង ៥:០០ ព្រឹក នៅគេហដ្ឋានខាងស្រី ភូមិ..., ឃុំ..., ស្រុក..., ខេត្ត...',
             'intro' => 'សូមគោរពអញ្ជើញ ចូលរួមជាភ្ញៀវកិត្តិយស ក្នុងពិធីអាពាហ៍ពិពាហ៍របស់យើងខ្ញុំ',
             'quote' => 'ស្នេហាពិតមិនមានទីបញ្ចប់ឡើយ',
             'cover' => $dflt('cover'),
@@ -131,9 +132,6 @@ class CleanInvitationPresenter
         $raw = is_array($data) ? $data : [];
         $w = $merge($defaults, $raw);
 
-        // FIX: older saved invitations / template defaults may still hold the
-        // retired ".../default/cover.jpg". Treat it as "not set" so the current
-        // default (clean_cover.jpg) is used instead.
         if (is_string($w['cover'] ?? null) && preg_match('#(^|/)default/cover\.jpg$#i', $w['cover'])) {
             $w['cover'] = $defaults['cover'];
         }
@@ -257,7 +255,7 @@ class CleanInvitationPresenter
             'prev' => 'មុន',
             'next' => 'បន្ទាប់',
             'wedding' => 'មង្គលការ',
-            'celebrate' => 'ពិធីអបអរសាទរនៃក្តីស្រឡាញ់',
+            'celebrate' => 'សិរីសួស្តីអាពាហ៍ពិពាហ៍',
             'scroll' => 'អូសចុះក្រោម',
             'coverTitle' => 'សិរីមង្គលអាពាហ៍ពិពាហ៍',
             'coverInvite' => 'សូមគោរពអញ្ជើញ',

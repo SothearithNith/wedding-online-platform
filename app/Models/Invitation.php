@@ -47,10 +47,11 @@ class Invitation extends Model
         'cover' => 'cover',
         'music' => 'music',
         'date_text' => 'dateText',
+        'location'  => 'location',
     ];
 
     private const ARRAY_COLUMNS = ['dress_code' => 'dressCode', 'gift' => 'gift', 'backgrounds' => 'backgrounds'];
-    private const PERSON_FIELDS = ['name', 'dad','mom', 'photo'];
+    private const PERSON_FIELDS = ['name', 'dad', 'mom', 'photo'];
     private const LIST_ALIASES = [
         'events'  => ['events', 'schedule'],
         'stories' => ['story', 'stories', 'timeline'],
@@ -61,6 +62,7 @@ class Invitation extends Model
         'template_id',
         'label',
         'slug',
+        'location',
         'event_date',
         'date_text',
         'intro',
@@ -80,7 +82,7 @@ class Invitation extends Model
     protected $casts = [
         'event_date' => 'datetime',
         'published_at' => 'datetime',
-        'dress_code'=> 'array',
+        'dress_code' => 'array',
         'gift' => 'array',
         'backgrounds'  => 'array',
         'extra' => 'array',
@@ -375,10 +377,10 @@ class Invitation extends Model
                 $e = (array) $e;
                 $this->events()->create([
                     'time' => (string) ($e['time'] ?? ''),
-                    'title'=> (string) ($e['title'] ?? ''),
+                    'title' => (string) ($e['title'] ?? ''),
                     'place' => (string) ($e['place'] ?? ''),
                     'map_url' => (string) ($e['mapUrl'] ?? $e['map_url'] ?? ''),
-                    'sort'=> $i,
+                    'sort' => $i,
                 ]);
             }
 
