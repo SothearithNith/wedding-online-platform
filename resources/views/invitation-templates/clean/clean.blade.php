@@ -7,9 +7,61 @@
         $eventType ?? 'wedding',
     );
     extract($viewData, EXTR_SKIP);
-    // dd($viewData);
+    // (removed) dd($viewData);  <-- this stopped the page from rendering at all
+
+    /*
+     * Same idea as the gold template: accept an uploaded file path OR a link, as a string or as an
+     * array (path / origin_url / url / src / file), and always return a URL the browser can load.
+     * - http(s)://, //, data:  -> used as is (links)
+     * - assets/...             -> asset('assets/...')
+     * - anything else          -> asset('storage/...') (uploaded files)
+     * Safe to run on values the presenter already resolved: absolute URLs pass through untouched.
+     */
+    $resolveUrl = function ($v) use (&$resolveUrl) {
+        if (is_array($v)) {
+            foreach (['path', 'origin_url', 'url', 'src', 'file'] as $k) {
+                $r = $resolveUrl($v[$k] ?? null);
+                if ($r !== '') {
+                    return $r;
+                }
+            }
+            return '';
+        }
+        if (!is_string($v)) {
+            return '';
+        }
+        $v = trim(str_replace('\\', '/', $v));
+        if ($v === '') {
+            return '';
+        }
+        if (preg_match('#^(https?://|//|data:)#i', $v)) {
+            return $v;
+        }
+        if (preg_match('#^/?assets/#', $v)) {
+            return asset(ltrim($v, '/'));
+        }
+        $rel = ltrim(preg_replace('#^/?(public/|storage/)#', '', $v), '/');
+        return asset('storage/' . $rel);
+    };
+
+    // gallery: resolve every photo, drop empty/broken entries, re-index 0..n (the gallery uses the index)
+    $gallery = collect($gallery ?? [])
+        ->map($resolveUrl)
+        ->filter()
+        ->values()
+        ->all();
+
     $defaultMusic = is_file(public_path('assets/music/wedding.mp3')) ? asset('assets/music/wedding.mp3') : '';
-    $musicSrc = is_string($music ?? null) && $music !== '' ? $music : $defaultMusic;
+    $musicSrc = '';
+    foreach ([$music ?? null, $data['music'] ?? null, $data['music_path'] ?? null, $data['music_origin_url'] ?? null, $data['music_url'] ?? null] as $candidate) {
+        $musicSrc = $resolveUrl($candidate);
+        if ($musicSrc !== '') {
+            break;
+        }
+    }
+    if ($musicSrc === '') {
+        $musicSrc = $defaultMusic;
+    }
 
     $rsvpId = $invitationId ?? ($invitation->id ?? null);
     $rsvpAction = $rsvpUrl ?? ($rsvpId ? route('invitations.rsvp', $rsvpId) : '');
