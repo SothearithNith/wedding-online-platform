@@ -1,4 +1,3 @@
-{{-- HERO: temple arch drawn in gold, rays, parallax, floating lotus --}}
 <header class="hero" id="hero">
     <div class="hero-bg" data-bg="{{ $heroBg }}" data-par="0.18"></div>
     <div class="hero-rays" aria-hidden="true"></div>
@@ -10,7 +9,7 @@
         </svg>
         <div class="hero-in">
             <span class="hi hero-emblem" style="--d:100ms">{!! $bloom('cl-bloom') !!}</span>
-            <p class="hi k" style="--d:300ms" data-i18n="celebrate">{{ $K['celebrate'] }}</p>
+            <p class="hi k title-font" style="--d:300ms" data-i18n="celebrate">{{ $K['celebrate'] }}</p>
             <h1>
                 <span class="mask"><span class="hi nm title-font" style="--d:500ms">{{ $groom['name'] }}</span></span>
                 <b class="hi" style="--d:700ms" data-i18n="and">{{ $K['and'] }}</b>
@@ -19,6 +18,8 @@
             <p class="hi intro" style="--d:1100ms" data-en="{{ $w['intro_en'] ?? '' }}">{{ $w['intro'] }}</p>
             <div class="hi date title-font" style="--d:1300ms"><span class="hl"></span><span
                     data-i18n-date="long">{{ $w['dateText'] }}</span><span class="hl"></span></div>
+            <p class="hi location" style="--d:1500ms">{{ $w['location'] }}</p>
+            </p>
         </div>
     </div>
     <div class="scroll title-font" aria-hidden="true"><span data-i18n="scroll">{{ $K['scroll'] }}</span><i></i></div>

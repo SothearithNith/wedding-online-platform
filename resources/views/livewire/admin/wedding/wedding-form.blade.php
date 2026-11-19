@@ -367,7 +367,7 @@
                                             class="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-amber-500 text-white shadow-lg ring-2 ring-white">
                                             <x-heroicon-s-check class="h-5 w-5" />
                                         </span>
-                                    @endif 
+                                    @endif
                                     <div
                                         class="absolute inset-x-3 bottom-3 rounded-2xl border border-white/30 bg-white/10 p-3.5 text-white shadow-xl shadow-black/20 backdrop-blur-lg">
                                         <div class="flex items-center justify-between gap-2">
@@ -610,6 +610,25 @@
                             <input type="text" wire:model.blur="data.dateText" class="{{ $inputCls }}">
                         </div>
                     </div>
+                    <section class="{{ $card }}">
+                        <div class="flex items-start gap-3">
+                            <span class="{{ $ico }}">
+                                <x-heroicon-o-map-pin class="h-5 w-5" />
+                            </span>
+                            <div>
+                                <h2 class="{{ $h2 }}">{{ trans_json('Wedding Location') }}</h2>
+                                <p class="{{ $hint }}">
+                                    {{ trans_json('Enter the main location of your wedding ceremony.') }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="{{ $lbl }}">{{ trans_json('Wedding address') }}</label>
+                            <textarea wire:model.blur="data.location" rows="3" class="{{ $inputCls }}"
+                                placeholder="វេលាម៉ោង ៥:០០ ព្រឹក នៅគេហដ្ឋានខាងស្រី ភូមិ..., ឃុំ..., ស្រុក..., ខេត្ត..."></textarea>
+                        </div>
+                    </section>
                 </section>
 
                 <section class="{{ $card }}">

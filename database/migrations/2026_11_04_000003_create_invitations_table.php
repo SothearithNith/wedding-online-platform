@@ -24,6 +24,7 @@ return new class extends Migration {
             $t->json('dress_code')->nullable();
             $t->json('gift')->nullable();
             $t->json('backgrounds')->nullable();
+            $t->text('location')->nullable();
             $t->json('extra')->nullable();                // template-specific fields
             $t->string('status', 20)->default('draft');   // draft | published
             $t->timestamp('published_at')->nullable();

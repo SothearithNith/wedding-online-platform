@@ -44,6 +44,7 @@ class WeddingForm extends Component
         'date' => '',
         'dateText'  => '',
         'cover' => '',
+        'location'  => '',
         'gallery' => [],
         'backgrounds' => [],
         'intro' => '',
@@ -136,6 +137,7 @@ class WeddingForm extends Component
             ],
             'is_published' => ['boolean'],
             'data' => ['array'],
+            'data.location' => ['nullable', 'string', 'max:300'],
         ];
     }
 
