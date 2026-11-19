@@ -2259,3 +2259,461 @@ section.cl#couple {
         opacity: 1;
     }
 }
+/* =====================================================================
+   HERO UPGRADE — append AFTER your existing stylesheet.
+   Uses your tokens (--gold-l, --foil, --ease, --night…), your .hero.go
+   trigger and your .hi / --d sequence. Nothing else needs to change.
+   ===================================================================== */
+
+/* ---- 1. Arch: a lit doorway instead of a flat outline ---------------- */
+.hero-frame::before {
+    /* warm light spilling from the arch top */
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -4%;
+    width: 150%;
+    height: 70%;
+    translate: -50% 0;
+    background: radial-gradient(
+        ellipse 50% 60% at 50% 0,
+        rgba(255, 224, 150, 0.38),
+        rgba(227, 189, 90, 0.12) 45%,
+        transparent 70%
+    );
+    filter: blur(6px);
+    opacity: 0;
+    pointer-events: none;
+}
+.hero.go .hero-frame::before {
+    animation:
+        door-light 2.4s var(--ease) 0.5s forwards,
+        door-breathe 6s ease-in-out 3s infinite;
+}
+@keyframes door-light {
+    to {
+        opacity: 1;
+    }
+}
+@keyframes door-breathe {
+    50% {
+        opacity: 0.65;
+        scale: 1.06;
+    }
+}
+
+.hero-arch {
+    fill: rgba(20, 13, 6, 0.3);
+    filter: drop-shadow(0 0 14px rgba(227, 189, 90, 0.45))
+        drop-shadow(0 0 40px rgba(227, 189, 90, 0.18));
+}
+.hero-arch path:first-child {
+    stroke-width: 2;
+}
+.hero-arch path + path {
+    stroke-width: 1;
+    stroke-opacity: 0.65;
+}
+
+/* glass inside the arch (behind the text) */
+.hero-frame::after {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    z-index: -1;
+    border-radius: 999px 999px 8px 8px;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 240, 183, 0.1),
+        rgba(20, 13, 6, 0.45)
+    );
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    animation: door-light 1.6s ease 1s forwards;
+}
+
+/* ---- 2. Names rise out of their masks (one clear moment) ------------- */
+.hero h1 .mask {
+    padding: 0.12em 0 0.26em;
+} /* room for Khmer vowels above/below */
+.hero h1 .nm.hi {
+    opacity: 1;
+    transform: translateY(115%);
+}
+.hero.go h1 .nm.hi {
+    animation:
+        name-rise 1.4s var(--ease) both,
+        foil 7s linear infinite;
+    animation-delay: var(--d), 0s;
+}
+@keyframes name-rise {
+    to {
+        transform: none;
+    }
+}
+
+/* “and” gets gold hairlines that grow outward */
+.hero h1 b {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7em;
+    margin: 2px 0;
+}
+.hero h1 b::before,
+.hero h1 b::after {
+    content: "";
+    width: 38px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-l));
+    transform: scaleX(0);
+    transform-origin: right;
+}
+.hero h1 b::after {
+    transform-origin: left;
+    background: linear-gradient(270deg, transparent, var(--gold-l));
+}
+.hero.go h1 b::before,
+.hero.go h1 b::after {
+    animation: grow-x 1.2s var(--ease) 1.5s forwards;
+}
+@keyframes grow-x {
+    to {
+        transform: scaleX(1);
+    }
+}
+
+/* ---- 3. Emblem: soft pulse once it has bloomed ----------------------- */
+.hero-emblem .cl-bloom {
+    filter: drop-shadow(0 0 10px rgba(227, 189, 90, 0.6));
+}
+.hero.go .hero-emblem .cl-bloom {
+    animation: emblem-pulse 4.5s ease-in-out 2.6s infinite;
+}
+@keyframes emblem-pulse {
+    50% {
+        filter: drop-shadow(0 0 18px rgba(255, 232, 160, 0.95));
+    }
+}
+
+/* ---- 4. Intro, date, location --------------------------------------- */
+.hero .intro {
+    line-height: 1.9;
+    text-wrap: balance;
+}
+
+.hero .date {
+    margin-top: 18px;
+    font-size: 15px;
+    letter-spacing: 0.04em;
+}
+.hero .hl {
+    width: 34px;
+    background: linear-gradient(90deg, transparent, var(--gold-l));
+    transform: scaleX(0);
+    transform-origin: right;
+}
+.hero .hl:last-child {
+    background: linear-gradient(270deg, transparent, var(--gold-l));
+    transform-origin: left;
+}
+.hero.go .hl {
+    animation: grow-x 1.2s var(--ease) 2s forwards;
+}
+
+.hero .location {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 100%;
+    margin: 12px auto 0;
+    padding: 7px 16px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #f8e8bd;
+    border: 1px solid rgba(227, 189, 90, 0.5);
+    border-radius: 999px;
+    background: rgba(20, 13, 6, 0.35);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+}
+.hero .location svg {
+    flex: none;
+    color: var(--gold-l);
+}
+
+/* ---- 5. Light: fewer, softer rays + a gentle floor glow -------------- */
+.hero-rays {
+    background: repeating-conic-gradient(
+        rgba(255, 226, 140, 0.06) 0 4deg,
+        transparent 4deg 13deg
+    );
+    animation-duration: 180s;
+}
+.hero .scroll {
+    opacity: 0;
+    animation: up 1s var(--ease) 2.6s forwards;
+}
+
+/* ---- 6. Short phones ------------------------------------------------- */
+@media (max-height: 700px) {
+    .hero .intro {
+        display: none;
+    }
+    .hero-frame {
+        margin: 48px 0 72px;
+    }
+}
+
+/* ---- 7. Reduced motion: show everything in its final state ----------- */
+@media (prefers-reduced-motion: reduce) {
+    .hero h1 .nm.hi {
+        transform: none;
+    }
+    .hero h1 b::before,
+    .hero h1 b::after,
+    .hero .hl {
+        transform: scaleX(1);
+    }
+    .hero-frame::before,
+    .hero-frame::after,
+    .hero .scroll {
+        opacity: 1;
+    }
+}
+
+/* =====================================================================
+   COVER — same lit-doorway language as the hero
+   ===================================================================== */
+.cv-in::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -4%;
+    width: 150%;
+    height: 70%;
+    translate: -50% 0;
+    background: radial-gradient(
+        ellipse 50% 60% at 50% 0,
+        rgba(255, 224, 150, 0.34),
+        rgba(227, 189, 90, 0.1) 45%,
+        transparent 70%
+    );
+    filter: blur(6px);
+    pointer-events: none;
+    opacity: 0;
+    animation:
+        door-light 2.2s var(--ease) 0.5s forwards,
+        door-breathe 6s ease-in-out 3s infinite;
+}
+.cv-arch {
+    fill: rgba(20, 13, 6, 0.3);
+    filter: drop-shadow(0 0 14px rgba(227, 189, 90, 0.45))
+        drop-shadow(0 0 40px rgba(227, 189, 90, 0.18));
+}
+/* the seam where the curtain splits glows a little brighter */
+.cv-seam {
+    box-shadow:
+        0 0 26px var(--gold-l),
+        0 0 60px rgba(227, 189, 90, 0.35);
+}
+.guest {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 240, 183, 0.14),
+        rgba(255, 255, 255, 0.04)
+    );
+    letter-spacing: 0.02em;
+}
+.cv-hint i {
+    filter: drop-shadow(0 0 6px rgba(227, 189, 90, 0.8));
+}
+
+/* =====================================================================
+   COUPLE — arch portraits get a second offset outline
+   ===================================================================== */
+.ph::after {
+    content: "";
+    position: absolute;
+    inset: -9px;
+    border: 1px solid rgba(184, 137, 43, 0.5);
+    border-radius: 999px 999px 24px 24px;
+    pointer-events: none;
+}
+
+.person .role {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+.person .role::before,
+.person .role::after {
+    content: "";
+    width: 14px;
+    height: 1px;
+    background: var(--gold-l);
+}
+
+/* =====================================================================
+   COUNTDOWN — a soft gold lip on each tile
+   ===================================================================== */
+.cd div {
+    box-shadow:
+        inset 0 1px 0 rgba(255, 240, 183, 0.35),
+        0 10px 24px rgba(0, 0, 0, 0.25);
+}
+.cd span {
+    letter-spacing: 0.04em;
+}
+
+/* =====================================================================
+   TIMELINE / FORM / GALLERY — small refinements
+   ===================================================================== */
+.tl .box {
+    border-left: 2px solid var(--gold-l);
+}
+.f:focus {
+    background: #fff;
+}
+.gal button::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgba(227, 189, 90, 0.55);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+@media (hover: hover) {
+    .gal button:hover::after {
+        opacity: 1;
+    }
+}
+.gal button:active::after {
+    opacity: 1;
+}
+
+/* reduced motion for the extras */
+@media (prefers-reduced-motion: reduce) {
+    .cv-in::before {
+        opacity: 1;
+    }
+}
+
+/* =====================================================================
+   THANK YOU — a quiet closing: bloom inside turning gold rings
+   ===================================================================== */
+.th::after {
+    /* warm glow rising from the bottom */
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -120px;
+    width: 460px;
+    height: 260px;
+    translate: -50% 0;
+    background: radial-gradient(
+        ellipse at 50% 100%,
+        rgba(227, 189, 90, 0.28),
+        transparent 70%
+    );
+    pointer-events: none;
+}
+
+.th-seal {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 8px;
+    display: grid;
+    place-items: center;
+}
+.th-seal::before,
+.th-seal::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
+.th-seal::before {
+    /* outer dashed ring, same motif as the couple section */
+    inset: 0;
+    border: 1px dashed rgba(227, 189, 90, 0.55);
+    animation: spin 50s linear infinite;
+}
+.th-seal::after {
+    /* inner thin ring, turns the other way */
+    inset: 24px;
+    border: 1px solid rgba(227, 189, 90, 0.35);
+    animation: spin 70s linear infinite reverse;
+}
+.th-glow {
+    position: absolute;
+    inset: 12%;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(255, 224, 150, 0.38),
+        transparent 68%
+    );
+    filter: blur(10px);
+    animation: breathe 5s ease-in-out infinite;
+}
+.th-seal .cl-bloom.big {
+    position: relative;
+    z-index: 1;
+    width: 104px;
+}
+
+.th .txt {
+    max-width: 360px;
+}
+
+/* names stacked, with hairlines around “and” */
+.th .names {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 28px;
+    font-size: clamp(22px, 7vw, 28px);
+    line-height: 1.7;
+}
+.th .names > span {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.6em;
+    line-height: 1.6;
+}
+.th .names > span::before,
+.th .names > span::after {
+    content: "";
+    width: 34px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-l));
+}
+.th .names > span::after {
+    transform: scaleX(-1);
+}
+
+.th-date {
+    margin: 18px 0 0;
+    color: var(--gold-h);
+    font-size: 14px;
+    letter-spacing: 0.04em;
+}
+.th .btn {
+    margin-top: 30px;
+}
+
+@media (max-width: 359px) {
+    .th-seal {
+        width: 170px;
+        height: 170px;
+    }
+    .th-seal .cl-bloom.big {
+        width: 88px;
+    }
+}
