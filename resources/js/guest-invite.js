@@ -1,7 +1,5 @@
 // resources/js/guest-invite.js
 window.guestInvite = async function ({ url, groom, bride, labels }) {
-    const KEY = "recent_guests";
-
     // Heroicons (outline) paths
     const ICONS = {
         envelope:
@@ -14,24 +12,6 @@ window.guestInvite = async function ({ url, groom, bride, labels }) {
     const icon = (name, cls = "h-6 w-6") =>
         `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="${cls}"><path stroke-linecap="round" stroke-linejoin="round" d="${ICONS[name]}"/></svg>`;
 
-    const load = () => {
-        try {
-            return JSON.parse(localStorage.getItem(KEY) || "[]");
-        } catch {
-            return [];
-        }
-    };
-    const save = (n) => {
-        if (!n) return;
-        try {
-            localStorage.setItem(
-                KEY,
-                JSON.stringify(
-                    [n, ...load().filter((x) => x !== n)].slice(0, 6),
-                ),
-            );
-        } catch {}
-    };
     const esc = (s) =>
         String(s).replace(
             /[&<>"']/g,
@@ -44,20 +24,18 @@ window.guestInvite = async function ({ url, groom, bride, labels }) {
                     "'": "&#39;",
                 })[c],
         );
+
+    // Keep Khmer readable; only escape characters that would break the query string
+    const slug = (s) =>
+        s
+            .trim()
+            .replace(/[%&#+=?]/g, (c) => encodeURIComponent(c))
+            .replace(/\s+/g, "+");
+
     const build = (name) =>
         name
-            ? url +
-              (url.includes("?") ? "&" : "?") +
-              "guest=" +
-              encodeURIComponent(name)
+            ? url + (url.includes("?") ? "&" : "?") + "guest=" + slug(name)
             : url;
-
-    const chips = load()
-        .map(
-            (n) =>
-                `<button type="button" data-chip="${esc(n)}" class="rounded-full border border-violet-200 bg-violet-50 px-3 py-1 text-xs font-medium text-violet-700 transition hover:bg-violet-100">${esc(n)}</button>`,
-        )
-        .join("");
 
     await Swal.fire({
         width: 440,
@@ -86,8 +64,6 @@ window.guestInvite = async function ({ url, groom, bride, labels }) {
                         class="w-full rounded-xl border border-gray-300 px-4 py-3 text-base text-gray-900 shadow-sm focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/30">
                 </div>
 
-                ${chips ? `<div><p class="mb-1.5 text-xs text-gray-400">${esc(labels.recent)}</p><div class="flex flex-wrap gap-1.5">${chips}</div></div>` : ""}
-
                 <div class="rounded-xl border border-dashed border-gray-300 bg-gray-50 p-3">
                     <p class="mb-1 text-[11px] font-semibold uppercase tracking-wide text-gray-400">${esc(labels.preview)}</p>
                     <p id="gi-preview" class="break-all text-xs text-gray-700"></p>
@@ -110,25 +86,14 @@ window.guestInvite = async function ({ url, groom, bride, labels }) {
             const input = popup.querySelector("#gi-name");
             const preview = popup.querySelector("#gi-preview");
             const update = () => {
-                preview.textContent = decodeURIComponent(
-                    build(input.value.trim()),
-                );
+                preview.textContent = build(input.value.trim());
             };
             update();
             input.focus();
             input.addEventListener("input", update);
 
-            popup.querySelectorAll("[data-chip]").forEach((b) =>
-                b.addEventListener("click", () => {
-                    input.value = b.dataset.chip;
-                    update();
-                    input.focus();
-                }),
-            );
-
             const done = (fn) => {
                 const name = input.value.trim();
-                save(name);
                 fn(build(name), name);
                 Swal.close();
             };
