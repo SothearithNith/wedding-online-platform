@@ -6,7 +6,6 @@
         $templateKey,
         $eventType ?? 'wedding',
     );
-
     extract($viewData, EXTR_SKIP);
     $defaultMusic = is_file(public_path('assets/music/wedding.mp3')) ? asset('assets/music/wedding.mp3') : '';
     $pickMusic = function ($v) use (&$pickMusic) {

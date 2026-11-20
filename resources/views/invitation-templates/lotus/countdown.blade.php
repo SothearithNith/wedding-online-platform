@@ -1,5 +1,5 @@
 <section class="g-sec g-photo" id="countdown" style="padding:112px 20px;text-align:center">
-    <div class="g-bgimg" data-bg="{{ $bg('countdown') }}"></div>
+    <div class="g-bgimg" data-bg="{{ $bg('count') }}"></div>
     <div class="g-ov" style="{{ $overlay(0.08) }}"></div>
     <div class="g-arch-glass">
         <div class="gloss"></div>
@@ -30,7 +30,7 @@
         </div>
 
         <div class="ac-wrap">
-            <button type="button" class="ac-btn" id="ac-btn">
+            <button type="button" class="ac-btn title-font" id="ac-btn">
                 <span id="ac-ic">{!! $ic('calplus', 16) !!}</span>
                 {{ $K['addCal'] }}
                 <span id="ac-lotus">{!! $lotus(8, 18, 'g-spin', 0) !!}</span>

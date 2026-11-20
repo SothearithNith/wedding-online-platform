@@ -34,7 +34,7 @@ class WeddingForm extends Component
         'music' => 'Music (mp3 / m4a)',
     ];
 
-    private const DEFAULT_SECTIONS = ['card', 'all', 'intro', 'story', 'schedule', 'gallery', 'rsvp', 'thanks'];
+    private const DEFAULT_SECTIONS = ['card', 'all', 'intro',  'count', 'story', 'schedule', 'gallery', 'rsvp', 'thanks'];
     private const MUSIC_EXTENSIONS = ['mp3', 'm4a'];
     private const MAX_UPLOAD_KB = 20480;
 
@@ -362,10 +362,16 @@ class WeddingForm extends Component
         $fromData = array_keys((array) ($this->data['backgrounds'] ?? []));
         $fromLib  = array_keys($this->library);
 
+        // return collect([...self::DEFAULT_SECTIONS, ...$fromLib, ...$fromData])
+        //     ->map(fn($s) => trim((string) $s))
+        //     ->filter()
+        //     ->reject(fn($s) => $s === 'count')   // keep "countdown" only
+        //     ->unique()
+        //     ->values()
+        //     ->all();
         return collect([...self::DEFAULT_SECTIONS, ...$fromLib, ...$fromData])
             ->map(fn($s) => trim((string) $s))
             ->filter()
-            ->reject(fn($s) => $s === 'count')   // keep "countdown" only
             ->unique()
             ->values()
             ->all();
