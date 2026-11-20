@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\DebugSessionCookie;
+use App\Http\Middleware\PreventRolePermission;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -16,10 +17,15 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         // Behind the platform's TLS-terminating proxy
         $middleware->trustProxies(at: '*');
-        $middleware->append(DebugSessionCookie::class);
 
+        // Must be in the web group so it runs AFTER StartSession
         $middleware->web(append: [
             SetLocale::class,
+            DebugSessionCookie::class,
+        ]);
+
+        $middleware->alias([
+            'prevent.permission' => PreventRolePermission::class,
         ]);
 
         $middleware->redirectUsersTo('/admin');
@@ -46,10 +52,5 @@ return Application::configure(basePath: dirname(__DIR__))
                 'referer' => request()->header('Referer'),
             ]);
         });
-    })
-    ->withMiddleware(function ($middleware): void {
-        $middleware->alias([
-        'prevent.permission' => \App\Http\Middleware\PreventRolePermission::class,
-        ]);
     })
     ->create();
