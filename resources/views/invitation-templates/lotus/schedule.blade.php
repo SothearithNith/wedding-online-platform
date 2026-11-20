@@ -6,19 +6,17 @@
         <div class="g-ov"
             style="background:linear-gradient(180deg,#1b0a2c 0%,transparent 12%,transparent 88%,#1b0a2c 100%);pointer-events:none">
         </div>
-
         <div class="g-in" style="z-index:1">
             <div class="g-arch-glass"
                 style="padding:56px 24px 48px;{{ $schedBg ? '' : 'background:rgba(27,10,44,.92)' }}">
                 <div class="gloss"></div>
-
                 <div class="ts" style="position:relative">
                     {!! $title($K['schedule']) !!}
 
                     <div class="rv" data-v="rise">
                         <div class="sc-date">
                             <span class="badge ts-none">{!! $ic('cal', 20) !!}</span>
-                            <p class="font-khmer js-date" data-iso="{{ $w['date'] }}"
+                            <p class="font-khmer js-date title-font" data-iso="{{ $w['date'] }}"
                                 style="font-size:14px;line-height:1.7;color:#f6e3a0">{{ $w['dateText'] }}</p>
                             <div class="dl" aria-hidden="true"><span class="l1"></span><span
                                     class="dia"></span><span class="l2"></span></div>
@@ -42,14 +40,14 @@
                                                 <span class="l1" style="width:32px"></span><span class="dia"
                                                     style="width:4px;height:4px"></span>
                                             </div>
-                                            <h3 class="font-khmer">{{ $e['title'] ?? '' }}</h3>
+                                            <h3 class="title-font">{{ $e['title'] ?? '' }}</h3>
                                             @if (!empty($e['place']))
-                                                <p class="ev-place font-khmer">
+                                                <p class="ev-place title-font">
                                                     {!! $ic('pin', 14) !!}<span>{{ $e['place'] }}</span></p>
                                             @endif
                                             @if ($link)
-                                                <a class="btn-foil ev-map" href="{{ $link }}" target="_blank"
-                                                    rel="noopener noreferrer">{!! $ic('pin', 14) !!}
+                                                <a class="btn-foil ev-map title-font" href="{{ $link }}"
+                                                    target="_blank" rel="noopener noreferrer">{!! $ic('pin', 14) !!}
                                                     {{ $K['map'] }}</a>
                                             @endif
                                         </div>
