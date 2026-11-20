@@ -1,11 +1,10 @@
 /* =====================================================================
-   LOTUS TEMPLATE  (purple lotus + rose-gold foil)
-   Same class names / structure as the Gold template, recolored.
-   Palette:
-     deep plum   #170d24 / #1f0a33 / #36124f / #5b2a80
-     orchid      #d9a0e0 / #c78ad0 / #b565c4
-     lotus pink  #f3d4f7 / #fde4f5 / #ffeefb
-     accent hot  #ff8fa3 (hearts)
+   LOTUS TEMPLATE  ·  KHMER ROYAL EDITION
+   Palette : aubergine #1b0a2c / #2b1046 · antique gold #e3bd5a / #f6e3a0 / #a87c2e
+             lotus rose #e8708f (accent) · sandstone cream #fbf6ea
+   Structure: 1) BASE + MOTION (layout, reveals, cover, sections)
+              2) KHMER ROYAL LAYER (palette, shapes, ornaments, calm motion)
+   Class names are unchanged, so the Blade files and JS keep working.
    ===================================================================== */
 
 /* =====================================================================
@@ -25,7 +24,7 @@ html {
 }
 
 body {
-    background: #ece3f1;
+    background: #fef1c6;
     font-family: "Battambang", "Noto Serif Khmer", serif;
     color: #2b2a2e;
     line-height: 1.8;
@@ -45,7 +44,7 @@ button {
 
 .gw,
 .gc {
-    --bg: #fbf7fc;
+    --bg: #fef8eb;
     --surface: #fff;
     --fg: #2b2a2e;
     --primary: #7b3fa0;
@@ -53,14 +52,14 @@ button {
     --foil: linear-gradient(
         125deg,
         #6a2f8a 0%,
-        #dd9ad6 22%,
-        #ffeefb 42%,
-        #b565c4 65%,
+        #e5c162 22%,
+        #fdf7e8 42%,
+        #a97d2f 65%,
         #6a2f8a 100%
     );
-    --gold-light: #f3d4f7;
+    --gold-light: #fceebc;
     --gold-dark: #6a2f8a;
-    --hero-accent: #d9a0e0;
+    --hero-accent: #e8c76c;
     --chakra: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' width='48' height='48'%3E%3Cpath d='M24 0L48 24L24 48L0 24Z' fill='none' stroke='black' stroke-width='1.4'/%3E%3Cpath d='M24 9L39 24L24 39L9 24Z' fill='none' stroke='black' stroke-width='1.4'/%3E%3Cpath d='M24 18L30 24L24 30L18 24Z'/%3E%3C/svg%3E");
     --band: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 14' width='28' height='14'%3E%3Cpath d='M14 1L26 7L14 13L2 7Z' fill='none' stroke='black' stroke-width='1.2'/%3E%3Cpath d='M14 4.5L19 7L14 9.5L9 7Z'/%3E%3C/svg%3E");
 }
@@ -69,7 +68,7 @@ button {
     max-width: 448px;
     margin: 0 auto;
     overflow: hidden;
-    background: #faf3fb;
+    background: #fdf7e9;
     color: #262626;
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.18);
 }
@@ -101,19 +100,19 @@ button {
 .g-foil-line {
     height: 1.5px;
     background: var(--foil);
-    box-shadow: 0 0 12px rgb(199 138 208 / 40%);
+    box-shadow: 0 0 12px rgb(209 170 77 / 40%);
 }
 
 .g-foil-box {
-    border: 1.5px solid #c78ad0;
+    border: 1.5px solid #d1aa4d;
     box-shadow:
-        inset 0 0 12px rgb(199 138 208 / 10%),
-        0 0 10px rgb(199 138 208 / 10%);
+        inset 0 0 12px rgb(209 170 77 / 10%),
+        0 0 10px rgb(209 170 77 / 10%);
 }
 
 .g-spin {
     animation: g-spin 26s linear infinite;
-    filter: drop-shadow(0 0 5px rgba(217, 160, 224, 0.6));
+    filter: drop-shadow(0 0 5px rgba(232, 199, 108, 0.6));
 }
 
 @keyframes g-spin {
@@ -248,20 +247,20 @@ html:not(.js) .kx-heart-wrap {
         linear-gradient(to bottom, rgba(16, 8, 28, 0.6), transparent 110px),
         linear-gradient(to top, rgba(16, 8, 28, 0.6), transparent 110px);
     box-shadow:
-        inset 0 1px 0 rgba(243, 212, 247, 0.55),
-        inset 0 -1px 0 rgba(243, 212, 247, 0.55);
+        inset 0 1px 0 rgba(252, 238, 188, 0.55),
+        inset 0 -1px 0 rgba(252, 238, 188, 0.55);
 }
 
 .g-arch-glass {
     position: relative;
     overflow: hidden;
     border-radius: 3rem;
-    border: 1px solid rgba(243, 212, 247, 0.5);
+    border: 1px solid rgba(252, 238, 188, 0.5);
     color: #fff;
     padding: 40px 24px;
     box-shadow:
         0 20px 50px rgba(0, 0, 0, 0.35),
-        inset 0 1px 0 rgba(253, 228, 245, 0.45);
+        inset 0 1px 0 rgba(252, 244, 227, 0.45);
     background: rgba(23, 13, 36, 0.3);
     -webkit-backdrop-filter: blur(3px);
     backdrop-filter: blur(3px);
@@ -337,10 +336,10 @@ html:not(.js) .kx-heart-wrap {
 }
 
 .st-light .st-title {
-    color: #f3d4f7;
+    color: #fceebc;
     text-shadow:
         0 1px 0 rgba(60, 20, 90, 0.6),
-        0 0 18px rgba(217, 160, 224, 0.65),
+        0 0 18px rgba(232, 199, 108, 0.65),
         0 3px 14px rgba(0, 0, 0, 0.55);
 }
 
@@ -348,7 +347,7 @@ html:not(.js) .kx-heart-wrap {
     color: #4b1a6b;
     text-shadow:
         0 1px 0 rgba(255, 255, 255, 0.7),
-        0 2px 14px rgba(217, 160, 224, 0.55);
+        0 2px 14px rgba(232, 199, 108, 0.55);
 }
 
 .st-wrap.in .st-title {
@@ -382,11 +381,11 @@ html:not(.js) .kx-heart-wrap {
 }
 
 .st-orn span:first-child {
-    background: linear-gradient(90deg, transparent, #d9a0e0);
+    background: linear-gradient(90deg, transparent, #e8c76c);
 }
 
 .st-orn span:last-child {
-    background: linear-gradient(270deg, transparent, #d9a0e0);
+    background: linear-gradient(270deg, transparent, #e8c76c);
 }
 
 /* =====================================================================
@@ -405,7 +404,7 @@ html:not(.js) .kx-heart-wrap {
         125deg,
         #2e0f45 0%,
         #7a3a9a 30%,
-        #fde4f5 50%,
+        #fcf4e3 50%,
         #5a2a7a 75%,
         #2e0f45 100%
     );
@@ -419,21 +418,21 @@ html:not(.js) .kx-heart-wrap {
         linear-gradient(
                 105deg,
                 transparent 35%,
-                rgba(253, 235, 250, 0.5) 50%,
+                rgba(253, 246, 230, 0.5) 50%,
                 transparent 65%
             )
             160% 0 / 250% 100% no-repeat,
         radial-gradient(
             ellipse at 50% 42%,
-            rgba(250, 230, 250, 0.45),
+            rgba(252, 244, 227, 0.45),
             transparent 62%
         ),
         linear-gradient(
             90deg,
             #4a1f66 0%,
             #8a4aa8 14%,
-            #f3d4f7 42%,
-            #d9a0e0 62%,
+            #fceebc 42%,
+            #e8c76c 62%,
             #9450b0 84%,
             #3f1a58 100%
         );
@@ -499,7 +498,7 @@ html:not(.js) .kx-heart-wrap {
     mask-repeat: repeat-x;
     -webkit-mask-size: 28px 14px;
     mask-size: 28px 14px;
-    filter: drop-shadow(0 1px 0 rgba(253, 235, 250, 0.8));
+    filter: drop-shadow(0 1px 0 rgba(253, 246, 230, 0.8));
     animation:
         gcd-band 3.2s linear infinite,
         kc-foil 6s linear infinite;
@@ -544,7 +543,7 @@ html:not(.js) .kx-heart-wrap {
     pointer-events: none;
     background: repeating-conic-gradient(
         from 0deg,
-        rgba(253, 235, 250, 0.55) 0 4deg,
+        rgba(253, 246, 230, 0.55) 0 4deg,
         transparent 4deg 14deg
     );
     -webkit-mask-image: radial-gradient(
@@ -585,8 +584,8 @@ html:not(.js) .kx-heart-wrap {
 
 .gc-door .mand::after {
     inset: 33%;
-    border: 1px solid rgba(253, 235, 250, 0.75);
-    box-shadow: 0 0 14px rgba(250, 220, 250, 0.7);
+    border: 1px solid rgba(253, 246, 230, 0.75);
+    box-shadow: 0 0 14px rgba(254, 242, 200, 0.7);
 }
 
 /* double frame + light sweep */
@@ -595,7 +594,7 @@ html:not(.js) .kx-heart-wrap {
     inset: 10px;
     border: 2px solid #4a1f66;
     box-shadow:
-        0 0 0 1px rgba(253, 228, 245, 0.85),
+        0 0 0 1px rgba(252, 244, 227, 0.85),
         inset 0 0 22px rgba(60, 25, 85, 0.25);
     overflow: hidden;
 }
@@ -605,7 +604,7 @@ html:not(.js) .kx-heart-wrap {
     position: absolute;
     inset: 6px;
     border: 1px solid rgba(60, 25, 85, 0.55);
-    box-shadow: 0 0 0 1px rgba(253, 228, 245, 0.6);
+    box-shadow: 0 0 0 1px rgba(252, 244, 227, 0.6);
 }
 
 .gc-door .frame::after {
@@ -616,7 +615,7 @@ html:not(.js) .kx-heart-wrap {
     background: linear-gradient(
         105deg,
         transparent 40%,
-        rgba(253, 235, 250, 0.35) 50%,
+        rgba(253, 246, 230, 0.35) 50%,
         transparent 60%
     );
     background-size: 250% 100%;
@@ -633,24 +632,24 @@ html:not(.js) .kx-heart-wrap {
     z-index: 2;
     background: radial-gradient(
             circle at 50% 50%,
-            #ffeefb 0 1.2px,
+            #fdf7e8 0 1.2px,
             #a45dbd 2.4px,
             #3f1a58 4px,
             transparent 4.6px
         )
         0 0 / 14px 22px repeat-y;
-    filter: drop-shadow(0 1px 0 rgba(253, 235, 250, 0.8));
+    filter: drop-shadow(0 1px 0 rgba(253, 246, 230, 0.8));
     animation: gcd-studs 3.4s ease-in-out infinite;
 }
 
 @keyframes gcd-studs {
     0%,
     100% {
-        filter: drop-shadow(0 1px 0 rgba(253, 235, 250, 0.8)) brightness(1);
+        filter: drop-shadow(0 1px 0 rgba(253, 246, 230, 0.8)) brightness(1);
     }
 
     50% {
-        filter: drop-shadow(0 0 5px rgba(250, 210, 250, 1)) brightness(1.45);
+        filter: drop-shadow(0 0 5px rgba(252, 238, 189, 1)) brightness(1.45);
     }
 }
 
@@ -669,9 +668,9 @@ html:not(.js) .kx-heart-wrap {
     bottom: 48px;
     width: 16px;
     z-index: 2;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 44' width='16' height='44'%3E%3Cg fill='none' stroke='%234a1f66' stroke-width='1.4' stroke-linecap='round'%3E%3Cpath d='M8 0C14 8 14 14 8 22C2 30 2 36 8 44'/%3E%3Cpath d='M8 11C3 9 2 5 5 3'/%3E%3Cpath d='M8 33C13 31 14 27 11 25'/%3E%3C/g%3E%3Ccircle cx='8' cy='22' r='1.8' fill='%234a1f66'/%3E%3C/svg%3E")
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 44' width='16' height='44'%3E%3Cg fill='none' stroke='%23e3bd5a' stroke-width='1.4' stroke-linecap='round'%3E%3Cpath d='M8 0C14 8 14 14 8 22C2 30 2 36 8 44'/%3E%3Cpath d='M8 11C3 9 2 5 5 3'/%3E%3Cpath d='M8 33C13 31 14 27 11 25'/%3E%3C/g%3E%3Ccircle cx='8' cy='22' r='1.8' fill='%23e3bd5a'/%3E%3C/svg%3E")
         0 0 / 16px 44px repeat-y;
-    filter: drop-shadow(0 1px 0 rgba(253, 235, 250, 0.8));
+    filter: drop-shadow(0 1px 0 rgba(253, 246, 230, 0.8));
     -webkit-mask-image: linear-gradient(
         to bottom,
         transparent,
@@ -732,7 +731,7 @@ html:not(.js) .kx-heart-wrap {
     pointer-events: none;
     background: radial-gradient(
         circle,
-        rgba(253, 235, 250, 0.6),
+        rgba(253, 246, 230, 0.6),
         transparent 65%
     );
     filter: blur(10px);
@@ -757,7 +756,7 @@ html:not(.js) .kx-heart-wrap {
     transform-box: fill-box;
     transform-origin: 50% 100%;
     animation: gcd-flame 2.2s ease-in-out infinite;
-    filter: drop-shadow(0 0 4px rgba(250, 200, 245, 0.9));
+    filter: drop-shadow(0 0 4px rgba(250, 234, 178, 0.9));
 }
 
 @keyframes gcd-flame {
@@ -833,11 +832,11 @@ html:not(.js) .kx-heart-wrap {
 @keyframes gcd-glow {
     0%,
     100% {
-        filter: drop-shadow(0 0 0 rgba(250, 200, 245, 0));
+        filter: drop-shadow(0 0 0 rgba(250, 234, 178, 0));
     }
 
     50% {
-        filter: drop-shadow(0 0 4px rgba(250, 200, 245, 0.95));
+        filter: drop-shadow(0 0 4px rgba(250, 234, 178, 0.95));
     }
 }
 
@@ -863,8 +862,8 @@ html:not(.js) .kx-heart-wrap {
     background: linear-gradient(
         90deg,
         #3f1a58,
-        #f3d4f7 40%,
-        #b565c4 65%,
+        #fceebc 40%,
+        #a97d2f 65%,
         #3f1a58
     );
     box-shadow: 0 0 12px rgba(40, 15, 65, 0.5);
@@ -888,13 +887,13 @@ html:not(.js) .kx-heart-wrap {
     border-radius: 50%;
     background: radial-gradient(
         circle at 35% 30%,
-        #ffeefb 0 12%,
-        #c78ad0 32%,
+        #fdf7e8 0 12%,
+        #d1aa4d 32%,
         #4a1f66 75%
     );
     box-shadow:
         0 0 0 3px #3f1a58,
-        0 0 0 5px #fde4f5,
+        0 0 0 5px #fcf4e3,
         0 6px 10px rgba(40, 15, 65, 0.55);
     animation: kx-sun-pulse 3.5s ease-in-out infinite;
 }
@@ -957,13 +956,13 @@ html:not(.js) .kx-heart-wrap {
     background:
         radial-gradient(
             ellipse at 50% 35%,
-            rgb(210 140 225 / 14%),
+            rgb(225 187 89 / 14%),
             transparent 55%
         ),
         linear-gradient(
             120deg,
             transparent 20%,
-            rgb(240 205 245 / 8%) 50%,
+            rgb(250 234 178 / 8%) 50%,
             transparent 80%
         );
 }
@@ -977,7 +976,7 @@ html:not(.js) .kx-heart-wrap {
 .gc-corner {
     position: absolute;
     inset: 28px;
-    border: 1px solid rgb(225 170 235 / 65%);
+    border: 1px solid rgb(238 211 130 / 65%);
     pointer-events: none;
 }
 
@@ -985,10 +984,10 @@ html:not(.js) .kx-heart-wrap {
 .gc-corner::after {
     content: "❀";
     position: absolute;
-    color: #f1c9f3;
+    color: #f8e7ac;
     font-size: 32px;
     line-height: 1;
-    text-shadow: 0 0 12px rgb(199 138 208 / 45%);
+    text-shadow: 0 0 12px rgb(209 170 77 / 45%);
 }
 
 .gc-corner::before {
@@ -1008,8 +1007,8 @@ html:not(.js) .kx-heart-wrap {
     width: 4px;
     height: 4px;
     border-radius: 50%;
-    background: #f5c8f5;
-    box-shadow: 0 0 9px 2px rgb(235 170 235 / 65%);
+    background: #f9e8ad;
+    box-shadow: 0 0 9px 2px rgb(238 211 130 / 65%);
     animation: gold-particle 5s ease-in-out infinite;
     animation-delay: var(--d);
 }
@@ -1029,10 +1028,10 @@ html:not(.js) .kx-heart-wrap {
 
 .g-lotusfl {
     position: absolute;
-    color: #e8b4ec;
+    color: #f1d98e;
     opacity: 0.35;
     font-size: clamp(2rem, 6vw, 4rem);
-    text-shadow: 0 0 20px rgb(240 180 245 / 40%);
+    text-shadow: 0 0 20px rgb(244 222 151 / 40%);
     pointer-events: none;
     animation: lotus-float 6s ease-in-out infinite;
 }
@@ -1094,7 +1093,7 @@ html:not(.js) .kx-heart-wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #f1c9f3;
+    color: #f8e7ac;
 }
 
 .gc-logo-halo {
@@ -1110,7 +1109,7 @@ html:not(.js) .kx-heart-wrap {
     pointer-events: none;
     background: repeating-conic-gradient(
         from 0deg,
-        rgba(245, 190, 245, 0.32) 0 3deg,
+        rgba(246, 228, 162, 0.32) 0 3deg,
         transparent 3deg 11deg
     );
     -webkit-mask-image: radial-gradient(
@@ -1140,7 +1139,7 @@ html:not(.js) .kx-heart-wrap {
     border-radius: 50%;
     background: radial-gradient(
         ellipse,
-        rgba(235, 165, 235, 0.4),
+        rgba(236, 208, 125, 0.4),
         transparent 70%
     );
     filter: blur(14px);
@@ -1160,7 +1159,7 @@ html:not(.js) .kx-heart-wrap {
     height: auto;
     margin: 6px auto 0;
     object-fit: contain;
-    filter: drop-shadow(0 0 14px rgba(240, 175, 240, 0.55))
+    filter: drop-shadow(0 0 14px rgba(241, 216, 140, 0.55))
         drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45));
 }
 
@@ -1181,12 +1180,12 @@ html:not(.js) .kx-heart-wrap {
 .gc-orn span {
     flex: 1;
     height: 1.5px;
-    background: linear-gradient(90deg, transparent, #d9a0e0);
-    box-shadow: 0 0 10px rgba(217, 160, 224, 0.5);
+    background: linear-gradient(90deg, transparent, #e8c76c);
+    box-shadow: 0 0 10px rgba(232, 199, 108, 0.5);
 }
 
 .gc-orn span:last-child {
-    background: linear-gradient(270deg, transparent, #d9a0e0);
+    background: linear-gradient(270deg, transparent, #e8c76c);
 }
 
 .gc-orn i {
@@ -1194,7 +1193,7 @@ html:not(.js) .kx-heart-wrap {
     height: 8px;
     transform: rotate(45deg);
     background: var(--foil);
-    box-shadow: 0 0 10px rgba(250, 210, 250, 0.9);
+    box-shadow: 0 0 10px rgba(252, 238, 189, 0.9);
     animation: kx-diamond 3s ease-in-out infinite;
 }
 
@@ -1202,7 +1201,7 @@ html:not(.js) .kx-heart-wrap {
     margin-top: 14px;
     font-size: 12px;
     letter-spacing: 0.28em;
-    color: #f7e6fa;
+    color: #fcf4e3;
     text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
 }
 
@@ -1229,8 +1228,8 @@ html:not(.js) .kx-heart-wrap {
     margin: 2px 0;
     font-size: 16px;
     font-weight: 400;
-    color: #f1c9f3;
-    text-shadow: 0 0 12px rgba(217, 160, 224, 0.8);
+    color: #f8e7ac;
+    text-shadow: 0 0 12px rgba(232, 199, 108, 0.8);
 }
 
 .gc-amp::before,
@@ -1238,11 +1237,11 @@ html:not(.js) .kx-heart-wrap {
     content: "";
     width: 38px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, #d9a0e0);
+    background: linear-gradient(90deg, transparent, #e8c76c);
 }
 
 .gc-amp::after {
-    background: linear-gradient(270deg, transparent, #d9a0e0);
+    background: linear-gradient(270deg, transparent, #e8c76c);
 }
 
 .gc-sub {
@@ -1250,10 +1249,10 @@ html:not(.js) .kx-heart-wrap {
     margin-top: 10px;
     padding: 2px 18px;
     font-size: 12.5px;
-    color: rgba(250, 232, 252, 0.95);
+    color: rgba(252, 245, 228, 0.95);
     border-radius: 999px;
     background: rgba(20, 11, 33, 0.35);
-    border: 1px solid rgba(217, 160, 224, 0.35);
+    border: 1px solid rgba(232, 199, 108, 0.35);
     -webkit-backdrop-filter: blur(3px);
     backdrop-filter: blur(3px);
 }
@@ -1288,12 +1287,12 @@ html:not(.js) .kx-heart-wrap {
     max-width: 20rem;
     margin: 16px auto 0;
     padding: 12px 20px;
-    border: 1px solid rgb(199 138 208 / 80%);
-    background: rgb(252 246 255 / 95%);
+    border: 1px solid rgb(209 170 77 / 80%);
+    background: rgb(254 248 236 / 95%);
     color: #4a2266;
     box-shadow:
         0 8px 25px rgb(0 0 0 / 20%),
-        inset 0 0 12px rgb(199 138 208 / 12%);
+        inset 0 0 12px rgb(209 170 77 / 12%);
 }
 
 .gc-guest::before,
@@ -1325,9 +1324,9 @@ html:not(.js) .kx-heart-wrap {
     min-width: 180px;
     margin-top: 28px;
     padding: 13px 30px;
-    border: 1px solid rgba(251, 230, 255, 0.8);
+    border: 1px solid rgba(252, 245, 229, 0.8);
     border-radius: 50px;
-    background: linear-gradient(135deg, #8f4ab0 0%, #cf9ae0 50%, #8f4ab0 100%);
+    background: linear-gradient(135deg, #8f4ab0 0%, #e6c365 50%, #8f4ab0 100%);
     color: #fff !important;
     -webkit-text-fill-color: #fff;
     font-size: 14px;
@@ -1367,7 +1366,7 @@ html:not(.js) .kx-heart-wrap {
     font-family: serif;
     font-size: 20px;
     line-height: 1;
-    color: #fbe6ff;
+    color: #fcf5e5;
     transition: transform 0.35s ease;
 }
 
@@ -1390,8 +1389,8 @@ html:not(.js) .kx-heart-wrap {
 }
 
 .gc-open:hover {
-    background: linear-gradient(135deg, #a35fc4 0%, #e0b8ee 50%, #a35fc4 100%);
-    border-color: #fbe6ff;
+    background: linear-gradient(135deg, #a35fc4 0%, #f3dc94 50%, #a35fc4 100%);
+    border-color: #fcf5e5;
     box-shadow:
         0 7px 22px rgba(60, 25, 90, 0.32),
         inset 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -1408,7 +1407,7 @@ html:not(.js) .kx-heart-wrap {
 }
 
 .gc-open:focus-visible {
-    outline: 3px solid rgba(207, 154, 224, 0.45);
+    outline: 3px solid rgba(230, 195, 101, 0.45);
     outline-offset: 4px;
 }
 
@@ -1417,13 +1416,13 @@ html:not(.js) .kx-heart-wrap {
     100% {
         box-shadow:
             0 4px 14px rgba(60, 25, 90, 0.25),
-            0 0 0 0 rgba(217, 160, 224, 0.55);
+            0 0 0 0 rgba(232, 199, 108, 0.55);
     }
 
     50% {
         box-shadow:
             0 4px 14px rgba(60, 25, 90, 0.25),
-            0 0 0 14px rgba(217, 160, 224, 0);
+            0 0 0 14px rgba(232, 199, 108, 0);
     }
 }
 
@@ -1464,7 +1463,7 @@ html:not(.js) .kx-heart-wrap {
     max-width: 420px;
     padding: 24px 16px;
     text-align: center;
-    color: #f9e8fb;
+    color: #fcf5e4;
     font-family: "Battambang", "Noto Serif Khmer", serif;
 }
 
@@ -1493,8 +1492,8 @@ html:not(.js) .kx-heart-wrap {
     border-radius: 50%;
     background: radial-gradient(
         circle,
-        rgba(199, 138, 208, 0.14) 0%,
-        rgba(199, 138, 208, 0.05) 45%,
+        rgba(209, 170, 77, 0.14) 0%,
+        rgba(209, 170, 77, 0.05) 45%,
         transparent 72%
     );
     animation: royal-glow 7s ease-in-out infinite alternate;
@@ -1503,9 +1502,9 @@ html:not(.js) .kx-heart-wrap {
 .royal-particle {
     position: absolute;
     border-radius: 50%;
-    background: #d9a0e0;
+    background: #e8c76c;
     opacity: 0;
-    box-shadow: 0 0 8px rgba(199, 138, 208, 0.7);
+    box-shadow: 0 0 8px rgba(209, 170, 77, 0.7);
     animation: royal-particle 5s ease-in-out infinite;
 }
 
@@ -1540,7 +1539,7 @@ html:not(.js) .kx-heart-wrap {
     translate: -50% -34%;
     background: repeating-conic-gradient(
         from 0deg,
-        rgba(245, 190, 245, 0.34) 0 3deg,
+        rgba(246, 228, 162, 0.34) 0 3deg,
         transparent 3deg 12deg
     );
     -webkit-mask-image: radial-gradient(
@@ -1570,8 +1569,8 @@ html:not(.js) .kx-heart-wrap {
     border-radius: 50%;
     background: radial-gradient(
         circle,
-        rgba(250, 205, 250, 0.55) 0%,
-        rgba(225, 150, 235, 0.22) 42%,
+        rgba(251, 236, 184, 0.55) 0%,
+        rgba(232, 199, 109, 0.22) 42%,
         transparent 70%
     );
     animation: kx-sun-pulse 5s ease-in-out infinite;
@@ -1582,7 +1581,7 @@ html:not(.js) .kx-heart-wrap {
     bottom: -10px;
     border-radius: 50%;
     opacity: 0;
-    background: radial-gradient(circle, #fdeaff, #d9a0e0 60%, transparent 70%);
+    background: radial-gradient(circle, #fdf6e7, #e8c76c 60%, transparent 70%);
     animation: kc-rise linear infinite;
 }
 
@@ -1628,7 +1627,7 @@ html:not(.js) .kx-heart-wrap {
     width: min(160px, 44%);
     height: auto;
     margin: 0 auto;
-    filter: drop-shadow(0 0 6px rgba(217, 160, 224, 0.5));
+    filter: drop-shadow(0 0 6px rgba(232, 199, 108, 0.5));
     animation:
         kx-temple-rise 1.8s var(--kx-ease) both,
         kx-temple-glow 5s ease-in-out 2s infinite;
@@ -1638,8 +1637,8 @@ html:not(.js) .kx-heart-wrap {
     width: min(150px, 42%);
     height: 1px;
     margin: 2px auto 0;
-    background: linear-gradient(90deg, transparent, #d9a0e0, transparent);
-    box-shadow: 0 0 10px 1px rgba(217, 160, 224, 0.55);
+    background: linear-gradient(90deg, transparent, #e8c76c, transparent);
+    box-shadow: 0 0 10px 1px rgba(232, 199, 108, 0.55);
 }
 
 .kc-name {
@@ -1662,7 +1661,7 @@ html:not(.js) .kx-heart-wrap {
 
 .kc-knot {
     animation: kc-spin2 18s linear infinite;
-    filter: drop-shadow(0 0 6px rgba(217, 160, 224, 0.6));
+    filter: drop-shadow(0 0 6px rgba(232, 199, 108, 0.6));
 }
 
 @keyframes kc-spin2 {
@@ -1676,12 +1675,12 @@ html:not(.js) .kx-heart-wrap {
     display: inline-block;
     padding: 0.45rem 1.3rem;
     border-radius: 999px;
-    border: 1px solid #d9a0e0;
-    background: rgba(217, 160, 224, 0.12);
+    border: 1px solid #e8c76c;
+    background: rgba(232, 199, 108, 0.12);
     overflow: hidden;
     letter-spacing: 0.04em;
     font-size: 12px;
-    color: #f9e8fb;
+    color: #fcf5e4;
 }
 
 .kc-date::after {
@@ -1692,7 +1691,7 @@ html:not(.js) .kx-heart-wrap {
     background: linear-gradient(
         115deg,
         transparent 38%,
-        rgba(250, 225, 250, 0.45) 50%,
+        rgba(255, 244, 205, 0.45) 50%,
         transparent 62%
     );
     transform: translateX(-130%);
@@ -1740,7 +1739,7 @@ html:not(.js) .kx-heart-wrap {
     align-items: center;
     gap: 2px;
     pointer-events: none;
-    color: #d9a0e0;
+    color: #e8c76c;
     font-size: 10px;
     letter-spacing: 0.2em;
     opacity: 0;
@@ -1841,7 +1840,7 @@ html:not(.js) .kx-heart-wrap {
     50% {
         opacity: 1;
         transform: scale(1.12);
-        filter: drop-shadow(0 0 5px rgba(199, 138, 208, 0.65));
+        filter: drop-shadow(0 0 5px rgba(209, 170, 77, 0.65));
     }
 }
 
@@ -1858,11 +1857,11 @@ html:not(.js) .kx-heart-wrap {
 
 @keyframes royal-ornament {
     from {
-        filter: drop-shadow(0 0 2px rgba(199, 138, 208, 0.15));
+        filter: drop-shadow(0 0 2px rgba(209, 170, 77, 0.15));
     }
 
     to {
-        filter: drop-shadow(0 0 9px rgba(199, 138, 208, 0.45));
+        filter: drop-shadow(0 0 9px rgba(209, 170, 77, 0.45));
     }
 }
 
@@ -1900,12 +1899,12 @@ html:not(.js) .kx-heart-wrap {
 
 @keyframes royal-emblem {
     from {
-        filter: drop-shadow(0 0 2px rgba(199, 138, 208, 0.1));
+        filter: drop-shadow(0 0 2px rgba(209, 170, 77, 0.1));
         transform: scale(0.98);
     }
 
     to {
-        filter: drop-shadow(0 0 12px rgba(199, 138, 208, 0.3));
+        filter: drop-shadow(0 0 12px rgba(209, 170, 77, 0.3));
         transform: scale(1.04);
     }
 }
@@ -1926,18 +1925,18 @@ html:not(.js) .kx-heart-wrap {
 .hl-label {
     font-size: 10px;
     letter-spacing: 0.17em;
-    color: rgba(217, 160, 224, 0.85);
+    color: rgba(232, 199, 108, 0.85);
 }
 
 .hl-rule {
     height: 1px;
-    background: rgba(217, 160, 224, 0.4);
+    background: rgba(232, 199, 108, 0.4);
 }
 
 .hl-parent {
     font-size: 12px;
     line-height: 1.6;
-    color: #f9e8fb;
+    color: #fcf5e4;
 }
 
 .chakra-band {
@@ -1990,7 +1989,7 @@ html:not(.js) .kx-heart-wrap {
     opacity: 0.5;
     background: repeating-conic-gradient(
         from 0deg,
-        rgba(243, 212, 247, 0.6) 0deg 4deg,
+        rgba(252, 238, 188, 0.6) 0deg 4deg,
         transparent 4deg 14deg
     );
     animation: g-spin 30s linear infinite;
@@ -2061,7 +2060,7 @@ html:not(.js) .kx-heart-wrap {
     border-radius: 999px;
     opacity: 0.4;
     filter: blur(40px);
-    background: radial-gradient(circle, #e6b0ea, transparent 70%);
+    background: radial-gradient(circle, #efd687, transparent 70%);
 }
 
 .kx-fsvg {
@@ -2195,9 +2194,9 @@ html:not(.js) .kx-heart-wrap {
     background: linear-gradient(
         100deg,
         #8a4aa8 10%,
-        #fde4f5 30%,
-        #e6b0ea 50%,
-        #fde4f5 70%,
+        #fcf4e3 30%,
+        #efd687 50%,
+        #fcf4e3 70%,
         #8a4aa8 90%
     );
     background-size: 200% 100%;
@@ -2243,7 +2242,7 @@ html:not(.js) .kx-heart-wrap {
     display: block;
     width: 6px;
     height: 6px;
-    background: #e6b0ea;
+    background: #efd687;
     animation: kx-dia 2.4s ease-in-out infinite;
 }
 
@@ -2325,7 +2324,7 @@ html:not(.js) .kx-heart-wrap {
     position: absolute;
     inset: 12px;
     border-radius: 50%;
-    border: 2px solid rgba(243, 212, 247, 0.7);
+    border: 2px solid rgba(252, 238, 188, 0.7);
     animation: kx-ring 2.4s ease-out infinite;
 }
 
@@ -2455,11 +2454,11 @@ html:not(.js) .kx-heart-wrap {
 }
 
 #countdown .cd-box::before {
-    border-color: rgba(243, 212, 247, 0.45);
+    border-color: rgba(252, 238, 188, 0.45);
 }
 
 #countdown .cd-grid > div + div {
-    border-left-color: rgba(243, 212, 247, 0.3);
+    border-left-color: rgba(252, 238, 188, 0.3);
 }
 
 .ac-wrap {
@@ -2477,8 +2476,8 @@ html:not(.js) .kx-heart-wrap {
     padding: 0 1.8rem;
     border-radius: 999px;
     cursor: pointer;
-    border: 1.5px solid #b56fc4;
-    background: rgba(252, 240, 255, 0.5);
+    border: 1.5px solid #b18635;
+    background: rgba(253, 247, 233, 0.5);
     color: #6a2f8f;
     font-weight: 600;
     font-size: 0.92rem;
@@ -2498,13 +2497,13 @@ html:not(.js) .kx-heart-wrap {
     100% {
         box-shadow:
             0 6px 20px rgba(0, 0, 0, 0.15),
-            0 0 0 0 rgba(217, 160, 224, 0.45);
+            0 0 0 0 rgba(232, 199, 108, 0.45);
     }
 
     50% {
         box-shadow:
             0 6px 20px rgba(0, 0, 0, 0.15),
-            0 0 0 10px rgba(217, 160, 224, 0);
+            0 0 0 10px rgba(232, 199, 108, 0);
     }
 }
 
@@ -2528,7 +2527,7 @@ html:not(.js) .kx-heart-wrap {
     background: linear-gradient(
         115deg,
         transparent 38%,
-        rgba(250, 225, 250, 0.5) 50%,
+        rgba(255, 244, 205, 0.5) 50%,
         transparent 62%
     );
     transform: translateX(-130%);
@@ -2548,8 +2547,8 @@ html:not(.js) .kx-heart-wrap {
 
 #countdown .ac-btn {
     background: rgba(0, 0, 0, 0.25);
-    border-color: rgba(243, 212, 247, 0.7);
-    color: #f3d4f7;
+    border-color: rgba(252, 238, 188, 0.7);
+    color: #fceebc;
 }
 
 #countdown .ac-btn:hover,
@@ -2562,7 +2561,7 @@ html:not(.js) .kx-heart-wrap {
     position: absolute;
     inset: -2px;
     border-radius: 999px;
-    border: 2px solid #d9a0e0;
+    border: 2px solid #e8c76c;
     pointer-events: none;
     animation: burst-ring 0.9s ease-out forwards;
 }
@@ -2586,7 +2585,7 @@ html:not(.js) .kx-heart-wrap {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: #d9a0e0;
+    background: #e8c76c;
     pointer-events: none;
     animation: burst-spark 0.8s ease-out forwards;
 }
@@ -2624,8 +2623,8 @@ html:not(.js) .kx-heart-wrap {
     transform: scaleY(0);
     background: linear-gradient(
         to bottom,
-        #f3d4f7,
-        rgba(207, 154, 216, 0.7),
+        #fceebc,
+        rgba(228, 191, 93, 0.7),
         transparent
     );
     transition: transform 2s ease-out;
@@ -2653,7 +2652,7 @@ html:not(.js) .kx-heart-wrap {
     width: 28px;
     height: 28px;
     transform: rotate(45deg);
-    background: linear-gradient(135deg, #f3d4f7, #9250a8);
+    background: linear-gradient(135deg, #fceebc, #9250a8);
     color: #2e0f45;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
 }
@@ -2667,7 +2666,7 @@ html:not(.js) .kx-heart-wrap {
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.1em;
-    color: #f3d4f7;
+    color: #fceebc;
 }
 
 .tl h3 {
@@ -2703,7 +2702,7 @@ html:not(.js) .kx-heart-wrap {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #f3d4f7, #9250a8);
+    background: linear-gradient(135deg, #fceebc, #9250a8);
     color: #2e0f45;
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
 }
@@ -2713,7 +2712,7 @@ html:not(.js) .kx-heart-wrap {
     position: absolute;
     inset: -6px;
     border-radius: 50%;
-    border: 1px solid rgba(243, 212, 247, 0.4);
+    border: 1px solid rgba(252, 238, 188, 0.4);
 }
 
 .dia {
@@ -2721,7 +2720,7 @@ html:not(.js) .kx-heart-wrap {
     width: 6px;
     height: 6px;
     transform: rotate(45deg);
-    background: #f3d4f7;
+    background: #fceebc;
 }
 
 .dl {
@@ -2737,11 +2736,11 @@ html:not(.js) .kx-heart-wrap {
 }
 
 .dl .l1 {
-    background: linear-gradient(to right, transparent, #e6b0ea);
+    background: linear-gradient(to right, transparent, #efd687);
 }
 
 .dl .l2 {
-    background: linear-gradient(to left, transparent, #e6b0ea);
+    background: linear-gradient(to left, transparent, #efd687);
 }
 
 .ev-list {
@@ -2762,7 +2761,7 @@ html:not(.js) .kx-heart-wrap {
 
 .ev-track {
     width: 1px;
-    background: rgba(243, 212, 247, 0.15);
+    background: rgba(252, 238, 188, 0.15);
 }
 
 .ev-fill {
@@ -2771,8 +2770,8 @@ html:not(.js) .kx-heart-wrap {
     transform-origin: top;
     transform: scaleY(0);
     will-change: transform;
-    background: linear-gradient(to bottom, #f3d4f7, #cf9ad8, #9250a8);
-    box-shadow: 0 0 10px rgba(243, 212, 247, 0.7);
+    background: linear-gradient(to bottom, #fceebc, #e4bf5d, #9250a8);
+    box-shadow: 0 0 10px rgba(252, 238, 188, 0.7);
 }
 
 .ev-list > li {
@@ -2789,15 +2788,15 @@ html:not(.js) .kx-heart-wrap {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    border: 2px solid rgba(243, 212, 247, 0.4);
+    border: 2px solid rgba(252, 238, 188, 0.4);
     background: #170d24;
-    color: rgba(243, 212, 247, 0.6);
+    color: rgba(252, 238, 188, 0.6);
     transition: all 0.5s;
 }
 
 .ev-list > li.reached .ev-node {
     border-color: #170d24;
-    background: linear-gradient(135deg, #f3d4f7, #9250a8);
+    background: linear-gradient(135deg, #fceebc, #9250a8);
     color: #2e0f45;
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
 }
@@ -2811,7 +2810,7 @@ html:not(.js) .kx-heart-wrap {
     position: absolute;
     inset: -6px;
     border-radius: 50%;
-    border: 1px solid rgba(243, 212, 247, 0.7);
+    border: 1px solid rgba(252, 238, 188, 0.7);
     animation: ping 1.4s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
@@ -2828,15 +2827,15 @@ html:not(.js) .kx-heart-wrap {
     overflow: hidden;
     padding: 16px 16px 16px 24px;
     border-radius: 16px;
-    border: 1px solid rgba(243, 212, 247, 0.25);
+    border: 1px solid rgba(252, 238, 188, 0.25);
     background: rgba(0, 0, 0, 0.25);
     transition: all 0.5s;
 }
 
 .ev-list > li.active .ev-card {
-    border-color: rgba(243, 212, 247, 0.7);
+    border-color: rgba(252, 238, 188, 0.7);
     background: rgba(0, 0, 0, 0.4);
-    box-shadow: 0 0 28px rgba(243, 212, 247, 0.22);
+    box-shadow: 0 0 28px rgba(252, 238, 188, 0.22);
 }
 
 .ev-card .edge {
@@ -2845,7 +2844,7 @@ html:not(.js) .kx-heart-wrap {
     top: 0;
     bottom: 0;
     width: 4px;
-    background: linear-gradient(to bottom, #f3d4f7, #9250a8);
+    background: linear-gradient(to bottom, #fceebc, #9250a8);
     opacity: 0.4;
     transition: opacity 0.5s;
 }
@@ -2858,7 +2857,7 @@ html:not(.js) .kx-heart-wrap {
     font-size: 1.875rem;
     font-weight: 600;
     line-height: 1;
-    color: #f3d4f7;
+    color: #fceebc;
 }
 
 .ev-card h3 {
@@ -2883,7 +2882,7 @@ html:not(.js) .kx-heart-wrap {
 .ev-place svg {
     margin-top: 3px;
     flex: none;
-    color: #f3d4f7;
+    color: #fceebc;
 }
 
 .ev-map {
@@ -2910,8 +2909,8 @@ html:not(.js) .kx-heart-wrap {
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    border: 1px solid rgba(243, 212, 247, 0.3);
-    color: rgba(243, 212, 247, 0.4);
+    border: 1px solid rgba(252, 238, 188, 0.3);
+    color: rgba(252, 238, 188, 0.4);
     transition: all 0.7s;
 }
 
@@ -2920,9 +2919,9 @@ html:not(.js) .kx-heart-wrap {
 }
 
 .ev-end.on span {
-    border-color: #f3d4f7;
-    background: rgba(243, 212, 247, 0.15);
-    color: #f3d4f7;
+    border-color: #fceebc;
+    background: rgba(252, 238, 188, 0.15);
+    color: #fceebc;
 }
 
 /* =====================================================================
@@ -2977,7 +2976,7 @@ html:not(.js) .kx-heart-wrap {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: radial-gradient(circle, #fdeaff, #d9a0e0 60%, transparent 70%);
+    background: radial-gradient(circle, #fdf6e7, #e8c76c 60%, transparent 70%);
     opacity: 0;
     animation: kc-rise linear infinite;
 }
@@ -2994,7 +2993,7 @@ html:not(.js) .kx-heart-wrap {
     height: 1px;
     flex: 1;
     max-width: 90px;
-    background: linear-gradient(90deg, transparent, #d9a0e0, transparent);
+    background: linear-gradient(90deg, transparent, #e8c76c, transparent);
 }
 
 .kg-grid {
@@ -3026,13 +3025,13 @@ html:not(.js) .kx-heart-wrap {
 .kg-finial {
     display: block;
     margin: 0 auto -2px;
-    filter: drop-shadow(0 0 5px rgba(217, 160, 224, 0.6));
+    filter: drop-shadow(0 0 5px rgba(232, 199, 108, 0.6));
     animation: kg-glow 3s ease-in-out infinite;
 }
 
 @keyframes kg-glow {
     50% {
-        filter: drop-shadow(0 0 11px rgba(245, 190, 245, 0.95));
+        filter: drop-shadow(0 0 11px rgba(246, 228, 162, 0.95));
     }
 }
 
@@ -3054,7 +3053,7 @@ html:not(.js) .kx-heart-wrap {
 
 .kg-frame:hover {
     transform: translateY(-6px) scale(1.03);
-    box-shadow: 0 18px 44px rgba(217, 160, 224, 0.35);
+    box-shadow: 0 18px 44px rgba(232, 199, 108, 0.35);
 }
 
 @keyframes kg-bob {
@@ -3102,7 +3101,7 @@ html:not(.js) .kx-heart-wrap {
     background: linear-gradient(
         115deg,
         transparent 35%,
-        rgba(250, 225, 250, 0.55) 50%,
+        rgba(255, 244, 205, 0.55) 50%,
         transparent 65%
     );
     transform: translateX(-120%);
@@ -3158,7 +3157,7 @@ html:not(.js) .kx-heart-wrap {
     padding: 4px;
     border-radius: 999px 999px 8px 8px;
     background: var(--foil);
-    box-shadow: 0 0 60px rgba(217, 160, 224, 0.35);
+    box-shadow: 0 0 60px rgba(232, 199, 108, 0.35);
     animation: kg-pop 0.6s cubic-bezier(0.2, 0.9, 0.2, 1) both;
 }
 
@@ -3203,7 +3202,7 @@ html:not(.js) .kx-heart-wrap {
 }
 
 .kg-thumb.on {
-    border-color: #d9a0e0;
+    border-color: #e8c76c;
     opacity: 1;
     transform: translateY(-4px);
 }
@@ -3217,7 +3216,7 @@ html:not(.js) .kx-heart-wrap {
 .kg-count {
     font-size: 14px;
     letter-spacing: 0.1em;
-    color: #d9a0e0;
+    color: #e8c76c;
 }
 
 .kg-circle {
@@ -3313,7 +3312,7 @@ html:not(.js) .kx-heart-wrap {
 .rs-field {
     width: 100%;
     border-radius: 16px;
-    border: 1px solid rgba(243, 212, 247, 0.4);
+    border: 1px solid rgba(252, 238, 188, 0.4);
     background: rgba(0, 0, 0, 0.25);
     padding: 0 16px;
     font-size: 16px;
@@ -3328,9 +3327,9 @@ html:not(.js) .kx-heart-wrap {
 }
 
 .rs-field:focus {
-    border-color: #f3d4f7;
+    border-color: #fceebc;
     background: rgba(0, 0, 0, 0.35);
-    box-shadow: 0 0 0 3px rgba(243, 212, 247, 0.3);
+    box-shadow: 0 0 0 3px rgba(252, 238, 188, 0.3);
 }
 
 .rs-field.h {
@@ -3368,7 +3367,7 @@ textarea.rs-field {
     border-radius: 16px;
     cursor: pointer;
     font-size: 14px;
-    border: 1px solid rgba(243, 212, 247, 0.4);
+    border: 1px solid rgba(252, 238, 188, 0.4);
     background: rgba(0, 0, 0, 0.25);
     color: rgba(255, 255, 255, 0.8);
     transition: all 0.2s;
@@ -3376,7 +3375,7 @@ textarea.rs-field {
 
 .rs-toggle button.on {
     border-color: transparent;
-    background: linear-gradient(135deg, #f3d4f7, #b672c4);
+    background: linear-gradient(135deg, #fceebc, #b48937);
     color: #2e0f45;
     font-weight: 600;
     text-shadow: none;
@@ -3429,7 +3428,7 @@ textarea.rs-field {
     width: 64px;
     height: 64px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #f3d4f7, #9250a8);
+    background: linear-gradient(135deg, #fceebc, #9250a8);
     color: #2e0f45;
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
 }
@@ -3452,11 +3451,11 @@ textarea.rs-field {
 }
 
 .wish-head span:first-child {
-    background: linear-gradient(to right, transparent, #e6b0ea);
+    background: linear-gradient(to right, transparent, #efd687);
 }
 
 .wish-head span:last-child {
-    background: linear-gradient(to left, transparent, #e6b0ea);
+    background: linear-gradient(to left, transparent, #efd687);
 }
 
 .wish-head svg {
@@ -3477,11 +3476,11 @@ textarea.rs-field {
 .wish-title b {
     padding: 2px 8px;
     border-radius: 999px;
-    background: rgba(243, 212, 247, 0.25);
+    background: rgba(252, 238, 188, 0.25);
     font-size: 11px;
     font-weight: 600;
-    color: #f3d4f7;
-    -webkit-text-fill-color: #f3d4f7;
+    color: #fceebc;
+    -webkit-text-fill-color: #fceebc;
 }
 
 .wish-none {
@@ -3505,7 +3504,7 @@ textarea.rs-field {
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
-    scrollbar-color: #cf9ad8 transparent;
+    scrollbar-color: #e4bf5d transparent;
 }
 
 .wish-list li {
@@ -3513,7 +3512,7 @@ textarea.rs-field {
     gap: 12px;
     padding: 12px;
     border-radius: 16px;
-    border: 1px solid rgba(243, 212, 247, 0.25);
+    border: 1px solid rgba(252, 238, 188, 0.25);
     background: rgba(0, 0, 0, 0.25);
     animation: pop-in 0.4s cubic-bezier(0.2, 0.9, 0.2, 1) both;
 }
@@ -3537,7 +3536,7 @@ textarea.rs-field {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #f3d4f7, #9250a8);
+    background: linear-gradient(135deg, #fceebc, #9250a8);
     font-size: 14px;
     font-weight: 700;
     color: #2e0f45;
@@ -3560,7 +3559,7 @@ textarea.rs-field {
     text-overflow: ellipsis;
     white-space: nowrap;
     font-weight: 600;
-    color: #f3d4f7;
+    color: #fceebc;
 }
 
 .wish-ok {
@@ -3600,11 +3599,11 @@ textarea.rs-field {
     margin: 12px auto 0;
     padding: 8px 20px;
     border-radius: 999px;
-    border: 1px solid rgba(243, 212, 247, 0.5);
+    border: 1px solid rgba(252, 238, 188, 0.5);
     background: rgba(0, 0, 0, 0.25);
     font-size: 12px;
     font-weight: 600;
-    color: #f3d4f7;
+    color: #fceebc;
     cursor: pointer;
     text-shadow: none;
 }
@@ -3632,8 +3631,8 @@ textarea.rs-field {
     pointer-events: none;
     background: radial-gradient(
         ellipse at 50% 38%,
-        rgba(252, 232, 250, 0.55),
-        rgba(250, 242, 252, 0.15) 62%,
+        rgba(252, 245, 228, 0.55),
+        rgba(253, 247, 233, 0.15) 62%,
         transparent
     );
 }
@@ -3651,7 +3650,7 @@ textarea.rs-field {
     width: 12px;
     height: 16px;
     opacity: 0;
-    background: linear-gradient(135deg, #f3d4f7, #d9a0e0);
+    background: linear-gradient(135deg, #fceebc, #e8c76c);
     border-radius: 100% 0 100% 0;
     animation: petal-fall linear infinite;
 }
@@ -3702,14 +3701,14 @@ textarea.rs-field {
     overflow: hidden;
     border-radius: 23px;
     padding: 2.4rem 1.5rem 2rem;
-    background: linear-gradient(180deg, #fcf7ff, #faf3fb);
+    background: linear-gradient(180deg, #fef8ec, #fdf7e9);
 }
 
 .gold-card-in::before {
     content: "";
     position: absolute;
     inset: 8px;
-    border: 1px solid rgba(181, 111, 196, 0.55);
+    border: 1px solid rgba(177, 134, 53, 0.55);
     border-radius: 17px;
     pointer-events: none;
 }
@@ -3722,7 +3721,7 @@ textarea.rs-field {
     background: linear-gradient(
         115deg,
         transparent 38%,
-        rgba(250, 225, 250, 0.45) 50%,
+        rgba(255, 244, 205, 0.45) 50%,
         transparent 62%
     );
     transform: translateX(-130%);
@@ -3781,7 +3780,7 @@ textarea.rs-field {
     margin: 0 auto;
     padding: 12px;
     background: #fff;
-    border: 2px solid #d9a0e0;
+    border: 2px solid #e8c76c;
     border-radius: 14px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 }
@@ -3853,14 +3852,14 @@ textarea.rs-field {
 .kf-divider span {
     flex: 1;
     height: 1px;
-    background: linear-gradient(90deg, transparent, #d9a0e0, transparent);
+    background: linear-gradient(90deg, transparent, #e8c76c, transparent);
 }
 
 .kf-divider b {
     width: 7px;
     height: 7px;
     transform: rotate(45deg);
-    background: #d9a0e0;
+    background: #e8c76c;
 }
 
 .kf-btn {
@@ -3872,7 +3871,7 @@ textarea.rs-field {
     margin-top: 1.3rem;
     padding: 0 1.7rem;
     border-radius: 999px;
-    border: 1.5px solid #d9a0e0;
+    border: 1.5px solid #e8c76c;
     cursor: pointer;
     color: #6a2f8f;
     font-weight: 600;
@@ -3890,7 +3889,7 @@ textarea.rs-field {
 .kf-btn.done {
     background: var(--foil);
     color: #2e0f45;
-    box-shadow: 0 8px 22px rgba(181, 111, 196, 0.45);
+    box-shadow: 0 8px 22px rgba(177, 134, 53, 0.45);
 }
 
 .kf-btn:active {
@@ -3900,7 +3899,7 @@ textarea.rs-field {
 .ap-bud {
     display: block;
     margin: 0 auto 0.6rem;
-    filter: drop-shadow(0 0 6px rgba(217, 160, 224, 0.6));
+    filter: drop-shadow(0 0 6px rgba(232, 199, 108, 0.6));
     animation: ap-breathe 4.5s ease-in-out infinite;
     transform-origin: 50% 90%;
 }
@@ -3908,7 +3907,7 @@ textarea.rs-field {
 @keyframes ap-breathe {
     50% {
         transform: scale(1.08);
-        filter: drop-shadow(0 0 12px rgba(245, 190, 245, 0.95));
+        filter: drop-shadow(0 0 12px rgba(246, 228, 162, 0.95));
     }
 }
 
@@ -3923,14 +3922,14 @@ textarea.rs-field {
 .ap-divider span {
     flex: 1;
     height: 1px;
-    background: linear-gradient(90deg, transparent, #d9a0e0, transparent);
+    background: linear-gradient(90deg, transparent, #e8c76c, transparent);
 }
 
 .ap-divider b {
     width: 7px;
     height: 7px;
     transform: rotate(45deg);
-    background: #d9a0e0;
+    background: #e8c76c;
 }
 
 .ap-line {
@@ -3984,7 +3983,7 @@ textarea.rs-field {
     display: block;
     width: 11rem;
     margin: 0 auto 20px;
-    color: #f1c9f3;
+    color: #f8e7ac;
 }
 
 .g-petal {
@@ -4056,7 +4055,7 @@ textarea.rs-field {
     border-radius: 50%;
     cursor: pointer;
     background: #4b1a6b;
-    color: #e8a8e8;
+    color: #ecd07d;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
     opacity: 0.6;
 }
@@ -4083,8 +4082,8 @@ textarea.rs-field {
    All of it is switched off by prefers-reduced-motion (bottom of file).
    ===================================================================== */
 :root {
-    --kx-gold: #d9a0e0;
-    --kx-gold-soft: #f3d4f7;
+    --kx-gold: #e8c76c;
+    --kx-gold-soft: #fceebc;
     --kx-ease: cubic-bezier(0.22, 0.8, 0.24, 1);
     --kx-ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -4145,7 +4144,7 @@ textarea.rs-field {
     background: linear-gradient(
         105deg,
         transparent 38%,
-        rgba(245, 205, 245, 0.16) 50%,
+        rgba(250, 234, 178, 0.16) 50%,
         transparent 62%
     );
     background-size: 250% 100%;
@@ -4258,11 +4257,11 @@ textarea.rs-field {
 @keyframes kx-breathe {
     0%,
     100% {
-        filter: drop-shadow(0 0 0 rgba(217, 160, 224, 0));
+        filter: drop-shadow(0 0 0 rgba(232, 199, 108, 0));
     }
 
     50% {
-        filter: drop-shadow(0 0 8px rgba(217, 160, 224, 0.8));
+        filter: drop-shadow(0 0 8px rgba(232, 199, 108, 0.8));
     }
 }
 
@@ -4315,11 +4314,11 @@ textarea.rs-field {
 @keyframes kx-temple-glow {
     0%,
     100% {
-        filter: drop-shadow(0 0 4px rgba(217, 160, 224, 0.25));
+        filter: drop-shadow(0 0 4px rgba(232, 199, 108, 0.25));
     }
 
     50% {
-        filter: drop-shadow(0 0 18px rgba(245, 190, 245, 0.75));
+        filter: drop-shadow(0 0 18px rgba(246, 228, 162, 0.75));
     }
 }
 
@@ -4424,9 +4423,9 @@ textarea.rs-field {
     height: calc(var(--w, 12px) * 1.35);
     background: radial-gradient(
         120% 120% at 30% 20%,
-        #fdf0ff 0%,
-        #e9b8f0 45%,
-        #b565c4 100%
+        #fdf7e9 0%,
+        #f3de96 45%,
+        #a97d2f 100%
     );
     border-radius: 80% 0 80% 0;
     opacity: 0;
@@ -4483,8 +4482,8 @@ textarea.rs-field {
     width: 4px;
     height: 4px;
     border-radius: 50%;
-    background: #f7cff7;
-    box-shadow: 0 0 10px 3px rgba(240, 170, 235, 0.8);
+    background: #fbecb7;
+    box-shadow: 0 0 10px 3px rgba(239, 214, 135, 0.8);
     opacity: 0;
     animation: kx-firefly var(--dur, 7s) ease-in-out var(--delay, 0s) infinite;
 }
@@ -4572,7 +4571,7 @@ button[type="submit"]::after {
 
 .th-btn:hover {
     transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 10px 28px rgba(217, 160, 224, 0.45);
+    box-shadow: 0 10px 28px rgba(232, 199, 108, 0.45);
 }
 
 /* ---------- 10. Hero: pulse ---------- */
@@ -4689,12 +4688,12 @@ button[type="submit"]::after {
         #36124f 55%,
         #1f0a33 100%
     );
-    border-block: 1px solid rgba(243, 212, 247, 0.7);
+    border-block: 1px solid rgba(252, 238, 188, 0.7);
     box-shadow:
         inset 0 3px 0 #1f0a33,
-        inset 0 4px 0 rgba(243, 212, 247, 0.35),
+        inset 0 4px 0 rgba(252, 238, 188, 0.35),
         inset 0 -3px 0 #1f0a33,
-        inset 0 -4px 0 rgba(243, 212, 247, 0.35);
+        inset 0 -4px 0 rgba(252, 238, 188, 0.35);
 }
 .g-div::before {
     content: "";
@@ -4703,7 +4702,7 @@ button[type="submit"]::after {
     z-index: -1;
     pointer-events: none;
     opacity: 0.08;
-    background: #f3d4f7;
+    background: #fceebc;
     -webkit-mask-image: var(--chakra);
     mask-image: var(--chakra);
     -webkit-mask-size: 48px 48px;
@@ -4753,11 +4752,11 @@ button[type="submit"]::after {
 @keyframes kb-glow {
     0%,
     100% {
-        filter: drop-shadow(0 0 0 rgba(217, 160, 224, 0));
+        filter: drop-shadow(0 0 0 rgba(232, 199, 108, 0));
     }
 
     50% {
-        filter: drop-shadow(0 0 6px rgba(245, 190, 245, 0.9));
+        filter: drop-shadow(0 0 6px rgba(246, 228, 162, 0.9));
     }
 }
 
@@ -4874,366 +4873,574 @@ html:not(.js) .g-div .kb-draw {
 }
 
 /* =====================================================================
-   LOTUS · CUSTOM LAYER  ("Pond at dusk")
-   Paste at the VERY END of lotu.css (or load after it).
-   Same class names, so no HTML changes are needed.
+   KHMER ROYAL LAYER  ·  "Aubergine, gold & lotus"
+   ---------------------------------------------------------------------
+   Same class names as before, so no markup/JS changes are needed.
 
-   Why it looks different from Gold
-   ---------------------------------------------------------------
-   GOLD  = hard metal: diamonds, arches, straight gold hairlines,
-           sunburst rays, shine sweeps.
-   LOTUS = water + petals: leaf-shaped corners, ripple rings,
-           soft pearl/rose gradients, wavy borders, glow,
-           a small aqua "leaf" accent.
+   Design language
+   - Colour : deep aubergine (silk) + antique gold (gilding) + lotus rose
+              (single accent) on warm sandstone-cream paper.
+   - Shapes : prasat (stepped tower arch) photo frames, double-line
+              temple panels with kbach corners and a lotus-bud finial.
+   - Pattern: sampot-hol lozenge lattice, kbach flame band.
+   - Calm   : no shine sweeps, no pulsing glows, no heartbeat nodes.
+              Motion is limited to reveals and a slow petal fall.
 
-   Quick tuning: change the variables in section 0 only.
+   Tune the look from section 0 only.
    ===================================================================== */
 
 /* =====================================================================
    0. TOKENS
    ===================================================================== */
 .gw,
-.gc {
-    --lt-leaf: #86d9c8; /* aqua lotus-leaf accent (use sparingly) */
-    --lt-rose: #ff9fc0; /* petal rose */
-    --lt-pearl: #fff3fb;
-    --lt-ink: #3a1457;
+.gc,
+.g-music {
+    --ink: #1b0a2c;
+    --ink-2: #2b1046;
+    --plum: #4a1f66;
+    --orchid: #7a2f8f;
 
-    --primary: #8a4fb0;
-    --accent: #6f8fa8;
+    --gold-light: #f6e3a0;
+    --gold: #e3bd5a;
+    --gold-deep: #a87c2e;
+    --gold-dark: #a87c2e;
 
-    /* sunset-petal gradient: orchid -> rose -> violet (no metallic look) */
+    --rose: #e8708f;
+    --cream: #fbf6ea;
+    --paper: #fffaf0;
+    --text: #2a1238;
+
+    --bg: var(--cream);
+    --surface: var(--paper);
+    --fg: var(--text);
+    --primary: var(--orchid);
+    --accent: var(--gold-deep);
+    --hero-accent: var(--gold);
+
     --foil: linear-gradient(
         120deg,
-        #8b4bb5 0%,
-        #d88ad8 28%,
-        #ff9fc0 50%,
-        #9c84e8 74%,
-        #8b4bb5 100%
+        #a87c2e 0%,
+        #f6e3a0 30%,
+        #e3bd5a 55%,
+        #fff1b8 75%,
+        #a87c2e 100%
     );
-    /* pearl gradient for buttons / pills (light, so dark text stays readable) */
-    --pearl: linear-gradient(135deg, #fff3fb 0%, #f1c4ee 48%, #cdbdf7 100%);
 
-    /* ripple rings replace the diamond lattice everywhere */
-    --chakra: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' width='48' height='48'%3E%3Ccircle cx='24' cy='24' r='22' fill='none' stroke='black' stroke-width='1.2'/%3E%3Ccircle cx='24' cy='24' r='14' fill='none' stroke='black' stroke-width='1.2'/%3E%3Ccircle cx='24' cy='24' r='4.5'/%3E%3C/svg%3E");
-    /* wave band replaces the diamond band */
-    --band: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 14' width='28' height='14'%3E%3Cpath d='M0 9Q7 1 14 9T28 9' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='14' cy='3' r='1.4'/%3E%3C/svg%3E");
+    /* sampot-hol lozenge with four-petal flower */
+    --chakra: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' width='48' height='48'%3E%3Cpath d='M24 1L47 24L24 47L1 24Z' fill='none' stroke='black' stroke-width='1.2'/%3E%3Cpath d='M24 9C27 15 27 18 24 24C21 18 21 15 24 9ZM39 24C33 27 30 27 24 24C30 21 33 21 39 24ZM24 39C21 33 21 30 24 24C27 30 27 33 24 39ZM9 24C15 21 18 21 24 24C18 27 15 27 9 24Z' fill='black'/%3E%3Ccircle cx='24' cy='24' r='2' fill='white'/%3E%3C/svg%3E");
+    /* kbach flame band */
+    --band: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 14' width='28' height='14'%3E%3Cpath d='M14 1C18 4 19 8 14 12C9 8 10 4 14 1Z' fill='none' stroke='black' stroke-width='1.2'/%3E%3Cpath d='M14 5C15.5 6.5 15.5 8 14 9.5C12.5 8 12.5 6.5 14 5Z'/%3E%3Cpath d='M0 13C5 13 8 10 10 8M28 13C23 13 20 10 18 8' fill='none' stroke='black' stroke-width='1.1' stroke-linecap='round'/%3E%3C/svg%3E");
+
+    --line: rgba(227, 189, 90, 0.55);
+    --line-soft: rgba(227, 189, 90, 0.28);
+    --r: 4px;
 }
 
-/* petal-corner helpers (leaf shape: two opposite corners are round) */
-:root {
-    --lt-r-lg: 44px 10px 44px 10px;
-    --lt-r-lg-in: 41px 7px 41px 7px;
-    --lt-r-md: 24px 6px 24px 6px;
-    --lt-r-leaf: 150px 10px 150px 10px;
-    --lt-r-leaf-alt: 10px 150px 10px 150px;
-}
-
-/* =====================================================================
-   1. TYPOGRAPHY: softer, airier
-   ===================================================================== */
 body {
-    background: #efe6f6;
+    background: #e9dfc8;
 }
 
 .gw {
-    background: #fbf5fc;
+    background: var(--cream);
+    color: var(--text);
+    box-shadow: 0 0 60px rgba(27, 10, 44, 0.35);
 }
 
+/* =====================================================================
+   1. TYPOGRAPHY
+   ===================================================================== */
 .st-title {
-    letter-spacing: 0.02em;
-}
-
-.st-light .st-title {
-    color: var(--lt-pearl);
-    text-shadow:
-        0 0 22px rgba(255, 159, 192, 0.55),
-        0 0 40px rgba(217, 160, 224, 0.45),
-        0 2px 10px rgba(0, 0, 0, 0.5);
-}
-
-.st-dark .st-title {
-    color: var(--lt-ink);
-    text-shadow: 0 2px 18px rgba(255, 159, 192, 0.45);
-}
-
-.kx-name,
-.kc-name {
     letter-spacing: 0.01em;
 }
 
+.st-light .st-title {
+    color: var(--gold-light);
+    text-shadow:
+        0 1px 0 rgba(27, 10, 44, 0.8),
+        0 3px 16px rgba(0, 0, 0, 0.6);
+}
+
+.st-dark .st-title {
+    color: var(--ink-2);
+    text-shadow: none;
+}
+
+.g-foil {
+    animation: none;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.35));
+}
+
+.kc-name,
+.kx-name,
+.kf-num {
+    animation: none;
+}
+
+.kx-name {
+    background: var(--foil);
+    background-size: 100% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
 /* =====================================================================
-   2. SECTION SHELLS: water-glow edges instead of hard hairlines
+   2. SECTION SHELLS
    ===================================================================== */
 .g-photo {
-    background: linear-gradient(180deg, #4a3a66 0%, #1d1330 100%);
+    background: linear-gradient(180deg, #2b1046 0%, #170822 100%);
 }
 
+/* soft dark fade top/bottom + a single fine gold line */
 .g-photo::before {
     background:
-        radial-gradient(
-            ellipse 80% 90px at 50% 0%,
-            rgba(255, 159, 192, 0.22),
-            transparent 100%
-        ),
-        radial-gradient(
-            ellipse 80% 90px at 50% 100%,
-            rgba(134, 217, 200, 0.18),
-            transparent 100%
-        ),
-        linear-gradient(to bottom, rgba(18, 8, 30, 0.55), transparent 110px),
-        linear-gradient(to top, rgba(18, 8, 30, 0.55), transparent 110px);
-    box-shadow: none;
+        linear-gradient(to bottom, rgba(23, 8, 34, 0.7), transparent 120px),
+        linear-gradient(to top, rgba(23, 8, 34, 0.7), transparent 120px);
+    box-shadow:
+        inset 0 1px 0 var(--line),
+        inset 0 -1px 0 var(--line);
 }
 
-/* the soft light sweep becomes a slow pinkish tide */
 .g-photo::after {
-    background: linear-gradient(
-        100deg,
-        transparent 30%,
-        rgba(255, 190, 220, 0.12) 50%,
-        transparent 70%
-    );
+    display: none; /* no sweeping light */
+}
+
+.g-bgimg.on {
+    animation: none; /* no Ken-Burns drift on every section */
 }
 
 .g-chakra {
-    opacity: 0.06;
+    opacity: 0.05;
 }
 
-/* glass panel: leaf corners */
+/* ---------- Temple panel (replaces the rounded glass arch) ---------- */
 .g-arch-glass {
-    border-radius: var(--lt-r-lg);
-    border: 1px solid rgba(255, 220, 245, 0.45);
-    background: rgba(28, 12, 46, 0.34);
-    -webkit-backdrop-filter: blur(6px) saturate(1.2);
-    backdrop-filter: blur(6px) saturate(1.2);
+    border-radius: var(--r);
+    border: 1px solid var(--gold);
+    background: linear-gradient(
+        180deg,
+        rgba(27, 10, 44, 0.66),
+        rgba(27, 10, 44, 0.52)
+    );
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    padding: 56px 24px 44px;
     box-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.35),
-        0 0 40px rgba(255, 159, 192, 0.12),
-        inset 0 1px 0 rgba(255, 240, 250, 0.4);
+        0 24px 60px rgba(0, 0, 0, 0.42),
+        inset 0 0 0 5px rgba(27, 10, 44, 0.4),
+        inset 0 0 0 6px var(--line-soft);
 }
 
-/* =====================================================================
-   3. LINES / ORNAMENTS: wavy + glowing, no straight gold rules
-   ===================================================================== */
+.g-arch-glass .gloss {
+    display: none;
+}
+
+/* lotus-bud finial on the top edge */
+.g-arch-glass::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0;
+    z-index: 3;
+    width: 92px;
+    height: 26px;
+    translate: -50% 0;
+    pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 92 26' width='92' height='26'%3E%3Cpath d='M0 0H92' stroke='%23e3bd5a' stroke-width='1'/%3E%3Cpath d='M10 0C22 0 30 4 34 12C38 6 42 4 46 0C50 4 54 6 58 12C62 4 70 0 82 0Z' fill='%231b0a2c' stroke='%23e3bd5a' stroke-width='1.1'/%3E%3Cpath d='M46 3C51 8 51 15 46 24C41 15 41 8 46 3Z' fill='%23e3bd5a' stroke='%23a87c2e' stroke-width='.8'/%3E%3Cpath d='M46 8C48 11 48 15 46 19C44 15 44 11 46 8Z' fill='%23fff1b8'/%3E%3Ccircle cx='34' cy='12' r='1.6' fill='%23e3bd5a'/%3E%3Ccircle cx='58' cy='12' r='1.6' fill='%23e3bd5a'/%3E%3C/svg%3E")
+        center top / contain no-repeat;
+}
+
+/* kbach corners */
+.g-arch-glass::after {
+    content: "";
+    position: absolute;
+    inset: 9px;
+    z-index: 3;
+    pointer-events: none;
+    background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30' width='30' height='30'%3E%3Cg transform='translate(0 0)' fill='none' stroke='%23e3bd5a' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1.5 28V9C1.5 5 5 1.5 9 1.5H28' stroke-width='1.4'/%3E%3Cpath d='M7 22V12.5C7 9.5 9.5 7 12.5 7H22' stroke-width='.9' opacity='.7'/%3E%3Cpath d='M1.5 15C6 15 8 13 8 8.5M15 1.5C15 6 13 8 8.5 8' stroke-width='.9' opacity='.6'/%3E%3C/g%3E%3Cpath d='M1.5 1.5l3.5 0l-3.5 3.5z' fill='%23e3bd5a' transform='translate(0 0)'/%3E%3C/svg%3E")
+            left top / 30px 30px no-repeat,
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30' width='30' height='30'%3E%3Cg transform='translate(30 0) scale(-1 1)' fill='none' stroke='%23e3bd5a' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1.5 28V9C1.5 5 5 1.5 9 1.5H28' stroke-width='1.4'/%3E%3Cpath d='M7 22V12.5C7 9.5 9.5 7 12.5 7H22' stroke-width='.9' opacity='.7'/%3E%3Cpath d='M1.5 15C6 15 8 13 8 8.5M15 1.5C15 6 13 8 8.5 8' stroke-width='.9' opacity='.6'/%3E%3C/g%3E%3Cpath d='M1.5 1.5l3.5 0l-3.5 3.5z' fill='%23e3bd5a' transform='translate(30 0) scale(-1 1)'/%3E%3C/svg%3E")
+            right top / 30px 30px no-repeat,
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30' width='30' height='30'%3E%3Cg transform='translate(0 30) scale(1 -1)' fill='none' stroke='%23e3bd5a' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1.5 28V9C1.5 5 5 1.5 9 1.5H28' stroke-width='1.4'/%3E%3Cpath d='M7 22V12.5C7 9.5 9.5 7 12.5 7H22' stroke-width='.9' opacity='.7'/%3E%3Cpath d='M1.5 15C6 15 8 13 8 8.5M15 1.5C15 6 13 8 8.5 8' stroke-width='.9' opacity='.6'/%3E%3C/g%3E%3Cpath d='M1.5 1.5l3.5 0l-3.5 3.5z' fill='%23e3bd5a' transform='translate(0 30) scale(1 -1)'/%3E%3C/svg%3E")
+            left bottom / 30px 30px no-repeat,
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30' width='30' height='30'%3E%3Cg transform='translate(30 30) scale(-1 -1)' fill='none' stroke='%23e3bd5a' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1.5 28V9C1.5 5 5 1.5 9 1.5H28' stroke-width='1.4'/%3E%3Cpath d='M7 22V12.5C7 9.5 9.5 7 12.5 7H22' stroke-width='.9' opacity='.7'/%3E%3Cpath d='M1.5 15C6 15 8 13 8 8.5M15 1.5C15 6 13 8 8.5 8' stroke-width='.9' opacity='.6'/%3E%3C/g%3E%3Cpath d='M1.5 1.5l3.5 0l-3.5 3.5z' fill='%23e3bd5a' transform='translate(30 30) scale(-1 -1)'/%3E%3C/svg%3E")
+            right bottom / 30px 30px no-repeat;
+}
+
 .g-foil-line {
-    height: 2px;
-    border-radius: 2px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        var(--lt-rose),
-        #d88ad8,
-        var(--lt-leaf),
-        transparent
-    );
-    box-shadow: 0 0 14px rgba(255, 159, 192, 0.5);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    box-shadow: none;
 }
 
 .g-foil-box {
-    border: 1.5px solid #d08ad8;
-    border-radius: var(--lt-r-md);
-    box-shadow:
-        inset 0 0 14px rgba(255, 159, 192, 0.12),
-        0 0 14px rgba(217, 160, 224, 0.18);
-}
-
-.st-orn span:first-child {
-    background: linear-gradient(90deg, transparent, var(--lt-rose));
-}
-
-.st-orn span:last-child {
-    background: linear-gradient(270deg, transparent, var(--lt-rose));
-}
-
-/* every "diamond" becomes a petal (lens shape rotated 45deg) */
-.dia,
-.kx-dia,
-.kf-divider b,
-.ap-divider b,
-.gc-orn i,
-.cd-box .dm {
-    border-radius: 0 100% 0 100%;
-}
-
-.kx-dia {
-    background: var(--lt-rose);
-}
-
-.gc-orn i,
-.cd-box .dm {
-    animation: lt-petal-turn 4s ease-in-out infinite;
-}
-
-@keyframes lt-petal-turn {
-    0%,
-    100% {
-        transform: rotate(45deg) scale(1);
-    }
-
-    50% {
-        transform: rotate(135deg) scale(1.2);
-    }
-}
-
-.gc-orn span,
-.kf-divider span,
-.ap-divider span,
-.kg-orn span {
-    background: linear-gradient(90deg, transparent, var(--lt-rose), transparent);
-}
-
-.g-div {
-    background: radial-gradient(
-        ellipse at 50% 50%,
-        #4a1f6b 0%,
-        #2b0f45 60%,
-        #1a0830 100%
-    );
-    border-block: 0;
-    box-shadow:
-        inset 0 0 30px rgba(255, 159, 192, 0.12),
-        inset 0 1px 0 rgba(255, 190, 220, 0.3),
-        inset 0 -1px 0 rgba(134, 217, 200, 0.3);
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+    box-shadow: inset 0 0 0 3px rgba(27, 10, 44, 0.35);
 }
 
 /* =====================================================================
-   4. LOTUS-FAN RAYS (12 wide petals) instead of the thin gold sunburst
+   3. ORNAMENT LINES & DIAMONDS
+   ===================================================================== */
+.st-orn span:first-child,
+.gc-orn span,
+.kf-divider span,
+.ap-divider span,
+.kg-orn span,
+.dl .l1,
+.wish-head span:first-child,
+.hl-rule {
+    background: linear-gradient(90deg, transparent, var(--gold));
+}
+
+.st-orn span:last-child,
+.gc-orn span:last-child,
+.dl .l2,
+.wish-head span:last-child {
+    background: linear-gradient(270deg, transparent, var(--gold));
+}
+
+.kf-divider span,
+.ap-divider span,
+.kg-orn span {
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.dia,
+.kx-dia,
+.kf-divider b,
+.ap-divider b {
+    background: var(--gold);
+    border-radius: 0;
+    animation: none;
+}
+
+.gc-orn i,
+.cd-box .dm {
+    animation: none;
+    box-shadow: none;
+}
+
+.g-spin,
+.kc-knot {
+    animation-duration: 40s;
+    filter: none;
+}
+
+/* sampot lozenge band between sections */
+.g-div {
+    background: radial-gradient(ellipse at 50% 50%, #3a1556 0%, #1f0a33 100%);
+    border-block: 0;
+    box-shadow:
+        inset 0 1px 0 var(--line),
+        inset 0 -1px 0 var(--line),
+        inset 0 3px 0 var(--ink),
+        inset 0 4px 0 var(--line-soft),
+        inset 0 -3px 0 var(--ink),
+        inset 0 -4px 0 var(--line-soft);
+}
+
+.g-div::before {
+    opacity: 0.12;
+    background: var(--gold);
+}
+
+.g-div-band {
+    animation: gd-band 14s linear infinite;
+}
+
+.chakra-band {
+    background: var(--foil);
+}
+
+/* =====================================================================
+   4. RAYS / HALOS  (thin, fine, gold)
    ===================================================================== */
 .kc-rays,
 .gc-logo-halo,
 .gc-door .mand {
     background: repeating-conic-gradient(
         from 0deg,
-        rgba(255, 170, 205, 0.26) 0 11deg,
-        transparent 11deg 30deg
+        rgba(227, 189, 90, 0.22) 0 2.5deg,
+        transparent 2.5deg 12deg
     );
 }
 
 .cp-halo div {
+    opacity: 0.35;
     background: repeating-conic-gradient(
         from 0deg,
-        rgba(255, 190, 225, 0.5) 0deg 10deg,
-        transparent 10deg 30deg
+        rgba(227, 189, 90, 0.5) 0 2.5deg,
+        transparent 2.5deg 12deg
     );
 }
 
 .kc-sun {
     background: radial-gradient(
         circle,
-        rgba(255, 190, 220, 0.5) 0%,
-        rgba(200, 140, 235, 0.22) 42%,
+        rgba(246, 227, 160, 0.4) 0%,
+        rgba(227, 189, 90, 0.12) 45%,
         transparent 70%
     );
+    animation: none;
+}
+
+.kc-mandala {
+    opacity: 0.1;
 }
 
 /* =====================================================================
-   5. COVER DOORS: pearl-lilac with water ripples
+   5. COVER  ·  aubergine temple doors with gold frames
    ===================================================================== */
 .gc-door {
+    --bronze: var(--foil);
     background:
         radial-gradient(
             ellipse at 50% 42%,
-            rgba(255, 235, 250, 0.4),
-            transparent 62%
+            rgba(122, 47, 143, 0.5),
+            transparent 65%
         ),
-        linear-gradient(
-            90deg,
-            #3b1659 0%,
-            #7d4fb0 18%,
-            #e7c6f0 46%,
-            #f7d3e8 60%,
-            #a77ad0 86%,
-            #35134f 100%
-        );
+        linear-gradient(90deg, #170822 0%, #2f1150 55%, #3d1666 100%);
+    box-shadow:
+        inset 0 0 60px rgba(0, 0, 0, 0.55),
+        0 0 30px rgba(0, 0, 0, 0.4);
+    animation: none;
 }
 
-/* ripple rings spreading from the centre seam */
+.gc-door.r {
+    background:
+        radial-gradient(
+            ellipse at 50% 42%,
+            rgba(122, 47, 143, 0.5),
+            transparent 65%
+        ),
+        linear-gradient(270deg, #170822 0%, #2f1150 55%, #3d1666 100%);
+}
+
+.gc-door::before,
+.gc-door::after {
+    animation: gcd-band 8s linear infinite;
+    filter: none;
+}
+
+.gc-door::after {
+    animation-direction: reverse;
+}
+
+.gc-door .mand::before {
+    border-color: var(--line-soft);
+}
+
+.gc-door .mand::after {
+    border-color: var(--line);
+    box-shadow: none;
+}
+
 .gc-door .pat {
-    opacity: 0.4;
-    background: repeating-radial-gradient(
-        circle at 100% 50%,
-        rgba(60, 22, 90, 0.5) 0 1px,
-        transparent 1px 26px
-    );
-    -webkit-mask-image: none;
-    mask-image: none;
-}
-
-.gc-door.r .pat {
-    background: repeating-radial-gradient(
-        circle at 0% 50%,
-        rgba(60, 22, 90, 0.5) 0 1px,
-        transparent 1px 26px
-    );
+    opacity: 0.2;
+    background: var(--gold);
 }
 
 .gc-door .frame {
-    border-radius: 18px;
-    border-color: #5b2a80;
+    border: 1.5px solid var(--gold);
+    box-shadow:
+        0 0 0 1px rgba(27, 10, 44, 0.6),
+        inset 0 0 28px rgba(0, 0, 0, 0.35);
 }
 
 .gc-door .frame::before {
-    border-radius: 12px;
+    border: 1px solid var(--line);
+    box-shadow: none;
+}
+
+.gc-door .frame::after {
+    display: none;
+}
+
+.gc-door .studs {
+    background: radial-gradient(
+            circle at 50% 50%,
+            #fff1b8 0 1.2px,
+            #e3bd5a 2.4px,
+            #7a5518 4px,
+            transparent 4.6px
+        )
+        0 0 / 14px 22px repeat-y;
+    filter: none;
+    animation: none;
+}
+
+.gc-door .vine {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 44' width='16' height='44'%3E%3Cg fill='none' stroke='%23e3bd5a' stroke-width='1.3' stroke-linecap='round'%3E%3Cpath d='M8 0C14 8 14 14 8 22C2 30 2 36 8 44'/%3E%3Cpath d='M8 11C3 9 2 5 5 3'/%3E%3Cpath d='M8 33C13 31 14 27 11 25'/%3E%3C/g%3E%3Ccircle cx='8' cy='22' r='1.8' fill='%23e3bd5a'/%3E%3C/svg%3E")
+        0 0 / 16px 44px repeat-y;
+    filter: none;
+    animation: gcd-vine 14s linear infinite;
+}
+
+.gc-door .cart::before {
+    background: radial-gradient(
+        circle,
+        rgba(246, 227, 160, 0.4),
+        transparent 65%
+    );
+    animation: none;
 }
 
 .gc-door .bar {
     width: 6px;
-    background: linear-gradient(
-        180deg,
-        transparent,
-        #fbd5ea 20%,
-        #d9a0e0 50%,
-        #fbd5ea 80%,
-        transparent
-    );
-    box-shadow: 0 0 16px rgba(255, 159, 192, 0.6);
+    background: linear-gradient(180deg, #a87c2e, #f6e3a0 50%, #a87c2e);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .gc-door .knob {
     background: radial-gradient(
         circle at 35% 30%,
-        #fff 0 12%,
-        #ffb6d2 38%,
-        #8a4fb0 78%
+        #fff6d0 0 12%,
+        #e3bd5a 40%,
+        #7a5518 80%
     );
     box-shadow:
-        0 0 0 3px rgba(74, 31, 102, 0.9),
-        0 0 0 5px #ffe6f4,
-        0 0 20px rgba(255, 159, 192, 0.7);
+        0 0 0 3px #1b0a2c,
+        0 0 0 4.5px var(--gold),
+        0 6px 12px rgba(0, 0, 0, 0.5);
+    animation: none;
 }
 
-/* cover corner ornaments: soft glow, round frame */
+.gc-door .flame,
+.gc-door .dl-petal {
+    filter: none;
+    animation-name: gcd-bloom;
+}
+
+.gc-main {
+    background: var(--ink);
+}
+
+.gc-shade {
+    background: linear-gradient(
+        to bottom,
+        rgba(23, 8, 34, 0.82),
+        rgba(23, 8, 34, 0.2) 45%,
+        rgba(23, 8, 34, 0.9)
+    );
+}
+
+.gc-glow {
+    background: radial-gradient(
+        ellipse at 50% 35%,
+        rgba(227, 189, 90, 0.1),
+        transparent 55%
+    );
+}
+
+/* double hairline frame on the cover */
+.gc-box {
+    inset: 14px;
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+    box-shadow: none;
+}
+
 .gc-corner {
-    border-radius: 28px 6px 28px 6px;
-    border-color: rgba(255, 190, 225, 0.6);
+    inset: 22px;
+    border: 1px solid var(--line-soft);
+    border-radius: 0;
 }
 
-.gc-guest {
-    border-radius: var(--lt-r-md);
-    border: 1px solid rgba(255, 190, 225, 0.8);
-    background: rgba(255, 247, 253, 0.94);
+.gc-corner::before,
+.gc-corner::after {
+    color: var(--gold);
+    text-shadow: none;
+    font-size: 26px;
+}
+
+.g-lotusfl {
+    color: var(--gold);
+    opacity: 0.22;
+    text-shadow: none;
+}
+
+.g-particle,
+.royal-particle {
+    background: var(--gold-light);
+    box-shadow: 0 0 8px 1px rgba(227, 189, 90, 0.55);
+}
+
+.gc-logo,
+.gc-invite,
+.gc-amp {
+    color: var(--gold-light);
+}
+
+.gc-logo-halo {
+    animation-duration: 90s;
+}
+
+.gc-logo::before {
+    display: none;
+}
+
+.gc-spark {
+    animation: none;
+    color: var(--gold);
+}
+
+.gc-logo-img {
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+}
+
+.gc-amp::before,
+.gc-amp::after {
+    background: linear-gradient(90deg, transparent, var(--gold));
+}
+
+.gc-amp::after {
+    background: linear-gradient(270deg, transparent, var(--gold));
 }
 
 .gc-sub {
-    border-color: rgba(255, 190, 225, 0.45);
+    border: 1px solid var(--line);
+    background: rgba(23, 8, 34, 0.45);
+    border-radius: 2px;
+    color: var(--gold-light);
 }
 
-/* open button: ripple rings instead of a gold shine sweep */
+.gc-guest {
+    border-radius: 2px;
+    border: 1px solid var(--gold);
+    background: var(--cream);
+    color: var(--ink-2);
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        inset 0 0 0 3px var(--cream),
+        inset 0 0 0 4px var(--line);
+}
+
+.gc-guest::before,
+.gc-guest::after {
+    color: var(--gold-deep);
+}
+
+/* the open button is the one thing allowed to pulse */
 .gc-open {
-    background: var(--pearl);
-    color: var(--lt-ink) !important;
-    -webkit-text-fill-color: var(--lt-ink);
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    border: 1px solid var(--gold-light);
+    border-radius: 2px;
+    background: var(--foil);
+    background-size: 100% 100%;
+    color: var(--ink) !important;
+    -webkit-text-fill-color: var(--ink);
+    box-shadow:
+        0 6px 18px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
     animation:
         khmer-reveal 1s cubic-bezier(0.2, 0.7, 0.2, 1) both,
-        lt-ripple 2.8s ease-out 2.4s infinite;
+        kx-call 3s ease-in-out 2.4s infinite;
     animation-delay: var(--d, 0ms), 2.4s;
 }
 
 .gc-open svg,
 .gc-open-ornament {
-    color: var(--lt-ink);
+    color: var(--ink);
 }
 
 .gc-open::after {
@@ -5241,548 +5448,946 @@ body {
 }
 
 .gc-open:hover {
-    background: linear-gradient(135deg, #ffffff 0%, #f7d0f0 50%, #d8c8fb 100%);
-    box-shadow: 0 8px 26px rgba(255, 159, 192, 0.5);
+    background: var(--foil);
+    border-color: #fff;
+    box-shadow:
+        0 10px 26px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
-@keyframes lt-ripple {
-    0% {
-        box-shadow:
-            0 4px 14px rgba(60, 25, 90, 0.25),
-            0 0 0 0 rgba(255, 159, 192, 0.55),
-            0 0 0 0 rgba(134, 217, 200, 0.4);
-    }
-
-    70%,
+@keyframes kx-call {
+    0%,
     100% {
         box-shadow:
-            0 4px 14px rgba(60, 25, 90, 0.25),
-            0 0 0 16px rgba(255, 159, 192, 0),
-            0 0 0 30px rgba(134, 217, 200, 0);
+            0 6px 18px rgba(0, 0, 0, 0.4),
+            0 0 0 0 rgba(227, 189, 90, 0.5);
+    }
+
+    50% {
+        box-shadow:
+            0 6px 18px rgba(0, 0, 0, 0.4),
+            0 0 0 12px rgba(227, 189, 90, 0);
     }
 }
 
 /* =====================================================================
    6. HERO
    ===================================================================== */
-.kc-date {
-    border-color: rgba(255, 190, 225, 0.8);
-    background: rgba(255, 159, 192, 0.12);
-    border-radius: 999px;
+.g-hero {
+    background-color: var(--ink);
 }
 
-.kc-date::after {
-    display: none; /* no metal shine */
+.kc-frame {
+    color: var(--cream);
 }
 
 .kc-shape {
     background: radial-gradient(
         ellipse 50% 46% at 50% 52%,
-        rgba(30, 8, 48, 0.72) 0%,
-        rgba(30, 8, 48, 0.56) 45%,
-        rgba(30, 8, 48, 0.22) 72%,
+        rgba(23, 8, 34, 0.72) 0%,
+        rgba(23, 8, 34, 0.55) 45%,
+        rgba(23, 8, 34, 0.22) 72%,
         transparent 100%
     );
 }
 
-.hl-label {
-    color: rgba(255, 190, 225, 0.9);
+.kc-angkor {
+    animation: kx-temple-rise 1.8s var(--kx-ease) both;
+    filter: none;
 }
 
-.hl-rule {
-    height: 2px;
+.kc-date {
+    border: 1px solid var(--gold);
     border-radius: 2px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 159, 192, 0.6),
-        transparent
-    );
+    background: rgba(23, 8, 34, 0.45);
+    color: var(--gold-light);
 }
 
-.chakra-band {
-    background: linear-gradient(90deg, #d88ad8, var(--lt-rose), var(--lt-leaf));
+.kc-date::after {
+    display: none;
+}
+
+.hl-label {
+    color: var(--gold);
+}
+
+.hl-parent {
+    color: var(--cream);
+}
+
+.royal-shimmer,
+.royal-bottom-ornament,
+.royal-quote {
+    color: var(--gold);
+    animation: none;
+}
+
+.kc-scroll {
+    color: var(--gold);
 }
 
 /* =====================================================================
-   7. COUPLE: leaf-shaped glow, soft frame
+   7. COUPLE
    ===================================================================== */
 .kx-fglow {
-    background: radial-gradient(circle, #ffb6d2, transparent 70%);
-    opacity: 0.45;
+    background: radial-gradient(
+        circle,
+        rgba(122, 47, 143, 0.9),
+        transparent 70%
+    );
+    opacity: 0.5;
+}
+
+.kx-float,
+.kx-float-b {
+    filter: drop-shadow(0 12px 16px rgba(0, 0, 0, 0.5));
+}
+
+.kx-sweep {
+    display: none;
+}
+
+.kx-dia {
+    background: var(--gold);
+}
+
+.kx-ringwave {
+    border-color: rgba(227, 189, 90, 0.7);
+}
+
+.kx-ringwave.b {
+    border-color: rgba(232, 112, 143, 0.6);
+}
+
+.kx-love {
+    color: var(--rose);
 }
 
 /* =====================================================================
    8. COUNTDOWN
    ===================================================================== */
 .cd-box {
-    border-radius: var(--lt-r-lg);
+    border-radius: 2px;
+    background: var(--paper);
 }
 
 .cd-box::before {
-    inset: 7px;
-    border-radius: var(--lt-r-lg-in);
-    border: 1px dashed rgba(138, 79, 176, 0.45);
+    inset: 6px;
+    border: 1px solid var(--line-soft);
+    border-radius: 0;
 }
 
-#countdown .cd-box::before {
-    border-color: rgba(255, 200, 230, 0.5);
+.cd-box .dm {
+    width: 10px;
+    height: 10px;
+    border-radius: 0;
 }
 
 .cd-grid > div + div {
-    border-left: 0;
-    position: relative;
+    border-left: 1px solid var(--line-soft);
 }
 
-/* tiny pearl between each number instead of a hard line */
-.cd-grid > div + div::before {
-    content: "";
-    position: absolute;
-    left: -2px;
-    top: 50%;
-    width: 4px;
-    height: 4px;
-    margin-top: -2px;
-    border-radius: 50%;
-    background: var(--lt-rose);
-    box-shadow: 0 0 8px var(--lt-rose);
+.cd-grid .num {
+    font-family: "Moul", "Noto Serif Khmer", serif;
+    font-weight: 400;
+    font-size: 1.7rem;
 }
 
-.ac-btn {
-    border-color: #d08ad8;
-    animation: lt-ripple-soft 3.2s ease-out infinite;
+#countdown .cd-box {
+    background: rgba(23, 8, 34, 0.45);
+}
+
+#countdown .cd-box::before {
+    border-color: var(--line-soft);
+}
+
+#countdown .cd-grid > div + div {
+    border-left-color: var(--line-soft);
+}
+
+.ac-btn,
+.kf-btn {
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+    color: var(--ink-2);
+    background: transparent;
+    animation: none;
 }
 
 .ac-btn::after {
     display: none;
 }
 
-.ac-btn:hover,
-.ac-btn.done,
-#countdown .ac-btn:hover,
-#countdown .ac-btn.done {
-    background: var(--pearl);
-    color: var(--lt-ink);
+#countdown .ac-btn {
+    background: rgba(23, 8, 34, 0.4);
+    border-color: var(--gold);
+    color: var(--gold-light);
 }
 
-@keyframes lt-ripple-soft {
-    0% {
-        box-shadow:
-            0 6px 20px rgba(0, 0, 0, 0.15),
-            0 0 0 0 rgba(255, 159, 192, 0.5);
-    }
-
-    70%,
-    100% {
-        box-shadow:
-            0 6px 20px rgba(0, 0, 0, 0.15),
-            0 0 0 14px rgba(255, 159, 192, 0);
-    }
+.ac-btn:hover,
+.ac-btn.done,
+.kf-btn:hover,
+.kf-btn.done,
+#countdown .ac-btn:hover,
+#countdown .ac-btn.done {
+    background: var(--foil);
+    color: var(--ink);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .burst-ring {
-    border-color: var(--lt-rose);
+    border-color: var(--gold);
 }
 
 .burst-spark {
-    background: var(--lt-leaf);
+    background: var(--gold-light);
 }
 
 /* =====================================================================
-   9. STORY TIMELINE: round pearl nodes, no diamonds
+   9. STORY
    ===================================================================== */
 .tl-line {
-    width: 2px;
-    border-radius: 2px;
+    width: 1px;
     background: linear-gradient(
         to bottom,
-        var(--lt-rose),
-        rgba(217, 160, 224, 0.7),
-        var(--lt-leaf) 85%,
+        var(--gold-light),
+        var(--gold) 60%,
         transparent
     );
 }
 
 .tl .node {
-    transform: none;
-    border-radius: 50% 0 50% 0; /* a single petal */
-    background: linear-gradient(135deg, #fff3fb, #e08ad0);
-    animation: lt-node 3s ease-in-out infinite;
-}
-
-.tl .node svg {
-    transform: none;
-}
-
-@keyframes lt-node {
-    0%,
-    100% {
-        transform: scale(1) rotate(0deg);
-    }
-
-    50% {
-        transform: scale(1.14) rotate(8deg);
-    }
+    animation: none;
+    border-radius: 0;
+    background: var(--foil);
+    color: var(--ink);
+    box-shadow:
+        0 0 0 3px rgba(27, 10, 44, 0.9),
+        0 0 0 4px var(--gold);
 }
 
 .tl .yr {
-    color: var(--lt-rose);
+    color: var(--gold);
+    font-family: "Moul", "Noto Serif Khmer", serif;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+}
+
+.tl h3 {
+    color: var(--cream);
 }
 
 /* =====================================================================
    10. SCHEDULE
    ===================================================================== */
+#schedule {
+    background: var(--ink) !important;
+}
+
 .sc-date .badge {
-    border-radius: 50% 0 50% 0;
-    background: var(--pearl);
+    border-radius: 0;
+    background: var(--foil);
+    color: var(--ink);
+    transform: rotate(45deg);
+}
+
+.sc-date .badge svg {
+    transform: rotate(-45deg);
 }
 
 .sc-date .badge::before {
-    border-radius: 50% 0 50% 0;
-    border-color: rgba(255, 190, 225, 0.5);
+    border-radius: 0;
+    border-color: var(--line);
 }
 
-.dl .l1 {
-    background: linear-gradient(to right, transparent, var(--lt-rose));
-}
-
-.dl .l2 {
-    background: linear-gradient(to left, transparent, var(--lt-rose));
+.ev-track {
+    background: var(--line-soft);
 }
 
 .ev-fill {
-    background: linear-gradient(to bottom, var(--lt-rose), #d88ad8, var(--lt-leaf));
-    box-shadow: 0 0 12px rgba(255, 159, 192, 0.6);
+    width: 2px;
+    background: linear-gradient(to bottom, var(--gold-light), var(--gold-deep));
+    box-shadow: none;
 }
 
 .ev-node {
-    border-radius: 50% 0 50% 0;
-    border-color: rgba(255, 190, 225, 0.4);
-    color: rgba(255, 190, 225, 0.7);
+    border-radius: 0;
+    transform: rotate(45deg);
+    border: 1px solid var(--line);
+    background: var(--ink);
+    color: var(--gold);
+}
+
+.ev-node svg {
+    transform: rotate(-45deg);
 }
 
 .ev-list > li.reached .ev-node {
-    background: var(--pearl);
-    color: var(--lt-ink);
+    border-color: var(--gold-light);
+    background: var(--foil);
+    color: var(--ink);
+    box-shadow: none;
+}
+
+.ev-list > li.active .ev-node {
+    transform: rotate(45deg) scale(1.08);
 }
 
 .ev-list > li.active .ev-node::after {
-    border-radius: 50% 0 50% 0;
-    border-color: var(--lt-leaf);
+    border-radius: 0;
+    border-color: var(--gold);
 }
 
 .ev-card {
-    border-radius: var(--lt-r-md);
-    border-color: rgba(255, 190, 225, 0.25);
+    border-radius: 2px;
+    border: 1px solid var(--line-soft);
+    background: rgba(23, 8, 34, 0.5);
 }
 
 .ev-list > li.active .ev-card {
-    border-color: rgba(255, 190, 225, 0.65);
-    box-shadow: 0 0 30px rgba(255, 159, 192, 0.22);
+    border-color: var(--gold);
+    background: rgba(23, 8, 34, 0.62);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
 }
 
 .ev-card .edge {
     width: 3px;
-    background: linear-gradient(to bottom, var(--lt-rose), var(--lt-leaf));
+    background: linear-gradient(to bottom, var(--gold-light), var(--gold-deep));
 }
 
 .ev-time {
-    color: var(--lt-pearl);
+    font-family: "Moul", "Noto Serif Khmer", serif;
+    font-weight: 400;
+    font-size: 1.5rem;
+    color: var(--gold-light);
 }
 
 .ev-place svg {
-    color: var(--lt-leaf);
+    color: var(--gold);
+}
+
+.ev-map {
+    border-radius: 2px;
+    box-shadow: none;
+}
+
+.ev-end span {
+    border-radius: 0;
+    transform: rotate(45deg);
+    border-color: var(--line);
+    color: var(--gold-deep);
+}
+
+.ev-end span svg {
+    transform: rotate(-45deg);
 }
 
 .ev-end.on span {
-    border-color: var(--lt-leaf);
-    color: var(--lt-leaf);
-    background: rgba(134, 217, 200, 0.15);
+    border-color: var(--gold);
+    background: rgba(227, 189, 90, 0.15);
+    color: var(--gold-light);
 }
 
 /* =====================================================================
-   11. GALLERY: leaf-shaped tiles instead of arches
+   11. GALLERY  ·  prasat (stepped tower arch) frames
    ===================================================================== */
-.kg-frame,
-.kg-inner {
-    border-radius: var(--lt-r-leaf);
+.kg-section {
+    background: var(--ink);
 }
 
-.kg-tile.kg-odd .kg-frame,
-.kg-tile.kg-odd .kg-inner {
-    border-radius: var(--lt-r-leaf-alt);
-}
-
-.kg-frame {
-    padding: 2px;
-    box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.45),
-        0 0 24px rgba(255, 159, 192, 0.18);
-}
-
-.kg-frame:hover {
-    box-shadow:
-        0 18px 44px rgba(255, 159, 192, 0.4),
-        0 0 30px rgba(134, 217, 200, 0.25);
-}
-
-.kg-inner::after {
+.kg-overlay {
     background: linear-gradient(
-        115deg,
-        transparent 35%,
-        rgba(255, 210, 235, 0.4) 50%,
-        transparent 65%
+        180deg,
+        rgba(23, 8, 34, 0.6),
+        rgba(23, 8, 34, 0.35) 40%,
+        rgba(23, 8, 34, 0.7)
     );
 }
 
-/* the little finial above each arch is not needed on a leaf */
-.kg-finial {
+.kg-kanok {
+    opacity: 0.7;
+}
+
+.kg-dust {
+    display: none;
+}
+
+.kg-tile {
+    filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.5));
+}
+
+.kg-frame,
+.kg-inner,
+.kg-lb-frame,
+.kg-lb-frame img {
+    border-radius: 0;
+    clip-path: polygon(
+        50% 0,
+        56% 5%,
+        63% 8%,
+        69% 14%,
+        80% 17%,
+        85% 25%,
+        100% 30%,
+        100% 100%,
+        0 100%,
+        0 30%,
+        15% 25%,
+        20% 17%,
+        31% 14%,
+        37% 8%,
+        44% 5%
+    );
+}
+
+.kg-frame {
+    padding: 3px;
+    box-shadow: none;
+    animation: none;
+    background: var(--foil);
+}
+
+.kg-frame:hover {
+    transform: translateY(-4px);
+    box-shadow: none;
+}
+
+.kg-inner {
+    aspect-ratio: 3 / 4;
+}
+
+.kg-inner::after {
     display: none;
 }
 
 .kg-lb-frame {
-    border-radius: 120px 12px 120px 12px;
-    padding: 3px;
-    box-shadow: 0 0 70px rgba(255, 159, 192, 0.35);
+    padding: 4px;
+    box-shadow: none;
+    background: var(--foil);
 }
 
-.kg-lb-frame img {
-    border-radius: 117px 9px 117px 9px;
+.kg-lb {
+    background: rgba(14, 5, 22, 0.94);
 }
 
 .kg-thumb {
-    border-radius: 18px 3px 18px 3px;
+    border-radius: 2px;
 }
 
 .kg-thumb.on {
-    border-color: var(--lt-rose);
+    border-color: var(--gold);
 }
 
 .kg-count {
-    color: var(--lt-rose);
+    color: var(--gold);
+}
+
+.kg-circle {
+    background: rgba(27, 10, 44, 0.7);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+}
+
+.kg-circle:hover {
+    background: rgba(74, 31, 102, 0.9);
 }
 
 /* =====================================================================
-   12. DRESS CODE: petal swatches instead of diamonds
+   12. DRESS CODE
    ===================================================================== */
 .dc-sw {
-    width: 52px;
-    height: 52px;
-    transform: rotate(0deg);
-    border-radius: 50% 0 50% 0;
+    width: 46px;
+    height: 46px;
+    border-radius: 0;
     padding: 2px;
-    box-shadow: 0 4px 12px rgba(138, 79, 176, 0.25);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
 }
 
 .dc-sw span {
-    border-radius: 50% 0 50% 0;
-}
-
-.dc-sw:nth-child(even) {
-    border-radius: 0 50% 0 50%;
-}
-
-.dc-sw:nth-child(even) span {
-    border-radius: 0 50% 0 50%;
+    border-radius: 0;
 }
 
 /* =====================================================================
    13. RSVP + WISHES
    ===================================================================== */
 .rs-field,
-.rs-toggle button {
-    border-radius: 20px 6px 20px 6px;
-    border-color: rgba(255, 190, 225, 0.4);
+.rs-toggle button,
+.wish-list li {
+    border-radius: 2px;
+    border: 1px solid var(--line-soft);
+    background: rgba(23, 8, 34, 0.5);
 }
 
 .rs-field:focus {
-    border-color: var(--lt-rose);
-    box-shadow: 0 0 0 3px rgba(255, 159, 192, 0.3);
+    border-color: var(--gold);
+    background: rgba(23, 8, 34, 0.7);
+    box-shadow: 0 0 0 3px rgba(227, 189, 90, 0.25);
 }
 
 .rs-toggle button.on {
-    background: var(--pearl);
-    color: var(--lt-ink);
+    border-color: var(--gold-light);
+    background: var(--foil);
+    color: var(--ink);
+    box-shadow: none;
 }
 
 .rs-send,
 .btn-foil,
 .ev-map {
-    background: var(--pearl);
-    color: var(--lt-ink);
+    background: var(--foil);
+    color: var(--ink);
 }
 
 .rs-send {
-    border-radius: 22px 6px 22px 6px;
+    border-radius: 2px;
+    letter-spacing: 0.04em;
 }
 
 .rs-done .tick b,
 .wish-av {
-    background: var(--pearl);
-    color: var(--lt-ink);
+    background: var(--foil);
+    color: var(--ink);
 }
 
 .rs-done .tick b {
-    border-radius: 50% 0 50% 0;
+    border-radius: 0;
+    transform: rotate(45deg);
 }
 
-.wish-list li {
-    border-radius: 20px 6px 20px 6px;
-    border-color: rgba(255, 190, 225, 0.25);
+.rs-done .tick b svg {
+    transform: rotate(-45deg);
 }
 
-.wish-name {
-    color: var(--lt-pearl);
+.wish-name,
+.wish-title b,
+.wish-more {
+    color: var(--gold-light);
+    -webkit-text-fill-color: var(--gold-light);
 }
 
 .wish-title b {
-    background: rgba(255, 159, 192, 0.22);
-    color: var(--lt-pearl);
-    -webkit-text-fill-color: var(--lt-pearl);
+    background: rgba(227, 189, 90, 0.18);
+    border-radius: 2px;
 }
 
 .wish-more {
-    border-color: rgba(255, 190, 225, 0.5);
-    color: var(--lt-pearl);
+    border-color: var(--line);
+    border-radius: 2px;
 }
 
-.wish-head span:first-child {
-    background: linear-gradient(to right, transparent, var(--lt-rose));
+.wish-head svg {
+    fill: var(--rose);
+    color: var(--rose);
 }
 
-.wish-head span:last-child {
-    background: linear-gradient(to left, transparent, var(--lt-rose));
+.wish-fade {
+    background: linear-gradient(to top, rgba(23, 8, 34, 0.85), transparent);
 }
 
 /* =====================================================================
-   14. GIFT + APOLOGY CARDS: petal-cornered card, pearl edge
+   14. GIFT + APOLOGY CARDS  ·  cream card with gold double frame
    ===================================================================== */
 .gold-card {
     padding: 2px;
-    border-radius: var(--lt-r-lg);
-    background: linear-gradient(
-        135deg,
-        #f1c4ee 0%,
-        #ff9fc0 35%,
-        #b9a2f0 70%,
-        #86d9c8 100%
-    );
-    box-shadow:
-        0 18px 50px rgba(110, 40, 150, 0.32),
-        0 0 40px rgba(255, 159, 192, 0.18);
+    border-radius: 2px;
+    background: var(--foil);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.4);
+}
+
+.gold-card.float {
+    animation: none;
 }
 
 .gold-card-in {
-    border-radius: var(--lt-r-lg-in);
-    background: linear-gradient(180deg, #fffafe, #fbf1fb);
+    border-radius: 1px;
+    background: var(--cream);
+    color: var(--text);
 }
 
 .gold-card-in::before {
-    inset: 9px;
-    border-radius: 36px 5px 36px 5px;
-    border: 1px dashed rgba(181, 111, 196, 0.5);
+    inset: 8px;
+    border: 1px solid var(--line);
+    border-radius: 0;
 }
 
 .gold-card-in::after {
-    background: linear-gradient(
-        115deg,
-        transparent 38%,
-        rgba(255, 210, 235, 0.4) 50%,
-        transparent 62%
-    );
+    display: none;
 }
 
-.gold-card.ap-c {
-    border-radius: var(--lt-r-lg);
-}
-
+.gold-card.ap-c,
 .gold-card.ap-c .gold-card-in {
-    border-radius: var(--lt-r-lg-in);
+    border-radius: 2px;
 }
 
 .kf-qr {
-    border: 2px solid #e6b0ea;
-    border-radius: 22px 6px 22px 6px;
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+    box-shadow:
+        inset 0 0 0 3px #fff,
+        inset 0 0 0 4px var(--line);
 }
 
 .kf-bank {
-    color: #9a4fb8;
+    color: var(--gold-deep);
+}
+
+.kf-num {
+    color: var(--ink-2);
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    font-family: "Moul", "Noto Serif Khmer", serif;
+    font-weight: 400;
+    font-size: 1.5rem;
 }
 
 .kf-btn {
-    border-color: #d08ad8;
-    border-radius: 22px 6px 22px 6px;
+    color: var(--ink-2);
 }
 
-.kf-btn:hover,
-.kf-btn.done {
-    background: var(--pearl);
-    color: var(--lt-ink);
-    box-shadow: 0 8px 22px rgba(255, 159, 192, 0.45);
+.ap-bud {
+    filter: none;
+    animation: none;
 }
 
 .petals i {
-    background: linear-gradient(135deg, #fff0f8, #f1b0dc);
+    background: linear-gradient(135deg, #fff0f4, #f3a3b8);
+    border-radius: 100% 0 100% 0;
 }
 
 /* =====================================================================
    15. THANKS + MUSIC
    ===================================================================== */
 .th-bloom {
-    color: var(--lt-rose);
-    filter: drop-shadow(0 0 12px rgba(255, 159, 192, 0.55));
+    color: var(--gold);
+    filter: none;
+}
+
+.th-rule {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    max-width: 12rem;
+    margin: 18px auto;
+}
+
+.th-rule span {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.th-rule b {
+    width: 7px;
+    height: 7px;
+    transform: rotate(45deg);
+    background: var(--gold);
 }
 
 .th-btn {
-    border-color: rgba(255, 210, 235, 0.7);
-    border-radius: 22px 6px 22px 6px;
-}
-
-.th-btn:hover {
-    box-shadow: 0 10px 28px rgba(255, 159, 192, 0.45);
+    border: 1px solid var(--gold-light);
+    border-radius: 2px;
 }
 
 .th-btn::after,
 button[type="submit"]::after {
-    display: none; /* no metal shine sweep on buttons */
+    display: none;
+}
+
+.th-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
 }
 
 .g-music {
-    background: linear-gradient(135deg, #5a2a80, #8a4fb0);
-    color: var(--lt-pearl);
-    box-shadow:
-        0 6px 16px rgba(0, 0, 0, 0.35),
-        0 0 0 3px rgba(255, 159, 192, 0.25);
+    background: var(--ink-2);
+    color: var(--gold-light);
+    border: 1px solid var(--gold);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
 /* =====================================================================
-   16. FALLING PETALS + FIREFLIES: rose and aqua mix
+   16. FALLING PETALS  ·  rose + gold leaf, nothing else floating
    ===================================================================== */
 .kx-petals i {
     background: radial-gradient(
         120% 120% at 30% 20%,
-        #fff5fb 0%,
-        #f6b8dd 50%,
-        #c070c8 100%
+        #fff3f6 0%,
+        #f4a9bd 55%,
+        #c94a6c 100%
     );
 }
 
 .kx-petals i.pink {
     background: radial-gradient(
         120% 120% at 30% 20%,
-        #fff0f4 0%,
-        #ffb0c8 50%,
-        #e0527f 100%
+        #fff8de 0%,
+        #f1d27c 55%,
+        #b98a2e 100%
     );
 }
 
-.kx-fireflies b:nth-child(3n) {
-    background: #c8f5ea;
-    box-shadow: 0 0 10px 3px rgba(134, 217, 200, 0.75);
+.kx-fireflies {
+    display: none;
 }
 
-.g-particle:nth-child(3n),
-.royal-particle:nth-child(3n) {
-    background: #c8f5ea;
-    box-shadow: 0 0 9px 2px rgba(134, 217, 200, 0.6);
+@media (prefers-reduced-motion: reduce) {
+    .g-div-band,
+    .gc-door .vine {
+        animation: none !important;
+    }
+}
+
+/* =====================================================================
+   17. HERO CARD · BOTTOM NAV · MUSIC BUTTON
+   ===================================================================== */
+
+/* hero content waits for the cover to open, then plays in sequence */
+.gw:not(.kx-open) .royal-enter,
+.gw:not(.kx-open) .kc-angkor {
+    animation-play-state: paused;
+}
+
+html:not(.js) .royal-enter {
+    opacity: 1;
+    animation: none;
+}
+
+.kc-angkor {
+    width: min(170px, 46%);
+}
+
+.kc-name {
+    font-size: clamp(1.35rem, 6.4vw, 1.7rem);
+}
+
+.kc-amp {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 2px 0;
+    color: var(--gold-light);
+}
+
+.kc-amp span {
+    width: 46px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold));
+}
+
+.kc-amp span:last-of-type {
+    background: linear-gradient(270deg, transparent, var(--gold));
+    order: 3;
+}
+
+.kc-amp b {
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--gold);
+    animation-duration: 40s;
+    filter: none;
+}
+
+.kc-amp em {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    translate: -50% -4px;
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--gold-light);
+}
+
+.kc-parents {
+    display: grid;
+    gap: 6px;
+    max-width: 17rem;
+    margin: 26px auto 0;
+}
+
+.kc-parents .hl-rule {
+    width: 60px;
+    margin: 0 auto;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.kc-date {
+    font-size: 13px;
+    padding: 0.5rem 1.5rem;
+}
+
+/* ---------- bottom navigation ---------- */
+.gw {
+    padding-bottom: 76px; /* room for the bar */
+}
+
+.kx-nav {
+    position: fixed;
+    left: 50%;
+    bottom: 0;
+    z-index: 70;
+    display: flex;
+    width: min(100%, 448px);
+    padding: 6px 4px max(6px, env(safe-area-inset-bottom));
+    transform: translate(-50%, 120%);
+    background: rgba(23, 8, 34, 0.9);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--gold);
+    box-shadow:
+        0 -10px 30px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transition: transform 0.9s var(--kx-ease) 1.2s;
+}
+
+/* slides up once the cover has opened */
+.gw.kx-open .kx-nav,
+html:not(.js) .kx-nav {
+    transform: translate(-50%, 0);
+}
+
+.kx-nav-i {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    min-width: 0;
+    padding: 8px 2px 6px;
+    color: rgba(246, 227, 160, 0.55);
+    font-family: "Battambang", "Noto Serif Khmer", serif;
+    font-size: 10px;
+    line-height: 1.3;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+        color 0.3s,
+        transform 0.2s;
+}
+
+.kx-nav-i span {
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.kx-nav-i:active {
+    transform: scale(0.93);
+}
+
+/* gold diamond marker above the active item */
+.kx-nav-i::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -4px;
+    width: 7px;
+    height: 7px;
+    translate: -50% 0;
+    rotate: 45deg;
+    background: var(--gold);
+    border: 1px solid var(--ink);
+    opacity: 0;
+    scale: 0.4;
+    transition:
+        opacity 0.3s,
+        scale 0.3s;
+}
+
+.kx-nav-i.on {
+    color: var(--gold-light);
+}
+
+.kx-nav-i.on::before {
+    opacity: 1;
+    scale: 1;
+}
+
+.kx-nav-i.on svg {
+    filter: drop-shadow(0 0 6px rgba(227, 189, 90, 0.6));
+}
+
+/* ---------- music on / off button ---------- */
+.g-music {
+    top: max(14px, env(safe-area-inset-top));
+    right: 14px;
+    bottom: auto;
+    z-index: 75;
+    width: 42px;
+    height: 42px;
+    opacity: 1;
+    animation: none;
+    background: rgba(23, 8, 34, 0.82);
+    color: var(--gold-light);
+    border: 1px solid var(--gold);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    transition:
+        transform 0.2s,
+        background 0.3s;
+}
+
+.g-music:active {
+    transform: scale(0.92);
+}
+
+/* OFF: icon dimmed with a slash through it */
+.g-music svg {
+    transition: opacity 0.3s;
+    opacity: 0.55;
+}
+
+.g-music::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 24px;
+    height: 1.5px;
+    translate: -50% -50%;
+    rotate: -45deg;
+    background: var(--gold-light);
+    box-shadow: 0 0 0 1px var(--ink);
+    transition: opacity 0.3s;
+}
+
+/* ON: slash disappears, soft ring pulses, icon spins slowly */
+.g-music.on {
+    animation: none;
+    background: var(--foil);
+    color: var(--ink);
+}
+
+.g-music.on::after {
+    opacity: 0;
+}
+
+.g-music.on svg {
+    opacity: 1;
+    animation: g-spin 8s linear infinite;
+}
+
+.g-music.on::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border: 1px solid var(--gold);
+    animation: kx-ring 2.4s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .kx-nav {
+        transition: none;
+        transform: translate(-50%, 0);
+    }
+
+    .g-music.on svg,
+    .g-music.on::before {
+        animation: none;
+    }
 }

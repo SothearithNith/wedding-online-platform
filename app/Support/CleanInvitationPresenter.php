@@ -160,7 +160,7 @@ class CleanInvitationPresenter
         $gallery = array_values(array_filter(array_map($img, (array) $w['gallery'])));
         $events = array_values((array) $w['events']);
         $story = array_values((array) $w['story']);
-      
+
         $colors = array_values(
             array_filter(
                 (array) ($w['dressCode']['colors'] ?? []),

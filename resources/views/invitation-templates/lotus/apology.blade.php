@@ -20,7 +20,7 @@
             {!! $title($K['apology']) !!}
             <div class="ap-card-w">
                 <div class="gold-card ap-c">
-                    <div class="gold-card-in" style="padding-bottom:2rem;color:#3b2503;text-shadow:none">
+                    <div class="gold-card-in" style="padding-bottom:2rem;color:#2a1238;text-shadow:none">
                         {!! $corner('tl', 'gcn', 44) !!}{!! $corner('tr', 'gcn', 44) !!}{!! $corner('bl', 'gcn', 44) !!}{!! $corner('br', 'gcn', 44) !!}
                         <svg aria-hidden="true" viewBox="0 0 80 80" width="64" height="64" class="ap-bud">
                             <path d="M40 8 C50 22 52 38 40 56 C28 38 30 22 40 8 Z" fill="{{ $GOLD }}"

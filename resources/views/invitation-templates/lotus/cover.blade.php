@@ -18,28 +18,28 @@
                             <defs>
                                 <linearGradient id="gcg{{ $side }}" x1="0" y1="0" x2="1"
                                     y2="1">
-                                    <stop offset="0" stop-color="#fde4f5" />
-                                    <stop offset=".45" stop-color="#c78ad0" />
-                                    <stop offset="1" stop-color="#6a2f8a" />
+                                    <stop offset="0" stop-color="#f6e3a0" />
+                                    <stop offset=".5" stop-color="#e3bd5a" />
+                                    <stop offset="1" stop-color="#a87c2e" />
                                 </linearGradient>
                                 <linearGradient id="gcb{{ $side }}" x1="0" y1="0" x2="0"
                                     y2="1">
-                                    <stop offset="0" stop-color="#a95fb8" />
-                                    <stop offset="1" stop-color="#3f1a58" />
+                                    <stop offset="0" stop-color="#f6e3a0" />
+                                    <stop offset="1" stop-color="#a87c2e" />
                                 </linearGradient>
                                 <linearGradient id="gcn{{ $side }}" x1="0" y1="0" x2="0"
                                     y2="1">
-                                    <stop offset="0" stop-color="#fcf7ff" />
-                                    <stop offset=".6" stop-color="#ecc8f2" />
-                                    <stop offset="1" stop-color="#c78ad0" />
+                                    <stop offset="0" stop-color="#fffaf0" />
+                                    <stop offset=".65" stop-color="#f6ead0" />
+                                    <stop offset="1" stop-color="#e3bd5a" />
                                 </linearGradient>
                             </defs>
 
                             <path class="flame" d="M50 1C55 6 55 12 50 18C45 12 45 6 50 1Z"
                                 fill="url(#gcb{{ $side }})" />
-                            <circle cx="50" cy="21" r="1.7" fill="#3f1a58" />
+                            <circle cx="50" cy="21" r="1.7" fill="#a87c2e" />
 
-                            <g class="curls" stroke="#4a1f66" stroke-width="1.3" stroke-linecap="round">
+                            <g class="curls" stroke="#7a5518" stroke-width="1.3" stroke-linecap="round">
                                 <path pathLength="100" d="M20 28C29 27 33 36 27 41C23 44 19 40 22 37" />
                                 <path pathLength="100" d="M20 28C14 29 12 35 15 39" />
                                 <g transform="translate(100 0) scale(-1 1)">
@@ -52,11 +52,11 @@
                                 fill="url(#gcn{{ $side }})" stroke="url(#gcb{{ $side }})"
                                 stroke-width="3" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
                             <path class="beads" d="M50 18C52 36 66 46 84 66L84 232L16 232L16 66C34 46 48 36 50 18Z"
-                                transform="translate(5 14) scale(.9)" stroke="#6a2f8a" stroke-width="2.4"
+                                transform="translate(5 14) scale(.9)" stroke="#a87c2e" stroke-width="2.4"
                                 stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
 
                             {{-- lotus petals at the base of the niche --}}
-                            <g fill="url(#gcg{{ $side }})" stroke="#4a1f66" stroke-width=".8">
+                            <g fill="url(#gcg{{ $side }})" stroke="#7a5518" stroke-width=".8">
                                 @foreach ([-62, 62, -32, 32, 0] as $k => $deg)
                                     <g transform="rotate({{ $deg }} 50 234)">
                                         <path class="dl-petal" style="--i:{{ $k }}"
@@ -66,7 +66,7 @@
                                 @endforeach
                             </g>
 
-                            <image class="apsara" href="{{ asset('assets/images/lotus/apsara.png') }}" x="4" y="40"
+                            <image class="apsara" href="{{ asset('assets/images/gold/apsara.png') }}" x="4" y="40"
                                 width="92" height="194" preserveAspectRatio="xMidYMax meet" />
                         </svg>
                     </div>
@@ -97,7 +97,7 @@
                 <div class="gc-logo g-reveal" style="--d:100ms">
                     <span class="gc-logo-halo" aria-hidden="true"></span>
                     <span class="gc-spark" aria-hidden="true">{!! $ic('sparkles', 18) !!}</span>
-                    <img src="{{ asset('assets/images/lotus/lotus-wedding.png') }}" alt=""
+                    <img src="{{ asset('assets/images/gold/gold-wedding.png') }}" alt=""
                         width="500" height="180" class="royal-logo gc-logo-img"
                         onerror="this.style.display='none'">
                 </div>

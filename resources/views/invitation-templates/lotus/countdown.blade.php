@@ -37,32 +37,4 @@
             </button>
         </div>
     </div>
-    <style>
-        /* countdown on glass */
-        #countdown .cd-box {
-            background: rgba(255, 255, 255, 0.08);
-            -webkit-backdrop-filter: blur(4px);
-            backdrop-filter: blur(4px);
-        }
-
-        #countdown .cd-box::before {
-            border-color: rgba(246, 227, 160, 0.45);
-        }
-
-        #countdown .cd-grid>div+div {
-            border-left-color: rgba(246, 227, 160, 0.3);
-        }
-
-        #countdown .ac-btn {
-            background: rgba(0, 0, 0, 0.25);
-            border-color: rgba(246, 227, 160, 0.7);
-            color: #f6e3a0;
-        }
-
-        #countdown .ac-btn:hover,
-        #countdown .ac-btn.done {
-            background: var(--foil);
-            color: #3b2503;
-        }
-    </style>
 </section>

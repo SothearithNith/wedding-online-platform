@@ -47,7 +47,7 @@
                                             </linearGradient>
                                         </defs>
 
-                                        <path d="{{ $shape }}" fill="#2a1c0d" />
+                                        <path d="{{ $shape }}" fill="#2b1046" />
 
                                         <g clip-path="url(#{{ $uid }}c)">
                                             @if ($photo)
@@ -135,7 +135,7 @@
                             </filter>
                         </defs>
                         <g filter="url(#hbs)">
-                            <circle cx="60" cy="60" r="54" fill="#1b1209" stroke="url(#hbg)"
+                            <circle cx="60" cy="60" r="54" fill="#1b0a2c" stroke="url(#hbg)"
                                 stroke-width="4" />
                         </g>
                         <circle class="kx-orbit" cx="60" cy="60" r="46" fill="none"
