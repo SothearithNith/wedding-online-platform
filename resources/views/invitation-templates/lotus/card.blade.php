@@ -109,8 +109,7 @@
         </svg>
     </div>
 </section>
-
-{{-- ============================ BOTTOM NAVIGATION ============================ --}}
+ 
 <nav class="kx-nav" id="kx-nav" aria-label="Sections">
     @foreach ($navItems as [$target, $icon, $label])
         <a class="kx-nav-i" href="#{{ $target }}" data-t="{{ $target }}">
