@@ -5,9 +5,9 @@
         <div class="gloss"></div>
         {!! $title($K['countdowns']) !!}
 
-        <p class="rv ts" style="font-size:12px;letter-spacing:.3em;color:#f6e3a0">{{ $K['date'] }}</p>
+        <p class="rv ts  title-font" style="font-size:12px;letter-spacing:.3em;color:#f6e3a0">{{ $K['date'] }}</p>
         <p class="rv g-foil font-display" data-delay="100" style="margin-top:12px;font-size:15px">
-            <span class="js-date" data-iso="{{ $w['date'] }}">{{ $w['dateText'] }}</span>
+            <span class="js-date title-font" data-iso="{{ $w['date'] }}">{{ $w['dateText'] }}</span>
         </p>
 
         <div class="rv" data-v="zoom" data-delay="200">
@@ -21,7 +21,8 @@
                         <div>
                             <div style="overflow:hidden"><span class="num g-foil tnum"
                                     data-u="{{ ['d', 'h', 'm', 's'][$i] }}">00</span></div>
-                            <div class="ts" style="margin-top:4px;font-size:11px;color:rgba(255,255,255,.85)">
+                            <div class="ts  title-font"
+                                style="margin-top:4px;font-size:11px;color:rgba(255,255,255,.85)">
                                 {{ $lab }}</div>
                         </div>
                     @endforeach

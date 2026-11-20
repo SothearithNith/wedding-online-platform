@@ -22,7 +22,7 @@
 @endphp
 
 <section class="g-hero" id="hero">
-    <div class="g-bgimg on" data-bg="{{ $img($w['cover']) ?: $heroBg }}" data-eager style="z-index:0"></div>
+    <div class="g-bgimg on" data-bg="{{ $bg('card') }}"   data-eager style="z-index:0"></div>
     <div class="g-ov"
         style="background:linear-gradient(180deg,rgba(23,8,34,.72),rgba(23,8,34,.38) 45%,rgba(23,8,34,.86));z-index:0">
     </div>
@@ -109,10 +109,10 @@
         </svg>
     </div>
 </section>
- 
+
 <nav class="kx-nav" id="kx-nav" aria-label="Sections">
     @foreach ($navItems as [$target, $icon, $label])
-        <a class="kx-nav-i" href="#{{ $target }}" data-t="{{ $target }}">
+        <a class="kx-nav-i title-font" href="#{{ $target }}" data-t="{{ $target }}">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
                 stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
                 aria-hidden="true">{!! $navIcons[$icon] !!}</svg>
