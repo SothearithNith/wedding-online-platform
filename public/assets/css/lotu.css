@@ -1,10 +1,3 @@
-/* =====================================================================
-   LOTUS TEMPLATE · KHMER ROYAL EDITION  (full stylesheet, fixed)
-   FIX: .kc-name no longer gets "animation:none" (that left royal-enter
-   at opacity:0 forever). See section 17b near the bottom.
-   ===================================================================== */
-
-/* ============================ BASE ============================ */
 *,
 *::before,
 *::after {
@@ -5632,4 +5625,386 @@ html:not(.js) .kx-nav {
     text-wrap: balance;
     overflow-wrap: anywhere;
     text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+}
+
+/* =====================================================================
+   COUPLE · gold vine border + kbach oval frames
+   Paste at the very bottom of lotus-khmer-royal.css.
+   Put khmer-vine-border.png at /public/assets/images/default/khmer-vine-border.png
+   (change the url() below if you store it somewhere else).
+   ===================================================================== */
+
+/* ---------- palette (taken from your .gw tokens, scoped so nothing else changes) ---------- */
+.cpl {
+    --gold: #e5c162;
+    --gold-light: #fceebc;
+    --gold-deep: #a97d2f;
+    --cream: #fdf7e8;
+    --ink: #1f0a33;
+    --ink-2: #2e0f45;
+    --line: rgba(229, 193, 98, 0.55);
+    --foil: linear-gradient(
+        125deg,
+        #a97d2f 0%,
+        #e5c162 25%,
+        #fdf7e8 45%,
+        #e5c162 65%,
+        #a97d2f 100%
+    );
+}
+
+.cpl {
+    padding: 96px 40px 96px;
+}
+
+/* ---------- gold vine border around the whole section ---------- */
+.cpl::after {
+    content: "";
+    display: block;
+    position: absolute;
+    inset: 6px;
+    z-index: 3;
+    pointer-events: none;
+    background: none;
+    animation: none;
+    border: 130px solid transparent;
+    border-image: url("/assets/images/default/khmer-vine-border.png") 340 /
+        130px stretch;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.55));
+}
+
+.cpl-in {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    max-width: 24rem;
+    margin: 0 auto;
+}
+
+/* gold vine through the middle */
+.cpl-in::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 34px;
+    bottom: 34px;
+    width: 1px;
+    z-index: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(229, 193, 98, 0.5) 12%,
+        rgba(229, 193, 98, 0.5) 88%,
+        transparent
+    );
+}
+
+/* top / bottom ornaments */
+.cpl-orn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 11rem;
+    margin: 0 auto 26px;
+    position: relative;
+    z-index: 1;
+}
+.cpl-orn span {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold));
+}
+.cpl-orn span:last-child {
+    background: linear-gradient(270deg, transparent, var(--gold));
+}
+.cpl-orn i {
+    width: 6px;
+    height: 6px;
+    transform: rotate(45deg);
+    background: var(--gold);
+}
+.cpl-orn i.big {
+    width: 10px;
+    height: 10px;
+    background: var(--foil);
+    box-shadow:
+        0 0 0 3px rgba(31, 10, 51, 0.9),
+        0 0 0 4px var(--gold);
+}
+.cpl-orn-end {
+    margin: 26px auto 0;
+}
+
+/* card = portrait + nameplate */
+.cpl-card {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    align-items: center;
+    gap: 10px;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+}
+.cpl-right {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+}
+.cpl-right .cpl-photo {
+    order: 2;
+}
+
+/* ---------- portrait ---------- */
+.cpl-art {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1/1;
+    filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.5));
+}
+.cpl-halo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 120%;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    z-index: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.9;
+    background: repeating-conic-gradient(
+        from 0deg,
+        rgba(229, 193, 98, 0.3) 0 2.5deg,
+        transparent 2.5deg 12deg
+    );
+    -webkit-mask-image: radial-gradient(
+        circle,
+        #000 0%,
+        rgba(0, 0, 0, 0.5) 35%,
+        transparent 62%
+    );
+    mask-image: radial-gradient(
+        circle,
+        #000 0%,
+        rgba(0, 0, 0, 0.5) 35%,
+        transparent 62%
+    );
+    animation: kx-turn 90s linear infinite;
+}
+
+/* photo sits exactly inside the ring (ellipse 98 x 126 in a 340 x 340 box) */
+.cpl-oval {
+    position: absolute;
+    left: 21.18%;
+    top: 13.53%;
+    width: 57.65%;
+    height: 74.12%;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: 50%;
+    background: var(--ink-2);
+}
+.cpl-oval img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 25%;
+}
+.cpl-oval::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(31, 10, 51, 0.4), transparent 35%);
+}
+.cpl-fallback {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 64px;
+    color: var(--gold-light);
+    opacity: 0.7;
+}
+
+.cpl-frame-svg {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+}
+
+/* ---------- nameplate ---------- */
+.cpl-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    min-width: 0;
+}
+.cpl-right .cpl-info {
+    align-items: flex-end;
+    text-align: right;
+}
+
+.cpl-role {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    line-height: 1.4;
+    color: var(--gold);
+}
+.cpl-role i {
+    width: 5px;
+    height: 5px;
+    transform: rotate(45deg);
+    background: var(--gold);
+}
+
+.cpl-name {
+    margin: 8px 0 0;
+    max-width: 100%;
+    font-weight: 400;
+    font-size: clamp(1.05rem, 4.6vw, 1.3rem);
+    line-height: 1.9;
+    color: var(--gold-light);
+    -webkit-text-fill-color: var(--gold-light);
+    text-shadow:
+        0 1px 0 rgba(31, 10, 51, 0.8),
+        0 2px 14px rgba(0, 0, 0, 0.7);
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+}
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    .cpl-name {
+        background: var(--foil);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        text-shadow: none;
+        filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.55));
+    }
+}
+
+.cpl-div {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    width: 6.5rem;
+    margin: 6px 0 10px;
+}
+.cpl-div span {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+}
+.cpl-div i {
+    width: 6px;
+    height: 6px;
+    transform: rotate(45deg);
+    background: var(--gold);
+    order: -1;
+}
+.cpl-right .cpl-div span {
+    background: linear-gradient(270deg, var(--gold), transparent);
+}
+.cpl-right .cpl-div i {
+    order: 3;
+}
+.cpl-right .cpl-div span:first-child {
+    order: 2;
+}
+
+/* ---------- parents (dad + mom of this person) ---------- */
+.cpl-parents {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    width: 100%;
+    margin: 0;
+}
+.cpl-right .cpl-parents {
+    align-items: flex-end;
+}
+
+.cpl-par {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    max-width: 100%;
+}
+.cpl-par-role {
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    line-height: 1.4;
+    color: var(--gold);
+}
+.cpl-par-name {
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--cream);
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+}
+.cpl-par-dia {
+    display: block;
+    width: 5px;
+    height: 5px;
+    transform: rotate(45deg);
+    background: var(--gold);
+    opacity: 0.8;
+    margin: 1px 0;
+}
+
+/* ---------- heart medallion ---------- */
+.cpl-knot {
+    position: relative;
+    z-index: 4;
+    display: grid;
+    place-items: center;
+    width: 60px;
+    height: 60px;
+    margin: -10px auto -10px;
+    padding: 11px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #3a1556, #1b0a2c);
+    border: 2px solid var(--gold);
+    box-shadow:
+        0 0 0 4px rgba(31, 10, 51, 0.9),
+        0 0 0 5px var(--line),
+        0 10px 22px rgba(0, 0, 0, 0.5);
+}
+.cpl-knot .kx-ringwave {
+    inset: -2px;
+}
+
+@media (max-width: 360px) {
+    .cpl {
+        padding-left: 34px;
+        padding-right: 34px;
+    }
+    .cpl::after {
+        border-width: 110px;
+        border-image-width: 110px;
+    }
+    .cpl-card {
+        gap: 8px;
+    }
+    .cpl-par-name {
+        font-size: 11.5px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cpl-halo {
+        animation: none;
+    }
 }
