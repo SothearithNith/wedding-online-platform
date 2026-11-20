@@ -1,19 +1,29 @@
-/* CLEAN · Khmer — ivory & night, gold line-art, living motion
-   Mobile-first: the invitation is always a phone-width column (max 480px),
-   centred on larger screens. Supports Khmer (default) + English. */
+/* =====================================================================
+   CLEAN · Khmer Royal — ruby silk, temple gold, warm ivory
+   One consolidated stylesheet (no duplicate blocks, palette baked in).
+   Mobile-first: the invitation is a phone-width column (max 480px),
+   centred on larger screens. Khmer (default) + English.
+
+   Change the primary colour by editing ONLY these 5 tokens:
+   --silk / --ruby / --night / --night2 / --ruby-grad
+   · Jade     #1f6b57 / #2a8a6f / #0b241d / #12382d
+   · Sapphire #1f3f7a / #2d57a3 / #0a1428 / #11213f
+   ===================================================================== */
 
 :root {
-    --bg: #fbf8f1;
-    --paper: #fff;
-    --ink: #2b2118;
-    --mute: #75664f;
-    --gold: #b8892b;
-    --gold-l: #e3bd5a;
+    --bg: #fbf6ee;
+    --paper: #fffdf8;
+    --ink: #2a1417;
+    --mute: #7a6358;
+    --gold: #b8862b;
+    --gold-l: #e2b955;
     --gold-h: #fff0b7;
-    --line: #eadfc6;
-    --night: #1b1209;
-    --night2: #2a1a0c;
-    --silk: #7a1f2b;
+    --line: #ecdcc0;
+    --silk: #8c1d2f;
+    --ruby: #a3212f;
+    --night: #2a0a10;
+    --night2: #4a1119;
+    --ruby-grad: linear-gradient(135deg, #b02a3a, #7a1624);
     --foil: linear-gradient(
         115deg,
         #8a6414,
@@ -24,13 +34,14 @@
     );
     --foil-ink: linear-gradient(
         115deg,
-        #8a6414 0%,
-        #b8892b 38%,
-        #e3bd5a 50%,
-        #b8892b 62%,
-        #8a6414 100%
+        #7a1624 0%,
+        #a3212f 36%,
+        #d9a441 50%,
+        #a3212f 64%,
+        #7a1624 100%
     );
     --ease: cubic-bezier(0.22, 0.8, 0.24, 1);
+    --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
     --f-body: "Battambang", "Noto Sans Khmer", sans-serif;
     --f-title: "Noto Serif Khmer", serif;
     --f-moul: "Moul", "Noto Serif Khmer", serif;
@@ -56,9 +67,14 @@ html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
-    background: #120c06 radial-gradient(ellipse at 50% 0, #2a1a0c, #120c06 70%)
+    background: #1a0509 radial-gradient(ellipse at 50% 0, #4a1119, #1a0509 70%)
         fixed;
 }
+::selection {
+    background: var(--gold-l);
+    color: var(--night);
+}
+
 @font-face {
     font-family: "AKbalthomKbach";
     src: url("/assets/fonts/AKbalthomKbachRegular.ttf") format("truetype");
@@ -97,7 +113,7 @@ body {
     touch-action: manipulation;
     overflow-x: hidden;
     overflow-x: clip;
-    box-shadow: 0 0 90px rgba(0, 0, 0, 0.55);
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.6);
     min-height: 100svh;
 }
 html[lang="en"] body {
@@ -118,7 +134,7 @@ button {
     appearance: none;
 }
 :focus-visible {
-    outline: 2px solid var(--gold);
+    outline: 2px solid var(--ruby);
     outline-offset: 3px;
 }
 
@@ -136,8 +152,23 @@ button {
     height: 3px;
     z-index: 90;
     background: var(--foil);
+    box-shadow: 0 0 12px rgba(227, 189, 90, 0.8);
     transform-origin: 0 0;
     transform: scaleX(0);
+}
+
+/* ---------- Khmer typography: never letter-space Khmer clusters ---------- */
+html:not([lang="en"]) .cv small,
+html:not([lang="en"]) .hero .k,
+html:not([lang="en"]) .role,
+html:not([lang="en"]) .scroll,
+html:not([lang="en"]) .cv-hint,
+html:not([lang="en"]) .lb-count,
+html:not([lang="en"]) .guest,
+html:not([lang="en"]) .cd span,
+html:not([lang="en"]) .hero .date,
+html:not([lang="en"]) .th-date {
+    letter-spacing: 0;
 }
 
 /* ---------- language switch ---------- */
@@ -151,7 +182,7 @@ button {
     padding: 3px;
     border: 1px solid rgba(227, 189, 90, 0.6);
     border-radius: 999px;
-    background: rgba(27, 18, 9, 0.55);
+    background: rgba(42, 10, 16, 0.55);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
@@ -205,13 +236,19 @@ body.lb-open .lang {
     max-width: 880px;
 }
 section.cl {
-    padding: 72px 0 76px;
+    padding: 84px 0 88px;
     text-align: center;
     position: relative;
     overflow: hidden;
 }
 section.cl.alt {
-    background: var(--paper);
+    background:
+        radial-gradient(
+            ellipse at 50% 0,
+            rgba(163, 33, 47, 0.06),
+            transparent 60%
+        ),
+        var(--paper);
 }
 section.cl.alt::before {
     content: "";
@@ -228,18 +265,24 @@ section.cl.alt::before {
 .txt {
     max-width: 430px;
     margin: 0 auto;
-    line-height: 2.05;
+    line-height: 2.1;
+}
+html:not([lang="en"]) .txt,
+html:not([lang="en"]) .tl .box p {
+    line-height: 2.1;
+    overflow-wrap: break-word;
 }
 html[lang="en"] .txt {
     line-height: 1.8;
 }
 
+/* ---------- section titles: ruby→gold foil + kbach underline ---------- */
 h2.cl-h {
     font-family: var(--f-moul);
     font-weight: 400;
-    font-size: 20px;
+    font-size: 21px;
     line-height: 1.9;
-    color: var(--gold);
+    color: var(--silk);
     margin: 0;
 }
 html[lang="en"] h2.cl-h {
@@ -248,6 +291,32 @@ html[lang="en"] h2.cl-h {
     letter-spacing: 0.16em;
     text-transform: uppercase;
     line-height: 1.5;
+}
+.dark h2.cl-h {
+    color: var(--gold-h);
+}
+h2.cl-h::after {
+    content: "";
+    display: block;
+    width: 96px;
+    height: 12px;
+    margin: 6px auto 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='12' viewBox='0 0 96 12'%3E%3Cpath d='M0 6h34M62 6h34' stroke='%23e2b955' stroke-width='1'/%3E%3Cpath d='M48 0l6 6-6 6-6-6z' fill='%23b8862b'/%3E%3Cpath d='M38 6l4-3v6zM58 6l-4-3v6z' fill='%23e2b955'/%3E%3C/svg%3E")
+        center / contain no-repeat;
+    -webkit-text-fill-color: initial;
+}
+.js h2.cl-h:not(.in)::after {
+    opacity: 0;
+    transform: scaleX(0.2);
+}
+h2.cl-h.in::after {
+    animation: orn-in 1.4s var(--ease-soft) 0.5s both;
+}
+@keyframes orn-in {
+    from {
+        opacity: 0;
+        transform: scaleX(0.2);
+    }
 }
 /* gold foil sweeps across a title once, when it appears */
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {
@@ -325,10 +394,10 @@ html[lang="en"] .date-t {
     opacity: 0;
     transform: translateY(26px);
     transition:
-        opacity 0.9s var(--ease) var(--d, 0ms),
-        transform 0.9s var(--ease) var(--d, 0ms),
-        filter 0.9s var(--ease) var(--d, 0ms),
-        clip-path 1.2s var(--ease) var(--d, 0ms);
+        opacity 1.1s var(--ease-soft) var(--d, 0ms),
+        transform 1.1s var(--ease-soft) var(--d, 0ms),
+        filter 1.1s var(--ease-soft) var(--d, 0ms),
+        clip-path 1.2s var(--ease-soft) var(--d, 0ms);
 }
 .js .rv[data-v="zoom"] {
     transform: scale(0.8);
@@ -358,7 +427,7 @@ html[lang="en"] .date-t {
     clip-path: inset(0 0 0 0);
 }
 
-/* ---------- buttons ---------- */
+/* ---------- buttons: ruby silk with a gold edge ---------- */
 .btn {
     position: relative;
     overflow: hidden;
@@ -370,11 +439,14 @@ html[lang="en"] .date-t {
     padding: 12px 30px;
     border: 0;
     border-radius: 999px;
-    background: var(--gold);
-    color: #fff;
+    background: var(--ruby-grad);
+    color: #fff3d1;
     font-size: 15px;
     cursor: pointer;
-    box-shadow: 0 8px 22px rgba(184, 137, 43, 0.35);
+    box-shadow:
+        0 10px 24px rgba(122, 22, 36, 0.4),
+        inset 0 0 0 1px rgba(226, 185, 85, 0.7),
+        inset 0 1px 0 rgba(255, 240, 183, 0.4);
     transition:
         transform 0.4s var(--ease),
         box-shadow 0.4s,
@@ -398,22 +470,24 @@ html[lang="en"] .date-t {
 }
 .btn.line {
     background: transparent;
-    color: var(--gold);
-    border: 1.5px solid var(--gold);
-    box-shadow: none;
+    color: var(--silk);
+    border: 0;
+    box-shadow: inset 0 0 0 1.5px var(--gold);
 }
 .btn.line:active {
-    background: var(--gold);
-    color: #fff;
+    background: var(--ruby-grad);
+    color: #fff3d1;
 }
 @media (hover: hover) {
     .btn:hover {
         transform: translateY(-3px) scale(1.02);
-        box-shadow: 0 14px 30px rgba(184, 137, 43, 0.45);
+        box-shadow:
+            0 16px 32px rgba(122, 22, 36, 0.5),
+            inset 0 0 0 1px var(--gold-h);
     }
     .btn.line:hover {
-        background: var(--gold);
-        color: #fff;
+        background: var(--ruby-grad);
+        color: #fff3d1;
     }
 }
 .btn.shine::after {
@@ -445,6 +519,7 @@ html[lang="en"] .date-t {
 .dark .btn.shine {
     background: var(--foil);
     color: var(--night);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
 }
 .rp {
     position: absolute;
@@ -511,9 +586,9 @@ html[lang="en"] .date-t {
     inset: 0;
     background: linear-gradient(
         180deg,
-        rgba(20, 13, 6, 0.72),
-        rgba(20, 13, 6, 0.4) 45%,
-        rgba(20, 13, 6, 0.85)
+        rgba(42, 10, 16, 0.78),
+        rgba(74, 17, 25, 0.38) 45%,
+        rgba(26, 5, 9, 0.9)
     );
 }
 .cv-seam {
@@ -530,7 +605,9 @@ html[lang="en"] .date-t {
         var(--gold-l),
         transparent
     );
-    box-shadow: 0 0 18px var(--gold-l);
+    box-shadow:
+        0 0 26px var(--gold-l),
+        0 0 60px rgba(227, 189, 90, 0.35);
     transition: opacity 0.4s;
 }
 .cv.open .cv-l {
@@ -593,6 +670,47 @@ html[lang="en"] .date-t {
     opacity: 0;
     transform: scale(1.12);
 }
+/* lit doorway: warm light spilling from the arch top */
+.cv-in::before,
+.hero-frame::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -4%;
+    width: 150%;
+    height: 70%;
+    translate: -50% 0;
+    background: radial-gradient(
+        ellipse 50% 60% at 50% 0,
+        rgba(255, 224, 150, 0.36),
+        rgba(227, 189, 90, 0.11) 45%,
+        transparent 70%
+    );
+    filter: blur(6px);
+    opacity: 0;
+    pointer-events: none;
+}
+.cv-in::before {
+    animation:
+        door-light 2.2s var(--ease) 0.5s forwards,
+        door-breathe 6s ease-in-out 3s infinite;
+}
+.hero.go .hero-frame::before {
+    animation:
+        door-light 2.4s var(--ease) 0.5s forwards,
+        door-breathe 6s ease-in-out 3s infinite;
+}
+@keyframes door-light {
+    to {
+        opacity: 1;
+    }
+}
+@keyframes door-breathe {
+    50% {
+        opacity: 0.65;
+        scale: 1.06;
+    }
+}
 .cv-mandala {
     position: absolute;
     inset: 50% auto auto 50%;
@@ -609,11 +727,12 @@ html[lang="en"] .date-t {
     inset: 0;
     width: 100%;
     height: 100%;
-    fill: rgba(20, 13, 6, 0.38);
+    fill: rgba(42, 10, 16, 0.34);
     stroke: var(--gold-l);
     stroke-width: 1.6;
     overflow: visible;
-    filter: drop-shadow(0 0 10px rgba(227, 189, 90, 0.35));
+    filter: drop-shadow(0 0 14px rgba(227, 189, 90, 0.45))
+        drop-shadow(0 0 40px rgba(227, 189, 90, 0.18));
 }
 .cv-arch path,
 .hero-arch path {
@@ -623,10 +742,27 @@ html[lang="en"] .date-t {
     stroke-dashoffset: 125;
     animation: draw 2.6s var(--ease) 0.2s forwards;
 }
+.hero-arch path:first-child {
+    stroke-width: 2;
+}
+/* once drawn, the outline breathes with light */
+.cv-arch path:first-child,
+.hero-arch path:first-child {
+    animation:
+        draw 2.6s var(--ease) 0.2s forwards,
+        arch-glow 5s ease-in-out 3s infinite;
+}
+@keyframes arch-glow {
+    50% {
+        stroke: var(--gold-h);
+    }
+}
 .cv-arch path + path,
 .hero-arch path + path {
     fill: none;
-    animation-delay: 0.7s;
+    stroke-width: 1;
+    stroke-opacity: 0.65;
+    animation: draw 2.6s var(--ease) 0.7s forwards;
 }
 @keyframes draw {
     to {
@@ -734,7 +870,12 @@ html[lang="en"] .cv h1 {
     border: 1px solid rgba(227, 189, 90, 0.6);
     border-radius: 999px;
     font-size: 14px;
-    background: rgba(255, 255, 255, 0.08);
+    letter-spacing: 0.02em;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 240, 183, 0.14),
+        rgba(255, 255, 255, 0.04)
+    );
     -webkit-backdrop-filter: blur(4px);
     backdrop-filter: blur(4px);
     overflow-wrap: anywhere;
@@ -743,6 +884,7 @@ html[lang="en"] .cv h1 {
     background: var(--foil);
     background-size: 200% 100%;
     color: var(--night);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
     animation:
         up 1s var(--ease) forwards,
         pulse 2.6s 2.6s infinite,
@@ -773,6 +915,7 @@ html[lang="en"] .cv h1 {
     border-top: 1.5px solid var(--gold-l);
     border-left: 1.5px solid var(--gold-l);
     transform: rotate(45deg);
+    filter: drop-shadow(0 0 6px rgba(227, 189, 90, 0.8));
     animation: nudge 1.6s ease-in-out infinite;
 }
 @keyframes nudge {
@@ -835,9 +978,9 @@ html[lang="en"] .cv h1 {
     z-index: -2;
     background: linear-gradient(
         180deg,
-        rgba(20, 13, 6, 0.7),
-        rgba(20, 13, 6, 0.35) 50%,
-        rgba(20, 13, 6, 0.85)
+        rgba(42, 10, 16, 0.72),
+        rgba(74, 17, 25, 0.3) 50%,
+        rgba(26, 5, 9, 0.9)
     );
 }
 .hero-rays {
@@ -849,10 +992,10 @@ html[lang="en"] .cv h1 {
     margin: -80vmax 0 0 -80vmax;
     z-index: -1;
     background: repeating-conic-gradient(
-        rgba(255, 226, 140, 0.07) 0 5deg,
-        transparent 5deg 12deg
+        rgba(255, 226, 140, 0.06) 0 4deg,
+        transparent 4deg 13deg
     );
-    animation: spin 120s linear infinite;
+    animation: spin 180s linear infinite;
     -webkit-mask: radial-gradient(circle, #000, transparent 55%);
     mask: radial-gradient(circle, #000, transparent 55%);
 }
@@ -871,6 +1014,23 @@ html[lang="en"] .cv h1 {
     place-items: center;
     margin: 56px 0 80px;
 }
+/* glass inside the arch (behind the text) */
+.hero-frame::after {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    z-index: -1;
+    border-radius: 999px 999px 8px 8px;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 240, 183, 0.1),
+        rgba(42, 10, 16, 0.5)
+    );
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    animation: door-light 1.6s ease 1s forwards;
+}
 .hero-in {
     position: relative;
     padding: 56px 24px 40px;
@@ -881,6 +1041,14 @@ html[lang="en"] .cv h1 {
 }
 .hero-emblem .cl-bloom {
     width: 60px;
+}
+.hero.go .hero-emblem .cl-bloom {
+    animation: emblem-pulse 4.5s ease-in-out 2.6s infinite;
+}
+@keyframes emblem-pulse {
+    50% {
+        filter: drop-shadow(0 0 18px rgba(255, 232, 160, 0.95));
+    }
 }
 .hero .k {
     margin: 6px 0 0;
@@ -903,17 +1071,11 @@ html[lang="en"] .hero .k {
 html[lang="en"] .hero h1 {
     line-height: 1.25;
 }
+/* names rise out of their masks */
 .hero h1 .mask {
     display: block;
     overflow: hidden;
-    padding: 2px 0;
-}
-.hero h1 b {
-    display: block;
-    font-weight: 400;
-    font-family: var(--f-title);
-    font-size: 17px;
-    color: var(--gold-l);
+    padding: 0.12em 0 0.26em;
 }
 .hero h1 .nm {
     display: inline-block;
@@ -923,32 +1085,117 @@ html[lang="en"] .hero h1 {
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-.hero.go h1 .nm {
+.hero h1 .nm.hi {
+    opacity: 1;
+    transform: translateY(115%);
+}
+.hero.go h1 .nm.hi {
     animation:
-        up 1.1s var(--ease) forwards,
+        name-rise 1.4s var(--ease) both,
         foil 7s linear infinite;
     animation-delay: var(--d), 0s;
+}
+@keyframes name-rise {
+    to {
+        transform: none;
+    }
+}
+/* "and" gets gold hairlines that grow outward */
+.hero h1 b {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7em;
+    margin: 2px 0;
+    font-weight: 400;
+    font-family: var(--f-title);
+    font-size: 17px;
+    color: var(--gold-l);
+}
+.hero h1 b::before,
+.hero h1 b::after {
+    content: "";
+    width: 38px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-l));
+    transform: scaleX(0);
+    transform-origin: right;
+}
+.hero h1 b::after {
+    transform-origin: left;
+    background: linear-gradient(270deg, transparent, var(--gold-l));
+}
+.hero.go h1 b::before,
+.hero.go h1 b::after {
+    animation: grow-x 1.2s var(--ease) 1.5s forwards;
+}
+@keyframes grow-x {
+    to {
+        transform: scaleX(1);
+    }
 }
 .hero .intro {
     max-width: 270px;
     margin: 0 auto;
     font-size: 13px;
     color: #f8e8bd;
+    line-height: 1.9;
+    text-wrap: balance;
 }
 .hero .date {
     display: flex;
     align-items: center;
     gap: 10px;
     justify-content: center;
-    margin-top: 16px;
+    margin-top: 18px;
     color: var(--gold-h);
-    font-size: 14px;
+    font-size: 15px;
+    letter-spacing: 0.04em;
 }
 .hero .hl {
     flex: none;
-    width: 24px;
+    width: 34px;
     height: 1px;
-    background: var(--gold-l);
+    background: linear-gradient(90deg, transparent, var(--gold-l));
+    transform: scaleX(0);
+    transform-origin: right;
+}
+.hero .hl:last-child {
+    background: linear-gradient(270deg, transparent, var(--gold-l));
+    transform-origin: left;
+}
+.hero.go .hl {
+    animation: grow-x 1.2s var(--ease) 2s forwards;
+}
+/* location pill: centred, wraps evenly, works with or without an icon */
+.hero .location {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: fit-content;
+    max-width: 100%;
+    margin: 14px auto 0;
+    padding: 8px 20px;
+    text-align: center;
+    text-wrap: balance;
+    line-height: 1.7;
+    font-size: 13px;
+    color: #f8e8bd;
+    border: 1px solid rgba(227, 189, 90, 0.5);
+    border-radius: 999px;
+    background: rgba(42, 10, 16, 0.45);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+}
+.hero .location svg {
+    flex: none;
+    color: var(--gold-l);
+}
+@media (max-width: 400px) {
+    .hero .location {
+        border-radius: 18px;
+    }
 }
 .scroll {
     position: absolute;
@@ -962,6 +1209,10 @@ html[lang="en"] .hero h1 {
     font-size: 11px;
     letter-spacing: 0.3em;
     color: var(--gold-l);
+}
+.hero .scroll {
+    opacity: 0;
+    animation: up 1s var(--ease) 2.6s forwards;
 }
 .scroll i {
     width: 20px;
@@ -997,7 +1248,8 @@ html[lang="en"] .hero h1 {
 .cl-kbach {
     height: 30px;
     background: var(--night) var(--kbach) 0 2px / 30px 26px repeat-x;
-    border-block: 1px solid var(--gold);
+    border-block: 1px solid var(--gold-l);
+    box-shadow: 0 6px 18px rgba(122, 22, 36, 0.35);
     animation: strip 16s linear infinite;
 }
 @keyframes strip {
@@ -1014,9 +1266,9 @@ html[lang="en"] .hero h1 {
     column-gap: 14px;
     align-items: start;
     justify-items: center;
-    padding-bottom: 5svh; /* room for the lowered bride */
+    padding-bottom: 5svh;
 }
-/* slow gold halo that links the two portraits */
+/* slow halo that links the two portraits */
 .pair::before {
     content: "";
     position: absolute;
@@ -1026,12 +1278,12 @@ html[lang="en"] .hero h1 {
     aspect-ratio: 1;
     margin: calc(min(92%, 340px) / -2) 0 0 calc(min(92%, 340px) / -2);
     border-radius: 50%;
-    border: 1px dashed rgba(184, 137, 43, 0.45);
+    border: 1px dashed rgba(163, 33, 47, 0.35);
     animation: spin 60s linear infinite;
     pointer-events: none;
 }
 .pair .person:nth-of-type(2) {
-    margin-top: min(9svh, 70px); /* stagger: groom high, bride low */
+    margin-top: min(9svh, 70px);
 }
 .person {
     display: flex;
@@ -1045,6 +1297,15 @@ html[lang="en"] .hero h1 {
     perspective: 800px;
     transform-style: preserve-3d;
     transition: transform 0.3s;
+    animation: sway 8s ease-in-out infinite;
+}
+.pair .person:nth-of-type(2) .ph {
+    animation-delay: -4s;
+}
+@keyframes sway {
+    50% {
+        translate: 0 -7px;
+    }
 }
 .ph img {
     position: relative;
@@ -1055,7 +1316,25 @@ html[lang="en"] .hero h1 {
     border: 2px solid var(--gold-l);
     padding: 6px;
     background: #fff;
-    box-shadow: 0 18px 40px rgba(60, 40, 10, 0.18);
+    box-shadow:
+        0 20px 44px rgba(122, 22, 36, 0.22),
+        0 0 0 1px rgba(226, 185, 85, 0.5);
+}
+/* second offset outline */
+.ph::after {
+    content: "";
+    position: absolute;
+    inset: -9px;
+    border: 1px solid rgba(163, 33, 47, 0.45);
+    border-radius: 999px 999px 24px 24px;
+    pointer-events: none;
+    animation: frame-pulse 4.5s ease-in-out infinite;
+}
+@keyframes frame-pulse {
+    50% {
+        inset: -13px;
+        border-color: rgba(226, 185, 85, 0.8);
+    }
 }
 .ph .glow {
     position: absolute;
@@ -1100,10 +1379,22 @@ html[lang="en"] .hero h1 {
 html[lang="en"] .role {
     text-transform: uppercase;
 }
+.person .role {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+.person .role::before,
+.person .role::after {
+    content: "";
+    width: 14px;
+    height: 1px;
+    background: var(--gold-l);
+}
 .person h3 {
     margin: 0 0 4px;
     text-align: center;
-    color: var(--gold); /* names are gold, never black */
+    color: var(--silk); /* names are ruby→gold foil, never black */
     background: var(--foil-ink);
     background-size: 240% 100%;
     -webkit-background-clip: text;
@@ -1138,20 +1429,22 @@ html[lang="en"] .person h3 {
     display: grid;
     place-items: center;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.92);
-    box-shadow: 0 8px 20px rgba(214, 51, 108, 0.25);
+    background: rgba(255, 253, 248, 0.95);
+    box-shadow:
+        0 8px 22px rgba(163, 33, 47, 0.3),
+        0 0 0 1px var(--gold-l);
 }
 .heart svg {
     width: 30px;
-    fill: #d6336c;
+    fill: #b8213a;
     animation: beat 1.6s ease-in-out infinite;
-    filter: drop-shadow(0 4px 10px rgba(214, 51, 108, 0.5));
+    filter: drop-shadow(0 4px 10px rgba(184, 33, 58, 0.5));
 }
 .hr {
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    border: 1.5px solid #e88aa9;
+    border: 1.5px solid var(--gold-l);
     animation: ring 2.4s ease-out infinite;
 }
 .hr.b {
@@ -1182,20 +1475,53 @@ html[lang="en"] .person h3 {
     margin: 3svh auto 0;
     max-width: 340px;
     font-family: var(--f-title);
-    color: var(--mute);
+    color: var(--silk);
     font-style: italic;
 }
 html[lang="en"] .quote {
     font-size: 18px;
 }
 
+/* couple: exactly one screen */
+section.cl#couple {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding: 64px 0 36px;
+}
+#couple .cl-wrap {
+    width: 100%;
+}
+#couple .cl-orn {
+    margin-bottom: 3svh;
+}
+#couple .quote {
+    position: relative;
+    padding-top: 14px;
+}
+#couple .quote::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 36px;
+    height: 1px;
+    margin-left: -18px;
+    background: var(--gold-l);
+}
+
 /* ---------- dark sections ---------- */
 section.dark {
-    background: radial-gradient(ellipse at 50% 0, #3a2410, var(--night) 70%);
+    background:
+        radial-gradient(ellipse at 50% 0, #5a1822, transparent 70%),
+        radial-gradient(
+            ellipse at 50% 100%,
+            rgba(226, 185, 85, 0.1),
+            transparent 60%
+        ),
+        var(--night);
     color: #fff;
-}
-.dark h2.cl-h {
-    color: var(--gold-h);
 }
 .dark .txt {
     color: rgba(255, 255, 255, 0.86);
@@ -1213,6 +1539,8 @@ section.dark {
     inset: 0;
     pointer-events: none;
 }
+
+/* ---------- countdown: leaf-cut tiles ---------- */
 .cd {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -1223,12 +1551,22 @@ section.dark {
 .cd div {
     position: relative;
     padding: 16px 2px 10px;
-    border: 1px solid rgba(227, 189, 90, 0.5);
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(226, 185, 85, 0.6);
+    border-radius: 22px 6px 22px 6px;
+    background: linear-gradient(
+        160deg,
+        rgba(255, 240, 183, 0.1),
+        rgba(163, 33, 47, 0.2)
+    );
     -webkit-backdrop-filter: blur(4px);
     backdrop-filter: blur(4px);
     overflow: hidden;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 240, 183, 0.35),
+        0 10px 24px rgba(0, 0, 0, 0.25);
+}
+.cd div:nth-child(even) {
+    border-radius: 6px 22px 6px 22px;
 }
 .cd div::before {
     content: "";
@@ -1239,6 +1577,17 @@ section.dark {
         rgba(255, 240, 183, 0.14),
         transparent 50%
     );
+}
+.cd div::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 5px;
+    width: 18px;
+    height: 1px;
+    margin-left: -9px;
+    background: var(--gold-l);
+    opacity: 0.6;
 }
 .cd b {
     display: block;
@@ -1267,6 +1616,7 @@ section.dark {
 .cd span {
     font-size: 12px;
     color: rgba(255, 255, 255, 0.78);
+    letter-spacing: 0.04em;
 }
 .dark .date-t {
     margin-top: 24px;
@@ -1293,7 +1643,12 @@ section.dark {
     background: var(--line);
 }
 .tl-fill {
-    background: linear-gradient(180deg, var(--gold-h), var(--gold));
+    background: linear-gradient(
+        180deg,
+        var(--gold-h),
+        var(--gold),
+        var(--ruby)
+    );
     transform: scaleY(var(--f, 0));
     transform-origin: top;
     box-shadow: 0 0 8px var(--gold-l);
@@ -1306,6 +1661,7 @@ section.dark {
 .tl li:last-child {
     padding-bottom: 0;
 }
+/* diamond nodes */
 .tl .nd {
     position: absolute;
     left: -46px;
@@ -1314,18 +1670,22 @@ section.dark {
     height: 32px;
     display: grid;
     place-items: center;
-    border-radius: 50%;
+    border-radius: 9px;
+    rotate: 45deg;
     background: #fff;
     border: 2px solid var(--line);
     color: var(--gold);
     z-index: 2;
     transition: all 0.6s var(--ease) 0.2s;
 }
+.tl .nd > * {
+    rotate: -45deg;
+}
 .tl li.in .nd {
-    background: var(--foil);
-    border-color: var(--gold-h);
-    color: #fff;
-    box-shadow: 0 0 0 6px rgba(227, 189, 90, 0.2);
+    background: var(--ruby-grad);
+    border-color: var(--gold-l);
+    color: var(--gold-h);
+    box-shadow: 0 0 0 6px rgba(163, 33, 47, 0.14);
     animation: pop 0.7s var(--ease) 0.2s;
 }
 @keyframes pop {
@@ -1337,11 +1697,14 @@ section.dark {
     }
 }
 .tl .box {
+    position: relative;
+    overflow: hidden;
     padding: 16px 18px;
     background: var(--paper);
     border: 1px solid var(--line);
-    border-radius: 6px 20px 20px 20px;
-    box-shadow: 0 10px 26px rgba(60, 40, 10, 0.07);
+    border-left: 3px solid var(--ruby);
+    border-radius: 4px 22px 22px 22px;
+    box-shadow: 0 12px 30px rgba(122, 22, 36, 0.08);
     transition:
         transform 0.5s var(--ease),
         border-color 0.5s,
@@ -1354,16 +1717,39 @@ section.dark {
     transform: scale(0.985);
     border-color: var(--gold-l);
 }
+/* a gold light glides over each card once when it appears */
+.tl li.in .box::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -70%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        100deg,
+        transparent,
+        rgba(226, 185, 85, 0.22),
+        transparent
+    );
+    transform: skewX(-18deg);
+    animation: sheen 1.6s var(--ease-soft) 0.5s 1 both;
+    pointer-events: none;
+}
+@keyframes sheen {
+    to {
+        left: 130%;
+    }
+}
 @media (hover: hover) {
     .tl .box:hover {
         transform: translateY(-4px);
         border-color: var(--gold-l);
-        box-shadow: 0 16px 34px rgba(60, 40, 10, 0.12);
+        box-shadow: 0 18px 36px rgba(122, 22, 36, 0.14);
     }
 }
 .tl .t {
     margin: 0;
-    color: var(--gold);
+    color: var(--silk);
     font-family: var(--f-title);
     font-size: 19px;
 }
@@ -1385,10 +1771,10 @@ section.dark {
     align-items: center;
     min-height: 44px;
     margin-top: 2px;
-    color: var(--gold);
+    color: var(--silk);
     font-size: 13.5px;
     text-decoration: none;
-    background: linear-gradient(var(--gold), var(--gold)) 0 70% / 0 1px
+    background: linear-gradient(var(--ruby), var(--ruby)) 0 70% / 0 1px
         no-repeat;
     transition: background-size 0.4s var(--ease);
 }
@@ -1406,12 +1792,13 @@ section.dark {
 .gal button {
     padding: 0;
     border: 0;
-    background: #1b1209;
+    background: var(--night);
     overflow: hidden;
     border-radius: 14px;
     aspect-ratio: 3 / 4;
     cursor: zoom-in;
     position: relative;
+    box-shadow: 0 14px 30px rgba(122, 22, 36, 0.18);
 }
 .gal button:nth-child(4n + 1),
 .gal button:nth-child(4n + 4) {
@@ -1428,21 +1815,37 @@ section.dark {
         transform 1.2s var(--ease),
         filter 0.6s;
 }
+.gal button::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 2px rgba(226, 185, 85, 0.8);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
 .gal button:active img {
     transform: scale(1.08);
     filter: brightness(0.85);
+}
+.gal button:active::after {
+    opacity: 1;
 }
 @media (hover: hover) {
     .gal button:hover img {
         transform: scale(1.12);
         filter: brightness(0.85);
     }
+    .gal button:hover::after {
+        opacity: 1;
+    }
 }
 .lb {
     top: 0;
     bottom: 0;
     z-index: 120;
-    background: rgba(15, 9, 3, 0.96);
+    background: rgba(26, 5, 9, 0.97);
     display: grid;
     place-items: center;
     opacity: 0;
@@ -1497,7 +1900,7 @@ section.dark {
     transition: all 0.3s;
 }
 .lb button:active {
-    background: var(--gold);
+    background: var(--ruby);
     transform: scale(0.92);
 }
 .lb .x {
@@ -1539,7 +1942,7 @@ section.dark {
     border: 4px solid #fff;
     box-shadow:
         0 0 0 1.5px var(--gold-l),
-        0 10px 18px rgba(60, 40, 10, 0.15);
+        0 10px 18px rgba(122, 22, 36, 0.15);
     transition: transform 0.5s var(--ease);
 }
 .sw i:active {
@@ -1553,7 +1956,7 @@ section.dark {
     background: var(--paper);
     border: 1px solid var(--line);
     border-radius: 24px;
-    box-shadow: 0 18px 44px rgba(60, 40, 10, 0.09);
+    box-shadow: 0 20px 50px rgba(122, 22, 36, 0.1);
     margin-top: 22px;
     position: relative;
 }
@@ -1583,7 +1986,7 @@ select.f {
     appearance: none;
     padding-right: 40px;
     background: var(--bg)
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23b8892b' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E")
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23a3212f' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E")
         right 16px center / 14px no-repeat;
 }
 textarea.f {
@@ -1594,8 +1997,9 @@ textarea.f {
     color: #a49680;
 }
 .f:focus {
-    border-color: var(--gold);
-    box-shadow: 0 0 0 4px rgba(227, 189, 90, 0.22);
+    background: #fff;
+    border-color: var(--ruby);
+    box-shadow: 0 0 0 4px rgba(163, 33, 47, 0.14);
 }
 .f.err {
     border-color: #d9534f;
@@ -1631,9 +2035,9 @@ textarea.f {
     transition: all 0.45s var(--ease);
 }
 .seg .on {
-    background: var(--gold);
-    color: #fff;
-    box-shadow: 0 6px 14px rgba(184, 137, 43, 0.35);
+    background: var(--ruby-grad);
+    color: #fff3d1;
+    box-shadow: 0 6px 16px rgba(122, 22, 36, 0.35);
 }
 .err-t {
     color: #c9302c;
@@ -1656,7 +2060,7 @@ textarea.f {
     margin: 0 auto 14px;
     border-radius: 50%;
     background: var(--foil);
-    color: #fff;
+    color: var(--night);
     font-size: 30px;
     animation: pop 0.8s var(--ease);
 }
@@ -1669,6 +2073,9 @@ textarea.f {
     background: var(--foil);
     background-size: 220% 100%;
     color: var(--ink);
+    box-shadow:
+        0 24px 50px rgba(122, 22, 36, 0.25),
+        0 0 40px rgba(226, 185, 85, 0.2);
     animation:
         foil 8s linear infinite,
         float 6s ease-in-out infinite;
@@ -1702,7 +2109,7 @@ textarea.f {
 .card .no {
     font-family: var(--f-title);
     font-size: 23px;
-    color: var(--gold);
+    color: var(--silk);
     letter-spacing: 0.06em;
     margin: 4px 0 14px;
     overflow-wrap: anywhere;
@@ -1743,8 +2150,8 @@ html[lang="en"] .names {
 .pt i {
     position: absolute;
     top: -30px;
-    width: 11px;
-    height: 15px;
+    width: 13px;
+    height: 17px;
     border-radius: 100% 0;
     background: linear-gradient(135deg, #fff, #f3d27a);
     opacity: 0;
@@ -1752,7 +2159,7 @@ html[lang="en"] .names {
     animation-delay: var(--dl);
 }
 .pt i.pk {
-    background: linear-gradient(135deg, #fff, #ffc2d1 60%, #ee7f9b);
+    background: linear-gradient(135deg, #fff, #f6b8c4 55%, #c8283f);
 }
 @keyframes fall {
     8% {
@@ -1771,13 +2178,13 @@ html[lang="en"] .names {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    border: 1.5px solid var(--gold);
-    background: rgba(255, 255, 255, 0.94);
-    color: var(--gold);
+    border: 1.5px solid var(--gold-l);
+    background: var(--ruby-grad);
+    color: var(--gold-h);
     cursor: pointer;
     display: none;
     place-items: center;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
 }
 .mu.show {
     display: grid;
@@ -1790,8 +2197,105 @@ html[lang="en"] .names {
     position: absolute;
     inset: -6px;
     border-radius: 50%;
-    border: 1.5px solid var(--gold);
+    border: 1.5px solid var(--gold-l);
     animation: ring 2.4s ease-out infinite;
+}
+
+/* ---------- thank you: bloom inside turning gold rings ---------- */
+.th::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -120px;
+    width: 460px;
+    height: 260px;
+    translate: -50% 0;
+    background: radial-gradient(
+        ellipse at 50% 100%,
+        rgba(227, 189, 90, 0.28),
+        transparent 70%
+    );
+    pointer-events: none;
+}
+.th-seal {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 8px;
+    display: grid;
+    place-items: center;
+}
+.th-seal::before,
+.th-seal::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    box-shadow: 0 0 24px rgba(226, 185, 85, 0.12);
+}
+.th-seal::before {
+    inset: 0;
+    border: 1px dashed rgba(226, 185, 85, 0.7);
+    animation: spin 50s linear infinite;
+}
+.th-seal::after {
+    inset: 24px;
+    border: 1px solid rgba(226, 185, 85, 0.45);
+    animation: spin 70s linear infinite reverse;
+}
+.th-glow {
+    position: absolute;
+    inset: 12%;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(255, 224, 150, 0.38),
+        transparent 68%
+    );
+    filter: blur(10px);
+    animation: breathe 5s ease-in-out infinite;
+}
+.th-seal .cl-bloom.big {
+    position: relative;
+    z-index: 1;
+    width: 104px;
+}
+.th .txt {
+    max-width: 360px;
+}
+.th .names {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 28px;
+    font-size: clamp(22px, 7vw, 28px);
+    line-height: 1.7;
+}
+.th .names > span {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.6em;
+    line-height: 1.6;
+}
+.th .names > span::before,
+.th .names > span::after {
+    content: "";
+    width: 34px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-l));
+}
+.th .names > span::after {
+    transform: scaleX(-1);
+}
+.th-date {
+    margin: 18px 0 0;
+    color: var(--gold-h);
+    font-size: 14px;
+    letter-spacing: 0.04em;
+}
+.th .btn {
+    margin-top: 30px;
 }
 
 /* ---------- language cross-fade ---------- */
@@ -1802,7 +2306,7 @@ body.sw [data-i18n-date] {
     transition: opacity 0.16s !important;
 }
 
-/* ---------- battery saver: pause loops that are off-screen / tab hidden ---------- */
+/* ---------- battery saver: pause loops off-screen / tab hidden ---------- */
 .is-off,
 .is-off *,
 .paused *,
@@ -1829,6 +2333,32 @@ body.sw [data-i18n-date] {
         padding-top: 40px;
     }
 }
+@media (max-height: 700px) {
+    .hero .intro {
+        display: none;
+    }
+    .hero-frame {
+        margin: 48px 0 72px;
+    }
+    section.cl#couple {
+        padding-top: 56px;
+        padding-bottom: 20px;
+    }
+    #couple .quote {
+        font-size: 13px;
+        margin-top: 10px;
+    }
+    .ph {
+        width: min(38vw, 22svh);
+    }
+    #couple .cl-orn {
+        margin-bottom: 8px;
+    }
+    .person p {
+        font-size: 11.5px;
+        line-height: 1.5;
+    }
+}
 @media (max-width: 359px) {
     .cl-wrap {
         padding: 0 16px;
@@ -1836,8 +2366,16 @@ body.sw [data-i18n-date] {
     .cd {
         gap: 6px;
     }
+    .th-seal {
+        width: 170px;
+        height: 170px;
+    }
+    .th-seal .cl-bloom.big {
+        width: 88px;
+    }
 }
 
+/* ---------- reduced motion: show everything in its final state ---------- */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -1862,270 +2400,6 @@ body.sw [data-i18n-date] {
     .hero-arch path {
         stroke-dashoffset: 0;
     }
-}
-
-/* ---------- couple: exactly one screen ---------- */
-section.cl#couple {
-    min-height: 100vh;
-    min-height: 100svh;
-    display: flex;
-    align-items: center;
-    padding: 64px 0 36px;
-}
-#couple .cl-wrap {
-    width: 100%;
-}
-#couple .cl-orn {
-    margin-bottom: 3svh;
-}
-#couple .quote {
-    position: relative;
-    padding-top: 14px;
-}
-#couple .quote::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 36px;
-    height: 1px;
-    margin-left: -18px;
-    background: var(--gold-l);
-}
-@media (max-height: 700px) {
-    section.cl#couple {
-        padding-top: 56px;
-        padding-bottom: 20px;
-    }
-    #couple .quote {
-        font-size: 13px;
-    }
-    .ph {
-        width: min(38vw, 22svh);
-    }
-    #couple .cl-orn {
-        margin-bottom: 8px;
-    }
-    #couple .quote {
-        margin-top: 10px;
-    }
-    .person p {
-        font-size: 11.5px;
-        line-height: 1.5;
-    }
-}
-
-/* =====================================================================
-   HERO UPGRADE — append AFTER your existing stylesheet.
-   Uses your tokens (--gold-l, --foil, --ease, --night…), your .hero.go
-   trigger and your .hi / --d sequence. Nothing else needs to change.
-   ===================================================================== */
-
-/* ---- 1. Arch: a lit doorway instead of a flat outline ---------------- */
-.hero-frame::before {
-    /* warm light spilling from the arch top */
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: -4%;
-    width: 150%;
-    height: 70%;
-    translate: -50% 0;
-    background: radial-gradient(
-        ellipse 50% 60% at 50% 0,
-        rgba(255, 224, 150, 0.38),
-        rgba(227, 189, 90, 0.12) 45%,
-        transparent 70%
-    );
-    filter: blur(6px);
-    opacity: 0;
-    pointer-events: none;
-}
-.hero.go .hero-frame::before {
-    animation:
-        door-light 2.4s var(--ease) 0.5s forwards,
-        door-breathe 6s ease-in-out 3s infinite;
-}
-@keyframes door-light {
-    to {
-        opacity: 1;
-    }
-}
-@keyframes door-breathe {
-    50% {
-        opacity: 0.65;
-        scale: 1.06;
-    }
-}
-
-.hero-arch {
-    fill: rgba(20, 13, 6, 0.3);
-    filter: drop-shadow(0 0 14px rgba(227, 189, 90, 0.45))
-        drop-shadow(0 0 40px rgba(227, 189, 90, 0.18));
-}
-.hero-arch path:first-child {
-    stroke-width: 2;
-}
-.hero-arch path + path {
-    stroke-width: 1;
-    stroke-opacity: 0.65;
-}
-
-/* glass inside the arch (behind the text) */
-.hero-frame::after {
-    content: "";
-    position: absolute;
-    inset: 3px;
-    z-index: -1;
-    border-radius: 999px 999px 8px 8px;
-    background: linear-gradient(
-        180deg,
-        rgba(255, 240, 183, 0.1),
-        rgba(20, 13, 6, 0.45)
-    );
-    -webkit-backdrop-filter: blur(3px);
-    backdrop-filter: blur(3px);
-    opacity: 0;
-    animation: door-light 1.6s ease 1s forwards;
-}
-
-/* ---- 2. Names rise out of their masks (one clear moment) ------------- */
-.hero h1 .mask {
-    padding: 0.12em 0 0.26em;
-} /* room for Khmer vowels above/below */
-.hero h1 .nm.hi {
-    opacity: 1;
-    transform: translateY(115%);
-}
-.hero.go h1 .nm.hi {
-    animation:
-        name-rise 1.4s var(--ease) both,
-        foil 7s linear infinite;
-    animation-delay: var(--d), 0s;
-}
-@keyframes name-rise {
-    to {
-        transform: none;
-    }
-}
-
-/* “and” gets gold hairlines that grow outward */
-.hero h1 b {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.7em;
-    margin: 2px 0;
-}
-.hero h1 b::before,
-.hero h1 b::after {
-    content: "";
-    width: 38px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold-l));
-    transform: scaleX(0);
-    transform-origin: right;
-}
-.hero h1 b::after {
-    transform-origin: left;
-    background: linear-gradient(270deg, transparent, var(--gold-l));
-}
-.hero.go h1 b::before,
-.hero.go h1 b::after {
-    animation: grow-x 1.2s var(--ease) 1.5s forwards;
-}
-@keyframes grow-x {
-    to {
-        transform: scaleX(1);
-    }
-}
-
-/* ---- 3. Emblem: soft pulse once it has bloomed ----------------------- */
-.hero-emblem .cl-bloom {
-    filter: drop-shadow(0 0 10px rgba(227, 189, 90, 0.6));
-}
-.hero.go .hero-emblem .cl-bloom {
-    animation: emblem-pulse 4.5s ease-in-out 2.6s infinite;
-}
-@keyframes emblem-pulse {
-    50% {
-        filter: drop-shadow(0 0 18px rgba(255, 232, 160, 0.95));
-    }
-}
-
-/* ---- 4. Intro, date, location --------------------------------------- */
-.hero .intro {
-    line-height: 1.9;
-    text-wrap: balance;
-}
-
-.hero .date {
-    margin-top: 18px;
-    font-size: 15px;
-    letter-spacing: 0.04em;
-}
-.hero .hl {
-    width: 34px;
-    background: linear-gradient(90deg, transparent, var(--gold-l));
-    transform: scaleX(0);
-    transform-origin: right;
-}
-.hero .hl:last-child {
-    background: linear-gradient(270deg, transparent, var(--gold-l));
-    transform-origin: left;
-}
-.hero.go .hl {
-    animation: grow-x 1.2s var(--ease) 2s forwards;
-}
-/* location: no icon, centred, wraps evenly */
-.hero .location {
-    display: block;
-    width: fit-content;
-    max-width: 100%;
-    margin: 14px auto 0;
-    padding: 8px 20px;
-    text-align: center;
-    text-wrap: balance;
-    line-height: 1.7;
-    font-size: 13px;
-    color: #f8e8bd;
-    border: 1px solid rgba(227, 189, 90, 0.5);
-    border-radius: 999px;
-    background: rgba(20, 13, 6, 0.35);
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
-}
-/* a long address becomes a soft rounded box instead of a stretched pill */
-@media (max-width: 400px) {
-    .hero .location {
-        border-radius: 18px;
-    }
-}
-/* ---- 5. Light: fewer, softer rays + a gentle floor glow -------------- */
-.hero-rays {
-    background: repeating-conic-gradient(
-        rgba(255, 226, 140, 0.06) 0 4deg,
-        transparent 4deg 13deg
-    );
-    animation-duration: 180s;
-}
-.hero .scroll {
-    opacity: 0;
-    animation: up 1s var(--ease) 2.6s forwards;
-}
-
-/* ---- 6. Short phones ------------------------------------------------- */
-@media (max-height: 700px) {
-    .hero .intro {
-        display: none;
-    }
-    .hero-frame {
-        margin: 48px 0 72px;
-    }
-}
-
-/* ---- 7. Reduced motion: show everything in its final state ----------- */
-@media (prefers-reduced-motion: reduce) {
     .hero h1 .nm.hi {
         transform: none;
     }
@@ -2136,584 +2410,13 @@ section.cl#couple {
     }
     .hero-frame::before,
     .hero-frame::after,
+    .cv-in::before,
     .hero .scroll {
         opacity: 1;
     }
-}
-
-/* =====================================================================
-   COVER — same lit-doorway language as the hero
-   ===================================================================== */
-.cv-in::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: -4%;
-    width: 150%;
-    height: 70%;
-    translate: -50% 0;
-    background: radial-gradient(
-        ellipse 50% 60% at 50% 0,
-        rgba(255, 224, 150, 0.34),
-        rgba(227, 189, 90, 0.1) 45%,
-        transparent 70%
-    );
-    filter: blur(6px);
-    pointer-events: none;
-    opacity: 0;
-    animation:
-        door-light 2.2s var(--ease) 0.5s forwards,
-        door-breathe 6s ease-in-out 3s infinite;
-}
-.cv-arch {
-    fill: rgba(20, 13, 6, 0.3);
-    filter: drop-shadow(0 0 14px rgba(227, 189, 90, 0.45))
-        drop-shadow(0 0 40px rgba(227, 189, 90, 0.18));
-}
-/* the seam where the curtain splits glows a little brighter */
-.cv-seam {
-    box-shadow:
-        0 0 26px var(--gold-l),
-        0 0 60px rgba(227, 189, 90, 0.35);
-}
-.guest {
-    background: linear-gradient(
-        180deg,
-        rgba(255, 240, 183, 0.14),
-        rgba(255, 255, 255, 0.04)
-    );
-    letter-spacing: 0.02em;
-}
-.cv-hint i {
-    filter: drop-shadow(0 0 6px rgba(227, 189, 90, 0.8));
-}
-
-/* =====================================================================
-   COUPLE — arch portraits get a second offset outline
-   ===================================================================== */
-.ph::after {
-    content: "";
-    position: absolute;
-    inset: -9px;
-    border: 1px solid rgba(184, 137, 43, 0.5);
-    border-radius: 999px 999px 24px 24px;
-    pointer-events: none;
-}
-
-.person .role {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-}
-.person .role::before,
-.person .role::after {
-    content: "";
-    width: 14px;
-    height: 1px;
-    background: var(--gold-l);
-}
-
-/* =====================================================================
-   COUNTDOWN — a soft gold lip on each tile
-   ===================================================================== */
-.cd div {
-    box-shadow:
-        inset 0 1px 0 rgba(255, 240, 183, 0.35),
-        0 10px 24px rgba(0, 0, 0, 0.25);
-}
-.cd span {
-    letter-spacing: 0.04em;
-}
-
-/* =====================================================================
-   TIMELINE / FORM / GALLERY — small refinements
-   ===================================================================== */
-.tl .box {
-    border-left: 2px solid var(--gold-l);
-}
-.f:focus {
-    background: #fff;
-}
-.gal button::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    box-shadow: inset 0 0 0 1px rgba(227, 189, 90, 0.55);
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.5s;
-}
-@media (hover: hover) {
-    .gal button:hover::after {
-        opacity: 1;
-    }
-}
-.gal button:active::after {
-    opacity: 1;
-}
-
-/* reduced motion for the extras */
-@media (prefers-reduced-motion: reduce) {
-    .cv-in::before {
-        opacity: 1;
-    }
-}
-/* =====================================================================
-   HERO UPGRADE — append AFTER your existing stylesheet.
-   Uses your tokens (--gold-l, --foil, --ease, --night…), your .hero.go
-   trigger and your .hi / --d sequence. Nothing else needs to change.
-   ===================================================================== */
-
-/* ---- 1. Arch: a lit doorway instead of a flat outline ---------------- */
-.hero-frame::before {
-    /* warm light spilling from the arch top */
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: -4%;
-    width: 150%;
-    height: 70%;
-    translate: -50% 0;
-    background: radial-gradient(
-        ellipse 50% 60% at 50% 0,
-        rgba(255, 224, 150, 0.38),
-        rgba(227, 189, 90, 0.12) 45%,
-        transparent 70%
-    );
-    filter: blur(6px);
-    opacity: 0;
-    pointer-events: none;
-}
-.hero.go .hero-frame::before {
-    animation:
-        door-light 2.4s var(--ease) 0.5s forwards,
-        door-breathe 6s ease-in-out 3s infinite;
-}
-@keyframes door-light {
-    to {
-        opacity: 1;
-    }
-}
-@keyframes door-breathe {
-    50% {
-        opacity: 0.65;
-        scale: 1.06;
-    }
-}
-
-.hero-arch {
-    fill: rgba(20, 13, 6, 0.3);
-    filter: drop-shadow(0 0 14px rgba(227, 189, 90, 0.45))
-        drop-shadow(0 0 40px rgba(227, 189, 90, 0.18));
-}
-.hero-arch path:first-child {
-    stroke-width: 2;
-}
-.hero-arch path + path {
-    stroke-width: 1;
-    stroke-opacity: 0.65;
-}
-
-/* glass inside the arch (behind the text) */
-.hero-frame::after {
-    content: "";
-    position: absolute;
-    inset: 3px;
-    z-index: -1;
-    border-radius: 999px 999px 8px 8px;
-    background: linear-gradient(
-        180deg,
-        rgba(255, 240, 183, 0.1),
-        rgba(20, 13, 6, 0.45)
-    );
-    -webkit-backdrop-filter: blur(3px);
-    backdrop-filter: blur(3px);
-    opacity: 0;
-    animation: door-light 1.6s ease 1s forwards;
-}
-
-/* ---- 2. Names rise out of their masks (one clear moment) ------------- */
-.hero h1 .mask {
-    padding: 0.12em 0 0.26em;
-} /* room for Khmer vowels above/below */
-.hero h1 .nm.hi {
-    opacity: 1;
-    transform: translateY(115%);
-}
-.hero.go h1 .nm.hi {
-    animation:
-        name-rise 1.4s var(--ease) both,
-        foil 7s linear infinite;
-    animation-delay: var(--d), 0s;
-}
-@keyframes name-rise {
-    to {
-        transform: none;
-    }
-}
-
-/* “and” gets gold hairlines that grow outward */
-.hero h1 b {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.7em;
-    margin: 2px 0;
-}
-.hero h1 b::before,
-.hero h1 b::after {
-    content: "";
-    width: 38px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold-l));
-    transform: scaleX(0);
-    transform-origin: right;
-}
-.hero h1 b::after {
-    transform-origin: left;
-    background: linear-gradient(270deg, transparent, var(--gold-l));
-}
-.hero.go h1 b::before,
-.hero.go h1 b::after {
-    animation: grow-x 1.2s var(--ease) 1.5s forwards;
-}
-@keyframes grow-x {
-    to {
-        transform: scaleX(1);
-    }
-}
-
-/* ---- 3. Emblem: soft pulse once it has bloomed ----------------------- */
-.hero-emblem .cl-bloom {
-    filter: drop-shadow(0 0 10px rgba(227, 189, 90, 0.6));
-}
-.hero.go .hero-emblem .cl-bloom {
-    animation: emblem-pulse 4.5s ease-in-out 2.6s infinite;
-}
-@keyframes emblem-pulse {
-    50% {
-        filter: drop-shadow(0 0 18px rgba(255, 232, 160, 0.95));
-    }
-}
-
-/* ---- 4. Intro, date, location --------------------------------------- */
-.hero .intro {
-    line-height: 1.9;
-    text-wrap: balance;
-}
-
-.hero .date {
-    margin-top: 18px;
-    font-size: 15px;
-    letter-spacing: 0.04em;
-}
-.hero .hl {
-    width: 34px;
-    background: linear-gradient(90deg, transparent, var(--gold-l));
-    transform: scaleX(0);
-    transform-origin: right;
-}
-.hero .hl:last-child {
-    background: linear-gradient(270deg, transparent, var(--gold-l));
-    transform-origin: left;
-}
-.hero.go .hl {
-    animation: grow-x 1.2s var(--ease) 2s forwards;
-}
-
-.hero .location {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    max-width: 100%;
-    margin: 12px auto 0;
-    padding: 7px 16px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: #f8e8bd;
-    border: 1px solid rgba(227, 189, 90, 0.5);
-    border-radius: 999px;
-    background: rgba(20, 13, 6, 0.35);
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
-}
-.hero .location svg {
-    flex: none;
-    color: var(--gold-l);
-}
-
-/* ---- 5. Light: fewer, softer rays + a gentle floor glow -------------- */
-.hero-rays {
-    background: repeating-conic-gradient(
-        rgba(255, 226, 140, 0.06) 0 4deg,
-        transparent 4deg 13deg
-    );
-    animation-duration: 180s;
-}
-.hero .scroll {
-    opacity: 0;
-    animation: up 1s var(--ease) 2.6s forwards;
-}
-
-/* ---- 6. Short phones ------------------------------------------------- */
-@media (max-height: 700px) {
-    .hero .intro {
-        display: none;
-    }
-    .hero-frame {
-        margin: 48px 0 72px;
-    }
-}
-
-/* ---- 7. Reduced motion: show everything in its final state ----------- */
-@media (prefers-reduced-motion: reduce) {
-    .hero h1 .nm.hi {
-        transform: none;
-    }
-    .hero h1 b::before,
-    .hero h1 b::after,
-    .hero .hl {
-        transform: scaleX(1);
-    }
-    .hero-frame::before,
-    .hero-frame::after,
-    .hero .scroll {
-        opacity: 1;
-    }
-}
-
-/* =====================================================================
-   COVER — same lit-doorway language as the hero
-   ===================================================================== */
-.cv-in::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: -4%;
-    width: 150%;
-    height: 70%;
-    translate: -50% 0;
-    background: radial-gradient(
-        ellipse 50% 60% at 50% 0,
-        rgba(255, 224, 150, 0.34),
-        rgba(227, 189, 90, 0.1) 45%,
-        transparent 70%
-    );
-    filter: blur(6px);
-    pointer-events: none;
-    opacity: 0;
-    animation:
-        door-light 2.2s var(--ease) 0.5s forwards,
-        door-breathe 6s ease-in-out 3s infinite;
-}
-.cv-arch {
-    fill: rgba(20, 13, 6, 0.3);
-    filter: drop-shadow(0 0 14px rgba(227, 189, 90, 0.45))
-        drop-shadow(0 0 40px rgba(227, 189, 90, 0.18));
-}
-/* the seam where the curtain splits glows a little brighter */
-.cv-seam {
-    box-shadow:
-        0 0 26px var(--gold-l),
-        0 0 60px rgba(227, 189, 90, 0.35);
-}
-.guest {
-    background: linear-gradient(
-        180deg,
-        rgba(255, 240, 183, 0.14),
-        rgba(255, 255, 255, 0.04)
-    );
-    letter-spacing: 0.02em;
-}
-.cv-hint i {
-    filter: drop-shadow(0 0 6px rgba(227, 189, 90, 0.8));
-}
-
-/* =====================================================================
-   COUPLE — arch portraits get a second offset outline
-   ===================================================================== */
-.ph::after {
-    content: "";
-    position: absolute;
-    inset: -9px;
-    border: 1px solid rgba(184, 137, 43, 0.5);
-    border-radius: 999px 999px 24px 24px;
-    pointer-events: none;
-}
-
-.person .role {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-}
-.person .role::before,
-.person .role::after {
-    content: "";
-    width: 14px;
-    height: 1px;
-    background: var(--gold-l);
-}
-
-/* =====================================================================
-   COUNTDOWN — a soft gold lip on each tile
-   ===================================================================== */
-.cd div {
-    box-shadow:
-        inset 0 1px 0 rgba(255, 240, 183, 0.35),
-        0 10px 24px rgba(0, 0, 0, 0.25);
-}
-.cd span {
-    letter-spacing: 0.04em;
-}
-
-/* =====================================================================
-   TIMELINE / FORM / GALLERY — small refinements
-   ===================================================================== */
-.tl .box {
-    border-left: 2px solid var(--gold-l);
-}
-.f:focus {
-    background: #fff;
-}
-.gal button::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    box-shadow: inset 0 0 0 1px rgba(227, 189, 90, 0.55);
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.5s;
-}
-@media (hover: hover) {
-    .gal button:hover::after {
-        opacity: 1;
-    }
-}
-.gal button:active::after {
-    opacity: 1;
-}
-
-/* reduced motion for the extras */
-@media (prefers-reduced-motion: reduce) {
-    .cv-in::before {
-        opacity: 1;
-    }
-}
-
-/* =====================================================================
-   THANK YOU — a quiet closing: bloom inside turning gold rings
-   ===================================================================== */
-.th::after {
-    /* warm glow rising from the bottom */
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: -120px;
-    width: 460px;
-    height: 260px;
-    translate: -50% 0;
-    background: radial-gradient(
-        ellipse at 50% 100%,
-        rgba(227, 189, 90, 0.28),
-        transparent 70%
-    );
-    pointer-events: none;
-}
-
-.th-seal {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    margin: 0 auto 8px;
-    display: grid;
-    place-items: center;
-}
-.th-seal::before,
-.th-seal::after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-}
-.th-seal::before {
-    /* outer dashed ring, same motif as the couple section */
-    inset: 0;
-    border: 1px dashed rgba(227, 189, 90, 0.55);
-    animation: spin 50s linear infinite;
-}
-.th-seal::after {
-    /* inner thin ring, turns the other way */
-    inset: 24px;
-    border: 1px solid rgba(227, 189, 90, 0.35);
-    animation: spin 70s linear infinite reverse;
-}
-.th-glow {
-    position: absolute;
-    inset: 12%;
-    border-radius: 50%;
-    background: radial-gradient(
-        circle,
-        rgba(255, 224, 150, 0.38),
-        transparent 68%
-    );
-    filter: blur(10px);
-    animation: breathe 5s ease-in-out infinite;
-}
-.th-seal .cl-bloom.big {
-    position: relative;
-    z-index: 1;
-    width: 104px;
-}
-
-.th .txt {
-    max-width: 360px;
-}
-
-/* names stacked, with hairlines around “and” */
-.th .names {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 28px;
-    font-size: clamp(22px, 7vw, 28px);
-    line-height: 1.7;
-}
-.th .names > span {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 0.6em;
-    line-height: 1.6;
-}
-.th .names > span::before,
-.th .names > span::after {
-    content: "";
-    width: 34px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold-l));
-}
-.th .names > span::after {
-    transform: scaleX(-1);
-}
-
-.th-date {
-    margin: 18px 0 0;
-    color: var(--gold-h);
-    font-size: 14px;
-    letter-spacing: 0.04em;
-}
-.th .btn {
-    margin-top: 30px;
-}
-
-@media (max-width: 359px) {
-    .th-seal {
-        width: 170px;
-        height: 170px;
-    }
-    .th-seal .cl-bloom.big {
-        width: 88px;
+    .js h2.cl-h:not(.in)::after,
+    h2.cl-h::after {
+        opacity: 1 !important;
+        transform: none !important;
     }
 }

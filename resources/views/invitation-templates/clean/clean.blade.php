@@ -71,7 +71,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#1b1209">
+    <meta name="theme-color" content="#2a0a10">
     <meta name="color-scheme" content="light">
     <meta name="format-detection" content="telephone=no">
     <meta name="mobile-web-app-capable" content="yes">
