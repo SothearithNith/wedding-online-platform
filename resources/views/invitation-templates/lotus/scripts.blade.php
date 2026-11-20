@@ -2,6 +2,9 @@
     (function() {
         'use strict';
 
+        /* FIX: your CSS fallbacks use html:not(.js); make sure the class exists */
+        document.documentElement.classList.add('js');
+
         /* ---------- helpers (all null-safe) ---------- */
         var $ = function(s, r) {
             return (r || document).querySelector(s);
@@ -9,7 +12,6 @@
         var $$ = function(s, r) {
             return Array.prototype.slice.call((r || document).querySelectorAll(s));
         };
-        // add a listener only if the element exists
         var on = function(target, ev, fn, opts) {
             var n = typeof target === 'string' ? $(target) : target;
             if (n) n.addEventListener(ev, fn, opts);
@@ -27,7 +29,6 @@
             var n = $(sel);
             if (n) n.hidden = v;
         };
-        // run a feature in isolation: if it fails, the other features still work
         var safe = function(name, fn) {
             try {
                 fn();
@@ -53,6 +54,18 @@
             share: @json($ic('share', 16)),
             cal: @json($ic('calplus', 16))
         };
+
+        /* ---------- FIX: start the hero + show the nav ---------- */
+        var opened = false;
+
+        function openInvitation() {
+            if (opened) return;
+            opened = true;
+            var gw = $('#gw');
+            if (gw) gw.classList.add('kx-open'); // un-pauses .royal-enter / .kc-angkor
+            var nav = $('#kx-nav');
+            if (nav) nav.classList.add('show');
+        }
 
         /* ---------- observe once helper (with a safety timeout so nothing stays hidden) ---------- */
         function onSeen(el, cb, opts, safetyMs) {
@@ -146,10 +159,12 @@
             });
         });
 
-        /* ---------- couple frames ---------- */
+        /* ---------- couple frames (FIX: add .kx-on so the animations start) ---------- */
         safe('couple', function() {
             var cp = $('#cp');
-            onSeen(cp, function() {}, {
+            onSeen(cp, function() {
+                cp.classList.add('kx-on');
+            }, {
                 threshold: 0.15
             }, 3000);
         });
@@ -471,8 +486,8 @@
                         x.classList.toggle('on', isOn);
                         x.setAttribute('aria-pressed', isOn ? 'true' : 'false');
                     });
-                    var gw = $('#rs-guests-wrap');
-                    if (gw) gw.style.display = attend ? 'block' : 'none';
+                    var gwrap = $('#rs-guests-wrap');
+                    if (gwrap) gwrap.style.display = attend ? 'block' : 'none';
                 });
             });
             nameEl.addEventListener('input', function() {
@@ -569,7 +584,6 @@
                     setHidden('#rs-done', false);
                 }
 
-                // No RSVP endpoint (preview / builder): behave like the demo
                 if (!action) {
                     finish();
                     return;
@@ -768,7 +782,6 @@
                             useFallback();
                             return;
                         }
-                        // if it has not really started shortly after, switch to the default song
                         clearTimeout(startTimer);
                         startTimer = setTimeout(function() {
                             if (!playing && !failed) useFallback();
@@ -808,7 +821,6 @@
                     s.onerror = useFallback;
                     document.head.appendChild(s);
 
-                    // blocked iframe / blocked API: never becomes ready
                     loadTimer = setTimeout(function() {
                         if (!ready) useFallback();
                     }, 4000);
@@ -834,7 +846,6 @@
                     };
                 } else {
                     api = audioApi(audio);
-                    // if the field's file/link cannot load, use the default song
                     audio.addEventListener('error', function() {
                         if (fallbackSrc && audio.getAttribute('src') !== fallbackSrc) {
                             audio.setAttribute('src', fallbackSrc);
@@ -856,11 +867,13 @@
         /* ---------- cover (golden doors) ---------- */
         safe('cover', function() {
             var gc = $('#gc');
-            if (!gc) return;
+            if (!gc) {
+                openInvitation(); // FIX: no cover → start the hero straight away
+                return;
+            }
             gc.style.display = '';
             document.body.style.overflow = 'hidden';
 
-            // ?guest=Name
             try {
                 var g = new URLSearchParams(window.location.search).get('guest');
                 if (g) setText('#gc-guest', g.slice(0, 60));
@@ -868,9 +881,9 @@
 
             var openBtn = $('#gc-open');
             if (!openBtn) {
-                // no button: never trap the visitor behind the cover
                 document.body.style.overflow = '';
                 gc.style.display = 'none';
+                openInvitation(); // FIX
                 return;
             }
 
@@ -880,7 +893,9 @@
                 gc.setAttribute('inert', '');
                 document.body.style.overflow = '';
 
-                // timers first, so the doors finish opening even if music fails
+                // FIX: start the hero animations while the doors are opening
+                setTimeout(openInvitation, 700);
+
                 setTimeout(function() {
                     gc.classList.add('slide');
                 }, 1000);
@@ -888,13 +903,17 @@
                     if (gc.parentNode) gc.parentNode.removeChild(gc);
                 }, 2900);
 
-                // the click is the user gesture browsers require
                 try {
                     music.play();
                 } catch (err) {
                     if (window.console) console.warn('music failed', err);
                 }
             });
+
+            // safety net: never leave the page stuck in its paused state
+            setTimeout(function() {
+                if (!document.getElementById('gc')) openInvitation();
+            }, 6000);
         });
     })();
 </script>
