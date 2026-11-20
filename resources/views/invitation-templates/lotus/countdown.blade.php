@@ -3,7 +3,7 @@
     <div class="g-ov" style="{{ $overlay(0.08) }}"></div>
     <div class="g-arch-glass">
         <div class="gloss"></div>
-        {{-- {!! $title($K['countdowns']) !!} --}}
+        {!! $title($K['countdowns']) !!}
 
         <p class="rv ts" style="font-size:12px;letter-spacing:.3em;color:#f6e3a0">{{ $K['date'] }}</p>
         <p class="rv g-foil font-display" data-delay="100" style="margin-top:12px;font-size:15px">

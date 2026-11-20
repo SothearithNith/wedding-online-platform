@@ -149,8 +149,7 @@
         /* ---------- couple frames ---------- */
         safe('couple', function() {
             var cp = $('#cp');
-            onSeen(cp, function() {
-                cp.classList.add('kx-on');
+            onSeen(cp, function() { 
             }, {
                 threshold: 0.15
             }, 3000);

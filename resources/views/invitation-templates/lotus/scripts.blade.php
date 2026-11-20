@@ -149,9 +149,7 @@
         /* ---------- couple frames ---------- */
         safe('couple', function() {
             var cp = $('#cp');
-            onSeen(cp, function() {
-                cp.classList.add('kx-on');
-            }, {
+            onSeen(cp, function() {}, {
                 threshold: 0.15
             }, 3000);
         });
@@ -217,7 +215,8 @@
                 var s = new Date(data.start);
                 if (isNaN(s)) throw new Error('bad date');
                 var e = new Date(s.getTime() + 3 * 3600 * 1000);
-                var place = data.events.length ? (data.events[data.events.length > 1 ? 1 : 0].place || '') : '';
+                var place = data.events.length ? (data.events[data.events.length > 1 ? 1 : 0].place || '') :
+                    '';
                 var desc = data.events.map(function(x) {
                     return (x.time ? x.time + ' ' : '') + x.title;
                 }).join(' / ');
@@ -251,7 +250,8 @@
                 var wrap = document.createElement('span');
                 wrap.setAttribute('aria-hidden', 'true');
                 var h = '<span class="burst-ring"></span>';
-                for (var i = 0; i < 8; i++) h += '<span class="burst-spark" style="--a:' + (i * 45) +
+                for (var i = 0; i < 8; i++) h += '<span class="burst-spark" style="--a:' + (i *
+                    45) +
                     'deg"></span>';
                 wrap.innerHTML = h;
                 btn.appendChild(wrap);
@@ -507,7 +507,8 @@
                     nm.textContent = x.name;
                     var ok = document.createElement('span');
                     ok.className = 'wish-ok' + (x.attend ? '' : ' no');
-                    ok.textContent = (x.attend ? '✓' : '✗') + (x.attend && x.guests ? ' ' + x.guests : '');
+                    ok.textContent = (x.attend ? '✓' : '✗') + (x.attend && x.guests ? ' ' + x
+                        .guests : '');
                     row.appendChild(nm);
                     row.appendChild(ok);
                     body.appendChild(row);
@@ -613,7 +614,8 @@
                     var wrap = document.createElement('span');
                     wrap.setAttribute('aria-hidden', 'true');
                     var h = '<span class="burst-ring"></span>';
-                    for (var i = 0; i < 8; i++) h += '<span class="burst-spark" style="--a:' + (i * 45) +
+                    for (var i = 0; i < 8; i++) h += '<span class="burst-spark" style="--a:' + (i *
+                            45) +
                         'deg"></span>';
                     wrap.innerHTML = h;
                     btn.appendChild(wrap);
