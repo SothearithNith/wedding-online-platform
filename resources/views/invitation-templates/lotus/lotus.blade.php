@@ -6,7 +6,7 @@
         $templateKey,
         $eventType ?? 'wedding',
     );
-    
+
     extract($viewData, EXTR_SKIP);
     $defaultMusic = is_file(public_path('assets/music/wedding.mp3')) ? asset('assets/music/wedding.mp3') : '';
     $pickMusic = function ($v) use (&$pickMusic) {
@@ -104,24 +104,25 @@
         @include('invitation-templates.lotus.card')
         @include('invitation-templates.lotus.divider')
         @include('invitation-templates.lotus.couple')
-        @include('invitation-templates.lotus.divider', ['variant' => 'band'])
+        @include('invitation-templates.lotus.divider')
         @include('invitation-templates.lotus.countdown')
         @include('invitation-templates.lotus.divider')
         @include('invitation-templates.lotus.story')
-        @include('invitation-templates.lotus.divider', ['variant' => 'band'])
+        @include('invitation-templates.lotus.divider')
         @include('invitation-templates.lotus.schedule')
         @include('invitation-templates.lotus.divider')
         @include('invitation-templates.lotus.gallery')
-        @include('invitation-templates.lotus.divider', ['variant' => 'band'])
+        @include('invitation-templates.lotus.divider')
         @include('invitation-templates.lotus.dress-code')
         @include('invitation-templates.lotus.divider')
         @include('invitation-templates.lotus.rsvp')
-        @include('invitation-templates.lotus.divider', ['variant' => 'band'])
+        @include('invitation-templates.lotus.divider')
         @include('invitation-templates.lotus.gift')
         @include('invitation-templates.lotus.divider')
         @include('invitation-templates.lotus.apology')
-        @include('invitation-templates.lotus.divider', ['variant' => 'band'])
+        @include('invitation-templates.lotus.divider')
         @include('invitation-templates.lotus.thanks')
+        @include('invitation-templates.lotus.divider')
     </main>
 
     @if ($musicSrc || $musicYoutubeId)

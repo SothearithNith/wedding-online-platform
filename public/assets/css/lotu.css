@@ -6008,3 +6008,88 @@ html:not(.js) .kx-nav {
         animation: none;
     }
 }
+/* ---------- ORNAMENT DIVIDER (kbach) ---------- */
+.g-div--orn {
+    padding: 26px 12px;
+}
+.g-div .gdo {
+    width: min(100%, 460px);
+}
+
+/* soft glow once revealed */
+.g-div.in .gdo {
+    animation: gdo-glow 5s ease-in-out 3s infinite;
+}
+@keyframes gdo-glow {
+    0%,
+    100% {
+        filter: drop-shadow(0 0 2px rgba(227, 189, 90, 0.25));
+    }
+    50% {
+        filter: drop-shadow(0 0 10px rgba(246, 227, 160, 0.7));
+    }
+}
+
+/* jewel heartbeat */
+.gdo-pulse {
+    transform-box: fill-box;
+    transform-origin: center;
+}
+.g-div.in .gdo-pulse {
+    animation: gdo-beat 2.6s ease-in-out 2.6s infinite;
+}
+@keyframes gdo-beat {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    18% {
+        transform: scale(1.22);
+    }
+    36% {
+        transform: scale(1);
+    }
+}
+
+/* twinkling sparkles */
+.gdo-spark {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+}
+.g-div.in .gdo-spark {
+    animation: gdo-twinkle 3.6s ease-in-out var(--d, 0s) infinite;
+    animation-delay: calc(var(--d, 0s) + 2.4s);
+}
+@keyframes gdo-twinkle {
+    0%,
+    100% {
+        opacity: 0;
+        transform: scale(0.2) rotate(0deg);
+    }
+    45% {
+        opacity: 1;
+        transform: scale(1.15) rotate(45deg);
+    }
+    70% {
+        opacity: 0;
+        transform: scale(0.4) rotate(90deg);
+    }
+}
+
+/* the light sweep must not block clicks and should blend softly */
+.gdo-shine {
+    mix-blend-mode: screen;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gdo-shine,
+    .gdo-spark {
+        display: none;
+    }
+    .g-div.in .gdo,
+    .g-div.in .gdo-pulse {
+        animation: none !important;
+    }
+}
