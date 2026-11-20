@@ -1,4 +1,3 @@
-{{-- ============================ HERO CARD + BOTTOM NAV ============================ --}}
 @php
     $heroGroomParents = implode(' ', $parents($groom['parents'] ?? []));
     $heroBrideParents = implode(' ', $parents($bride['parents'] ?? []));
@@ -28,7 +27,6 @@
         style="background:linear-gradient(180deg,rgba(23,8,34,.72),rgba(23,8,34,.38) 45%,rgba(23,8,34,.86));z-index:0">
     </div>
 
-    {{-- background effects --}}
     <div class="kc-fx" aria-hidden="true">
         <div class="kc-rays"></div>
         <div class="kc-sun"></div>
@@ -42,8 +40,6 @@
 
     <div class="kc-frame">
         <div class="kc-shape" aria-hidden="true"></div>
-
-        {{-- 1. Angkor temple rises --}}
         <svg class="kc-angkor" viewBox="0 0 160 70" fill="none" stroke="#e3bd5a" stroke-width="1.4"
             stroke-linejoin="round" aria-hidden="true">
             <path d="M80 2c3 6 3 10 0 14c-3-4-3-8 0-14z" fill="#e3bd5a" />
@@ -54,12 +50,9 @@
             <path d="M4 68h152M10 62h140M30 56h100M56 46h48M62 40h36" />
         </svg>
         <div class="kc-angkor-base royal-enter" style="--d:700ms"></div>
-
-        {{-- 2. invitation line --}}
         <p class="hl-label royal-enter" style="--d:900ms;margin-top:22px">{{ $K['coverInvite'] }}</p>
-
-        {{-- 3. names --}}
-        <h1 class="kc-moul kc-name royal-enter" style="--d:1150ms;margin-top:10px;font-size:1.5rem;line-height:1.9">
+        <h1 class="kc-moul kc-name royal-enter title-font"
+            style="--d:1150ms;margin-top:10px;font-size:1.5rem;line-height:1.9">
             {{ $groom['name'] }}</h1>
 
         <div class="kc-amp royal-enter" style="--d:1400ms" aria-hidden="true">
@@ -67,23 +60,45 @@
             <em>{{ $K['and'] }}</em>
         </div>
 
-        <h1 class="kc-moul kc-name royal-enter" style="--d:1650ms;font-size:1.5rem;line-height:1.9">
+        <h1 class="kc-moul kc-name royal-enter title-font" style="--d:1650ms;font-size:1.5rem;line-height:1.9">
             {{ $bride['name'] }}</h1>
+        <div class="kc-fam royal-enter" style="--d:1900ms">
+            @foreach ([[$groom['dad'], $groom['mom']], [$bride['dad'], $bride['mom']]] as [$dad, $mom])
+                <div class="kc-fam-col">
+                    <div class="kc-fam-person">
+                        <span class="kc-fam-role">{{ trans_json('Mr.') }}</span>
+                        <span class="kc-fam-name title-font">{{ $dad }}</span>
+                    </div>
+                    <i class="kc-fam-dia" aria-hidden="true"></i>
+                    <div class="kc-fam-person">
+                        <span class="kc-fam-role">{{ trans_json('Ms.') }}</span>
+                        <span class="kc-fam-name title-font">{{ $mom }}</span>
+                    </div>
+                </div>
 
-        {{-- 4. parents --}}
-        @if ($heroGroomParents || $heroBrideParents)
-            <div class="kc-parents royal-enter" style="--d:1900ms">
-                <div class="hl-parent font-khmer">{{ $heroGroomParents }}</div>
-                <i class="hl-rule" aria-hidden="true"></i>
-                <div class="hl-parent font-khmer">{{ $heroBrideParents }}</div>
-            </div>
-        @endif
-
-        {{-- 5. date pill --}}
-        <div class="royal-enter" style="--d:2150ms;margin-top:22px">
-            <span class="kc-date font-khmer js-date" data-iso="{{ $w['date'] }}">{{ $w['dateText'] }}</span>
+                @if ($loop->first)
+                    <div class="kc-fam-vline" aria-hidden="true"></div>
+                @endif
+            @endforeach
         </div>
+        <div class="kc-when royal-enter" style="--d:2150ms">
+            <span class="kc-date font-khmer js-date title-font"
+                data-iso="{{ $w['date'] }}">{{ $w['dateText'] }}</span>
 
+            <div class="kc-when-div" aria-hidden="true">
+                <span></span><i></i><span></span>
+            </div>
+
+            <p class="kc-loc">
+                <svg class="kc-loc-pin" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
+                    aria-hidden="true">
+                    <path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 12 2.5a7 7 0 0 1 7 7C19 14.800 12 21 12 21Z" />
+                    <circle cx="12" cy="9.5" r="2.4" />
+                </svg>
+                <span class="kc-loc-text title-font">{{ $w['location'] }}</span>
+            </p>
+        </div>
         <div class="chakra-band royal-enter" style="--d:2400ms;width:9rem;margin-top:22px" aria-hidden="true"></div>
     </div>
 
