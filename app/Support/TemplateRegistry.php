@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\View;
 
 class TemplateRegistry
 {
-    public const DEFAULT_DIR = 'assets/images/default'; 
+    public const DEFAULT_DIR = 'assets/images/default';
     public const DEFAULT_MUSIC = 'assets/music/wedding.mp3';
 
     public const DEFAULT_IMAGES = [
@@ -19,6 +19,14 @@ class TemplateRegistry
 
     public const CLEAN_DEFAULT_IMAGES = [
         'cover' => 'clean_cover.jpg',
+        'groom.photo' => 'groom.jpg',
+        'bride.photo' => 'bride.jpg',
+        'gift.qr' => 'qr.jpg',
+        'backgrounds.all' => 'background.jpg',
+    ];
+
+    public const LOTU_DEFAULT_IMAGES = [
+        'cover' => 'lotu_cover.jpg',
         'groom.photo' => 'groom.jpg',
         'bride.photo' => 'bride.jpg',
         'gift.qr' => 'qr.jpg',

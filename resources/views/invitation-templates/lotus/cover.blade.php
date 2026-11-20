@@ -66,7 +66,7 @@
                                 @endforeach
                             </g>
 
-                            <image class="apsara" href="{{ asset('assets/images/lotus/apsara.png') }}" x="4" y="40"
+                            <image class="apsara" href="{{ asset('assets/images/gold/apsara.png') }}" x="4" y="40"
                                 width="92" height="194" preserveAspectRatio="xMidYMax meet" />
                         </svg>
                     </div>
@@ -97,7 +97,7 @@
                 <div class="gc-logo g-reveal" style="--d:100ms">
                     <span class="gc-logo-halo" aria-hidden="true"></span>
                     <span class="gc-spark" aria-hidden="true">{!! $ic('sparkles', 18) !!}</span>
-                    <img src="{{ asset('assets/images/lotus/lotus-wedding.png') }}" alt=""
+                    <img src="{{ asset('assets/images/gold/gold-wedding.png') }}" alt=""
                         width="500" height="180" class="royal-logo gc-logo-img"
                         onerror="this.style.display='none'">
                 </div>
