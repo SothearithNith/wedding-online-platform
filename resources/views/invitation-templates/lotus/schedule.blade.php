@@ -1,23 +1,16 @@
 @if (count($events))
     @php $schedBg = $bg('schedule'); @endphp
-    <section class="g-sec" id="schedule" style="padding:112px 20px;background:#1b1209">
+    <section class="g-sec" id="schedule" style="padding:112px 20px;background:#1b0a2c">
         <div class="g-bgimg" data-bg="{{ $schedBg }}"></div>
         <div class="g-ov" style="background:rgba(0,0,0,.08)"></div>
         <div class="g-ov"
-            style="background:linear-gradient(180deg,#1b1209 0%,transparent 12%,transparent 88%,#1b1209 100%);pointer-events:none">
+            style="background:linear-gradient(180deg,#1b0a2c 0%,transparent 12%,transparent 88%,#1b0a2c 100%);pointer-events:none">
         </div>
 
         <div class="g-in" style="z-index:1">
             <div class="g-arch-glass"
-                style="padding:40px 24px 48px;{{ $schedBg ? '' : 'background:rgba(27,18,9,.92)' }}">
+                style="padding:56px 24px 48px;{{ $schedBg ? '' : 'background:rgba(27,10,44,.92)' }}">
                 <div class="gloss"></div>
-                <div style="position:absolute;inset:10px;border:1px solid rgba(246,227,160,.25);border-radius:2.5rem;pointer-events:none"
-                    aria-hidden="true">
-                    <span class="dia" style="position:absolute;left:-3px;top:50%;margin-top:-3px"></span>
-                    <span class="dia" style="position:absolute;right:-3px;top:50%;margin-top:-3px"></span>
-                    <span class="dia" style="position:absolute;left:50%;top:-3px;margin-left:-3px"></span>
-                    <span class="dia" style="position:absolute;left:50%;bottom:-3px;margin-left:-3px"></span>
-                </div>
 
                 <div class="ts" style="position:relative">
                     {!! $title($K['schedule']) !!}
