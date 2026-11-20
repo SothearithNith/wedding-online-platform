@@ -4155,27 +4155,6 @@ textarea.rs-field {
 }
 
 /* ---------- 2. Kbach border strip that slowly flows ---------- */
-.kx-kbach-strip {
-    position: relative;
-    height: 34px;
-    overflow: hidden;
-    z-index: 4;
-    pointer-events: none;
-    opacity: 0.9;
-}
-
-.kx-kbach-strip svg {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 200%;
-    height: 100%;
-    animation: kx-flow 22s linear infinite;
-}
-
-.kx-kbach-strip.rev svg {
-    animation-direction: reverse;
-}
 
 @keyframes kx-flow {
     to {
@@ -4803,8 +4782,7 @@ html:not(.js) .g-div .kb-draw {
     }
 
     .g-bgimg.on,
-    .g-photo::after,
-    .kx-kbach-strip svg,
+    .g-photo::after, 
     .g-spin,
     .kc-mandala,
     .kc-rays,

@@ -44,11 +44,7 @@
 <section class="g-sec g-photo cpl" id="couple">
     <div class="g-bgimg" data-bg="{{ $bg('intro') }}"></div>
     <div class="g-ov" style="{{ $overlay(0.6) }}"></div>
-
-    {{-- gold vine border (drawn by .cpl::after) --}}
-
     <div class="cpl-in" id="cp">
-
         <div class="cpl-orn rv" data-v="unfold" aria-hidden="true">
             <span></span><i></i><i class="big"></i><i></i><span></span>
         </div>
@@ -57,8 +53,6 @@
             @php $photo = $img($p['photo'] ?? ''); @endphp
 
             <article class="cpl-card cpl-{{ $side }}">
-
-                {{-- portrait in gold kbach oval frame --}}
                 <div class="cpl-photo rv" data-v="{{ $side }}" style="--d:{{ $delay }}ms">
                     <div class="cpl-art">
                         <div class="cpl-halo" aria-hidden="true"></div>

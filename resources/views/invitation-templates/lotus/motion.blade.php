@@ -38,7 +38,9 @@
                     parallax();
                     ticking = false;
                 });
-            }, { passive: true });
+            }, {
+                passive: true
+            });
             window.addEventListener('resize', parallax);
             parallax();
         }
@@ -85,15 +87,7 @@
             });
         }
 
-        /* ---------- 4. flowing kbach strips between sections ---------- */
-        function kbachSvg(id) {
-            return '<svg aria-hidden="true" viewBox="0 0 1200 34" preserveAspectRatio="none">' +
-                '<defs><pattern id="' + id + '" width="40" height="34" patternUnits="userSpaceOnUse">' +
-                '<path d="M20 31 C8 29 5 17 12 9 C12 15 16 17 20 15 C19 9 23 4 28 3 C27 10 32 14 31 21 C30 27 26 30 20 31 Z" fill="none" stroke="' + GOLD + '" stroke-width="1.2"/>' +
-                '<path d="M20 25 C15 23 15 17 18 13 C18 17 21 18 23 17 C25 20 23 24 20 25 Z" fill="' + GOLD + '" opacity=".55"/>' +
-                '</pattern></defs><rect width="1200" height="34" fill="url(#' + id + ')"/></svg>';
-        }
-
+    
         function addStrips() {
             if (!gw) return;
             var ids = ['countdown', 'schedule', 'rsvp', 'apology'];
@@ -101,7 +95,6 @@
                 var sec = document.getElementById(id);
                 if (!sec) return;
                 var strip = document.createElement('div');
-                strip.className = 'kx-kbach-strip' + (i % 2 ? ' rev' : '');
                 strip.innerHTML = kbachSvg('kx-kb-' + i);
                 sec.parentNode.insertBefore(strip, sec);
             });
@@ -111,7 +104,9 @@
         function watchDraw() {
             var els = [].slice.call(document.querySelectorAll('.kx-draw'));
             if (!('IntersectionObserver' in window)) {
-                els.forEach(function(e) { e.classList.add('in'); });
+                els.forEach(function(e) {
+                    e.classList.add('in');
+                });
                 return;
             }
             var io = new IntersectionObserver(function(es) {
@@ -121,14 +116,20 @@
                         io.unobserve(e.target);
                     }
                 });
-            }, { threshold: 0.3 });
-            els.forEach(function(e) { io.observe(e); });
+            }, {
+                threshold: 0.3
+            });
+            els.forEach(function(e) {
+                io.observe(e);
+            });
         }
 
         /* ---------- 6. mark hero bg as loaded (Ken Burns) ---------- */
         var hero = document.getElementById('hero');
         if (hero) {
-            setTimeout(function() { hero.classList.add('kx-bg-on'); }, 400);
+            setTimeout(function() {
+                hero.classList.add('kx-bg-on');
+            }, 400);
         }
 
         /* ---------- 7. live background swap (editor / admin preview) ---------- */
@@ -136,7 +137,8 @@
             var d = ev.data;
             if (!d || d.type !== 'kx-bg' || typeof d.url !== 'string') return;
             if (!/^(https?:)?\/\/|^\/|^data:image\//i.test(d.url)) return;
-            var sel = d.section === 'all' ? '.g-bgimg' : '#' + String(d.section).replace(/[^\w-]/g, '') + ' .g-bgimg';
+            var sel = d.section === 'all' ? '.g-bgimg' : '#' + String(d.section).replace(/[^\w-]/g, '') +
+                ' .g-bgimg';
             [].slice.call(document.querySelectorAll(sel)).forEach(function(el) {
                 el.style.backgroundImage = 'url("' + d.url.replace(/"/g, '%22') + '")';
                 el.classList.remove('kx-swap');
@@ -152,6 +154,7 @@
 
         var gc = document.getElementById('gc');
         var openBtn = document.getElementById('gc-open');
+
         function opened() {
             if (gw) gw.classList.add('kx-open');
             startPetals();
