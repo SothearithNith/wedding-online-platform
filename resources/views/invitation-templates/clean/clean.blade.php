@@ -6,17 +6,7 @@
         $templateKey,
         $eventType ?? 'wedding',
     );
-    extract($viewData, EXTR_SKIP);
-    // (removed) dd($viewData);  <-- this stopped the page from rendering at all
-
-    /*
-     * Same idea as the gold template: accept an uploaded file path OR a link, as a string or as an
-     * array (path / origin_url / url / src / file), and always return a URL the browser can load.
-     * - http(s)://, //, data:  -> used as is (links)
-     * - assets/...             -> asset('assets/...')
-     * - anything else          -> asset('storage/...') (uploaded files)
-     * Safe to run on values the presenter already resolved: absolute URLs pass through untouched.
-     */
+    extract($viewData, EXTR_SKIP); 
     $resolveUrl = function ($v) use (&$resolveUrl) {
         if (is_array($v)) {
             foreach (['path', 'origin_url', 'url', 'src', 'file'] as $k) {

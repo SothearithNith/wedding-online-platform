@@ -13,9 +13,7 @@
 
 <div class="mx-auto max-w-6xl space-y-6 p-4">
 
-    @include('livewire.admin.wedding.partials.swal')
-
-    {{-- Header --}}
+    @include('livewire.admin.wedding.partials.swal') 
     <div
         class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-600 p-6 text-white shadow-xl shadow-indigo-500/20 sm:p-8">
         <div class="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/10 blur-2xl"></div>
