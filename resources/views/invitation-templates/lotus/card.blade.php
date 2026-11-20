@@ -14,15 +14,19 @@
         'home' => '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/>',
         'heart' => '<path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z"/>',
         'clock' => '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
-        'image' => '<rect x="3" y="4" width="18" height="16" rx="1"/><circle cx="9" cy="10" r="1.6"/><path d="M3 17l5-5 4 4 3-3 6 6"/>',
+        'image' =>
+            '<rect x="3" y="4" width="18" height="16" rx="1"/><circle cx="9" cy="10" r="1.6"/><path d="M3 17l5-5 4 4 3-3 6 6"/>',
         'mail' => '<rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 7l9 7 9-7"/>',
-        'gift' => '<rect x="3" y="9" width="18" height="11" rx="1"/><path d="M12 9v11M3 13h18"/><path d="M12 9c-3 0-5-1-5-3s3-2 5 3c2-5 5-5 5-3s-2 3-5 3z"/>',
+        'gift' =>
+            '<rect x="3" y="9" width="18" height="11" rx="1"/><path d="M12 9v11M3 13h18"/><path d="M12 9c-3 0-5-1-5-3s3-2 5 3c2-5 5-5 5-3s-2 3-5 3z"/>',
     ];
 @endphp
 
 <section class="g-hero" id="hero">
     <div class="g-bgimg on" data-bg="{{ $img($w['cover']) ?: $heroBg }}" data-eager style="z-index:0"></div>
-    <div class="g-ov" style="background:linear-gradient(180deg,rgba(23,8,34,.72),rgba(23,8,34,.38) 45%,rgba(23,8,34,.86));z-index:0"></div>
+    <div class="g-ov"
+        style="background:linear-gradient(180deg,rgba(23,8,34,.72),rgba(23,8,34,.38) 45%,rgba(23,8,34,.86));z-index:0">
+    </div>
 
     {{-- background effects --}}
     <div class="kc-fx" aria-hidden="true">
@@ -30,7 +34,8 @@
         <div class="kc-sun"></div>
         <div class="kc-dust">
             @for ($i = 0; $i < 14; $i++)
-                <i style="left:{{ ($i * 29 + 5) % 96 }}%;width:{{ 3 + ($i % 3) }}px;height:{{ 3 + ($i % 3) }}px;animation-duration:{{ 9 + ($i % 6) * 2 }}s;animation-delay:{{ ($i % 8) * 1.1 }}s;--dx:{{ (($i % 5) - 2) * 22 }}px"></i>
+                <i
+                    style="left:{{ ($i * 29 + 5) % 96 }}%;width:{{ 3 + ($i % 3) }}px;height:{{ 3 + ($i % 3) }}px;animation-duration:{{ 9 + ($i % 6) * 2 }}s;animation-delay:{{ ($i % 8) * 1.1 }}s;--dx:{{ (($i % 5) - 2) * 22 }}px"></i>
             @endfor
         </div>
     </div>
@@ -94,8 +99,9 @@
 <nav class="kx-nav" id="kx-nav" aria-label="Sections">
     @foreach ($navItems as [$target, $icon, $label])
         <a class="kx-nav-i" href="#{{ $target }}" data-t="{{ $target }}">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"
-                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{!! $navIcons[$icon] !!}</svg>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">{!! $navIcons[$icon] !!}</svg>
             <span>{{ $label }}</span>
         </a>
     @endforeach
@@ -105,32 +111,64 @@
     (function() {
         var nav = document.getElementById('kx-nav');
         if (!nav) return;
-        var items = [].slice.call(nav.querySelectorAll('.kx-nav-i'));
+        // live directly under <body> so no parent (overflow / transform) can hide or clip the bar
+        document.body.appendChild(nav);
 
-        // hide entries whose section is not on this invitation
-        items = items.filter(function(a) {
-            if (document.getElementById(a.getAttribute('data-t'))) return true;
-            a.parentNode.removeChild(a);
-            return false;
-        });
-        nav.style.setProperty('--n', items.length);
-
-        function setActive(id) {
-            items.forEach(function(a) {
-                a.classList.toggle('on', a.getAttribute('data-t') === id);
-            });
+        // show the bar as soon as the cover is gone (or immediately when there is no cover)
+        function showNav() {
+            nav.classList.add('show');
         }
-        setActive('hero');
+        var gc = document.getElementById('gc');
+        var gcBtn = document.getElementById('gc-open');
+        if (!gc || gc.style.display === 'none' || gc.classList.contains('opened')) {
+            showNav();
+        } else {
+            if (gcBtn) gcBtn.addEventListener('click', function() {
+                setTimeout(showNav, 1400);
+            });
+            // safety net: never leave the visitor without navigation
+            var tries = 0,
+                t = setInterval(function() {
+                    if (!document.getElementById('gc') || ++tries > 120) {
+                        clearInterval(t);
+                        showNav();
+                    }
+                }, 500);
+        }
 
-        if ('IntersectionObserver' in window) {
-            var io = new IntersectionObserver(function(es) {
-                es.forEach(function(e) {
-                    if (e.isIntersecting) setActive(e.target.id);
+        // this script sits BEFORE the other sections in the page, so wait until they exist
+        function init() {
+            var items = [].slice.call(nav.querySelectorAll('.kx-nav-i'));
+
+            // hide entries whose section is not on this invitation
+            items = items.filter(function(a) {
+                if (document.getElementById(a.getAttribute('data-t'))) return true;
+                a.parentNode.removeChild(a);
+                return false;
+            });
+            nav.style.setProperty('--n', items.length);
+
+            function setActive(id) {
+                items.forEach(function(a) {
+                    a.classList.toggle('on', a.getAttribute('data-t') === id);
                 });
-            }, { rootMargin: '-45% 0px -50% 0px' });
-            items.forEach(function(a) {
-                io.observe(document.getElementById(a.getAttribute('data-t')));
-            });
+            }
+            setActive('hero');
+
+            if ('IntersectionObserver' in window) {
+                var io = new IntersectionObserver(function(es) {
+                    es.forEach(function(e) {
+                        if (e.isIntersecting) setActive(e.target.id);
+                    });
+                }, {
+                    rootMargin: '-45% 0px -50% 0px'
+                });
+                items.forEach(function(a) {
+                    io.observe(document.getElementById(a.getAttribute('data-t')));
+                });
+            }
         }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+        else init();
     })();
 </script>
