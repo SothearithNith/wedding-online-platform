@@ -13,12 +13,13 @@
                 <h1 class="text-2xl font-bold tracking-tight text-slate-900">
                     {{ $template ? trans_json('Edit template') : trans_json('Create template') }}
                 </h1>
-                <p class="text-sm text-slate-500">{{ trans_json('Fill in the details, structure and preview image.') }}</p>
+                <p class="text-sm text-slate-500">{{ trans_json('Fill in the details, structure and preview image.') }}
+                </p>
             </div>
         </div>
 
         @if ($template)
-            <a href="{{ route('templates.preview', $template) }}" target="_blank"
+            <a href="{{ route('admin.templates.preview', $template) }}" target="_blank"
                 class="ml-auto inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50">
                 <x-heroicon-o-eye class="h-5 w-5" /> {{ trans_json('Preview') }}
             </a>
@@ -92,7 +93,8 @@
                                 <x-heroicon-o-bolt class="h-5 w-5" />
                             </span>
                             <span class="min-w-0 flex-1">
-                                <span class="block text-sm font-medium text-slate-800">{{ trans_json('Active') }}</span>
+                                <span
+                                    class="block text-sm font-medium text-slate-800">{{ trans_json('Active') }}</span>
                                 <span class="block text-xs text-slate-500">{{ trans_json('Can be used.') }}</span>
                             </span>
                             <input type="checkbox" wire:model="is_active" class="peer sr-only">
@@ -107,8 +109,10 @@
                                 <x-heroicon-o-globe-alt class="h-5 w-5" />
                             </span>
                             <span class="min-w-0 flex-1">
-                                <span class="block text-sm font-medium text-slate-800">{{ trans_json('Public') }}</span>
-                                <span class="block text-xs text-slate-500">{{ trans_json('Visible to everyone.') }}</span>
+                                <span
+                                    class="block text-sm font-medium text-slate-800">{{ trans_json('Public') }}</span>
+                                <span
+                                    class="block text-xs text-slate-500">{{ trans_json('Visible to everyone.') }}</span>
                             </span>
                             <input type="checkbox" wire:model="is_public" class="peer sr-only">
                             <span
