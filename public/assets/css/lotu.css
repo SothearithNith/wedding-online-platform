@@ -6074,3 +6074,229 @@ html:not(.js) .kx-nav {
         animation: none !important;
     }
 }
+/* =====================================================================
+   GALLERY · oval frame (same family as the couple frame, taller + jewel)
+   Paste at the very bottom of lotus-khmer-royal.css.
+   Overrides the old polygon .kg-frame rules.
+   ===================================================================== */
+
+.kg-frame {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    clip-path: none;
+    border-radius: 0;
+    box-shadow: none;
+    animation: kg-bob 6s ease-in-out infinite;
+    animation-delay: var(--d);
+    transition: transform 0.5s var(--kx-ease, ease);
+}
+.kg-frame:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: none;
+}
+.kg-frame:focus-visible {
+    outline: 2px solid #e5c162;
+    outline-offset: 6px;
+}
+
+/* 340 x 440 artboard */
+.kg-art {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 340 / 440;
+    filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.5));
+}
+
+/* rotating rays, like .cpl-halo */
+.kg-halo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 125%;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    z-index: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.9;
+    background: repeating-conic-gradient(
+        from 0deg,
+        rgba(229, 193, 98, 0.3) 0 2.5deg,
+        transparent 2.5deg 12deg
+    );
+    -webkit-mask-image: radial-gradient(
+        circle,
+        #000 0%,
+        rgba(0, 0, 0, 0.5) 35%,
+        transparent 62%
+    );
+    mask-image: radial-gradient(
+        circle,
+        #000 0%,
+        rgba(0, 0, 0, 0.5) 35%,
+        transparent 62%
+    );
+    animation: kx-turn 90s linear infinite;
+}
+
+/* photo sits exactly inside the ring (ellipse 98.5 x 162.5 at 170,222 in 340 x 440) */
+.kg-photo {
+    position: absolute;
+    left: 21.03%;
+    top: 13.52%;
+    width: 57.94%;
+    height: 73.86%;
+    z-index: 1;
+    display: block;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #2e0f45;
+}
+.kg-photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 30%;
+    clip-path: inset(100% 0 0 0);
+    transform: scale(1.25);
+    transition:
+        clip-path 1.3s cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--d) + 0.25s),
+        transform 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--d) + 0.25s),
+        filter 0.6s;
+}
+.kg-in .kg-photo img {
+    clip-path: inset(0);
+    transform: scale(1);
+}
+.kg-frame:hover .kg-photo img {
+    transform: scale(1.08);
+    filter: saturate(1.12) brightness(1.04);
+}
+.kg-photo::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(31, 10, 51, 0.4), transparent 35%);
+}
+.kg-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(
+        115deg,
+        transparent 38%,
+        rgba(255, 244, 205, 0.4) 50%,
+        transparent 62%
+    );
+    transform: translateX(-120%);
+    animation: kg-shine 6s ease-in-out infinite;
+    animation-delay: calc(var(--d) + 1.5s);
+}
+
+.kg-frame-svg {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+}
+
+/* tile no longer needs its own drop-shadow (the art has one) */
+.kg-tile {
+    filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .kg-frame,
+    .kg-halo,
+    .kg-photo::after {
+        animation: none !important;
+    }
+}
+
+/* =====================================================================
+   LIGHTBOX · full image, plain rectangular gold border (no arch / no crop)
+   ===================================================================== */
+.kg-lb .kg-lb-frame {
+    display: flex;
+    width: auto;
+    height: auto;
+    max-width: 92vw;
+    padding: 3px;
+    border-radius: 2px;
+    clip-path: none;
+    background: var(
+        --foil,
+        linear-gradient(
+            120deg,
+            #a87c2e,
+            #f6e3a0 30%,
+            #e3bd5a 55%,
+            #fff1b8 75%,
+            #a87c2e
+        )
+    );
+    box-shadow: 0 0 40px rgba(232, 199, 108, 0.25);
+}
+.kg-lb .kg-lb-frame img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: calc(92vw - 6px);
+    max-height: calc(68svh - 6px);
+    object-fit: contain;
+    border-radius: 0;
+    clip-path: none;
+    background: #000;
+}
+
+/* =====================================================================
+   GALLERY LAYOUT · zigzag chain
+   every photo the same size, alternating left / right, each one tucked up
+   against the one before it so the frames sit close together.
+   ===================================================================== */
+.kg-grid {
+    display: flex;
+    flex-direction: column;
+    max-width: 30rem;
+    margin: 0 auto;
+    gap: 0;
+}
+.kg-grid > .kg-tile {
+    width: 58%;
+    min-width: 0;
+    margin-top: -40%; /* % of grid width: tuck up ~ 0.53 of a tile */
+}
+.kg-grid > .kg-tile:first-child {
+    margin-top: 0;
+}
+.kg-grid > .kg-tile:nth-child(odd) {
+    align-self: flex-start;
+    rotate: -2deg;
+}
+.kg-grid > .kg-tile:nth-child(even) {
+    align-self: flex-end;
+    rotate: 2deg;
+}
+/* every 3rd photo gets a stronger glow as a focal point */
+.kg-grid > .kg-tile:nth-child(3n + 1) .kg-halo {
+    opacity: 1;
+    width: 140%;
+}
+@media (prefers-reduced-motion: reduce) {
+    .kg-grid > .kg-tile {
+        rotate: 0deg;
+    }
+}
