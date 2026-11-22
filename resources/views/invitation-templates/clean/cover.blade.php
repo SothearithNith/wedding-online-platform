@@ -14,10 +14,7 @@
     </div>
     <div class="cv-in">
         <div class="cv-mandala" aria-hidden="true">{!! $lotus(16, 360, 'cv-spin', 0.8) !!}</div>
-        <svg class="cv-arch" viewBox="0 0 300 470" aria-hidden="true" preserveAspectRatio="none">
-            <path pathLength="100" d="M8 462V160C8 84 74 52 150 6C226 52 292 84 292 160V462Z" />
-            <path pathLength="100" d="M20 450V164C20 96 80 66 150 24C220 66 280 96 280 164V450Z" opacity=".5" />
-        </svg>
+        
         <div class="cv-body">
             <span class="cv-emblem" style="--d:200ms">{!! $bloom('cl-bloom') !!}</span>
             <small style="--d:400ms" data-i18n="coverInvite">{{ $K['coverInvite'] }}</small>

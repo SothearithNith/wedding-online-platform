@@ -43,10 +43,7 @@
 
     <div class="cp-wrap">
         <div class="cp-stage">
-            <svg class="cp-curve" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-                <path d="M30 24 C52 24, 48 62, 70 62" fill="none" stroke="url(#cpGold)" stroke-width="2.2"
-                    stroke-dasharray="0.1 7" stroke-linecap="round" vector-effect="non-scaling-stroke" />
-            </svg>
+             
 
             @foreach ([[$K['groom'], $groom, 0, 'a'], [$K['bride'], $bride, 450, 'b']] as [$label, $p, $delay, $pos])
                 @php $photo = $img($p['photo'] ?? ''); @endphp
@@ -121,7 +118,7 @@
                         </g>
                     </g>
                 </svg>
-            </div> 
+            </div>
         </div>
     </div>
 </section>

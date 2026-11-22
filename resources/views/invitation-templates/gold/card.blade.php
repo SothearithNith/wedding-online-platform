@@ -1,3 +1,24 @@
+@php
+    $navItems = [
+        ['hero', 'home', 'ទំព័រដើម'],
+        ['story', 'heart', $K['story']],
+        ['schedule', 'clock', $K['schedule']],
+        ['gallery', 'image', $K['gallery']],
+        ['rsvp', 'mail', $K['rsvp']],
+        ['gift', 'gift', $K['gift']],
+    ];
+    $navIcons = [
+        'home' => '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/>',
+        'heart' => '<path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z"/>',
+        'clock' => '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+        'image' =>
+            '<rect x="3" y="4" width="18" height="16" rx="1"/><circle cx="9" cy="10" r="1.6"/><path d="M3 17l5-5 4 4 3-3 6 6"/>',
+        'mail' => '<rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 7l9 7 9-7"/>',
+        'gift' =>
+            '<rect x="3" y="9" width="18" height="11" rx="1"/><path d="M12 9v11M3 13h18"/><path d="M12 9c-3 0-5-1-5-3s3-2 5 3c2-5 5-5 5-3s-2 3-5 3z"/>',
+    ];
+@endphp
+
 <section id="hero" class="g-hero" data-bg="{{ $heroBg }}" data-eager>
     <div class="kc-fx" aria-hidden="true">
         <div class="royal-glow"></div>
@@ -56,7 +77,7 @@
 
         <div class="royal-enter"
             style="--d:1150ms;position:relative;z-index:10;margin-top:16px;display:grid;width:100%;grid-template-columns:1fr 1fr;gap:12px">
-            @foreach ([[$groom['dad'], $groom['mom']], [$bride['dad'], $bride['mom']]] as [$dad, $mom]) 
+            @foreach ([[$groom['dad'], $groom['mom']], [$bride['dad'], $bride['mom']]] as [$dad, $mom])
                 <div style="min-width:0;padding:0 4px">
                     <div class="hl-rule" style="width:32px;margin:4px auto 0"></div>
 
@@ -155,3 +176,147 @@
         {!! $ic('down', 18) !!}
     </div>
 </section>
+
+<nav class="kx-nav" id="kx-nav" aria-label="Sections">
+    @foreach ($navItems as [$target, $icon, $label])
+        <a class="kx-nav-i title-font" href="#{{ $target }}" data-t="{{ $target }}">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">{!! $navIcons[$icon] !!}</svg>
+            <span>{{ $label }}</span>
+        </a>
+    @endforeach
+</nav>
+<style>
+    /* ===== Bottom navigation bar ===== */
+    .kx-nav {
+        position: fixed;
+        left: 50%;
+        bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+        transform: translate(-50%, 140%);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 60;
+        display: flex;
+        gap: 2px;
+        width: min(94vw, 460px);
+        padding: 6px;
+        border-radius: 18px;
+        background: rgba(23, 8, 34, .82);
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
+        border: 1px solid rgba(227, 189, 90, .45);
+        box-shadow: 0 8px 28px rgba(0, 0, 0, .45), inset 0 0 0 1px rgba(251, 238, 193, .06);
+        transition: transform .6s cubic-bezier(.2, .8, .2, 1), opacity .6s;
+    }
+
+    .kx-nav.show {
+        transform: translate(-50%, 0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .kx-nav-i {
+        flex: 1 1 0;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        padding: 7px 2px;
+        border-radius: 12px;
+        font-size: 10px;
+        line-height: 1.3;
+        color: rgba(251, 238, 193, .65);
+        text-decoration: none;
+        -webkit-tap-highlight-color: transparent;
+        transition: color .25s, background .25s;
+    }
+
+    .kx-nav-i span {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .kx-nav-i.on {
+        color: #e3bd5a;
+        background: rgba(227, 189, 90, .14);
+    }
+
+    /* keep the last section clear of the bar */
+    .gw {
+        padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px));
+    }
+
+    /* keep the music button above the bar */
+    .g-music {
+        bottom: calc(84px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+</style>
+<script>
+    (function() {
+        var nav = document.getElementById('kx-nav');
+        if (!nav) return;
+        // live directly under <body> so no parent (overflow / transform) can hide or clip the bar
+        document.body.appendChild(nav);
+
+        // show the bar as soon as the cover is gone (or immediately when there is no cover)
+        function showNav() {
+            nav.classList.add('show');
+        }
+        var gc = document.getElementById('gc');
+        var gcBtn = document.getElementById('gc-open');
+        if (!gc || gc.style.display === 'none' || gc.classList.contains('opened')) {
+            showNav();
+        } else {
+            if (gcBtn) gcBtn.addEventListener('click', function() {
+                setTimeout(showNav, 1400);
+            });
+            // safety net: never leave the visitor without navigation
+            var tries = 0,
+                t = setInterval(function() {
+                    if (!document.getElementById('gc') || ++tries > 120) {
+                        clearInterval(t);
+                        showNav();
+                    }
+                }, 500);
+        }
+
+        // this script sits BEFORE the other sections in the page, so wait until they exist
+        function init() {
+            var items = [].slice.call(nav.querySelectorAll('.kx-nav-i'));
+
+            // hide entries whose section is not on this invitation
+            items = items.filter(function(a) {
+                if (document.getElementById(a.getAttribute('data-t'))) return true;
+                a.parentNode.removeChild(a);
+                return false;
+            });
+            nav.style.setProperty('--n', items.length);
+
+            function setActive(id) {
+                items.forEach(function(a) {
+                    a.classList.toggle('on', a.getAttribute('data-t') === id);
+                });
+            }
+            setActive('hero');
+
+            if ('IntersectionObserver' in window) {
+                var io = new IntersectionObserver(function(es) {
+                    es.forEach(function(e) {
+                        if (e.isIntersecting) setActive(e.target.id);
+                    });
+                }, {
+                    rootMargin: '-45% 0px -50% 0px'
+                });
+                items.forEach(function(a) {
+                    io.observe(document.getElementById(a.getAttribute('data-t')));
+                });
+            }
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+        else init();
+    })();
+</script>

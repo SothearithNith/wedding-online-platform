@@ -87,16 +87,7 @@
             });
         }
 
-        /* ---------- 4. flowing kbach strips between sections ---------- */
-        function kbachSvg(id) {
-            return '<svg aria-hidden="true" viewBox="0 0 1200 34" preserveAspectRatio="none">' +
-                '<defs><pattern id="' + id + '" width="40" height="34" patternUnits="userSpaceOnUse">' +
-                '<path d="M20 31 C8 29 5 17 12 9 C12 15 16 17 20 15 C19 9 23 4 28 3 C27 10 32 14 31 21 C30 27 26 30 20 31 Z" fill="none" stroke="' +
-                GOLD + '" stroke-width="1.2"/>' +
-                '<path d="M20 25 C15 23 15 17 18 13 C18 17 21 18 23 17 C25 20 23 24 20 25 Z" fill="' + GOLD +
-                '" opacity=".55"/>' +
-                '</pattern></defs><rect width="1200" height="34" fill="url(#' + id + ')"/></svg>';
-        }
+
 
         function addStrips() {
             if (!gw) return;

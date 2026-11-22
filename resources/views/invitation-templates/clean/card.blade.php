@@ -3,10 +3,7 @@
     <div class="hero-rays" aria-hidden="true"></div>
     <div class="hero-fx" id="hero-fx" aria-hidden="true"></div>
     <div class="hero-frame">
-        <svg class="hero-arch" viewBox="0 0 300 470" preserveAspectRatio="none" aria-hidden="true">
-            <path pathLength="100" d="M8 462V160C8 84 74 52 150 6C226 52 292 84 292 160V462Z" />
-            <path pathLength="100" d="M20 450V164C20 96 80 66 150 24C220 66 280 96 280 164V450Z" />
-        </svg>
+       
         <div class="hero-in">
             <span class="hi hero-emblem" style="--d:100ms">{!! $bloom('cl-bloom') !!}</span>
             <p class="hi k title-font" style="--d:300ms" data-i18n="celebrate">{{ $K['celebrate'] }}</p>
