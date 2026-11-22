@@ -343,290 +343,288 @@
                         <img src="{{ asset('storage/templates/' . basename($template->preview_src)) }}"
                             alt="{{ $template->name }}" loading="lazy"
                             class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            onerror="this.onerror=null; this.src='{{ asset('assets/images/hero/front.png') }}'; this.onerror=function(){ this.style.display='none'; this.nextElementSibling.classList.remove('hidden'); };">
-                        <div class="absolute inset-0 hidden flex-col items-center justify-center gap-2 text-rose-200">
-                            <x-heroicon-o-photo class="h-12 w-12" />
-                            <span class="text-sm font-medium">{{ __('Preview unavailable') }}</span>
-                        </div>
-
-                        <div
-                            class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                        </div>
-
-                        @if ($template->category)
-                            <span
-                                class="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-rose-600 shadow-sm backdrop-blur">
-                                {{ trans_json($template->category) }}
-                            </span>
-                        @endif
-
-                        <div
-                            class="absolute inset-x-0 bottom-0 flex justify-center p-5 opacity-0 translate-y-3 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                            <a href="{{ route('admin.templates.preview', $template) }}" target="_blank"
-                                class="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-lg transition hover:bg-rose-50 hover:text-rose-600">
-                                <x-heroicon-o-eye class="h-4 w-4" />
-                                {{ __('Preview template') }}
-                            </a>
-                        </div>
+                            onerror="this.onerror=null; ">
+                        <div class="absolute inset-0 hidden
+                            flex-col items-center justify-center gap-2 text-rose-200">
+                        <x-heroicon-o-photo class="h-12 w-12" />
+                        <span class="text-sm font-medium">{{ __('Preview unavailable') }}</span>
                     </div>
 
-                    <div class="flex flex-1 flex-col p-5">
-                        <h3 class="truncate text-lg font-bold tracking-tight text-slate-900"
-                            title="{{ $template->name }}">{{ $template->name }}</h3>
-
-                        @if ($template->description)
-                            <p class="mt-1.5 line-clamp-2 text-sm leading-5 text-slate-500">
-                                {{ $template->description }}</p>
-                        @endif
-
-                        @if (($template->invitations_count ?? 0) > 0)
-                            <p class="mt-auto flex items-center gap-1.5 pt-4 text-xs text-slate-400">
-                                <x-heroicon-o-heart class="h-4 w-4 text-rose-400" />
-                                {{ trans_choice('{1} Used by :count couple|[2,*] Used by :count couples', $template->invitations_count, ['count' => $template->invitations_count]) }}
-                            </p>
-                        @endif
-                    </div>
-                </article>
-            @empty
-                <div
-                    class="col-span-full flex flex-col items-center justify-center rounded-3xl border border-dashed border-rose-200 bg-rose-50/40 px-6 py-20 text-center">
                     <div
-                        class="flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-rose-400 shadow-sm">
-                        <x-heroicon-o-swatch class="h-8 w-8" />
+                        class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     </div>
-                    <h3 class="mt-5 text-base font-bold text-slate-800">{{ __('No templates yet') }}</h3>
-                    <p class="mt-1 max-w-sm text-sm text-slate-500">
-                        {{ __('New designs are coming soon. Please check back shortly.') }}</p>
-                </div>
-            @endforelse
-        </div>
-    </section>
 
-    {{-- ============ FAQ ============ --}}
-    <section class="mx-auto w-full max-w-3xl">
-        <div class="text-center">
-            <p class="text-sm font-semibold uppercase tracking-widest text-rose-500">{{ trans_json('FAQ') }}</p>
-            <h2 class="title mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-                {{ trans_json('Questions? We have answers') }}</h2>
-        </div>
-
-        <div class="mt-10 space-y-3">
-            @foreach ($faqs as $faq)
-                <details
-                    class="group rounded-2xl border border-slate-200 bg-white px-5 py-4 transition open:border-rose-200 open:shadow-md open:shadow-rose-500/5">
-                    <summary
-                        class="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-slate-800 [&::-webkit-details-marker]:hidden">
-                        {{ trans_json($faq[0]) }}
+                    @if ($template->category)
                         <span
-                            class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-rose-50 text-rose-500 transition group-open:rotate-45">
-                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                stroke-width="2.5">
-                                <path stroke-linecap="round" d="M12 5v14M5 12h14" />
-                            </svg>
+                            class="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-rose-600 shadow-sm backdrop-blur">
+                            {{ trans_json($template->category) }}
                         </span>
-                    </summary>
-                    <p class="mt-3 text-sm leading-relaxed text-slate-500">{{ trans_json($faq[1]) }}</p>
-                </details>
-            @endforeach
+                    @endif
+
+                    <div
+                        class="absolute inset-x-0 bottom-0 flex justify-center p-5 opacity-0 translate-y-3 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                        <a href="{{ route('admin.templates.preview', $template) }}" target="_blank"
+                            class="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-lg transition hover:bg-rose-50 hover:text-rose-600">
+                            <x-heroicon-o-eye class="h-4 w-4" />
+                            {{ __('Preview template') }}
+                        </a>
+                    </div>
         </div>
-    </section>
 
-    {{-- ============ FINAL CTA ============ --}}
-    <section
-        class="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-rose-500 via-pink-500 to-fuchsia-500 px-6 py-14 text-center text-white shadow-2xl shadow-rose-500/30 sm:px-12 sm:py-16">
-        <div class="pointer-events-none absolute -left-10 -top-10 h-48 w-48 rounded-full bg-white/10 blur-2xl"></div>
-        <div class="pointer-events-none absolute -bottom-12 -right-8 h-56 w-56 rounded-full bg-white/10 blur-2xl">
+        <div class="flex flex-1 flex-col p-5">
+            <h3 class="truncate text-lg font-bold tracking-tight text-slate-900" title="{{ $template->name }}">
+                {{ $template->name }}</h3>
+
+            @if ($template->description)
+                <p class="mt-1.5 line-clamp-2 text-sm leading-5 text-slate-500">
+                    {{ $template->description }}</p>
+            @endif
+
+            @if (($template->invitations_count ?? 0) > 0)
+                <p class="mt-auto flex items-center gap-1.5 pt-4 text-xs text-slate-400">
+                    <x-heroicon-o-heart class="h-4 w-4 text-rose-400" />
+                    {{ trans_choice('{1} Used by :count couple|[2,*] Used by :count couples', $template->invitations_count, ['count' => $template->invitations_count]) }}
+                </p>
+            @endif
         </div>
-        <h2 class="title relative text-3xl font-bold tracking-tight sm:text-4xl">
-            {{ trans_json('Ready to invite your guests?') }}</h2>
-        <p class="relative mx-auto mt-3 max-w-xl text-white/85">
-            {{ trans_json('Create your invitation in minutes and share it with everyone you love.') }}</p>
-        <a href="#templates"
-            class="relative mt-8 inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-base font-semibold text-rose-600 shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl">
-            {{ trans_json('Browse templates') }}
-            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
-            </svg>
-        </a>
-    </section>
+        </article>
+    @empty
+        <div
+            class="col-span-full flex flex-col items-center justify-center rounded-3xl border border-dashed border-rose-200 bg-rose-50/40 px-6 py-20 text-center">
+            <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-rose-400 shadow-sm">
+                <x-heroicon-o-swatch class="h-8 w-8" />
+            </div>
+            <h3 class="mt-5 text-base font-bold text-slate-800">{{ __('No templates yet') }}</h3>
+            <p class="mt-1 max-w-sm text-sm text-slate-500">
+                {{ __('New designs are coming soon. Please check back shortly.') }}</p>
+        </div>
+        @endforelse
+</div>
+</section>
 
-    <style>
-        @keyframes hc-float {
+<section class="mx-auto w-full max-w-3xl">
+    <div class="text-center">
+        <p class="text-sm font-semibold uppercase tracking-widest text-rose-500">{{ trans_json('FAQ') }}</p>
+        <h2 class="title mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+            {{ trans_json('Questions? We have answers') }}</h2>
+    </div>
 
-            0%,
-            100% {
-                transform: translateY(0)
-            }
+    <div class="mt-10 space-y-3">
+        @foreach ($faqs as $faq)
+            <details
+                class="group rounded-2xl border border-slate-200 bg-white px-5 py-4 transition open:border-rose-200 open:shadow-md open:shadow-rose-500/5">
+                <summary
+                    class="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-slate-800 [&::-webkit-details-marker]:hidden">
+                    {{ trans_json($faq[0]) }}
+                    <span
+                        class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-rose-50 text-rose-500 transition group-open:rotate-45">
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2.5">
+                            <path stroke-linecap="round" d="M12 5v14M5 12h14" />
+                        </svg>
+                    </span>
+                </summary>
+                <p class="mt-3 text-sm leading-relaxed text-slate-500">{{ trans_json($faq[1]) }}</p>
+            </details>
+        @endforeach
+    </div>
+</section>
 
-            50% {
-                transform: translateY(-12px)
-            }
+<section
+    class="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-rose-500 via-pink-500 to-fuchsia-500 px-6 py-14 text-center text-white shadow-2xl shadow-rose-500/30 sm:px-12 sm:py-16">
+    <div class="pointer-events-none absolute -left-10 -top-10 h-48 w-48 rounded-full bg-white/10 blur-2xl"></div>
+    <div class="pointer-events-none absolute -bottom-12 -right-8 h-56 w-56 rounded-full bg-white/10 blur-2xl">
+    </div>
+    <h2 class="title relative text-3xl font-bold tracking-tight sm:text-4xl">
+        {{ trans_json('Ready to invite your guests?') }}</h2>
+    <p class="relative mx-auto mt-3 max-w-xl text-white/85">
+        {{ trans_json('Create your invitation in minutes and share it with everyone you love.') }}</p>
+    <a href="#templates"
+        class="relative mt-8 inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-base font-semibold text-rose-600 shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl">
+        {{ trans_json('Browse templates') }}
+        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
+    </a>
+</section>
+
+<style>
+    @keyframes hc-float {
+
+        0%,
+        100% {
+            transform: translateY(0)
         }
 
-        @keyframes hc-float-rev {
+        50% {
+            transform: translateY(-12px)
+        }
+    }
 
-            0%,
-            100% {
-                transform: translateY(0)
-            }
+    @keyframes hc-float-rev {
 
-            50% {
-                transform: translateY(10px)
-            }
+        0%,
+        100% {
+            transform: translateY(0)
         }
 
-        @keyframes hc-twinkle {
+        50% {
+            transform: translateY(10px)
+        }
+    }
 
-            0%,
-            100% {
-                opacity: .2;
-                transform: scale(.6)
-            }
+    @keyframes hc-twinkle {
 
-            50% {
-                opacity: 1;
-                transform: scale(1.1)
-            }
+        0%,
+        100% {
+            opacity: .2;
+            transform: scale(.6)
         }
 
-        @keyframes hc-rise {
-            0% {
-                transform: translateY(0) scale(.7);
-                opacity: 0
-            }
+        50% {
+            opacity: 1;
+            transform: scale(1.1)
+        }
+    }
 
-            15% {
-                opacity: .9
-            }
-
-            100% {
-                transform: translateY(-20rem) scale(1.1);
-                opacity: 0
-            }
+    @keyframes hc-rise {
+        0% {
+            transform: translateY(0) scale(.7);
+            opacity: 0
         }
 
-        @keyframes hc-pulse-ring {
-            0% {
-                transform: scale(1);
-                opacity: .6
-            }
-
-            100% {
-                transform: scale(1.8);
-                opacity: 0
-            }
+        15% {
+            opacity: .9
         }
 
-        @keyframes hc-shine {
-            0% {
-                transform: translateX(-120%) skewX(-20deg)
-            }
+        100% {
+            transform: translateY(-20rem) scale(1.1);
+            opacity: 0
+        }
+    }
 
-            60%,
-            100% {
-                transform: translateX(260%) skewX(-20deg)
-            }
+    @keyframes hc-pulse-ring {
+        0% {
+            transform: scale(1);
+            opacity: .6
         }
 
-        @keyframes hc-in {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(.95)
-            }
+        100% {
+            transform: scale(1.8);
+            opacity: 0
+        }
+    }
 
-            to {
-                opacity: 1;
-                transform: none
-            }
+    @keyframes hc-shine {
+        0% {
+            transform: translateX(-120%) skewX(-20deg)
         }
 
-        .hc-float {
-            animation: hc-float 6s ease-in-out infinite
+        60%,
+        100% {
+            transform: translateX(260%) skewX(-20deg)
+        }
+    }
+
+    @keyframes hc-in {
+        from {
+            opacity: 0;
+            transform: translateY(30px) scale(.95)
         }
 
-        .hc-float-rev {
-            animation: hc-float-rev 7s ease-in-out infinite
+        to {
+            opacity: 1;
+            transform: none
         }
+    }
 
-        .hc-twinkle {
-            animation: hc-twinkle 2.6s ease-in-out infinite
-        }
+    .hc-float {
+        animation: hc-float 6s ease-in-out infinite
+    }
 
-        .hc-rise {
-            animation: hc-rise 7s ease-in infinite
-        }
+    .hc-float-rev {
+        animation: hc-float-rev 7s ease-in-out infinite
+    }
 
-        .hc-ring {
-            animation: hc-pulse-ring 2s ease-out infinite
-        }
+    .hc-twinkle {
+        animation: hc-twinkle 2.6s ease-in-out infinite
+    }
 
-        .hc-shine {
-            animation: hc-shine 4.5s ease-in-out infinite
-        }
+    .hc-rise {
+        animation: hc-rise 7s ease-in infinite
+    }
 
+    .hc-ring {
+        animation: hc-pulse-ring 2s ease-out infinite
+    }
+
+    .hc-shine {
+        animation: hc-shine 4.5s ease-in-out infinite
+    }
+
+    .hc-in {
+        animation: hc-in .9s cubic-bezier(.2, .8, .2, 1) both
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .hc-float,
+        .hc-float-rev,
+        .hc-twinkle,
+        .hc-rise,
+        .hc-ring,
+        .hc-shine,
         .hc-in {
-            animation: hc-in .9s cubic-bezier(.2, .8, .2, 1) both
+            animation: none !important
+        }
+    }
+</style>
+
+<script>
+    (function() {
+        var root = document.getElementById('hero-cards');
+        if (!root) return;
+
+        // Countdown to the wedding day
+        var target = new Date('2027-02-14T09:00:00+07:00').getTime();
+        var els = {
+            d: 'hc-d',
+            h: 'hc-h',
+            m: 'hc-m',
+            s: 'hc-s'
+        };
+        Object.keys(els).forEach(function(k) {
+            els[k] = document.getElementById(els[k]);
+        });
+
+        function pad(n) {
+            return String(n).padStart(2, '0');
         }
 
-        @media (prefers-reduced-motion: reduce) {
-
-            .hc-float,
-            .hc-float-rev,
-            .hc-twinkle,
-            .hc-rise,
-            .hc-ring,
-            .hc-shine,
-            .hc-in {
-                animation: none !important
-            }
+        function tick() {
+            var diff = Math.max(0, target - Date.now());
+            els.d.textContent = Math.floor(diff / 864e5);
+            els.h.textContent = pad(Math.floor(diff % 864e5 / 36e5));
+            els.m.textContent = pad(Math.floor(diff % 36e5 / 6e4));
+            els.s.textContent = pad(Math.floor(diff % 6e4 / 1e3));
         }
-    </style>
+        tick();
+        setInterval(tick, 1000);
 
-    <script>
-        (function() {
-            var root = document.getElementById('hero-cards');
-            if (!root) return;
-
-            // Countdown to the wedding day
-            var target = new Date('2027-02-14T09:00:00+07:00').getTime();
-            var els = {
-                d: 'hc-d',
-                h: 'hc-h',
-                m: 'hc-m',
-                s: 'hc-s'
-            };
-            Object.keys(els).forEach(function(k) {
-                els[k] = document.getElementById(els[k]);
+        // Gentle mouse tilt (desktop only, respects reduced motion)
+        var stage = document.getElementById('hc-stage');
+        if (window.matchMedia('(hover: hover)').matches &&
+            !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            root.addEventListener('mousemove', function(e) {
+                var r = root.getBoundingClientRect();
+                var x = (e.clientX - r.left) / r.width - .5;
+                var y = (e.clientY - r.top) / r.height - .5;
+                stage.style.transform = 'rotateY(' + (x * 10) + 'deg) rotateX(' + (-y * 8) + 'deg)';
             });
-
-            function pad(n) {
-                return String(n).padStart(2, '0');
-            }
-
-            function tick() {
-                var diff = Math.max(0, target - Date.now());
-                els.d.textContent = Math.floor(diff / 864e5);
-                els.h.textContent = pad(Math.floor(diff % 864e5 / 36e5));
-                els.m.textContent = pad(Math.floor(diff % 36e5 / 6e4));
-                els.s.textContent = pad(Math.floor(diff % 6e4 / 1e3));
-            }
-            tick();
-            setInterval(tick, 1000);
-
-            // Gentle mouse tilt (desktop only, respects reduced motion)
-            var stage = document.getElementById('hc-stage');
-            if (window.matchMedia('(hover: hover)').matches &&
-                !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                root.addEventListener('mousemove', function(e) {
-                    var r = root.getBoundingClientRect();
-                    var x = (e.clientX - r.left) / r.width - .5;
-                    var y = (e.clientY - r.top) / r.height - .5;
-                    stage.style.transform = 'rotateY(' + (x * 10) + 'deg) rotateX(' + (-y * 8) + 'deg)';
-                });
-                root.addEventListener('mouseleave', function() {
-                    stage.style.transform = '';
-                });
-            }
-        })();
-    </script>
+            root.addEventListener('mouseleave', function() {
+                stage.style.transform = '';
+            });
+        }
+    })();
+</script>
 </div>
