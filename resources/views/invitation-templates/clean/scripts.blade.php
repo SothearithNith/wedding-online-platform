@@ -312,10 +312,149 @@
         });
 
         /* cover — tap the button or swipe up */
+        /* YouTube-backed music: same API as <audio> (play/pause/paused/addEventListener) */
+        function ytShim(host) {
+            var id = host.dataset.yt,
+                L = {
+                    play: [],
+                    pause: []
+                },
+                player = null,
+                ready = false,
+                want = false,
+                o = {
+                    paused: true,
+                    volume: 0.85
+                };
+
+            function fire(t) {
+                L[t].forEach(function(f) {
+                    f();
+                });
+            }
+            o.addEventListener = function(t, f) {
+                if (L[t]) L[t].push(f);
+            };
+            o.play = function() {
+                want = true;
+                if (!ready) return Promise.reject(new Error('YouTube player not ready'));
+                player.setVolume(Math.round(o.volume * 100));
+                player.playVideo();
+                return new Promise(function(res, rej) {
+                    var n = 0,
+                        t = setInterval(function() {
+                            if (!o.paused) {
+                                clearInterval(t);
+                                res();
+                            } else if (++n > 12) {
+                                clearInterval(t);
+                                rej(new Error('YouTube blocked or still buffering'));
+                            }
+                        }, 150);
+                });
+            };
+            o.pause = function() {
+                want = false;
+                if (ready) player.pauseVideo();
+            };
+
+            function build() {
+                var d = document.createElement('div');
+                host.appendChild(d);
+                player = new YT.Player(d, {
+                    width: '2',
+                    height: '2',
+                    videoId: id,
+                    playerVars: {
+                        playsinline: 1,
+                        controls: 0,
+                        disablekb: 1,
+                        fs: 0,
+                        rel: 0,
+                        loop: 1,
+                        playlist: id,
+                        origin: location.origin
+                    },
+                    events: {
+                        onReady: function() {
+                            ready = true;
+                            player.setVolume(Math.round(o.volume * 100));
+                            if (want) player.playVideo();
+                        },
+                        onStateChange: function(e) {
+                            if (e.data === 1) {
+                                if (o.paused) {
+                                    o.paused = false;
+                                    fire('play');
+                                }
+                            } else if (e.data === 2) {
+                                if (!o.paused) {
+                                    o.paused = true;
+                                    fire('pause');
+                                }
+                            } else if (e.data === 0) {
+                                player.playVideo();
+                            }
+                        }
+                    }
+                });
+            }
+            if (window.YT && YT.Player) build();
+            else {
+                var prev = window.onYouTubeIframeAPIReady;
+                window.onYouTubeIframeAPIReady = function() {
+                    if (prev) try {
+                        prev();
+                    } catch (e) {}
+                    build();
+                };
+                var sc = document.createElement('script');
+                sc.src = 'https://www.youtube.com/iframe_api';
+                sc.async = true;
+                document.head.appendChild(sc);
+            }
+            return o;
+        }
+
         var cv = $('#cv'),
             mu = $('#mu'),
             bgm = $('#bgm'),
             opened = false;
+        if (bgm && bgm.dataset && bgm.dataset.yt) bgm = ytShim(bgm);
+
+        /* music: browsers only allow sound after a real gesture (click / touchend / keydown).
+           Scroll and swipe do NOT count, so we retry on every genuine gesture until it plays. */
+        var musicWanted = true,
+            gestures = ['click', 'touchend', 'pointerup', 'keydown'];
+
+        function unlockMusic(ev) {
+            if (ev && ev.target && ev.target.closest && ev.target.closest('#mu')) return;
+            if (musicWanted && bgm && bgm.paused) startMusic();
+        }
+
+        function clearUnlock() {
+            gestures.forEach(function(e) {
+                document.removeEventListener(e, unlockMusic, true);
+            });
+        }
+
+        function startMusic() {
+            if (!bgm) return;
+            var p = bgm.play();
+            if (p && p.then) {
+                p.then(clearUnlock).catch(function(err) {
+                    if (window.console) console.warn('[bgm] play blocked:', err && err.name, err && err
+                        .message);
+                });
+            } else clearUnlock();
+        }
+        if (bgm) {
+            bgm.volume = 0.85;
+            gestures.forEach(function(e) {
+                document.addEventListener(e, unlockMusic, true);
+            });
+            startMusic(); /* works if the browser already allows it */
+        }
 
         function openCover() {
             if (opened || !cv) return;
@@ -329,10 +468,7 @@
             setTimeout(function() {
                 if (cv.parentNode) cv.parentNode.removeChild(cv);
             }, 2600);
-            if (bgm) {
-                var p = bgm.play();
-                if (p && p.catch) p.catch(function() {});
-            }
+            startMusic();
             if (navigator.vibrate) try {
                 navigator.vibrate(12);
             } catch (e) {}
@@ -369,17 +505,23 @@
                 mu.classList.remove('on');
                 mu.setAttribute('aria-pressed', 'false');
             });
-            mu.addEventListener('click', function() {
-                bgm.paused ? bgm.play() : bgm.pause();
+            mu.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (bgm.paused) {
+                    musicWanted = true;
+                    startMusic();
+                } else {
+                    musicWanted = false;
+                    bgm.pause();
+                }
             });
             /* be polite: silence when the phone locks / tab is hidden, resume after */
             document.addEventListener('visibilitychange', function() {
                 if (document.hidden) {
                     wasOn = !bgm.paused;
                     bgm.pause();
-                } else if (wasOn) {
-                    var p = bgm.play();
-                    if (p && p.catch) p.catch(function() {});
+                } else if (wasOn && musicWanted) {
+                    startMusic();
                 }
             });
         }
