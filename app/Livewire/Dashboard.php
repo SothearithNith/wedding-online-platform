@@ -24,8 +24,8 @@ class Dashboard extends Component
 
     #[Url(except: 'all')]
     public string $visibility = 'all'; // all | public | private
-    public $heroBack = 'assets/images/hero/front.png';
-    public $heroRight = 'assets/images/hero/front.png';
+    public $heroBack = 'assets/images/hero/left.png';
+    public $heroRight = 'assets/images/hero/right.png';
     public $heroFront = 'assets/images/hero/front.png';
     public function updatingSearch(): void
     {
