@@ -18,9 +18,16 @@
                 <div class="gold-card float">
                     <div class="gold-card-in">
                         {!! $corner('tl', 'gcn') !!}{!! $corner('tr', 'gcn') !!}{!! $corner('bl', 'gcn') !!}{!! $corner('br', 'gcn') !!}
-                        <div class="kf-qr"><img src="{{ $giftQr }}" alt="QR Code"
-                                onerror="this.closest('.kf-qr').style.display='none'"></div>
-                        <p class="kf-scan title-font">{{ $K['scan'] }}</p>
+
+                        {{-- QR is hidden; this button opens it in a popup --}}
+                        @if (!empty($giftQr))
+                            <button type="button" class="kf-btn kf-qr-open title-font" id="qr-open"
+                                aria-haspopup="dialog" aria-controls="qr-modal">
+                                {!! $ic('qr', 16) !!}
+                                <span>{{ $K['openQr'] ?? 'បើក QR Code' }}</span>
+                            </button>
+                        @endif
+
                         <p class="kf-bank">{{ $gift['bank'] ?? '' }}</p>
 
                         <p class="kf-label title-font">{{ $K['accName'] }}</p>
@@ -39,6 +46,24 @@
                 </div>
             </div>
         </div>
+
+        {{-- QR popup --}}
+        @if (!empty($giftQr))
+            <div class="qr-modal" id="qr-modal" role="dialog" aria-modal="true" aria-label="QR Code" hidden>
+                <div class="qr-backdrop" data-close></div>
+                <div class="qr-box">
+                    <button type="button" class="qr-close" data-close aria-label="Close">&times;</button>
+                    <div class="qr-img">
+                        <img src="{{ $giftQr }}" alt="QR Code"
+                            onerror="document.getElementById('qr-open') && (document.getElementById('qr-open').style.display='none')">
+                    </div>
+                    <p class="qr-scan title-font">{{ $K['scan'] }}</p>
+                    <p class="qr-bank">{{ $gift['bank'] ?? '' }}</p>
+                    <p class="qr-name">{{ $gift['accountName'] ?? '' }}</p>
+                </div>
+            </div>
+        @endif
+
         <style>
             /* Shared glass look */
             #gift .g-arch-glass,
@@ -54,13 +79,10 @@
                     inset 0 1px 0 rgba(255, 255, 255, 0.35);
             }
 
-            /* Outer arch container */
             #gift .g-arch-glass {
                 background: rgba(255, 255, 255, 0.06) !important;
             }
 
-            /* Gold card: the outer wrapper stays clear, only the inner panel blurs,
-   so the blur isn't applied twice */
             #gift .gold-card {
                 background: transparent !important;
                 -webkit-backdrop-filter: none;
@@ -69,13 +91,11 @@
                 border: 0;
             }
 
-            /* Remove any gradient or gloss fill inside the card */
             #gift .gold-card::before,
             #gift .gold-card::after {
                 background: none !important;
             }
 
-            /* Text stays readable on glass */
             #gift .kf-bank,
             #gift .kf-name,
             #gift .kf-num,
@@ -85,7 +105,6 @@
                 text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
             }
 
-            /* Divider and copy button */
             #gift .kf-divider span {
                 background: rgba(255, 255, 255, 0.4) !important;
             }
@@ -102,21 +121,154 @@
                 background: rgba(255, 255, 255, 0.22) !important;
             }
 
-            /* QR code: glass frame, but keep a light tile behind the image so it still scans */
-            #gift .kf-qr {
-                background: rgba(255, 255, 255, 0.12) !important;
-                border: 1px solid rgba(255, 255, 255, 0.35);
-                -webkit-backdrop-filter: blur(10px);
-                backdrop-filter: blur(10px);
-                padding: 10px;
-                border-radius: 16px;
+            /* "Open QR" button sits above the bank name */
+            #gift .kf-qr-open {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                margin: 4px auto 14px;
             }
 
-            #gift .kf-qr img {
+            /* ===== QR popup (moved to <body> by script) ===== */
+            .qr-modal[hidden] {
+                display: none;
+            }
+
+            .qr-modal {
+                position: fixed;
+                inset: 0;
+                z-index: 100;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+                animation: qrFade .25s ease both;
+            }
+
+            .qr-backdrop {
+                position: absolute;
+                inset: 0;
+                background: rgba(10, 4, 18, .72);
+                -webkit-backdrop-filter: blur(6px);
+                backdrop-filter: blur(6px);
+            }
+
+            .qr-box {
+                position: relative;
+                width: min(88vw, 340px);
+                padding: 26px 22px 22px;
+                text-align: center;
+                border-radius: 22px;
+                background: rgba(31, 10, 51, .92);
+                border: 1px solid rgba(227, 189, 90, .5);
+                box-shadow: 0 18px 60px rgba(0, 0, 0, .55);
+                animation: qrPop .35s cubic-bezier(.2, .8, .2, 1) both;
+            }
+
+            .qr-close {
+                position: absolute;
+                top: 8px;
+                right: 10px;
+                width: 34px;
+                height: 34px;
+                border: 0;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, .1);
+                color: #fbeec1;
+                font-size: 22px;
+                line-height: 1;
+                cursor: pointer;
+            }
+
+            .qr-close:hover {
+                background: rgba(255, 255, 255, .2);
+            }
+
+            .qr-img {
                 background: #fff;
-                border-radius: 10px;
-                padding: 6px;
+                border-radius: 14px;
+                padding: 12px;
+                margin: 8px auto 14px;
+                width: min(70vw, 240px);
+            }
+
+            .qr-img img {
+                display: block;
+                width: 100%;
+                height: auto;
+            }
+
+            .qr-scan {
+                color: #e3bd5a;
+                font-size: 13px;
+            }
+
+            .qr-bank {
+                margin-top: 6px;
+                color: #fbeec1;
+                font-weight: 700;
+            }
+
+            .qr-name {
+                margin-top: 2px;
+                color: rgba(251, 238, 193, .85);
+                font-size: 13px;
+            }
+
+            @keyframes qrFade {
+                from {
+                    opacity: 0;
+                }
+
+                to {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes qrPop {
+                from {
+                    opacity: 0;
+                    transform: scale(.92) translateY(10px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: none;
+                }
             }
         </style>
+
+        <script>
+            (function() {
+                var openBtn = document.getElementById('qr-open');
+                var modal = document.getElementById('qr-modal');
+                if (!openBtn || !modal) return;
+
+                // Move to <body> so the glass cards' backdrop-filter can't clip the fixed popup
+                document.body.appendChild(modal);
+
+                function open() {
+                    modal.hidden = false;
+                    document.documentElement.style.overflow = 'hidden';
+                    var c = modal.querySelector('.qr-close');
+                    if (c) c.focus();
+                }
+
+                function close() {
+                    modal.hidden = true;
+                    document.documentElement.style.overflow = '';
+                    openBtn.focus();
+                }
+
+                openBtn.addEventListener('click', open);
+                modal.addEventListener('click', function(e) {
+                    if (e.target.hasAttribute('data-close')) close();
+                });
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && !modal.hidden) close();
+                });
+            })();
+        </script>
     </section>
 @endif
