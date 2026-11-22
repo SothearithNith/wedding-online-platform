@@ -6,7 +6,7 @@
         $templateKey,
         $eventType ?? 'wedding',
     );
-    extract($viewData, EXTR_SKIP); 
+    extract($viewData, EXTR_SKIP);
     $resolveUrl = function ($v) use (&$resolveUrl) {
         if (is_array($v)) {
             foreach (['path', 'origin_url', 'url', 'src', 'file'] as $k) {
@@ -43,7 +43,16 @@
 
     $defaultMusic = is_file(public_path('assets/music/wedding.mp3')) ? asset('assets/music/wedding.mp3') : '';
     $musicSrc = '';
-    foreach ([$music ?? null, $data['music'] ?? null, $data['music_path'] ?? null, $data['music_origin_url'] ?? null, $data['music_url'] ?? null] as $candidate) {
+    foreach (
+        [
+            $music ?? null,
+            $data['music'] ?? null,
+            $data['music_path'] ?? null,
+            $data['music_origin_url'] ?? null,
+            $data['music_url'] ?? null,
+        ]
+        as $candidate
+    ) {
         $musicSrc = $resolveUrl($candidate);
         if ($musicSrc !== '') {
             break;
@@ -51,6 +60,18 @@
     }
     if ($musicSrc === '') {
         $musicSrc = $defaultMusic;
+    }
+
+    // YouTube link? -> use a hidden YouTube player instead of <audio>
+    $ytId = null;
+    if (
+        preg_match(
+            '~(?:youtu\.be/|youtube\.com/(?:watch\?(?:[^#]*&)?v=|embed/|shorts/))([A-Za-z0-9_-]{11})~i',
+            (string) $musicSrc,
+            $ytm,
+        )
+    ) {
+        $ytId = $ytm[1];
     }
 
     $rsvpId = $invitationId ?? ($invitation->id ?? null);
@@ -125,7 +146,13 @@
 
 
     @if ($musicSrc)
-        <audio id="bgm" src="{{ $musicSrc }}" loop preload="auto"></audio>
+        @if ($ytId)
+            <div id="bgm" data-yt="{{ $ytId }}" aria-hidden="true"
+                style="position:fixed;left:-9999px;top:0;width:2px;height:2px;overflow:hidden;opacity:0;pointer-events:none">
+            </div>
+        @else
+            <audio id="bgm" src="{{ $musicSrc }}" loop preload="auto"></audio>
+        @endif
         <button class="mu" id="mu" type="button" aria-label="Music"
             aria-pressed="false">{!! $ic('music', 20) !!}</button>
     @endif
