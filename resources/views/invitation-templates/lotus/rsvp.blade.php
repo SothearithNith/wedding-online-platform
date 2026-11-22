@@ -7,11 +7,11 @@
     <div class="g-ov" style="{{ $overlay(0.08) }}"></div>
     {!! $edge('top', '#ffffff') !!}
 
-    {!! $title($K['rsvp']) !!}
+
 
     <div class="g-arch-glass" style="padding:40px 24px">
         <div class="gloss"></div>
-        <div class="ts" style="position:relative">
+        <div class="ts" style="position:relative"> {!! $title($K['rsvp']) !!}
             <p class="rs-sub">{{ $K['rsvpSub'] }}</p>
 
             <div id="rs-done" class="rs-done" hidden>
@@ -52,23 +52,9 @@
 
                 <p class="rs-err" id="rs-fail" hidden style="text-align:center">{{ $K['failed'] }}</p>
 
-                <button class="btn-foil rs-send" type="submit" id="rs-send">{!! $ic('send', 16) !!}
+                <button class="btn-foil rs-send title-font" type="submit" id="rs-send">{!! $ic('send', 16) !!}
                     {{ $K['send'] }}</button>
             </form>
-
-            {{-- wishes --}}
-            {{-- <div style="text-align:left">
-                <div class="wish-head" aria-hidden="true"><span></span>{!! $ic('heart', 14) !!}<span></span></div>
-                <h3 class="wish-title g-foil font-display" style="display:flex">
-                    {{ $K['wishes'] }} <b id="wish-count" hidden></b>
-                </h3>
-                <p class="wish-none" id="wish-none">{{ $K['noWishes'] }}</p>
-                <div style="position:relative" id="wish-wrap" hidden>
-                    <ul class="wish-list" id="wish-list"></ul>
-                    <div class="wish-fade" id="wish-fade" aria-hidden="true"></div>
-                </div>
-                <button type="button" class="wish-more" id="wish-more" hidden></button>
-            </div> --}}
         </div>
     </div>
     {!! $edge('bottom', '#fbf6ea') !!}

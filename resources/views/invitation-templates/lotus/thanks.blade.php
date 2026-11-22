@@ -27,7 +27,7 @@
                 {{ $groom['name'] }} {{ $K['and'] }} {{ $bride['name'] }}</p>
 
             <div class="rv" data-delay="450">
-                <button type="button" class="th-btn btn-foil" id="share-btn">
+                <button type="button" class="th-btn btn-foil title-font" id="share-btn">
                     <span id="share-ic">{!! $ic('share', 16) !!}</span>
                     <span id="share-tx">{{ $K['share'] }}</span>
                 </button>
