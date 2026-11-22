@@ -43,16 +43,7 @@
 
     $defaultMusic = is_file(public_path('assets/music/wedding.mp3')) ? asset('assets/music/wedding.mp3') : '';
     $musicSrc = '';
-    foreach (
-        [
-            $music ?? null,
-            $data['music'] ?? null,
-            $data['music_path'] ?? null,
-            $data['music_origin_url'] ?? null,
-            $data['music_url'] ?? null,
-        ]
-        as $candidate
-    ) {
+    foreach ([$music ?? null, $data['music'] ?? null, $data['music_path'] ?? null, $data['music_origin_url'] ?? null, $data['music_url'] ?? null] as $candidate) {
         $musicSrc = $resolveUrl($candidate);
         if ($musicSrc !== '') {
             break;
@@ -64,13 +55,7 @@
 
     // YouTube link? -> use a hidden YouTube player instead of <audio>
     $ytId = null;
-    if (
-        preg_match(
-            '~(?:youtu\.be/|youtube\.com/(?:watch\?(?:[^#]*&)?v=|embed/|shorts/))([A-Za-z0-9_-]{11})~i',
-            (string) $musicSrc,
-            $ytm,
-        )
-    ) {
+    if (preg_match('~(?:youtu\.be/|youtube\.com/(?:watch\?(?:[^#]*&)?v=|embed/|shorts/))([A-Za-z0-9_-]{11})~i', (string) $musicSrc, $ytm)) {
         $ytId = $ytm[1];
     }
 
@@ -144,12 +129,13 @@
         @include('invitation-templates.clean.thanks')
     </main>
 
+    @include('invitation-templates.clean.nav')
+
 
     @if ($musicSrc)
         @if ($ytId)
             <div id="bgm" data-yt="{{ $ytId }}" aria-hidden="true"
-                style="position:fixed;left:-9999px;top:0;width:2px;height:2px;overflow:hidden;opacity:0;pointer-events:none">
-            </div>
+                style="position:fixed;left:-9999px;top:0;width:2px;height:2px;overflow:hidden;opacity:0;pointer-events:none"></div>
         @else
             <audio id="bgm" src="{{ $musicSrc }}" loop preload="auto"></audio>
         @endif

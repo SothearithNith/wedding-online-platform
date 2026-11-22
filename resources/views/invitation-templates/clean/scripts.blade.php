@@ -82,7 +82,8 @@
             share: 'Share invitation',
             linkCopied: 'Link copied',
             apology: 'Our Apologies',
-            thanks: 'Thank You'
+            thanks: 'Thank You',
+            home: 'Home'
         };
         var KM_D = '០១២៣៤៥៦៧៨៩';
         var lang = 'km';
