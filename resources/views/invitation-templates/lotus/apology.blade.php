@@ -4,7 +4,7 @@
 @endphp
 <section class="g-sec g-photo" id="apology" style="padding:112px 20px;text-align:center">
     <div class="g-bgimg" data-bg="{{ $bg('apology') }}"></div>
-    <div class="g-ov" style="{{ $overlay(0.08) }}"></div> 
+    <div class="g-ov" style="{{ $overlay(0.08) }}"></div>
 
     <div class="petals" aria-hidden="true">
         @for ($i = 0; $i < 8; $i++)
@@ -19,8 +19,10 @@
         <div id="ap">
             {!! $title($K['apology']) !!}
             <div class="ap-card-w">
-                <div class="gold-card ap-c">
-                    <div class="gold-card-in" style="padding-bottom:2rem;color:#2a1238;text-shadow:none">
+                {{-- glass card (shares .kf-glass with the gift section) --}}
+                <div class="kf-glass ap-glass">
+                    <div class="kf-glass-in">
+                        <span class="kf-gloss" aria-hidden="true"></span>
                         {!! $corner('tl', 'gcn', 44) !!}{!! $corner('tr', 'gcn', 44) !!}{!! $corner('bl', 'gcn', 44) !!}{!! $corner('br', 'gcn', 44) !!}
                         <svg aria-hidden="true" viewBox="0 0 80 80" width="64" height="64" class="ap-bud">
                             <path d="M40 8 C50 22 52 38 40 56 C28 38 30 22 40 8 Z" fill="{{ $GOLD }}"
@@ -46,4 +48,22 @@
             </div>
         </div>
     </div>
+    <style>
+        .ap-glass {
+            margin-top: 0;
+        }
+
+        .ap-glass .kf-glass-in {
+            padding: 2.2rem 1.6rem 2rem;
+        }
+
+        .ap-glass .ap-line {
+            color: #fbf6ea;
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+        }
+
+        .ap-glass .ap-bud {
+            margin-top: 0.2rem;
+        }
+    </style>
 </section>
